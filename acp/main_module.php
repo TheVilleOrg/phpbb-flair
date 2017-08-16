@@ -87,19 +87,19 @@ class main_module
 
 		if ($submit)
 		{
-			$show_on_profile = $request->variable('flair_show_on_profile', '');
+			$show_on_profile = $this->request->variable('flair_show_on_profile', '');
 			if (strlen($show_on_profile))
 			{
-				$config->set('stevotvr_flair_show_on_profile', $show_on_profile ? 1 : 0);
+				$this->config->set('stevotvr_flair_show_on_profile', $show_on_profile ? 1 : 0);
 			}
 
-			$show_on_viewtopic = $request->variable('flair_show_on_viewtopic', '');
+			$show_on_viewtopic = $this->request->variable('flair_show_on_viewtopic', '');
 			if (strlen($show_on_viewtopic))
 			{
-				$config->set('stevotvr_flair_show_on_viewtopic', $show_on_viewtopic ? 1 : 0);
+				$this->config->set('stevotvr_flair_show_on_viewtopic', $show_on_viewtopic ? 1 : 0);
 			}
 
-			trigger_error($language->lang('ACP_FLAIR_SETTINGS_SAVED') . adm_back_link($this->u_action));
+			trigger_error($this->language->lang('ACP_FLAIR_SETTINGS_SAVED') . adm_back_link($this->u_action));
 		}
 
 		$this->template->assign_vars(array(
