@@ -87,4 +87,25 @@ class version_1_0_0 extends migration
 			),
 		);
 	}
+
+	public function update_data()
+	{
+		return array(
+			array('config.add', array('stevotvr_flair_show_on_profile', 1)),
+			array('config.add', array('stevotvr_flair_show_on_viewtopic', 1)),
+			array('module.add', array(
+				'acp',
+				'ACP_CAT_DOT_MODS',
+				'ACP_FLAIR_TITLE',
+			)),
+			array('module.add', array(
+				'acp',
+				'ACP_FLAIR_TITLE',
+				array(
+					'module_basename'	=> '\stevotvr\flair\acp\main_module',
+					'modes'				=> array('settings'),
+				),
+			)),
+		);
+	}
 }
