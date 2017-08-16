@@ -56,6 +56,7 @@ class version_1_0_0 extends migration
 						'flair_desc'	=> array('TEXT_UNI', ''),
 						'flair_order'	=> array('UINT', 0),
 						'flair_icon'	=> array('UINT', 0),
+						'flair_color'	=> array('VCHAR:6', ''),
 					),
 					'PRIMARY_KEY' => 'flair_id',
 					'KEYS' => array(
