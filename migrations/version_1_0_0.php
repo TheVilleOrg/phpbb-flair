@@ -29,7 +29,6 @@ class version_1_0_0 extends migration
 				$this->table_prefix . 'flair_categories' => array(
 					'COLUMNS' => array(
 						'flair_cat_id'		=> array('UINT', null, 'auto_increment'),
-						'flair_cat_ident'	=> array('VCHAR:20', ''),
 						'flair_cat_name'	=> array('VCHAR_UNI', ''),
 						'flair_cat_order'	=> array('UINT', 0),
 					),
@@ -42,7 +41,6 @@ class version_1_0_0 extends migration
 					'COLUMNS' => array(
 						'flair_id'			=> array('UINT', null, 'auto_increment'),
 						'flair_cat_id'		=> array('UINT', 0),
-						'flair_ident'		=> array('VCHAR:20', ''),
 						'flair_name'		=> array('VCHAR_UNI', ''),
 						'flair_desc'		=> array('TEXT_UNI', ''),
 						'flair_order'		=> array('UINT', 0),
