@@ -38,25 +38,18 @@ class version_1_0_0 extends migration
 						'flr_cat_order'	=> array('INDEX', 'flair_cat_order'),
 					),
 				),
-				$this->table_prefix . 'flair_icons' => array(
+				$this->table_prefix . 'flair' => array(
 					'COLUMNS' => array(
-						'flair_icon_id'		=> array('UINT', null, 'auto_increment'),
+						'flair_id'			=> array('UINT', null, 'auto_increment'),
+						'flair_cat_id'		=> array('UINT', 0),
+						'flair_ident'		=> array('VCHAR:20', ''),
+						'flair_name'		=> array('VCHAR_UNI', ''),
+						'flair_desc'		=> array('TEXT_UNI', ''),
+						'flair_order'		=> array('UINT', 0),
+						'flair_color'		=> array('VCHAR:6', ''),
 						'flair_icon_file'	=> array('VCHAR:50', ''),
 						'flair_icon_width'	=> array('USINT', 0),
 						'flair_icon_height'	=> array('USINT', 0),
-					),
-					'PRIMARY_KEY' => 'flair_icon_id',
-				),
-				$this->table_prefix . 'flair' => array(
-					'COLUMNS' => array(
-						'flair_id'		=> array('UINT', null, 'auto_increment'),
-						'flair_cat_id'	=> array('UINT', 0),
-						'flair_ident'	=> array('VCHAR:20', ''),
-						'flair_name'	=> array('VCHAR_UNI', ''),
-						'flair_desc'	=> array('TEXT_UNI', ''),
-						'flair_order'	=> array('UINT', 0),
-						'flair_icon'	=> array('UINT', 0),
-						'flair_color'	=> array('VCHAR:6', ''),
 					),
 					'PRIMARY_KEY' => 'flair_id',
 					'KEYS' => array(
@@ -82,7 +75,6 @@ class version_1_0_0 extends migration
 			'drop_tables'   => array(
 				$this->table_prefix . 'flair_users',
 				$this->table_prefix . 'flair',
-				$this->table_prefix . 'flair_icons',
 				$this->table_prefix . 'flair_categories',
 			),
 		);
@@ -103,7 +95,7 @@ class version_1_0_0 extends migration
 				'ACP_FLAIR_TITLE',
 				array(
 					'module_basename'	=> '\stevotvr\flair\acp\main_module',
-					'modes'				=> array('settings'),
+					'modes'				=> array('settings', 'manage'),
 				),
 			)),
 		);
