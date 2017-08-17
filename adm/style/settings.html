@@ -1,31 +1,31 @@
-<!-- INCLUDE overall_header.html -->
+{% include 'overall_header.html' %}
 
-<h1>{L_SETTINGS}</h1>
+<h1>{{ lang('SETTINGS') }}</h1>
 
-<!-- IF S_ERROR -->
+{% if S_ERROR %}
 	<div class="errorbox">
-		<h3>{L_WARNING}</h3>
-		<p>{ERROR_MSG}</p>
+		<h3>{{ lang('WARNING') }}</h3>
+		<p>{{ ERROR_MSG }}</p>
 	</div>
-<!-- ENDIF -->
+{% endif %}
 
-<form id="acp_board" method="post" action="{U_ACTION}">
+<form id="acp_board" method="post" action="{{ U_ACTION }}">
 	<fieldset>
 		<dl>
-			<dt><label for="flair_show_on_profile">{L_ACP_FLAIR_SHOW_ON_PROFILE}{L_COLON}</label><br /><span>{L_ACP_FLAIR_SHOW_ON_PROFILE_EXPLAIN}</span></dt>
-			<dd><label><input type="radio" id="flair_show_on_profile" name="flair_show_on_profile" value="1"<!-- IF FLAIR_SHOW_ON_PROFILE --> checked="checked"<!-- ENDIF --> class="radio" /> {L_YES}</label><label><input type="radio" name="flair_show_on_profile" value="0"<!-- IF not FLAIR_SHOW_ON_PROFILE --> checked="checked"<!-- ENDIF --> class="radio" /> {L_NO}</label></dd>
+			<dt><label for="flair_show_on_profile">{{ lang('ACP_FLAIR_SHOW_ON_PROFILE') ~ lang('COLON') }}</label><br /><span>{{ lang('ACP_FLAIR_SHOW_ON_PROFILE_EXPLAIN') }}</span></dt>
+			<dd><label><input type="radio" id="flair_show_on_profile" name="flair_show_on_profile" value="1"{% if FLAIR_SHOW_ON_PROFILE %} checked="checked"{% endif %} class="radio" /> {{ lang('YES') }}</label><label><input type="radio" name="flair_show_on_profile" value="0"{% if not FLAIR_SHOW_ON_PROFILE %} checked="checked"{% endif %} class="radio" /> {{ lang('NO') }}</label></dd>
 		</dl>
 		<dl>
-			<dt><label for="flair_show_on_viewtopic">{L_ACP_FLAIR_SHOW_ON_VIEWTOPIC}{L_COLON}</label><br /><span>{L_ACP_FLAIR_SHOW_ON_VIEWTOPIC_EXPLAIN}</span></dt>
-			<dd><label><input type="radio" id="flair_show_on_viewtopic" name="flair_show_on_viewtopic" value="1"<!-- IF FLAIR_SHOW_ON_VIEWTOPIC --> checked="checked"<!-- ENDIF --> class="radio" /> {L_YES}</label><label><input type="radio" name="flair_show_on_viewtopic" value="0"<!-- IF not FLAIR_SHOW_ON_VIEWTOPIC --> checked="checked"<!-- ENDIF --> class="radio" /> {L_NO}</label></dd>
+			<dt><label for="flair_show_on_viewtopic">{{ lang('ACP_FLAIR_SHOW_ON_VIEWTOPIC') ~ lang('COLON') }}</label><br /><span>{{ lang('ACP_FLAIR_SHOW_ON_VIEWTOPIC_EXPLAIN') }}</span></dt>
+			<dd><label><input type="radio" id="flair_show_on_viewtopic" name="flair_show_on_viewtopic" value="1"{% if FLAIR_SHOW_ON_VIEWTOPIC %} checked="checked"{% endif %} class="radio" /> {{ lang('YES') }}</label><label><input type="radio" name="flair_show_on_viewtopic" value="0"{% if not FLAIR_SHOW_ON_VIEWTOPIC %} checked="checked"{% endif %} class="radio" /> {{ lang('NO') }}</label></dd>
 		</dl>
 
 		<p class="submit-buttons">
-			<input class="button1" type="submit" id="submit" name="submit" value="{L_SUBMIT}" />&nbsp;
-			<input class="button2" type="reset" id="reset" name="reset" value="{L_RESET}" />
+			<input class="button1" type="submit" id="submit" name="submit" value="{{ lang('SUBMIT') }}" />&nbsp;
+			<input class="button2" type="reset" id="reset" name="reset" value="{{ lang('RESET') }}" />
 		</p>
 
-		{S_FORM_TOKEN}
+		{{ S_FORM_TOKEN }}
 	</fieldset>
 </form>
 
