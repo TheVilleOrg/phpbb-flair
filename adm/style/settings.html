@@ -1,5 +1,7 @@
 {% include 'overall_header.html' %}
 
+<a id="maincontent"></a>
+
 <h1>{{ lang('SETTINGS') }}</h1>
 
 {% if S_ERROR %}
@@ -9,7 +11,7 @@
 	</div>
 {% endif %}
 
-<form id="acp_board" method="post" action="{{ U_ACTION }}">
+<form id="flair_settings" method="post" action="{{ U_ACTION }}">
 	<fieldset>
 		<dl>
 			<dt><label for="flair_show_on_profile">{{ lang('ACP_FLAIR_SHOW_ON_PROFILE') ~ lang('COLON') }}</label><br /><span>{{ lang('ACP_FLAIR_SHOW_ON_PROFILE_EXPLAIN') }}</span></dt>
@@ -19,12 +21,13 @@
 			<dt><label for="flair_show_on_viewtopic">{{ lang('ACP_FLAIR_SHOW_ON_VIEWTOPIC') ~ lang('COLON') }}</label><br /><span>{{ lang('ACP_FLAIR_SHOW_ON_VIEWTOPIC_EXPLAIN') }}</span></dt>
 			<dd><label><input type="radio" id="flair_show_on_viewtopic" name="flair_show_on_viewtopic" value="1"{% if FLAIR_SHOW_ON_VIEWTOPIC %} checked="checked"{% endif %} class="radio" /> {{ lang('YES') }}</label><label><input type="radio" name="flair_show_on_viewtopic" value="0"{% if not FLAIR_SHOW_ON_VIEWTOPIC %} checked="checked"{% endif %} class="radio" /> {{ lang('NO') }}</label></dd>
 		</dl>
-
+	</fieldset>
+	<fieldset>
+		<legend>{{ lang('ACP_SUBMIT_CHANGES') }}</legend>
 		<p class="submit-buttons">
 			<input class="button1" type="submit" id="submit" name="submit" value="{{ lang('SUBMIT') }}" />&nbsp;
 			<input class="button2" type="reset" id="reset" name="reset" value="{{ lang('RESET') }}" />
 		</p>
-
 		{{ S_FORM_TOKEN }}
 	</fieldset>
 </form>
