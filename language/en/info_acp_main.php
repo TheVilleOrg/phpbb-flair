@@ -41,12 +41,12 @@ $lang = array_merge($lang, array(
 	'ACP_FLAIR_TITLE'	=> 'Profile Flair',
 
 	'ACP_FLAIR_SETTINGS'					=> 'Settings',
-	'ACP_FLAIR_SETTINGS_TITLE'				=> 'Profile Flair Settings',
+	'ACP_FLAIR_SETTINGS_TITLE'				=> 'Profile Flair settings',
 	'ACP_FLAIR_DISPLAY_OPTIONS'				=> 'Display options',
 	'ACP_FLAIR_SHOW_ON_PROFILE'				=> 'Display on profiles',
 	'ACP_FLAIR_SHOW_ON_PROFILE_EXPLAIN'		=> 'Enable to have flair displayed on profile pages.',
 	'ACP_FLAIR_SHOW_ON_VIEWTOPIC'			=> 'Display on posts',
 	'ACP_FLAIR_SHOW_ON_VIEWTOPIC_EXPLAIN'	=> 'Enable to have flair displayed in the user info section of each post.',
 
-	'ACP_FLAIR_MANAGE'	=> 'Manage Flair',
+	'ACP_FLAIR_MANAGE'	=> 'Manage flair',
 ));
