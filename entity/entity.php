@@ -51,6 +51,7 @@ abstract class entity implements entity_interface
 	public function __construct(driver_interface $db, $table_name)
 	{
 		$this->db = $db;
+		$this->table_name = $table_name;
 	}
 
 	public function load($id)
