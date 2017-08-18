@@ -85,18 +85,17 @@ abstract class entity implements entity_interface
 			if (method_exists($this, $type))
 			{
 				$this->$type($data[$column]);
+				continue;
 			}
-			else
-			{
-				if ($type === 'integer' && $data[$column] < 0)
-				{
-					throw new out_of_bounds($column);
-				}
 
-				$value = $data[$column];
-				settype($value, $type);
-				$this->data[$column] = $value;
+			if ($type === 'integer' && $data[$column] < 0)
+			{
+				throw new out_of_bounds($column);
 			}
+
+			$value = $data[$column];
+			settype($value, $type);
+			$this->data[$column] = $value;
 		}
 
 		return $this;
