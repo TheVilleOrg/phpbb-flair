@@ -88,17 +88,7 @@ class category implements category_interface
 		return (bool) $this->db->sql_affectedrows();
 	}
 
-	public function move_category_up($cat_id)
-	{
-		$this->move_category($cat_id, -1);
-	}
-
-	public function move_category_down($cat_id)
-	{
-		$this->move_category($cat_id, 1);
-	}
-
-	protected function move_category($cat_id, $offset)
+	public function move_category($cat_id, $offset)
 	{
 		$ids = array();
 

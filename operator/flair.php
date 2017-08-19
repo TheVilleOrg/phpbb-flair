@@ -79,17 +79,7 @@ class flair implements flair_interface
 		return (bool) $this->db->sql_affectedrows();
 	}
 
-	public function move_flair_up($flair_id)
-	{
-		$this->move_flair($flair_id, -1);
-	}
-
-	public function move_flair_down($flair_id)
-	{
-		$this->move_flair($flair_id, 1);
-	}
-
-	protected function move_flair($flair_id, $offset)
+	public function move_flair($flair_id, $offset)
 	{
 		$ids = array();
 
