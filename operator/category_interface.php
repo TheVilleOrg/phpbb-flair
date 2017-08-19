@@ -60,4 +60,12 @@ interface category_interface
 	 * @param int	$cat_id	The database ID of the category
 	 */
 	public function delete_flair($cat_id);
+
+	/**
+	 * Reassign all flair items of a category to another category.
+	 *
+	 * @param int	$cat_id		The database ID of the category
+	 * @param int	$new_cat_id	The database ID of the new category
+	 */
+	public function reassign_flair($cat_id, $new_cat_id);
 }

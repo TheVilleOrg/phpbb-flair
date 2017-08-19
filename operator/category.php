@@ -135,6 +135,14 @@ class category implements category_interface
 		$this->db->sql_query($sql);
 	}
 
+	public function reassign_flair($cat_id, $new_cat_id)
+	{
+		$sql = 'UPDATE ' . $this->flair_table . '
+				SET flair_cat_id = ' . (int) $new_cat_id . '
+				WHERE flair_cat_id = ' . (int) $cat_id;
+		$this->db->sql_query($sql);
+	}
+
 	/**
 	 * Unlink all flair items from a category.
 	 *
