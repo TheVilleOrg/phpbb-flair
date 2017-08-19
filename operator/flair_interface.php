@@ -39,4 +39,18 @@ interface flair_interface
 	 * @return bool The record was deleted
 	 */
 	public function delete_flair($flair_id);
+
+	/**
+	 * Move a flair item up in the sorting order.
+	 *
+	 * @param int	$flair_id	The database ID of the flair item
+	 */
+	public function move_flair_up($flair_id);
+
+	/**
+	 * Move a flair item down in the sorting order.
+	 *
+	 * @param int	$flair_id	The database ID of the flair item
+	 */
+	public function move_flair_down($flair_id);
 }

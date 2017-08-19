@@ -88,6 +88,46 @@ class category implements category_interface
 		return (bool) $this->db->sql_affectedrows();
 	}
 
+	public function move_category_up($cat_id)
+	{
+		$this->move_category($cat_id, -1);
+	}
+
+	public function move_category_down($cat_id)
+	{
+		$this->move_category($cat_id, 1);
+	}
+
+	protected function move_category($cat_id, $offset)
+	{
+		$ids = array();
+
+		$sql = 'SELECT flair_cat_id
+				FROM ' . $this->flair_table . '
+				ORDER BY flair_cat_order ASC, flair_cat_id ASC';
+		$result = $this->db->sql_query($sql);
+
+		while ($row = $this->db->sql_fetchrow($result))
+		{
+			$ids[] = (int) $row['cat_id'];
+		}
+		$this->db->sql_freeresult($result);
+
+		$position = array_search($cat_id, $ids);
+		array_splice($ids, $position, 1);
+		$position += $offset;
+		$position = max(0, $position);
+		array_splice($ids, $offset, 0, $cat_id);
+
+		foreach ($ids as $pos => $id)
+		{
+			$sql = 'UPDATE ' . $this->cat_table . '
+					SET flair_cat_order = ' . $pos . '
+					WHERE flair_cat_id = ' . $id;
+			$this->db->sql_query($sql);
+		}
+	}
+
 	public function delete_flair($cat_id)
 	{
 		$sql = 'DELETE FROM ' . $this->flair_table . '

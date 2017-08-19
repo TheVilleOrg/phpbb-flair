@@ -41,6 +41,20 @@ interface category_interface
 	public function delete_category($cat_id);
 
 	/**
+	 * Move a category up in the sorting order.
+	 *
+	 * @param int	$cat_id	The database ID of the category
+	 */
+	public function move_category_up($cat_id);
+
+	/**
+	 * Move a category down in the sorting order.
+	 *
+	 * @param int	$cat_id	The database ID of the category
+	 */
+	public function move_category_down($cat_id);
+
+	/**
 	 * Delete all flair items from a category.
 	 *
 	 * @param int	$cat_id	The database ID of the category

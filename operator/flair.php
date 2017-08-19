@@ -78,4 +78,44 @@ class flair implements flair_interface
 
 		return (bool) $this->db->sql_affectedrows();
 	}
+
+	public function move_flair_up($flair_id)
+	{
+		$this->move_flair($flair_id, -1);
+	}
+
+	public function move_flair_down($flair_id)
+	{
+		$this->move_flair($flair_id, 1);
+	}
+
+	protected function move_flair($flair_id, $offset)
+	{
+		$ids = array();
+
+		$sql = 'SELECT flair_id
+				FROM ' . $this->flair_table . '
+				ORDER BY flair_order ASC, flair_id ASC';
+		$result = $this->db->sql_query($sql);
+
+		while ($row = $this->db->sql_fetchrow($result))
+		{
+			$ids[] = (int) $row['flair_id'];
+		}
+		$this->db->sql_freeresult($result);
+
+		$position = array_search($flair_id, $ids);
+		array_splice($ids, $position, 1);
+		$position += $offset;
+		$position = max(0, $position);
+		array_splice($ids, $offset, 0, $flair_id);
+
+		foreach ($ids as $pos => $id)
+		{
+			$sql = 'UPDATE ' . $this->flair_table . '
+					SET flair_order = ' . $pos . '
+					WHERE flair_id = ' . $id;
+			$this->db->sql_query($sql);
+		}
+	}
 }
