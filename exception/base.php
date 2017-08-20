@@ -144,7 +144,7 @@ class base extends \Exception
 		}
 
 		// Add our language file
-		$lang->add_lang('exceptions', 'stevotvr\flair');
+		$lang->add_lang('exceptions', 'stevotvr/flair');
 
 		// So the language file is only loaded once
 		$is_loaded = true;
