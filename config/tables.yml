@@ -1,4 +1,3 @@
 parameters:
-    stevotvr.flair.tables.cats: '%core.table_prefix%flair_categories'
     stevotvr.flair.tables.flair: '%core.table_prefix%flair'
     stevotvr.flair.tables.flair_users: '%core.table_prefix%flair_users'

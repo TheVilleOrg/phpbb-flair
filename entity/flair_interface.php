@@ -13,17 +13,73 @@ namespace stevotvr\flair\entity;
 /**
  * Profile Flair flair entity interface.
  */
-interface flair_interface extends entity_interface
+interface flair_interface
 {
 	/**
-	 * @return int The database ID of the category, if any
+	 * Load an entity from the database.
+	 *
+	 * @param int	$id	The database ID of the entity
+	 *
+	 * @return entity_interface This object for chaining
+	 *
+	 * @throws \stevotvr\flair\exception\out_of_bounds
 	 */
-	public function get_cat_id();
+	public function load($id);
 
 	/**
-	 * @param int $cat_id The database ID of the category
+	 * Import data from an external source.
+	 *
+	 * @param array	$data	The data to import
+	 *
+	 * @return entity_interface This object for chaining
+	 *
+	 * @throws \stevotvr\flair\exception\invalid_argument
+	 * @throws \stevotvr\flair\exception\out_of_bounds
 	 */
-	public function set_cat_id($cat_id);
+	public function import(array $data);
+
+	/**
+	 * Insert a new entity into the database.
+	 *
+	 * @return entity_interface This object for chaining
+	 *
+	 * @throws \stevotvr\flair\exception\out_of_bounds
+	 */
+	public function insert();
+
+	/**
+	 * Save the current settings to the database.
+	 *
+	 * @return entity_interface This object for chaining
+	 *
+	 * @throws \stevotvr\flair\exception\out_of_bounds
+	 */
+	public function save();
+
+	/**
+	 * @return int The database ID of the entity
+	 */
+	public function get_id();
+
+	/**
+	 * @return boolean The item is a category
+	 */
+	public function is_category();
+
+	/**
+	 * @param bool $is_category The item is a category
+	 */
+	public function set_category($is_category);
+
+	/**
+	 * @return int The database ID of the parent
+	 */
+	public function get_parent();
+
+	/**
+	 * @param int $parent_id The database ID of the parent
+	 */
+	public function set_parent($parent_id);
 
 	/**
 	 * @return string The name of this flair item

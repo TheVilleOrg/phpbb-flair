@@ -18,9 +18,12 @@ interface flair_interface
 	/**
 	 * Get all flair items.
 	 *
+	 * @param int	$parent_id	The database ID of the parent for which to get items, -1 for all
+	 * @param bool	$get_cats	Get category items only
+	 *
 	 * @return array An array of flair entities
 	 */
-	public function get_flair();
+	public function get_flair($parent_id = -1, $get_cats = false);
 
 	/**
 	 * Add a flair item.
@@ -45,6 +48,23 @@ interface flair_interface
 	 *
 	 * @param int	$flair_id	The database ID of the flair item
 	 * @param int	$offset		The offset by which to move the flair item
+	 *
+	 * @throws \stevotvr\flair\exception\out_of_bounds
 	 */
 	public function move_flair($flair_id, $offset);
+
+	/**
+	 * Delete all flair items from a category.
+	 *
+	 * @param int	$cat_id	The database ID of the category
+	 */
+	public function delete_all_flair($cat_id);
+
+	/**
+	 * Reassign all flair items of a category to another category.
+	 *
+	 * @param int	$cat_id		The database ID of the category
+	 * @param int	$new_cat_id	The database ID of the new category
+	 */
+	public function reassign_flair($cat_id, $new_cat_id);
 }

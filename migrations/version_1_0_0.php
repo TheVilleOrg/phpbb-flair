@@ -26,21 +26,11 @@ class version_1_0_0 extends migration
 	{
 		return array(
 			'add_tables'    => array(
-				$this->table_prefix . 'flair_categories' => array(
-					'COLUMNS' => array(
-						'flair_cat_id'		=> array('UINT', null, 'auto_increment'),
-						'flair_cat_name'	=> array('VCHAR_UNI:50', ''),
-						'flair_cat_order'	=> array('UINT', 0),
-					),
-					'PRIMARY_KEY' => 'flair_cat_id',
-					'KEYS' => array(
-						'flr_cat_order'	=> array('INDEX', 'flair_cat_order'),
-					),
-				),
 				$this->table_prefix . 'flair' => array(
 					'COLUMNS' => array(
 						'flair_id'			=> array('UINT', null, 'auto_increment'),
-						'flair_cat_id'		=> array('UINT', 0),
+						'flair_is_cat'		=> array('BOOL', 0),
+						'flair_parent'		=> array('UINT', 0),
 						'flair_name'		=> array('VCHAR_UNI', ''),
 						'flair_desc'		=> array('TEXT_UNI', ''),
 						'flair_order'		=> array('UINT', 0),
@@ -51,7 +41,8 @@ class version_1_0_0 extends migration
 					),
 					'PRIMARY_KEY' => 'flair_id',
 					'KEYS' => array(
-						'flr_cat_id'	=> array('INDEX', 'flair_cat_id'),
+						'flr_is_cat'	=> array('INDEX', 'flair_is_cat'),
+						'flr_parent'	=> array('INDEX', 'flair_parent'),
 						'flr_order'		=> array('INDEX', 'flair_order'),
 					),
 				),
@@ -73,7 +64,6 @@ class version_1_0_0 extends migration
 			'drop_tables'   => array(
 				$this->table_prefix . 'flair_users',
 				$this->table_prefix . 'flair',
-				$this->table_prefix . 'flair_categories',
 			),
 		);
 	}

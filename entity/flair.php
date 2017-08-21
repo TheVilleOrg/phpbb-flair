@@ -16,37 +16,169 @@ use stevotvr\flair\exception\unexpected_value;
 /**
  * Profile Flair flair entity.
  */
-class flair extends entity implements flair_interface
+class flair implements flair_interface
 {
-	protected $columns = array(
-		'flair_id'			=> 'integer',
-		'flair_cat_id'		=> 'integer',
-		'flair_name'		=> 'set_name',
-		'flair_desc'		=> 'set_desc',
-		'flair_order'		=> 'set_order',
-		'flair_color'		=> 'set_color',
-		'flair_icon_file'	=> 'set_icon',
-		'flair_icon_width'	=> 'integer',
-		'flair_icon_height'	=> 'integer',
-	);
+	/**
+	 * @var \phpbb\db\driver\driver_interface
+	 */
+	protected $db;
 
-	protected $id_column = 'flair_id';
+	/**
+	 * @var array The data for this entity
+	 *      	flair_id
+	 *      	flair_is_cat
+	 *      	flair_parent
+	 *      	flair_name
+	 *      	flair_desc
+	 *      	flair_order
+	 *      	flair_color
+	 *      	flair_icon_file
+	 *      	flair_icon_width
+	 *      	flair_icon_height
+	 */
+	protected $data = array();
 
-	public function get_cat_id()
+	/**
+	 * @var string The name of the database table
+	 */
+	protected $table_name;
+
+	/**
+	 * @param \phpbb\db\driver\driver_interface	$db
+	 * @param string							$table_name	The name of the database table
+	 */
+	public function __construct(driver_interface $db, $table_name)
 	{
-		return isset($this->data['flair_cat_id']) ? (int) $this->data['flair_cat_id'] : 0;
+		$this->db = $db;
+		$this->table_name = $table_name;
 	}
 
-	public function set_cat_id($cat_id)
+	public function load($id)
 	{
-		$cat_id = (int) $cat_id;
+		$sql = 'SELECT *
+				FROM ' . $this->table_name . '
+				WHERE flair_id = ' . (int) $id;
+		$result = $this->db->sql_query($sql);
+		$this->data = $this->db->sql_fetchrow($result);
+		$this->db->sql_freeresult($result);
 
-		if ($cat_id < 0)
+		if ($this->data === false)
 		{
-			throw new out_of_bounds('flair_cat_id');
+			throw new out_of_bounds('flair_id');
 		}
 
-		$this->data['flair_cat_id'] = $cat_id;
+		return $this;
+	}
+
+	public function import(array $data)
+	{
+		$this->data = array();
+
+		$columns = array(
+			'flair_id'			=> 'integer',
+			'flair_is_cat'		=> 'integer',
+			'flair_parent'		=> 'integer',
+			'flair_name'		=> 'set_name',
+			'flair_desc'		=> 'set_desc',
+			'flair_order'		=> 'set_order',
+			'flair_color'		=> 'set_color',
+			'flair_icon_file'	=> 'set_icon',
+			'flair_icon_width'	=> 'integer',
+			'flair_icon_height'	=> 'integer',
+		);
+
+		foreach ($columns as $column => $type)
+		{
+			if (!isset($data[$column]))
+			{
+				throw new invalid_argument(array($column, 'FIELD_MISSING'));
+			}
+
+			if (method_exists($this, $type))
+			{
+				$this->$type($data[$column]);
+				continue;
+			}
+
+			if ($type === 'integer' && $data[$column] < 0)
+			{
+				throw new out_of_bounds($column);
+			}
+
+			$value = $data[$column];
+			settype($value, $type);
+			$this->data[$column] = $value;
+		}
+
+		return $this;
+	}
+
+	public function insert()
+	{
+		if (!empty($this->data['flair_id']))
+		{
+			throw new out_of_bounds('flair_id');
+		}
+
+		$sql = 'INSERT INTO ' . $this->table_name . '
+				' . $this->db->sql_build_array('INSERT', $this->data);
+		$this->db->sql_query($sql);
+
+		$this->data['flair_id'] = (int) $this->db->sql_nextid();
+
+		return $this;
+	}
+
+	public function save()
+	{
+		if (empty($this->data['flair_id']))
+		{
+			throw new out_of_bounds('flair_id');
+		}
+
+		$data = array_diff_key($this->data, array('flair_id' => null));
+		$sql = 'UPDATE ' . $this->table_name . '
+				SET ' . $this->db->sql_build_array('UPDATE', $data) . '
+				WHERE flair_id = ' . $this->get_id();
+		$this->db->sql_query($sql);
+
+		return $this;
+	}
+
+	public function get_id()
+	{
+		return isset($this->data['flair_id']) ? (int) $this->data['flair_id'] : 0;
+	}
+
+	public function is_category()
+	{
+		return (bool) $this->data['flair_is_cat'];
+	}
+
+	public function set_category($is_category)
+	{
+		$is_category = (bool) $is_category;
+
+		$this->data['flair_is_cat'] = (int) $is_category;
+
+		return $this;
+	}
+
+	public function get_parent()
+	{
+		return isset($this->data['flair_parent']) ? (int) $this->data['flair_parent'] : 0;
+	}
+
+	public function set_parent($parent_id)
+	{
+		$parent_id = (int) $parent_id;
+
+		if ($parent_id < 0)
+		{
+			throw new out_of_bounds('flair_parent');
+		}
+
+		$this->data['flair_parent'] = $parent_id;
 
 		return $this;
 	}
