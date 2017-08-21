@@ -97,8 +97,7 @@ class flair implements flair_interface
 		$position = array_search($flair_id, $ids);
 		array_splice($ids, $position, 1);
 		$position += $offset;
-		$position = max(0, $position);
-		array_splice($ids, $offset, 0, $flair_id);
+		array_splice($ids, $position, 0, $flair_id);
 
 		foreach ($ids as $pos => $id)
 		{

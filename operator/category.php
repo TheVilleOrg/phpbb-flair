@@ -93,21 +93,20 @@ class category implements category_interface
 		$ids = array();
 
 		$sql = 'SELECT flair_cat_id
-				FROM ' . $this->flair_table . '
+				FROM ' . $this->cat_table . '
 				ORDER BY flair_cat_order ASC, flair_cat_id ASC';
 		$result = $this->db->sql_query($sql);
 
 		while ($row = $this->db->sql_fetchrow($result))
 		{
-			$ids[] = (int) $row['cat_id'];
+			$ids[] = (int) $row['flair_cat_id'];
 		}
 		$this->db->sql_freeresult($result);
 
 		$position = array_search($cat_id, $ids);
 		array_splice($ids, $position, 1);
 		$position += $offset;
-		$position = max(0, $position);
-		array_splice($ids, $offset, 0, $cat_id);
+		array_splice($ids, $position, 0, $cat_id);
 
 		foreach ($ids as $pos => $id)
 		{
