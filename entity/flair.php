@@ -10,6 +10,7 @@
 
 namespace stevotvr\flair\entity;
 
+use phpbb\db\driver\driver_interface;
 use stevotvr\flair\exception\out_of_bounds;
 use stevotvr\flair\exception\unexpected_value;
 
