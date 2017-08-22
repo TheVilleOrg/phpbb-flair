@@ -49,6 +49,7 @@ $lang = array_merge($lang, array(
 	'ACP_FLAIR_SHOW_ON_VIEWTOPIC_EXPLAIN'	=> 'Enable to have flair displayed in the user info section of each post.',
 
 	'ACP_FLAIR_MANAGE_CATS'				=> 'Manage categories',
+	'ACP_FLAIR_MANAGE_CATS_EXPLAIN'		=> 'Flair items can be grouped into categories, which are managed here.',
 	'ACP_FLAIR_CATS_EMPTY'				=> 'No categories',
 	'ACP_FLAIR_ADD_CAT'					=> 'Add flair category',
 	'ACP_FLAIR_CATS_ADD_SUCCESS'		=> 'Flair category added successfully',
@@ -64,6 +65,7 @@ $lang = array_merge($lang, array(
 	'ACP_FLAIR_FORM_MOVE_FLAIR_TO'		=> 'Move flair to',
 
 	'ACP_FLAIR_MANAGE'			=> 'Manage flair',
+	'ACP_FLAIR_MANAGE_EXPLAIN'	=> 'Here you can add, edit, or delete flair items.',
 	'ACP_FLAIR_EMPTY'			=> 'No flair items',
 	'ACP_FLAIR_ADD'				=> 'Add flair item',
 	'ACP_FLAIR_ADD_SUCCESS'		=> 'Flair item added successfully',
