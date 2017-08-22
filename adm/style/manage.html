@@ -117,6 +117,15 @@
 				<dt><label for="flair_desc">{{ lang('ACP_FLAIR_FORM_DESC') ~ lang('COLON') }}</label></dt>
 				<dd><textarea id="flair_desc" name="flair_desc" rows="5" cols="45">{{ FLAIR_DESC }}</textarea></dd>
 			</dl>
+			<dl>
+				<dt><label for="flair_color">{{ lang('ACP_FLAIR_FORM_COLOR') ~ lang('COLON') }}</label></dt>
+				<dd>
+					<input type="text" id="flair_color" name="flair_color" value="{{ FLAIR_COLOR }}" size="6" maxlength="6" />
+					{% if FLAIR_COLOR %}&nbsp;<span style="background-color: #{{ FLAIR_COLOR }}">&nbsp; &nbsp;</span>{% endif %}&nbsp;&nbsp;<span>
+					[ <a href="#" id="color_palette_toggle">{{ lang('COLOUR_SWATCH') }}</a> ]</span>
+					<div id="color_palette_placeholder" style="display: none;" data-orientation="h" data-height="12" data-width="15" data-target="#flair_color"></div>
+				</dd>
+			</dl>
 		</fieldset>
 		<fieldset class="submit-buttons">
 			<input class="button1" type="submit" id="submit" name="submit" value="{{ lang('SUBMIT') }}" />&nbsp;
