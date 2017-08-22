@@ -351,14 +351,11 @@ class admin_controller implements admin_interface
 
 		foreach ($categories as $category)
 		{
-			if ($category->get_id() === $selected)
-			{
-				$this->template->assign_block_var('cats', 'S_SELECTED', true);
-			}
-
 			$this->template->assign_block_vars('cats', array(
 				'CAT_ID'	=> $category->get_id(),
 				'CAT_NAME'	=> $category->get_name(),
+
+				'S_SELECTED'	=> $category->get_id() === $selected,
 			));
 		}
 	}
