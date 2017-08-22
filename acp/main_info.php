@@ -26,6 +26,11 @@ class main_info
 					'auth'	=> 'ext_stevotvr/flair && acl_a_board',
 					'cat'	=> array('ACP_FLAIR_TITLE'),
 				),
+				'manage'	=> array(
+					'title'	=> 'ACP_FLAIR_MANAGE',
+					'auth'	=> 'ext_stevotvr/flair && acl_a_board',
+					'cat'	=> array('ACP_FLAIR_TITLE'),
+				),
 			),
 		);
 	}

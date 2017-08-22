@@ -2,6 +2,14 @@ imports:
     - { resource: tables.yml }
 
 services:
+    stevotvr.flair.admin.controller:
+        class: stevotvr\flair\controller\admin_controller
+        arguments:
+            - '@service_container'
+            - '@stevotvr.flair.operator'
+            - '@language'
+            - '@request'
+            - '@template'
     stevotvr.flair.entity:
         class: stevotvr\flair\entity\flair
         shared: false

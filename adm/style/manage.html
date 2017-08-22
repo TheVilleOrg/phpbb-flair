@@ -1,0 +1,213 @@
+{% include 'overall_header.html' %}
+
+<a id="maincontent"></a>
+
+{% if S_ADD_CAT or S_EDIT_CAT %}
+
+	<a href="{{ U_BACK }}" style="float: {{ S_CONTENT_FLOW_END }};">&laquo; {{ lang('BACK') }}</a>
+
+	{% if S_ERROR %}
+		<div class="errorbox">
+			<h3>{{ lang('WARNING') }}</h3>
+			<p>{{ ERROR_MSG }}</p>
+		</div>
+	{% endif %}
+
+	{% if S_ADD_CAT %}
+		<h1>{{ lang('ACP_FLAIR_ADD_CAT') }}</h1>
+	{% else %}
+		<h1>{{ lang('ACP_FLAIR_EDIT_CAT') }} :: {{ FLAIR_NAME }}</h1>
+	{% endif %}
+
+	<form id="add_edit_cat" method="post" action="{{ U_ACTION }}">
+		<fieldset>
+			<legend>{{ lang('ACP_FLAIR_CAT_DETAILS') }}</legend>
+			<dl>
+				<dt><label for="flair_name">{{ lang('ACP_FLAIR_FORM_CAT_NAME') ~ lang('COLON') }}</label></dt>
+				<dd><input class="text medium" type="text" id="flair_name" name="flair_name" value="{{ FLAIR_NAME }}" maxlength="50" /></dd>
+			</dl>
+			<input type="hidden" name="addcat" value="1" />
+		</fieldset>
+		<fieldset class="submit-buttons">
+			<input class="button1" type="submit" id="submit" name="submit" value="{{ lang('SUBMIT') }}" />&nbsp;
+			<input class="button2" type="reset" id="reset" name="reset" value="{{ lang('RESET') }}" />
+			{{ S_FORM_TOKEN }}
+		</fieldset>
+	</form>
+
+{% elseif S_DELETE_CAT %}
+
+	<a href="{{ U_BACK }}" style="float: {{ S_CONTENT_FLOW_END }};">&laquo; {{ lang('BACK') }}</a>
+
+	{% if S_ERROR %}
+		<div class="errorbox">
+			<h3>{{ lang('WARNING') }}</h3>
+			<p>{{ ERROR_MSG }}</p>
+		</div>
+	{% endif %}
+
+	<h1>{{ lang('ACP_FLAIR_DELETE_CAT') }}</h1>
+
+
+	<form id="add_delete_cat" method="post" action="{{ U_ACTION }}">
+		<fieldset>
+			<legend>{{ lang('ACP_FLAIR_DELETE_CAT') }}</legend>
+			<dl>
+				<dt><label>{{ lang('ACP_FLAIR_FORM_CAT_NAME') ~ lang('COLON') }}</label></dt>
+				<dd><strong>{{ CAT_NAME }}</strong></dd>
+			</dl>
+			{% if S_HAS_FLAIR %}
+				<dl>
+					<dt><label for="delete_action">{{ lang('ACTION') ~ lang('COLON') }}</label></dt>
+					<dd><label><input type="radio" class="radio" id="delete_action" name="action_flair" value="delete" checked="checked" /> {{ lang('ACP_FLAIR_FORM_DELETE_ALL_FLAIR') }}</label></dd>
+					<dd>
+						<label><input type="radio" class="radio" name="action_flair" value="move" /> {{ lang('ACP_FLAIR_FORM_MOVE_FLAIR_TO') }}</label>
+						<select name="flair_to_cat">
+							<option value="0">{{ lang('ACP_FLAIR_NO_CAT') }}</option>
+							{% for cat in cats %}
+								<option value="{{ cat.CAT_ID }}">{{ cat.CAT_NAME }}</option>
+							{% endfor %}
+						</select>
+					</dd>
+				</dl>
+			{% endif %}
+			<p class="quick">
+				<input class="button1" type="submit" id="submit" name="submit" value="{{ lang('SUBMIT') }}" />
+			</p>
+			{{ S_FORM_TOKEN }}
+		</fieldset>
+	</form>
+
+{% elseif S_ADD_FLAIR or S_EDIT_FLAIR %}
+
+	<a href="{{ U_BACK }}" style="float: {{ S_CONTENT_FLOW_END }};">&laquo; {{ lang('BACK') }}</a>
+
+	{% if S_ERROR %}
+		<div class="errorbox">
+			<h3>{{ lang('WARNING') }}</h3>
+			<p>{{ ERROR_MSG }}</p>
+		</div>
+	{% endif %}
+
+	{% if S_ADD_FLAIR %}
+		<h1>{{ lang('ACP_FLAIR_ADD') }}</h1>
+	{% else %}
+		<h1>{{ lang('ACP_FLAIR_EDIT') }} :: {{ FLAIR_NAME }}</h1>
+	{% endif %}
+
+	<form id="add_edit_flair" method="post" action="{{ U_ACTION }}">
+		<fieldset>
+			<legend>{{ lang('ACP_FLAIR_DETAILS') }}</legend>
+			{% if cats %}
+				<dl>
+					<dt><label for="flair_parent">{{ lang('ACP_FLAIR_FORM_CAT') ~ lang('COLON') }}</label></dt>
+					<dd><select name="flair_parent">
+						<option value="0">{{ lang('ACP_FLAIR_NO_CAT') }}</option>
+						{% for cat in cats %}
+							<option value="{{ cat.CAT_ID }}"{% if cat.S_SELECTED %} selected="selected"{% endif %}>{{ cat.CAT_NAME }}</option>
+						{% endfor %}
+					</select></dd>
+				</dl>
+			{% endif %}
+			<dl>
+				<dt><label for="flair_name">{{ lang('ACP_FLAIR_FORM_NAME') ~ lang('COLON') }}</label></dt>
+				<dd><input class="text medium" type="text" id="flair_name" name="flair_name" value="{{ FLAIR_NAME }}" maxlength="255" /></dd>
+			</dl>
+			<dl>
+				<dt><label for="flair_desc">{{ lang('ACP_FLAIR_FORM_DESC') ~ lang('COLON') }}</label></dt>
+				<dd><textarea id="flair_desc" name="flair_desc" rows="5" cols="45">{{ FLAIR_DESC }}</textarea></dd>
+			</dl>
+		</fieldset>
+		<fieldset class="submit-buttons">
+			<input class="button1" type="submit" id="submit" name="submit" value="{{ lang('SUBMIT') }}" />&nbsp;
+			<input class="button2" type="reset" id="reset" name="reset" value="{{ lang('RESET') }}" />
+			{{ S_FORM_TOKEN }}
+		</fieldset>
+	</form>
+
+{% else %}
+
+	{% if not S_IN_CAT %}
+		<h1>{{ lang('ACP_FLAIR_MANAGE_CATS') }}</h1>
+
+		<table class="table1 zebra-table responsive">
+			<thead>
+				<tr>
+					<th>{{ lang('ACP_FLAIR_NAME') }}</th>
+					<th>{{ lang('ACTION') }}</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for c in cats %}
+					<tr>
+						<td><strong>{% if c.U_FLAIR %}<a href="{{ c.U_FLAIR }}">{% endif %}{{ c.FLAIR_NAME }}{% if c.U_FLAIR %}</a>{% endif %}</strong></td>
+						<td class="actions">
+							<span class="up-disabled" style="display:none;">{{ ICON_MOVE_UP_DISABLED }}</span>
+							<span class="up"><a href="{{ c.U_MOVE_UP }}" data-ajax="row_up">{{ ICON_MOVE_UP }}</a></span>
+							<span class="down-disabled" style="display:none;">{{ ICON_MOVE_DOWN_DISABLED }}</span>
+							<span class="down"><a href="{{ c.U_MOVE_DOWN }}" data-ajax="row_down">{{ ICON_MOVE_DOWN }}</a></span>
+							<a href="{{ c.U_EDIT }}">{{ ICON_EDIT }}</a>
+							<a href="{{ c.U_DELETE }}">{{ ICON_DELETE }}</a>
+						</td>
+					</tr>
+				{% else %}
+					<tr>
+						<td colspan="2" style="text-align: center;">{{ lang('ACP_FLAIR_CATS_EMPTY') }}</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+
+		<form id="flair_add" method="post" action="{{ U_ACTION }}">
+			<fieldset class="quick">
+				<input class="button2" type="submit" name="addcat" value="{{ lang('ACP_FLAIR_ADD_CAT') }}" />
+				<input type="hidden" name="action" value="add_cat" />
+				{{ S_FORM_TOKEN }}
+			</fieldset>
+		</form>
+	{% else %}
+		<a href="{{ U_ACTION }}" style="float: {{ S_CONTENT_FLOW_END }};">&laquo; {{ lang('BACK') }}</a>
+	{% endif %}
+
+	<h1>{{ lang('ACP_FLAIR_MANAGE') }}</h1>
+
+	<table class="table1 zebra-table responsive">
+		<thead>
+			<tr>
+				<th>{{ lang('ACP_FLAIR_NAME') }}</th>
+				<th>{{ lang('ACTION') }}</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for f in flair %}
+				<tr>
+					<td><strong>{% if f.U_FLAIR %}<a href="{{ f.U_FLAIR }}">{% endif %}{{ f.FLAIR_NAME }}{% if f.U_FLAIR %}</a>{% endif %}</strong></td>
+					<td class="actions">
+						<span class="up-disabled" style="display:none;">{{ ICON_MOVE_UP_DISABLED }}</span>
+						<span class="up"><a href="{{ f.U_MOVE_UP }}" data-ajax="row_up">{{ ICON_MOVE_UP }}</a></span>
+						<span class="down-disabled" style="display:none;">{{ ICON_MOVE_DOWN_DISABLED }}</span>
+						<span class="down"><a href="{{ f.U_MOVE_DOWN }}" data-ajax="row_down">{{ ICON_MOVE_DOWN }}</a></span>
+						<a href="{{ f.U_EDIT }}">{{ ICON_EDIT }}</a>
+						<a href="{{ f.U_DELETE }}" data-ajax="row_delete">{{ ICON_DELETE }}</a>
+					</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="2" style="text-align: center;">{{ lang('ACP_FLAIR_EMPTY') }}</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+	<form id="flair_add" method="post" action="{{ U_ACTION }}">
+		<fieldset class="quick">
+			<input class="button2" type="submit" name="addflair" value="{{ lang('ACP_FLAIR_ADD') }}" />
+			<input type="hidden" name="action" value="add" />
+			{{ S_FORM_TOKEN }}
+		</fieldset>
+	</form>
+
+{% endif %}
+
+
+{% include 'overall_footer.html' %}

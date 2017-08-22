@@ -20,9 +20,9 @@ class main_module
 	public $page_title;
 
 	/**
-	 * @var \phpbb\config\config
+	 * @var \Symfony\Component\DependencyInjection\ContainerInterface
 	 */
-	protected $config;
+	protected $container;
 
 	/**
 	 * @var \phpbb\language\language
@@ -34,77 +34,129 @@ class main_module
 	 */
 	protected $request;
 
-	/**
-	 * @var \phpbb\template\template
-	 */
-	protected $template;
-
-	/**
-	 * @var array The array of error language strings
-	 */
-	protected $error = array();
-
 	public function main($id, $mode)
 	{
 		global $phpbb_container;
-		$this->config = $phpbb_container->get('config');
+		$this->container = $phpbb_container;
 		$this->language = $phpbb_container->get('language');
 		$this->request = $phpbb_container->get('request');
-		$this->template = $phpbb_container->get('template');
-
-		add_form_key('stevotvr_flair_acp');
-
-		$submit = $this->request->is_set_post('submit');
-		if ($submit && !check_form_key('stevotvr_flair_acp'))
-		{
-			trigger_error('FORM_INVALID');
-		}
 
 		switch ($mode)
 		{
+			case 'manage':
+				$this->manage();
+			break;
 			default:
-				$this->settings($submit);
+				$this->settings();
 			break;
 		}
-
-		$error = array_map(array($this->language, 'lang'), $this->error);
-		$this->template->assign_vars(array(
-			'ERROR_MSG'	=> implode('<br />', $error),
-			'U_ACTION'	=> $this->u_action,
-			'S_ERROR'	=> count($error) > 0,
-		));
 	}
 
 	/**
 	 * Handle the settings mode of the module.
-	 *
-	 * @param boolean $submit	The form was submitted
 	 */
-	protected function settings($submit)
+	protected function settings()
 	{
 		$this->tpl_name = 'settings';
 		$this->page_title = 'ACP_FLAIR_SETTINGS_TITLE';
 
-		if ($submit)
+		$config = $this->container->get('config');
+		$template = $this->container->get('template');
+
+		add_form_key('stevotvr_flair_settings');
+
+		if ($this->request->is_set_post('submit'))
 		{
+			if (!check_form_key('stevotvr_flair_settings'))
+			{
+				trigger_error('FORM_INVALID');
+			}
+
 			$show_on_profile = $this->request->variable('flair_show_on_profile', '');
 			if (strlen($show_on_profile))
 			{
-				$this->config->set('stevotvr_flair_show_on_profile', $show_on_profile ? 1 : 0);
+				$config->set('stevotvr_flair_show_on_profile', $show_on_profile ? 1 : 0);
 			}
 
 			$show_on_viewtopic = $this->request->variable('flair_show_on_viewtopic', '');
 			if (strlen($show_on_viewtopic))
 			{
-				$this->config->set('stevotvr_flair_show_on_viewtopic', $show_on_viewtopic ? 1 : 0);
+				$config->set('stevotvr_flair_show_on_viewtopic', $show_on_viewtopic ? 1 : 0);
 			}
 
 			trigger_error($this->language->lang('ACP_FLAIR_SETTINGS_SAVED') . adm_back_link($this->u_action));
 		}
 
-		$this->template->assign_vars(array(
-			'FLAIR_SHOW_ON_PROFILE'		=> $this->config['stevotvr_flair_show_on_profile'],
-			'FLAIR_SHOW_ON_VIEWTOPIC'	=> $this->config['stevotvr_flair_show_on_viewtopic'],
+		$template->assign_vars(array(
+			'FLAIR_SHOW_ON_PROFILE'		=> $config['stevotvr_flair_show_on_profile'],
+			'FLAIR_SHOW_ON_VIEWTOPIC'	=> $config['stevotvr_flair_show_on_viewtopic'],
+
+			'U_ACTION'	=> $this->u_action,
 		));
+	}
+
+	/**
+	 * Handle the manage mode of the module.
+	 */
+	protected function manage()
+	{
+		$this->tpl_name = 'manage';
+
+		$controller = $this->container->get('stevotvr.flair.admin.controller');
+		$controller->set_page_url($this->u_action);
+
+		$action = $this->request->variable('action', '');
+		$flair_id = $this->request->variable('flair_id', 0);
+
+		switch ($action)
+		{
+			case 'add_cat':
+				$this->page_title = 'ACP_FLAIR_ADD_CAT';
+				$controller->add_cat();
+				return;
+			break;
+			case 'edit_cat':
+				$this->page_title = 'ACP_FLAIR_EDIT_CAT';
+				$controller->edit_flair($flair_id);
+				return;
+			break;
+			case 'delete_cat':
+				$this->page_title = 'ACP_FLAIR_DELETE_CAT';
+				$controller->delete_cat($flair_id);
+				return;
+			break;
+			case 'add':
+				$this->page_title = 'ACP_FLAIR_ADD_FLAIR';
+				$controller->add_flair();
+				return;
+			break;
+			case 'edit':
+				$this->page_title = 'ACP_FLAIR_EDIT_FLAIR';
+				$controller->edit_flair($flair_id);
+				return;
+			break;
+			case 'delete':
+				if (confirm_box(true))
+				{
+					$controller->delete_flair($flair_id);
+					break;
+				}
+
+				confirm_box(false, $this->language->lang('ACP_FLAIR_DELETE_FLAIR_CONFIRM'), build_hidden_fields(array(
+					'flair_id'	=> $flair_id,
+					'mode'		=> 'manage',
+					'action'	=> 'delete',
+				)));
+			break;
+			case 'move_up':
+				$controller->move_flair($flair_id, -1);
+			break;
+			case 'move_down':
+				$controller->move_flair($flair_id, 1);
+			break;
+		}
+
+		$this->page_title = 'ACP_FLAIR_MANAGE';
+		$controller->display_flair();
 	}
 }
