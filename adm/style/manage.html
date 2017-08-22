@@ -160,10 +160,9 @@
 			</tbody>
 		</table>
 
-		<form id="flair_add" method="post" action="{{ U_ACTION }}">
+		<form id="flair_add" method="post" action="{{ U_ADD_CAT }}">
 			<fieldset class="quick">
 				<input class="button2" type="submit" name="addcat" value="{{ lang('ACP_FLAIR_ADD_CAT') }}" />
-				<input type="hidden" name="action" value="add_cat" />
 				{{ S_FORM_TOKEN }}
 			</fieldset>
 		</form>
@@ -203,10 +202,9 @@
 		</tbody>
 	</table>
 
-	<form id="flair_add" method="post" action="{{ U_ACTION }}">
+	<form id="flair_add" method="post" action="{{ U_ADD_FLAIR }}">
 		<fieldset class="quick">
 			<input class="button2" type="submit" name="addflair" value="{{ lang('ACP_FLAIR_ADD') }}" />
-			<input type="hidden" name="action" value="add" />
 			{{ S_FORM_TOKEN }}
 		</fieldset>
 	</form>

@@ -165,8 +165,8 @@ class admin_controller implements admin_interface
 			$vars = array(
 				'FLAIR_NAME'	=> $entity->get_name(),
 
-				'U_MOVE_UP'		=> $this->u_action . '&amp;action=move_up&amp;flair_id=' . $entity->get_id(),
-				'U_MOVE_DOWN'	=> $this->u_action . '&amp;action=move_down&amp;flair_id=' . $entity->get_id(),
+				'U_MOVE_UP'		=> $this->u_action . '&amp;action=move_up&amp;parent_id=' . $parent_id . '&amp;flair_id=' . $entity->get_id(),
+				'U_MOVE_DOWN'	=> $this->u_action . '&amp;action=move_down&amp;parent_id=' . $parent_id . '&amp;flair_id=' . $entity->get_id(),
 			);
 
 			if ($entity->is_category())
@@ -203,17 +203,18 @@ class admin_controller implements admin_interface
 
 			'U_ACTION'		=> $this->u_action,
 			'U_ADD_CAT'		=> $this->u_action . '&amp;action=add_cat',
-			'U_ADD_FLAIR'	=> $this->u_action . '&amp;action=add_flair',
+			'U_ADD_FLAIR'	=> $this->u_action . '&amp;action=add&amp;parent_id=' . $parent_id,
 		));
 	}
 
 	public function add_flair()
 	{
 		$entity = $this->container->get('stevotvr.flair.entity');
+		$entity->set_parent($this->request->variable('parent_id', 0));
 		$this->add_edit_flair_data($entity);
 		$this->template->assign_vars(array(
 			'S_ADD_FLAIR'	=> true,
-			'U_ACTION'		=> $this->u_action . '&amp;action=add',
+			'U_ACTION'		=> $this->u_action . '&amp;action=add&amp;parent_id=' . $entity->get_parent(),
 		));
 	}
 
@@ -233,7 +234,7 @@ class admin_controller implements admin_interface
 
 		$this->template->assign_vars(array(
 			'S_EDIT_FLAIR'	=> true,
-			'U_ACTION'		=> $this->u_action . '&amp;action=edit&amp;flair_id=' . $flair_id,
+			'U_ACTION'		=> $this->u_action . '&amp;action=edit&amp;parent_id=' . $entity->get_parent() . '&amp;flair_id=' . $flair_id,
 		));
 	}
 
@@ -274,7 +275,7 @@ class admin_controller implements admin_interface
 					$message = $entity->is_category() ? 'ACP_FLAIR_CATS_ADD_SUCCESS' : 'ACP_FLAIR_ADD_SUCCESS';
 				}
 
-				trigger_error($this->language->lang($message) . adm_back_link($this->u_action));
+				trigger_error($this->language->lang($message) . adm_back_link($this->u_action . '&amp;parent_id=' . $entity->get_parent()));
 			}
 		}
 
@@ -287,7 +288,7 @@ class admin_controller implements admin_interface
 			'FLAIR_DESC'	=> $entity->get_desc(),
 			'FLAIR_COLOR'	=> $entity->get_color(),
 
-			'U_BACK'	=> $this->u_action,
+			'U_BACK'	=> $this->u_action . '&amp;parent_id=' . $entity->get_parent(),
 		));
 
 		if (!$entity->is_category())
@@ -298,13 +299,15 @@ class admin_controller implements admin_interface
 
 	public function delete_flair($flair_id)
 	{
+		$entity = $this->container->get('stevotvr.flair.entity')->load($flair_id);
+
 		try
 		{
 			$this->flair_operator->delete_flair($flair_id);
 		}
 		catch (base $e)
 		{
-			trigger_error($this->language->lang('ACP_FLAIR_DELETE_ERRORED') . adm_back_link($this->u_action), E_USER_WARNING);
+			trigger_error($this->language->lang('ACP_FLAIR_DELETE_ERRORED') . adm_back_link($this->u_action . '&amp;parent_id=' . $entity->get_parent()), E_USER_WARNING);
 		}
 
 		if ($this->request->is_ajax())
@@ -319,7 +322,7 @@ class admin_controller implements admin_interface
 			));
 		}
 
-		trigger_error($this->language->lang('ACP_FLAIR_DELETE_SUCCESS') . adm_back_link($this->u_action));
+		trigger_error($this->language->lang('ACP_FLAIR_DELETE_SUCCESS') . adm_back_link($this->u_action . '&amp;parent_id=' . $entity->get_parent()));
 	}
 
 	public function move_flair($flair_id, $offset)
