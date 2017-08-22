@@ -126,12 +126,12 @@ class main_module
 				return;
 			break;
 			case 'add':
-				$this->page_title = 'ACP_FLAIR_ADD_FLAIR';
+				$this->page_title = 'ACP_FLAIR_ADD';
 				$controller->add_flair();
 				return;
 			break;
 			case 'edit':
-				$this->page_title = 'ACP_FLAIR_EDIT_FLAIR';
+				$this->page_title = 'ACP_FLAIR_EDIT';
 				$controller->edit_flair($flair_id);
 				return;
 			break;
