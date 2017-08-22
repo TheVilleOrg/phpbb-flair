@@ -136,17 +136,7 @@ class main_module
 				return;
 			break;
 			case 'delete':
-				if (confirm_box(true))
-				{
-					$controller->delete_flair($flair_id);
-					break;
-				}
-
-				confirm_box(false, $this->language->lang('ACP_FLAIR_DELETE_FLAIR_CONFIRM'), build_hidden_fields(array(
-					'flair_id'	=> $flair_id,
-					'mode'		=> 'manage',
-					'action'	=> 'delete',
-				)));
+				$controller->delete_flair($flair_id);
 			break;
 			case 'move_up':
 				$controller->move_flair($flair_id, -1);

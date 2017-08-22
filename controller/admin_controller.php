@@ -301,6 +301,18 @@ class admin_controller implements admin_interface
 	{
 		$entity = $this->container->get('stevotvr.flair.entity')->load($flair_id);
 
+		if (!confirm_box(true))
+		{
+			$hidden_fields = build_hidden_fields(array(
+				'flair_id'	=> $flair_id,
+				'parent_id'	=> $entity->get_parent(),
+				'mode'		=> 'manage',
+				'action'	=> 'delete',
+			));
+			confirm_box(false, $this->language->lang('ACP_FLAIR_DELETE_FLAIR_CONFIRM'), $hidden_fields);
+			return;
+		}
+
 		try
 		{
 			$this->flair_operator->delete_flair($flair_id);
