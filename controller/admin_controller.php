@@ -187,8 +187,19 @@ class admin_controller implements admin_interface
 			));
 		}
 
+		if ($in_cat)
+		{
+			$cat_name = $this->container->get('stevotvr.flair.entity')->load($parent_id)->get_name();
+		}
+		else
+		{
+			$cat_name = $this->language->lang('ACP_FLAIR_NO_CAT');
+		}
+
 		$this->template->assign_vars(array(
 			'S_IN_CAT'	=> $in_cat,
+
+			'CAT_NAME'	=> $cat_name,
 
 			'U_ACTION'		=> $this->u_action,
 			'U_ADD_CAT'		=> $this->u_action . '&amp;action=add_cat',

@@ -79,5 +79,5 @@ $lang = array_merge($lang, array(
 	'ACP_FLAIR_NAME'	=> 'Name',
 	'ACP_FLAIR_CAT'		=> 'Category',
 
-	'ACP_FLAIR_NO_CAT'	=> 'no category',
+	'ACP_FLAIR_NO_CAT'	=> 'Uncategorized',
 ));
