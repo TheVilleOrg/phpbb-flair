@@ -19,11 +19,12 @@ interface flair_interface
 	 * Get all flair items.
 	 *
 	 * @param int	$parent_id	The database ID of the parent for which to get items, -1 for all
-	 * @param bool	$get_cats	Get category items only
+	 * @param bool	$no_cats	Filter out categories
+	 * @param bool	$no_flair	Filter out flair items
 	 *
 	 * @return array An array of flair entities
 	 */
-	public function get_flair($parent_id = -1, $get_cats = false);
+	public function get_flair($parent_id = -1, $no_cats = true, $no_flair = false);
 
 	/**
 	 * Add a flair item.

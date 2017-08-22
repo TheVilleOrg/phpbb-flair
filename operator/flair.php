@@ -46,23 +46,33 @@ class flair implements flair_interface
 		$this->flair_table = $flair_table;
 	}
 
-	public function get_flair($parent_id = -1, $get_cats = false)
+	public function get_flair($parent_id = -1, $no_cats = true, $no_flair = false)
 	{
 		$entities = array();
 
-		$where = '1 = 1';
-		if ($get_cats)
+		if ($no_cats && $no_flair)
 		{
-			$where = 'flair_is_cat <> 0';
+			return $entities;
 		}
-		elseif ($parent_id > -1)
+
+		$where = array();
+		if ($no_cats)
 		{
-			$where = 'flair_is_cat = 0 AND flair_parent = ' . (int) $parent_id;
+			$where[] = 'flair_is_cat = 0';
 		}
+		if ($no_flair)
+		{
+			$where[] = 'flair_is_cat <> 0';
+		}
+		if ($parent_id > -1)
+		{
+			$where[] = 'flair_parent = ' . (int) $parent_id;
+		}
+		$where = 'WHERE ' . implode(' AND ', $where);
 
 		$sql = 'SELECT *
 				FROM ' . $this->flair_table . '
-				WHERE ' . $where . '
+				' . $where . '
 				ORDER BY flair_order ASC, flair_id ASC';
 		$result = $this->db->sql_query($sql);
 
