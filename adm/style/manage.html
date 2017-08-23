@@ -186,6 +186,7 @@
 	<table class="table1 zebra-table responsive">
 		<thead>
 			<tr>
+				<th style="width: 1%">&nbsp;</th>
 				<th>{{ lang('ACP_FLAIR_NAME') }}</th>
 				<th>{{ lang('ACTION') }}</th>
 			</tr>
@@ -193,6 +194,7 @@
 		<tbody>
 			{% for f in flair %}
 				<tr>
+					<td><span{% if f.FLAIR_COLOR %} style="background-color: #{{ f.FLAIR_COLOR }}"{% endif %}>&nbsp;&nbsp;&nbsp;</span></td>
 					<td><strong>{% if f.U_FLAIR %}<a href="{{ f.U_FLAIR }}">{% endif %}{{ f.FLAIR_NAME }}{% if f.U_FLAIR %}</a>{% endif %}</strong></td>
 					<td class="actions">
 						<span class="up-disabled" style="display:none;">{{ ICON_MOVE_UP_DISABLED }}</span>
@@ -205,7 +207,7 @@
 				</tr>
 			{% else %}
 				<tr>
-					<td colspan="2" style="text-align: center;">{{ lang('ACP_FLAIR_EMPTY') }}</td>
+					<td colspan="3" style="text-align: center;">{{ lang('ACP_FLAIR_EMPTY') }}</td>
 				</tr>
 			{% endfor %}
 		</tbody>
