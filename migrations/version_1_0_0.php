@@ -35,9 +35,7 @@ class version_1_0_0 extends migration
 						'flair_desc'		=> array('TEXT_UNI', ''),
 						'flair_order'		=> array('UINT', 0),
 						'flair_color'		=> array('VCHAR:6', ''),
-						'flair_icon_file'	=> array('VCHAR:50', ''),
-						'flair_icon_width'	=> array('USINT', 0),
-						'flair_icon_height'	=> array('USINT', 0),
+						'flair_icon'		=> array('VCHAR:50', ''),
 					),
 					'PRIMARY_KEY' => 'flair_id',
 					'KEYS' => array(

@@ -132,27 +132,12 @@ interface flair_interface
 	/**
 	 * @return string The path to the icon file for this flair item
 	 */
-	public function get_icon_file();
+	public function get_icon();
 
 	/**
-	 * @return int The width of the icon
-	 */
-	public function get_icon_width();
-
-	/**
-	 * @return int The height of the icon
-	 */
-	public function get_icon_height();
-
-	/**
-	 * Set the icon for this flair item.
+	 * @param string $file The path to the icon file for this flair item
 	 *
-	 * @param string	$file	The path to the icon file
-	 * @param int		$width	The width of the icon
-	 * @param int		$height	The height of the icon
-	 *
-	 * @throws \stevotvr\flair\exception\out_of_bounds
 	 * @throws \stevotvr\flair\exception\unexpected_value
 	 */
-	public function set_icon($file, $width = 0, $height = 0);
+	public function set_icon($file);
 }

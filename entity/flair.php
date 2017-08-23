@@ -11,6 +11,7 @@
 namespace stevotvr\flair\entity;
 
 use phpbb\db\driver\driver_interface;
+use stevotvr\flair\exception\invalid_argument;
 use stevotvr\flair\exception\out_of_bounds;
 use stevotvr\flair\exception\unexpected_value;
 
@@ -33,9 +34,7 @@ class flair implements flair_interface
 	 *      	flair_desc
 	 *      	flair_order
 	 *      	flair_color
-	 *      	flair_icon_file
-	 *      	flair_icon_width
-	 *      	flair_icon_height
+	 *      	flair_icon
 	 */
 	protected $data = array();
 
@@ -83,9 +82,7 @@ class flair implements flair_interface
 			'flair_desc'		=> 'set_desc',
 			'flair_order'		=> 'set_order',
 			'flair_color'		=> 'set_color',
-			'flair_icon_file'	=> 'set_icon',
-			'flair_icon_width'	=> 'integer',
-			'flair_icon_height'	=> 'integer',
+			'flair_icon'		=> 'set_icon',
 		);
 
 		foreach ($columns as $column => $type)
@@ -258,45 +255,21 @@ class flair implements flair_interface
 		return $this;
 	}
 
-	public function get_icon_file()
+	public function get_icon()
 	{
-		return isset($this->data['flair_icon_file']) ? (string) $this->data['flair_icon_file'] : '';
+		return isset($this->data['flair_icon']) ? (string) $this->data['flair_icon'] : '';
 	}
 
-	public function get_icon_width()
-	{
-		return isset($this->data['flair_icon_width']) ? (int) $this->data['flair_icon_width'] : 0;
-	}
-
-	public function get_icon_height()
-	{
-		return isset($this->data['flair_icon_height']) ? (int) $this->data['flair_icon_height'] : 0;
-	}
-
-	public function set_icon($file, $width = 0, $height = 0)
+	public function set_icon($file)
 	{
 		$file = (string) $file;
-		$width = (int) $width;
-		$height = (int) $height;
 
 		if (truncate_string($file, 50) !== $file)
 		{
-			throw new unexpected_value(array('flair_icon_file', 'TOO_LONG'));
+			throw new unexpected_value(array('flair_icon', 'TOO_LONG'));
 		}
 
-		if ($width < 0 || $width > 16777215)
-		{
-			throw new out_of_bounds('flair_icon_width');
-		}
-
-		if ($height < 0 || $height > 16777215)
-		{
-			throw new out_of_bounds('flair_icon_height');
-		}
-
-		$this->data['flair_icon_file'] = $file;
-		$this->data['flair_icon_width'] = $width;
-		$this->data['flair_icon_height'] = $height;
+		$this->data['flair_icon'] = $file;
 
 		return $this;
 	}
