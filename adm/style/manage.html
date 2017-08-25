@@ -228,14 +228,14 @@
 				<tr>
 					<td>
 						{% if f.FLAIR_COLOR %}
-							<span class="fa-stack">
+							<span class="fa-stack" title="{{ f.FLAIR_NAME }}">
 								<i class="fa fa-square fa-stack-2x" style="color: #{{ f.FLAIR_COLOR }}"></i>
 								{% if f.FLAIR_ICON %}
 									<i class="fa {{ f.FLAIR_ICON }} fa-stack-1x"{% if f.FLAIR_ICON_COLOR %} style="color: #{{ f.FLAIR_ICON_COLOR }}"{% endif %}></i>
 								{% endif %}
 							</span>
 						{% elseif f.FLAIR_ICON %}
-							<i class="fa {{ f.FLAIR_ICON }} fa-2x"{% if f.FLAIR_ICON_COLOR %} style="color: #{{ f.FLAIR_ICON_COLOR }}"{% endif %}></i>
+							<i class="fa {{ f.FLAIR_ICON }} fa-2x"{% if f.FLAIR_ICON_COLOR %} style="color: #{{ f.FLAIR_ICON_COLOR }}"{% endif %} title="{{ f.FLAIR_NAME }}"></i>
 						{% endif %}
 					</td>
 					<td><strong>{% if f.U_FLAIR %}<a href="{{ f.U_FLAIR }}">{% endif %}{{ f.FLAIR_NAME }}{% if f.U_FLAIR %}</a>{% endif %}</strong></td>
