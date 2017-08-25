@@ -124,10 +124,25 @@
 		<fieldset>
 			<legend>{{ lang('ACP_FLAIR_APPEARANCE') }}</legend>
 			<dl>
+				<dt><label for="flair_color">{{ lang('ACP_FLAIR_FORM_PREVIEW') ~ lang('COLON') }}</label></dt>
+				<dd id="flair_preview">
+					{% if FLAIR_COLOR %}
+						<span class="fa-stack">
+							<i class="fa fa-square fa-stack-2x" style="color: #{{ FLAIR_COLOR }}"></i>
+							{% if FLAIR_ICON %}
+								<i class="fa {{ FLAIR_ICON }} fa-stack-1x"{% if FLAIR_ICON_COLOR %} style="color: #{{ FLAIR_ICON_COLOR }}"{% endif %}></i>
+							{% endif %}
+						</span>
+					{% elseif FLAIR_ICON %}
+						<i class="fa {{ FLAIR_ICON }} fa-2x"{% if FLAIR_ICON_COLOR %} style="color: #{{ FLAIR_ICON_COLOR }}"{% endif %}></i>
+					{% endif %}
+				</dd>
+			</dl>
+			<dl>
 				<dt><label for="flair_color">{{ lang('ACP_FLAIR_FORM_COLOR') ~ lang('COLON') }}</label><br /><span>{{ lang('ACP_FLAIR_COLOR_EXPLAIN') }}</span></dt>
 				<dd>
 					<input type="text" id="flair_color" name="flair_color" value="{{ FLAIR_COLOR }}" size="6" maxlength="6" />
-					{% if FLAIR_COLOR %}&nbsp;<span style="background-color: #{{ FLAIR_COLOR }}">&nbsp; &nbsp;</span>{% endif %}&nbsp;&nbsp;<span>[ <a href="#" id="color_palette_toggle1">{{ lang('COLOUR_SWATCH') }}</a> ]</span>
+					&nbsp;&nbsp;<span>[ <a href="#" id="color_palette_toggle1">{{ lang('COLOUR_SWATCH') }}</a> ]</span>
 					<div id="color_palette_placeholder" style="display: none" data-orientation="h" data-height="12" data-width="15" data-target="#flair_color"></div>
 				</dd>
 			</dl>
@@ -139,7 +154,7 @@
 				<dt><label for="flair_icon_color">{{ lang('ACP_FLAIR_FORM_ICON_COLOR') ~ lang('COLON') }}</label><br /><span>{{ lang('ACP_FLAIR_ICON_COLOR_EXPLAIN') }}</span></dt>
 				<dd>
 					<input type="text" id="flair_icon_color" name="flair_icon_color" value="{{ FLAIR_ICON_COLOR }}" size="6" maxlength="6" />
-					{% if FLAIR_ICON_COLOR %}&nbsp;<span style="background-color: #{{ FLAIR_ICON_COLOR }}">&nbsp; &nbsp;</span>{% endif %}&nbsp;&nbsp;<span>[ <a href="#" id="color_palette_toggle2">{{ lang('COLOUR_SWATCH') }}</a> ]</span>
+					&nbsp;&nbsp;<span>[ <a href="#" id="color_palette_toggle2">{{ lang('COLOUR_SWATCH') }}</a> ]</span>
 					<div id="color_palette_placeholder2" style="display: none" data-orientation="h" data-height="12" data-width="15" data-target="#flair_icon_color"></div>
 				</dd>
 			</dl>
@@ -212,12 +227,16 @@
 			{% for f in flair %}
 				<tr>
 					<td>
-						<span class="fa-stack" title="{{ f.FLAIR_NAME }}">
-							<i class="fa fa-square fa-stack-2x" style="color: #{{ f.FLAIR_COLOR }}"></i>
-							{% if f.FLAIR_ICON %}
-								<i class="fa {{ f.FLAIR_ICON }} fa-stack-1x" style="color: #{{ f.FLAIR_ICON_COLOR }}"></i>
-							{% endif %}
-						</span>
+						{% if f.FLAIR_COLOR %}
+							<span class="fa-stack">
+								<i class="fa fa-square fa-stack-2x" style="color: #{{ f.FLAIR_COLOR }}"></i>
+								{% if f.FLAIR_ICON %}
+									<i class="fa {{ f.FLAIR_ICON }} fa-stack-1x"{% if f.FLAIR_ICON_COLOR %} style="color: #{{ f.FLAIR_ICON_COLOR }}"{% endif %}></i>
+								{% endif %}
+							</span>
+						{% elseif f.FLAIR_ICON %}
+							<i class="fa {{ f.FLAIR_ICON }} fa-2x"{% if f.FLAIR_ICON_COLOR %} style="color: #{{ f.FLAIR_ICON_COLOR }}"{% endif %}></i>
+						{% endif %}
 					</td>
 					<td><strong>{% if f.U_FLAIR %}<a href="{{ f.U_FLAIR }}">{% endif %}{{ f.FLAIR_NAME }}{% if f.U_FLAIR %}</a>{% endif %}</strong></td>
 					<td class="actions">

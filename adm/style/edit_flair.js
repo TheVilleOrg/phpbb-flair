@@ -4,6 +4,40 @@
 
 $(function() {
 
+	var color = $('#flair_color'),
+		icon = $('#flair_icon'),
+		iconColor = $('#flair_icon_color'),
+		preview = $('#flair_preview');
+
+	var updatePreview = function() {
+		var colorVal = color.val(),
+			iconVal = icon.val(),
+			iconColorVal = iconColor.val();
+
+		var html = '';
+		var size = 'fa-2x';
+
+		if (colorVal) {
+			size = 'fa-stack-1x';
+			html += '<span class="fa-stack">';
+			html += '<i class="fa fa-square fa-stack-2x" style="color: #' + colorVal + '"></i>';
+		}
+
+		if (iconVal) {
+			html += '<i class="fa ' + iconVal + ' ' + size + '"';
+			if (iconColorVal) {
+				html += ' style="color: #' + iconColorVal + '"';
+			}
+			html += '></i>';
+		}
+
+		if (colorVal) {
+			html += '</span>';
+		}
+
+		preview.html(html);
+	};
+
 	$('#color_palette_toggle1').click(function(e) {
 		$('#color_palette_placeholder').toggle();
 		e.preventDefault();
@@ -17,11 +51,14 @@ $(function() {
 	});
 
 	$('.colour-palette a').click(function() {
-		$(this).parents('dd').children('span').first().css('background-color', '#' + $(this).data('color'));
+		var colorVal = $(this).data('color'),
+			target = $($(this).parents('#color_palette_placeholder, #color_palette_placeholder2').data('target'));
+		target.val(colorVal);
+		updatePreview();
 	});
 
-	$('#flair_color, #flair_icon_color').change(function() {
-		$(this).next().css('background-color', '#' + $(this).val());
+	$('#flair_color, #flair_icon, #flair_icon_color').change(function() {
+		updatePreview();
 	});
 
 });

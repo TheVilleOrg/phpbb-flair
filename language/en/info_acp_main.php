@@ -78,6 +78,7 @@ $lang = array_merge($lang, array(
 	'ACP_FLAIR_FORM_CAT'		=> 'Flair category',
 	'ACP_FLAIR_FORM_NAME'		=> 'Flair name',
 	'ACP_FLAIR_FORM_DESC'		=> 'Flair description',
+	'ACP_FLAIR_FORM_PREVIEW'	=> 'Flair preview',
 	'ACP_FLAIR_FORM_COLOR'		=> 'Flair color',
 	'ACP_FLAIR_FORM_ICON'		=> 'Flair icon',
 	'ACP_FLAIR_FORM_ICON_COLOR'	=> 'Flair icon color',
