@@ -80,6 +80,7 @@
 
 {% elseif S_ADD_FLAIR or S_EDIT_FLAIR %}
 
+	{% INCLUDECSS '@stevotvr_flair/edit_flair.css' %}
 	{% INCLUDEJS '@stevotvr_flair/edit_flair.js' %}
 
 	<a href="{{ U_BACK }}" style="float: {{ S_CONTENT_FLOW_END }};">&laquo; {{ lang('BACK') }}</a>
