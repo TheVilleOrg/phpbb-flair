@@ -208,7 +208,7 @@
 			{% for f in flair %}
 				<tr>
 					<td>
-						<span class="fa-stack">
+						<span class="fa-stack" title="{{ f.FLAIR_NAME }}">
 							<i class="fa fa-square fa-stack-2x" style="color: #{{ f.FLAIR_COLOR }}"></i>
 							{% if f.FLAIR_ICON %}
 								<i class="fa {{ f.FLAIR_ICON }} fa-stack-1x" style="color: #{{ f.FLAIR_ICON_COLOR }}"></i>
