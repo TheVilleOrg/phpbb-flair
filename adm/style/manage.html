@@ -117,11 +117,14 @@
 				<dd><input class="text medium" type="text" id="flair_name" name="flair_name" value="{{ FLAIR_NAME }}" maxlength="255" /></dd>
 			</dl>
 			<dl>
-				<dt><label for="flair_desc">{{ lang('ACP_FLAIR_FORM_DESC') ~ lang('COLON') }}</label></dt>
+				<dt><label for="flair_desc">{{ lang('ACP_FLAIR_FORM_DESC') ~ lang('COLON') }}</label><br /><span>{{ lang('ACP_FLAIR_DESC_EXPLAIN') }}</span></dt>
 				<dd><textarea id="flair_desc" name="flair_desc" rows="5" cols="45">{{ FLAIR_DESC }}</textarea></dd>
 			</dl>
+		</fieldset>
+		<fieldset>
+			<legend>{{ lang('ACP_FLAIR_APPEARANCE') }}</legend>
 			<dl>
-				<dt><label for="flair_color">{{ lang('ACP_FLAIR_FORM_COLOR') ~ lang('COLON') }}</label></dt>
+				<dt><label for="flair_color">{{ lang('ACP_FLAIR_FORM_COLOR') ~ lang('COLON') }}</label><br /><span>{{ lang('ACP_FLAIR_COLOR_EXPLAIN') }}</span></dt>
 				<dd>
 					<input type="text" id="flair_color" name="flair_color" value="{{ FLAIR_COLOR }}" size="6" maxlength="6" />
 					{% if FLAIR_COLOR %}&nbsp;<span style="background-color: #{{ FLAIR_COLOR }}">&nbsp; &nbsp;</span>{% endif %}&nbsp;&nbsp;<span>[ <a href="#" id="color_palette_toggle1">{{ lang('COLOUR_SWATCH') }}</a> ]</span>
@@ -129,11 +132,11 @@
 				</dd>
 			</dl>
 			<dl>
-				<dt><label for="flair_icon">{{ lang('ACP_FLAIR_FORM_ICON') ~ lang('COLON') }}</label></dt>
+				<dt><label for="flair_icon">{{ lang('ACP_FLAIR_FORM_ICON') ~ lang('COLON') }}</label><br /><span>{{ lang('ACP_FLAIR_ICON_EXPLAIN') }}</span></dt>
 				<dd><input class="text small" type="text" id="flair_icon" name="flair_icon" value="{{ FLAIR_ICON }}" maxlength="50" /></dd>
 			</dl>
 			<dl>
-				<dt><label for="flair_icon_color">{{ lang('ACP_FLAIR_FORM_ICON_COLOR') ~ lang('COLON') }}</label></dt>
+				<dt><label for="flair_icon_color">{{ lang('ACP_FLAIR_FORM_ICON_COLOR') ~ lang('COLON') }}</label><br /><span>{{ lang('ACP_FLAIR_ICON_COLOR_EXPLAIN') }}</span></dt>
 				<dd>
 					<input type="text" id="flair_icon_color" name="flair_icon_color" value="{{ FLAIR_ICON_COLOR }}" size="6" maxlength="6" />
 					{% if FLAIR_ICON_COLOR %}&nbsp;<span style="background-color: #{{ FLAIR_ICON_COLOR }}">&nbsp; &nbsp;</span>{% endif %}&nbsp;&nbsp;<span>[ <a href="#" id="color_palette_toggle2">{{ lang('COLOUR_SWATCH') }}</a> ]</span>
