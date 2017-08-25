@@ -175,22 +175,22 @@ class admin_controller implements admin_interface
 
 			if ($entity->is_category())
 			{
-				$this->template->assign_block_vars('cats', $vars + array(
+				$this->template->assign_block_vars('cats', array_merge($vars, array(
 					'U_FLAIR'	=> $this->u_action . '&amp;parent_id=' . $entity->get_id(),
 					'U_EDIT'	=> $this->u_action . '&amp;action=edit_cat&amp;flair_id=' . $entity->get_id(),
 					'U_DELETE'	=> $this->u_action . '&amp;action=delete_cat&amp;flair_id=' . $entity->get_id(),
-				));
+				)));
 				continue;
 			}
 
-			$this->template->assign_block_vars('flair', $vars + array(
+			$this->template->assign_block_vars('flair', array_merge($vars, array(
 				'FLAIR_COLOR'		=> $entity->get_color(),
 				'FLAIR_ICON'		=> $entity->get_icon(),
 				'FLAIR_ICON_COLOR'	=> $entity->get_icon_color(),
 
 				'U_EDIT'	=> $this->u_action . '&amp;action=edit&amp;flair_id=' . $entity->get_id(),
 				'U_DELETE'	=> $this->u_action . '&amp;action=delete&amp;flair_id=' . $entity->get_id(),
-			));
+			)));
 		}
 
 		if ($in_cat)
