@@ -15,6 +15,15 @@ $(function() {
 		palette2.toggle();
 		e.preventDefault();
 	});
+
+	$('.colour-palette a').click(function() {
+		$(this).parents('dd').children('span').first().css('background-color', '#' + $(this).data('color'));
+	});
+
+	$('#flair_color, #flair_icon_color').change(function() {
+		$(this).next().css('background-color', '#' + $(this).val());
+	});
+
 });
 
 }(jQuery));
