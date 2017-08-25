@@ -35,6 +35,7 @@ class flair implements flair_interface
 	 *      	flair_order
 	 *      	flair_color
 	 *      	flair_icon
+	 *      	flair_icon_color
 	 */
 	protected $data = array();
 
@@ -83,6 +84,7 @@ class flair implements flair_interface
 			'flair_order'		=> 'set_order',
 			'flair_color'		=> 'set_color',
 			'flair_icon'		=> 'set_icon',
+			'flair_icon_color'	=> 'set_icon_color',
 		);
 
 		foreach ($columns as $column => $type)
@@ -260,16 +262,35 @@ class flair implements flair_interface
 		return isset($this->data['flair_icon']) ? (string) $this->data['flair_icon'] : '';
 	}
 
-	public function set_icon($file)
+	public function set_icon($icon)
 	{
-		$file = (string) $file;
+		$icon = (string) $icon;
 
-		if (truncate_string($file, 50) !== $file)
+		if (truncate_string($icon, 50) !== $icon)
 		{
 			throw new unexpected_value(array('flair_icon', 'TOO_LONG'));
 		}
 
-		$this->data['flair_icon'] = $file;
+		$this->data['flair_icon'] = $icon;
+
+		return $this;
+	}
+
+	public function get_icon_color()
+	{
+		return isset($this->data['flair_icon_color']) ? (string) $this->data['flair_icon_color'] : '';
+	}
+
+	public function set_icon_color($color)
+	{
+		$color = (string) $color;
+
+		if ($color !== '' && strlen($color) !== 6)
+		{
+			throw new out_of_bounds('flair_icon_color');
+		}
+
+		$this->data['flair_icon_color'] = $color;
 
 		return $this;
 	}

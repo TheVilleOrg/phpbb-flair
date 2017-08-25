@@ -130,14 +130,26 @@ interface flair_interface
 	public function set_color($color);
 
 	/**
-	 * @return string The path to the icon file for this flair item
+	 * @return string The identifier for the font icon
 	 */
 	public function get_icon();
 
 	/**
-	 * @param string $file The path to the icon file for this flair item
+	 * @param string $icon The identifier for the font icon
 	 *
 	 * @throws \stevotvr\flair\exception\unexpected_value
 	 */
-	public function set_icon($file);
+	public function set_icon($icon);
+
+	/**
+	 * @return string The hex color string for the icon
+	 */
+	public function get_icon_color();
+
+	/**
+	 * @param string $color The hex color string for the icon
+	 *
+	 * @throws \stevotvr\flair\exception\out_of_bounds
+	 */
+	public function set_icon_color($color);
 }

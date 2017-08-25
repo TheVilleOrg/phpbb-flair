@@ -180,7 +180,9 @@ class admin_controller implements admin_interface
 			}
 
 			$this->template->assign_block_vars('flair', $vars + array(
-				'FLAIR_COLOR'	=> $entity->get_color(),
+				'FLAIR_COLOR'		=> $entity->get_color(),
+				'FLAIR_ICON'		=> $entity->get_icon(),
+				'FLAIR_ICON_COLOR'	=> $entity->get_icon_color(),
 
 				'U_EDIT'	=> $this->u_action . '&amp;action=edit&amp;flair_id=' . $entity->get_id(),
 				'U_DELETE'	=> $this->u_action . '&amp;action=delete&amp;flair_id=' . $entity->get_id(),
@@ -252,10 +254,12 @@ class admin_controller implements admin_interface
 
 			try
 			{
-				$entity->set_parent($this->request->variable('flair_parent', 0));
-				$entity->set_name($this->request->variable('flair_name', '', true));
-				$entity->set_desc($this->request->variable('flair_desc', '', true));
-				$entity->set_color($this->request->variable('flair_color', '', true));
+				$entity->set_parent($this->request->variable('flair_parent', 0))
+					->set_name($this->request->variable('flair_name', '', true))
+					->set_desc($this->request->variable('flair_desc', '', true))
+					->set_color($this->request->variable('flair_color', ''))
+					->set_icon($this->request->variable('flair_icon', ''))
+					->set_icon_color($this->request->variable('flair_icon_color', ''));
 			}
 			catch (base $e)
 			{
@@ -283,10 +287,12 @@ class admin_controller implements admin_interface
 			'S_ERROR'	=> (bool) count($errors),
 			'ERROR_MSG'	=> count($errors) ? implode('<br />', $errors) : '',
 
-			'FLAIR_PARENT'	=> $entity->get_parent(),
-			'FLAIR_NAME'	=> $entity->get_name(),
-			'FLAIR_DESC'	=> $entity->get_desc(),
-			'FLAIR_COLOR'	=> $entity->get_color(),
+			'FLAIR_PARENT'		=> $entity->get_parent(),
+			'FLAIR_NAME'		=> $entity->get_name(),
+			'FLAIR_DESC'		=> $entity->get_desc(),
+			'FLAIR_COLOR'		=> $entity->get_color(),
+			'FLAIR_ICON'		=> $entity->get_icon(),
+			'FLAIR_ICON_COLOR'	=> $entity->get_icon_color(),
 
 			'U_BACK'	=> $this->u_action . '&amp;parent_id=' . $entity->get_parent(),
 		));
