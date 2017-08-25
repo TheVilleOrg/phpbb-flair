@@ -152,4 +152,24 @@ interface flair_interface
 	 * @throws \stevotvr\flair\exception\out_of_bounds
 	 */
 	public function set_icon_color($color);
+
+	/**
+	 * @return bool Show this item on user profile pages
+	 */
+	public function show_on_profile();
+
+	/**
+	 * @param bool $show_on_profile Show this item on user profile pages
+	 */
+	public function set_show_on_profile($show_on_profile);
+
+	/**
+	 * @return bool Show this item in the user info on each post
+	 */
+	public function show_on_posts();
+
+	/**
+	 * @param bool $show_on_posts Show this item in the user info on each post
+	 */
+	public function set_show_on_posts($show_on_posts);
 }

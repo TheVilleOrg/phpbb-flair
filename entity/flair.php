@@ -36,6 +36,8 @@ class flair implements flair_interface
 	 *      	flair_color
 	 *      	flair_icon
 	 *      	flair_icon_color
+	 *      	flair_display_profile
+	 *      	flair_display_posts
 	 */
 	protected $data = array();
 
@@ -76,15 +78,17 @@ class flair implements flair_interface
 		$this->data = array();
 
 		$columns = array(
-			'flair_id'			=> 'integer',
-			'flair_is_cat'		=> 'integer',
-			'flair_parent'		=> 'integer',
-			'flair_name'		=> 'set_name',
-			'flair_desc'		=> 'set_desc',
-			'flair_order'		=> 'set_order',
-			'flair_color'		=> 'set_color',
-			'flair_icon'		=> 'set_icon',
-			'flair_icon_color'	=> 'set_icon_color',
+			'flair_id'				=> 'integer',
+			'flair_is_cat'			=> 'set_category',
+			'flair_parent'			=> 'integer',
+			'flair_name'			=> 'set_name',
+			'flair_desc'			=> 'set_desc',
+			'flair_order'			=> 'set_order',
+			'flair_color'			=> 'set_color',
+			'flair_icon'			=> 'set_icon',
+			'flair_icon_color'		=> 'set_icon_color',
+			'flair_display_profile'	=> 'set_show_on_profile',
+			'flair_display_posts'	=> 'set_show_on_posts',
 		);
 
 		foreach ($columns as $column => $type)
@@ -291,6 +295,34 @@ class flair implements flair_interface
 		}
 
 		$this->data['flair_icon_color'] = $color;
+
+		return $this;
+	}
+
+	public function show_on_profile()
+	{
+		return (bool) $this->data['flair_display_profile'];
+	}
+
+	public function set_show_on_profile($show_on_profile)
+	{
+		$show_on_profile = (bool) $show_on_profile;
+
+		$this->data['flair_display_profile'] = (int) $show_on_profile;
+
+		return $this;
+	}
+
+	public function show_on_posts()
+	{
+		return (bool) $this->data['flair_display_posts'];
+	}
+
+	public function set_show_on_posts($show_on_posts)
+	{
+		$show_on_posts = (bool) $show_on_posts;
+
+		$this->data['flair_display_posts'] = (int) $show_on_posts;
 
 		return $this;
 	}
