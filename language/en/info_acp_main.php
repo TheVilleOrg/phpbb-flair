@@ -89,8 +89,10 @@ $lang = array_merge($lang, array(
 	'ACP_FLAIR_ICON_EXPLAIN'		=> 'Enter an optional Font Awesome icon identifier to represent this item. [ <a href="http://fontawesome.io/icons/" target="_blank">Font Awesome icon list</a> ]',
 	'ACP_FLAIR_ICON_COLOR_EXPLAIN'	=> 'The foreground color of the icon, if present.',
 
-	'ACP_FLAIR_NAME'	=> 'Name',
-	'ACP_FLAIR_CAT'		=> 'Category',
+	'ACP_FLAIR_NAME'		=> 'Name',
+	'ACP_FLAIR_DISPLAY_ON'	=> 'Display on',
+	'ACP_FLAIR_PROFILE'		=> 'Profile',
+	'ACP_FLAIR_POSTS'		=> 'Posts',
 
 	'ACP_FLAIR_NO_CAT'	=> 'Uncategorized',
 

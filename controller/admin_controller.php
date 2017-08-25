@@ -175,7 +175,20 @@ class admin_controller implements admin_interface
 
 			if ($entity->is_category())
 			{
+				$display_on = array();
+				if ($entity->show_on_profile())
+				{
+					$display_on[] = 'ACP_FLAIR_PROFILE';
+				}
+				if ($entity->show_on_posts())
+				{
+					$display_on[] = 'ACP_FLAIR_POSTS';
+				}
+				$display_on = array_map(array($this->language, 'lang'), $display_on);
+
 				$this->template->assign_block_vars('cats', array_merge($vars, array(
+					'DISPLAY_ON'	=> implode(', ', $display_on),
+
 					'U_FLAIR'	=> $this->u_action . '&amp;parent_id=' . $entity->get_id(),
 					'U_EDIT'	=> $this->u_action . '&amp;action=edit_cat&amp;flair_id=' . $entity->get_id(),
 					'U_DELETE'	=> $this->u_action . '&amp;action=delete_cat&amp;flair_id=' . $entity->get_id(),

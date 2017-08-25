@@ -178,6 +178,7 @@
 			<thead>
 				<tr>
 					<th>{{ lang('ACP_FLAIR_NAME') }}</th>
+					<th style="width: 10%">{{ lang('ACP_FLAIR_DISPLAY_ON') }}</th>
 					<th style="width: 10%">{{ lang('ACTION') }}</th>
 				</tr>
 			</thead>
@@ -185,6 +186,7 @@
 				{% for c in cats %}
 					<tr>
 						<td><strong>{% if c.U_FLAIR %}<a href="{{ c.U_FLAIR }}">{% endif %}{{ c.FLAIR_NAME }}{% if c.U_FLAIR %}</a>{% endif %}</strong></td>
+						<td>{{ c.DISPLAY_ON }}</td>
 						<td class="actions">
 							<span class="up-disabled" style="display:none;">{{ ICON_MOVE_UP_DISABLED }}</span>
 							<span class="up"><a href="{{ c.U_MOVE_UP }}" data-ajax="row_up">{{ ICON_MOVE_UP }}</a></span>
@@ -196,7 +198,7 @@
 					</tr>
 				{% else %}
 					<tr>
-						<td colspan="2" style="text-align: center;">{{ lang('ACP_FLAIR_CATS_EMPTY') }}</td>
+						<td colspan="3" style="text-align: center;">{{ lang('ACP_FLAIR_CATS_EMPTY') }}</td>
 					</tr>
 				{% endfor %}
 			</tbody>
