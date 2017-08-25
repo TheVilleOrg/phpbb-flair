@@ -78,18 +78,18 @@ class main_module
 				$config->set('stevotvr_flair_show_on_profile', $show_on_profile ? 1 : 0);
 			}
 
-			$show_on_viewtopic = $this->request->variable('flair_show_on_viewtopic', '');
-			if (strlen($show_on_viewtopic))
+			$show_on_posts = $this->request->variable('flair_show_on_posts', '');
+			if (strlen($show_on_posts))
 			{
-				$config->set('stevotvr_flair_show_on_viewtopic', $show_on_viewtopic ? 1 : 0);
+				$config->set('stevotvr_flair_show_on_posts', $show_on_posts ? 1 : 0);
 			}
 
 			trigger_error($this->language->lang('ACP_FLAIR_SETTINGS_SAVED') . adm_back_link($this->u_action));
 		}
 
 		$template->assign_vars(array(
-			'FLAIR_SHOW_ON_PROFILE'		=> $config['stevotvr_flair_show_on_profile'],
-			'FLAIR_SHOW_ON_VIEWTOPIC'	=> $config['stevotvr_flair_show_on_viewtopic'],
+			'FLAIR_SHOW_ON_PROFILE'	=> $config['stevotvr_flair_show_on_profile'],
+			'FLAIR_SHOW_ON_POSTS'	=> $config['stevotvr_flair_show_on_posts'],
 
 			'U_ACTION'	=> $this->u_action,
 		));

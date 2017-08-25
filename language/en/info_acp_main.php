@@ -45,8 +45,8 @@ $lang = array_merge($lang, array(
 	'ACP_FLAIR_DISPLAY_OPTIONS'				=> 'Display options',
 	'ACP_FLAIR_SHOW_ON_PROFILE'				=> 'Display on profiles',
 	'ACP_FLAIR_SHOW_ON_PROFILE_EXPLAIN'		=> 'Enable to have flair displayed on profile pages.',
-	'ACP_FLAIR_SHOW_ON_VIEWTOPIC'			=> 'Display on posts',
-	'ACP_FLAIR_SHOW_ON_VIEWTOPIC_EXPLAIN'	=> 'Enable to have flair displayed in the user info section of each post.',
+	'ACP_FLAIR_SHOW_ON_POSTS'				=> 'Display on posts',
+	'ACP_FLAIR_SHOW_ON_POSTS_EXPLAIN'		=> 'Enable to have flair displayed in the user info section of each post.',
 
 	'ACP_FLAIR_MANAGE_CATS'				=> 'Manage categories',
 	'ACP_FLAIR_MANAGE_CATS_EXPLAIN'		=> 'Flair items can be grouped into categories, which are managed here.',

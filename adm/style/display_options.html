@@ -5,7 +5,7 @@
 		<dd><label><input type="radio" id="flair_show_on_profile" name="flair_show_on_profile" value="1"{% if FLAIR_SHOW_ON_PROFILE %} checked="checked"{% endif %} class="radio" /> {{ lang('YES') }}</label><label><input type="radio" name="flair_show_on_profile" value="0"{% if not FLAIR_SHOW_ON_PROFILE %} checked="checked"{% endif %} class="radio" /> {{ lang('NO') }}</label></dd>
 	</dl>
 	<dl>
-		<dt><label for="flair_show_on_viewtopic">{{ lang('ACP_FLAIR_SHOW_ON_VIEWTOPIC') ~ lang('COLON') }}</label><br /><span>{{ lang('ACP_FLAIR_SHOW_ON_VIEWTOPIC_EXPLAIN') }}</span></dt>
-		<dd><label><input type="radio" id="flair_show_on_viewtopic" name="flair_show_on_viewtopic" value="1"{% if FLAIR_SHOW_ON_VIEWTOPIC %} checked="checked"{% endif %} class="radio" /> {{ lang('YES') }}</label><label><input type="radio" name="flair_show_on_viewtopic" value="0"{% if not FLAIR_SHOW_ON_VIEWTOPIC %} checked="checked"{% endif %} class="radio" /> {{ lang('NO') }}</label></dd>
+		<dt><label for="flair_show_on_posts">{{ lang('ACP_FLAIR_SHOW_ON_POSTS') ~ lang('COLON') }}</label><br /><span>{{ lang('ACP_FLAIR_SHOW_ON_POSTS_EXPLAIN') }}</span></dt>
+		<dd><label><input type="radio" id="flair_show_on_posts" name="flair_show_on_posts" value="1"{% if FLAIR_SHOW_ON_POSTS %} checked="checked"{% endif %} class="radio" /> {{ lang('YES') }}</label><label><input type="radio" name="flair_show_on_posts" value="0"{% if not FLAIR_SHOW_ON_POSTS %} checked="checked"{% endif %} class="radio" /> {{ lang('NO') }}</label></dd>
 	</dl>
 </fieldset>

@@ -85,8 +85,8 @@ class admin_controller implements admin_interface
 		$this->template->assign_vars(array(
 			'S_ADD_CAT'	=> true,
 
-			'FLAIR_SHOW_ON_PROFILE'		=> true,
-			'FLAIR_SHOW_ON_VIEWTOPIC'	=> true,
+			'FLAIR_SHOW_ON_PROFILE'	=> true,
+			'FLAIR_SHOW_ON_POSTS'	=> true,
 
 			'U_ACTION'	=> $this->u_action . '&amp;action=add_cat',
 		));
@@ -234,8 +234,8 @@ class admin_controller implements admin_interface
 			$this->template->assign_vars(array(
 				'S_EDIT_CAT'	=> true,
 
-				'FLAIR_SHOW_ON_PROFILE'		=> $entity->show_on_profile(),
-				'FLAIR_SHOW_ON_VIEWTOPIC'	=> $entity->show_on_posts(),
+				'FLAIR_SHOW_ON_PROFILE'	=> $entity->show_on_profile(),
+				'FLAIR_SHOW_ON_POSTS'	=> $entity->show_on_posts(),
 
 				'U_ACTION'		=> $this->u_action . '&amp;action=edit_cat&amp;flair_id=' . $flair_id,
 			));
@@ -269,7 +269,7 @@ class admin_controller implements admin_interface
 					->set_icon($this->request->variable('flair_icon', ''))
 					->set_icon_color($this->request->variable('flair_icon_color', ''))
 					->set_show_on_profile($this->request->variable('flair_show_on_profile', 1))
-					->set_show_on_posts($this->request->variable('flair_show_on_viewtopic', 1));
+					->set_show_on_posts($this->request->variable('flair_show_on_posts', 1));
 			}
 			catch (base $e)
 			{

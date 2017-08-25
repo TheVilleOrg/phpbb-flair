@@ -75,7 +75,7 @@ class version_1_0_0 extends migration
 	{
 		return array(
 			array('config.add', array('stevotvr_flair_show_on_profile', 1)),
-			array('config.add', array('stevotvr_flair_show_on_viewtopic', 1)),
+			array('config.add', array('stevotvr_flair_show_on_posts', 1)),
 			array('module.add', array(
 				'acp',
 				'ACP_CAT_DOT_MODS',
