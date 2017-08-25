@@ -262,14 +262,36 @@ class admin_controller implements admin_interface
 
 			try
 			{
-				$entity->set_parent($this->request->variable('flair_parent', 0))
-					->set_name($this->request->variable('flair_name', '', true))
-					->set_desc($this->request->variable('flair_desc', '', true))
-					->set_color($this->request->variable('flair_color', ''))
-					->set_icon($this->request->variable('flair_icon', ''))
-					->set_icon_color($this->request->variable('flair_icon_color', ''))
-					->set_show_on_profile($this->request->variable('flair_show_on_profile', 1))
-					->set_show_on_posts($this->request->variable('flair_show_on_posts', 1));
+				$flair_name = $this->request->variable('flair_name', '', true);
+				if ($flair_name === '')
+				{
+					$errors[] = $entity->is_category() ? 'ACP_ERROR_CAT_NAME_REQUIRED' : 'ACP_ERROR_NAME_REQUIRED';
+				}
+
+				if (!$entity->is_category())
+				{
+					$flair_color = $this->request->variable('flair_color', '');
+					$flair_icon = $this->request->variable('flair_icon', '');
+					if ($flair_color === '' && $flair_icon === '')
+					{
+						$errors[] = 'ACP_ERROR_APPEARANCE_REQUIRED';
+					}
+					else
+					{
+						$entity->set_color($flair_color)
+							->set_icon($flair_icon)
+							->set_icon_color($this->request->variable('flair_icon_color', ''));
+					}
+				}
+
+				if (empty($errors))
+				{
+					$entity->set_parent($this->request->variable('flair_parent', 0))
+						->set_name($flair_name)
+						->set_desc($this->request->variable('flair_desc', '', true))
+						->set_show_on_profile($this->request->variable('flair_show_on_profile', 1))
+						->set_show_on_posts($this->request->variable('flair_show_on_posts', 1));
+				}
 			}
 			catch (base $e)
 			{
@@ -292,6 +314,8 @@ class admin_controller implements admin_interface
 				trigger_error($this->language->lang($message) . adm_back_link($this->u_action . '&amp;parent_id=' . $entity->get_parent()));
 			}
 		}
+
+		$errors = array_map(array($this->language, 'lang'), $errors);
 
 		$this->template->assign_vars(array(
 			'S_ERROR'	=> (bool) count($errors),
