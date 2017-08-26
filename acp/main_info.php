@@ -18,7 +18,7 @@ class main_info
 	public function module()
 	{
 		return array(
-			'filename'	=> '\stevotvr\flair\main_module',
+			'filename'	=> '\stevotvr\flair\acp\main_module',
 			'title'		=> 'ACP_FLAIR_TITLE',
 			'modes'		=> array(
 				'settings'	=> array(
