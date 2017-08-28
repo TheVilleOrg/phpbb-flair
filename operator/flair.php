@@ -68,7 +68,7 @@ class flair implements flair_interface
 		{
 			$where[] = 'flair_parent = ' . (int) $parent_id;
 		}
-		$where = 'WHERE ' . implode(' AND ', $where);
+		$where = (!empty($where)) ? 'WHERE ' . implode(' AND ', $where) : '';
 
 		$sql = 'SELECT *
 				FROM ' . $this->flair_table . '
