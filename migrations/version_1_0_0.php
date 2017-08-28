@@ -51,8 +51,8 @@ class version_1_0_0 extends migration
 				),
 				$this->table_prefix . 'flair_users' => array(
 					'COLUMNS' => array(
-						'flair_id'		=> array('UINT', 0),
 						'user_id'		=> array('UINT', 0),
+						'flair_id'		=> array('UINT', 0),
 						'flair_count'	=> array('UINT', 1),
 					),
 					'PRIMARY_KEY' => array('flair_id', 'user_id'),
@@ -87,6 +87,19 @@ class version_1_0_0 extends migration
 				array(
 					'module_basename'	=> '\stevotvr\flair\acp\main_module',
 					'modes'				=> array('settings', 'manage'),
+				),
+			)),
+			array('module.add', array(
+				'mcp',
+				0,
+				'MCP_FLAIR_TITLE',
+			)),
+			array('module.add', array(
+				'mcp',
+				'MCP_FLAIR_TITLE',
+				array(
+					'module_basename'	=> '\stevotvr\flair\mcp\main_module',
+					'modes'				=> array('front', 'user_flair'),
 				),
 			)),
 		);

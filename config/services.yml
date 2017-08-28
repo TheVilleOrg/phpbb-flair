@@ -6,19 +6,37 @@ services:
         class: stevotvr\flair\controller\admin_controller
         arguments:
             - '@service_container'
-            - '@stevotvr.flair.operator'
+            - '@stevotvr.flair.operator.flair'
             - '@language'
             - '@request'
             - '@template'
+    stevotvr.flair.moderator.controller:
+        class: stevotvr\flair\controller\moderator_controller
+        arguments:
+            - '@dbal.conn'
+            - '@stevotvr.flair.operator.flair'
+            - '@language'
+            - '@request'
+            - '@template'
+            - '@stevotvr.flair.operator.user'
+            - '%core.root_path%'
+            - '%core.php_ext%'
     stevotvr.flair.entity:
         class: stevotvr\flair\entity\flair
         shared: false
         arguments:
             - '@dbal.conn'
             - '%stevotvr.flair.tables.flair%'
-    stevotvr.flair.operator:
+    stevotvr.flair.operator.flair:
         class: stevotvr\flair\operator\flair
         arguments:
             - '@service_container'
             - '@dbal.conn'
             - '%stevotvr.flair.tables.flair%'
+    stevotvr.flair.operator.user:
+        class: stevotvr\flair\operator\user
+        arguments:
+            - '@service_container'
+            - '@dbal.conn'
+            - '%stevotvr.flair.tables.flair%'
+            - '%stevotvr.flair.tables.flair_users%'
