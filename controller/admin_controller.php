@@ -57,11 +57,11 @@ class admin_controller implements admin_interface
 	protected $u_action;
 
 	/**
-	 * @param \Symfony\Component\DependencyInjection\ContainerInterface	$container
-	 * @param \stevotvr\flair\operator\flair_interface					$flair_operator
-	 * @param \phpbb\language\language									$language
-	 * @param \phpbb\request\request									$request
-	 * @param \phpbb\template\template									$template
+	 * @param ContainerInterface						$container
+	 * @param \stevotvr\flair\operator\flair_interface	$flair_operator
+	 * @param \phpbb\language\language					$language
+	 * @param \phpbb\request\request					$request
+	 * @param \phpbb\template\template					$template
 	 */
 	public function __construct(ContainerInterface $container, flair_operator $flair_operator, language $language, request $request, template $template)
 	{
