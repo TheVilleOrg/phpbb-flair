@@ -13,11 +13,13 @@ services:
     stevotvr.flair.moderator.controller:
         class: stevotvr\flair\controller\moderator_controller
         arguments:
+            - '@config'
             - '@dbal.conn'
             - '@stevotvr.flair.operator.flair'
             - '@language'
             - '@request'
             - '@template'
+            - '@user'
             - '@stevotvr.flair.operator.user'
             - '%core.root_path%'
             - '%core.php_ext%'
