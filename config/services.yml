@@ -2,6 +2,10 @@ imports:
     - { resource: tables.yml }
 
 services:
+    stevotvr.flair.listener:
+        class: stevotvr\flair\event\main_listener
+        tags:
+            - { name: event.listener }
     stevotvr.flair.admin.controller:
         class: stevotvr\flair\controller\admin_controller
         arguments:
