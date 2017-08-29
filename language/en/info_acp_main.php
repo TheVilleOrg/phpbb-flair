@@ -94,8 +94,6 @@ $lang = array_merge($lang, array(
 	'ACP_FLAIR_PROFILE'		=> 'Profile',
 	'ACP_FLAIR_POSTS'		=> 'Posts',
 
-	'ACP_FLAIR_NO_CAT'	=> 'Uncategorized',
-
 	'ACP_ERROR_NAME_REQUIRED'		=> 'You must enter a name for the flair item.',
 	'ACP_ERROR_CAT_NAME_REQUIRED'	=> 'You must enter a name for the category.',
 	'ACP_ERROR_APPEARANCE_REQUIRED'	=> 'You must set either a color or an icon for the flair item.',
