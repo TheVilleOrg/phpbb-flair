@@ -12,7 +12,6 @@ namespace stevotvr\flair\operator;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use phpbb\db\driver\driver_interface;
-use stevotvr\flair\exception\out_of_bounds;
 
 /**
  * Profile Flair user operator.

@@ -14,7 +14,6 @@ use phpbb\db\driver\driver_interface;
 use phpbb\language\language;
 use phpbb\request\request;
 use phpbb\template\template;
-use stevotvr\flair\exception\base;
 use stevotvr\flair\operator\flair_interface;
 use stevotvr\flair\operator\user_interface;
 
@@ -157,11 +156,11 @@ class moderator_controller implements moderator_interface
 		{
 			$this->change_flair($user_id, 'add');
 		}
-		elseif ($this->request->is_set_post('remove_flair'))
+		else if ($this->request->is_set_post('remove_flair'))
 		{
 			$this->change_flair($user_id, 'remove');
 		}
-		elseif ($this->request->is_set_post('remove_all_flair'))
+		else if ($this->request->is_set_post('remove_all_flair'))
 		{
 			$this->change_flair($user_id, 'remove_all');
 		}
