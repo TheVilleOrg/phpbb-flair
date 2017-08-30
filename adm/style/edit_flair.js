@@ -10,6 +10,16 @@ $(function() {
 		fontColor = $('#flair_font_color'),
 		preview = $('#flair_preview');
 
+	/**
+	 * Get the HTML for a flair preview.
+	 *
+	 * @param {String}	colorVal		The background color
+	 * @param {String}	iconVal			The icon name
+	 * @param {String}	iconColorVal	The icon color
+	 * @param {String}	fontColorVal	The font color
+	 *
+	 * @return {String} The HTML
+	 */
 	var getPreviewHtml = function(colorVal, iconVal, iconColorVal, fontColorVal) {
 		var html = '<span class="fa-stack">';
 
@@ -44,6 +54,9 @@ $(function() {
 		return html;
 	};
 
+	/**
+	 * Update the flair preview based on the current values of the form fields.
+	 */
 	var updatePreview = function() {
 		var colorVal = color.val(),
 			iconVal = icon.val(),
