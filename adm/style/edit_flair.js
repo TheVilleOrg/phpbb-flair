@@ -10,6 +10,35 @@ $(function() {
 		fontColor	= $('#flair_font_color'),
 		preview		= $('#flair_preview');
 
+	var getColorValue = (function() {
+		var colorRegEx = new RegExp('^[0-9A-F]{6}$');
+
+		/**
+		 * Get the value from an input field only if it is a valid color hex value. If the field is
+		 * not empty and the value is invalid, this function will also apply the error class to the
+		 * field.
+		 *
+		 * @param {JQuery}	field	The field from which to get the value
+		 *
+		 * @return {String} The value or an empty string if it is invalid
+		 */
+		return function(field) {
+			var value = field.val();
+
+			field.removeClass('error');
+
+			if (value) {
+				if (colorRegEx.test(value)) {
+					return value;
+				}
+
+				field.addClass('error');
+			}
+
+			return '';
+		};
+	}());
+
 	/**
 	 * Get the HTML for a flair preview.
 	 *
@@ -58,10 +87,15 @@ $(function() {
 	 * Update the flair preview based on the current values of the form fields.
 	 */
 	var updatePreview = function() {
-		var colorVal		= color.val(),
+		var colorVal		= getColorValue(color),
 			iconVal			= icon.val(),
-			iconColorVal	= iconColor.val(),
-			fontColorVal	= fontColor.val();
+			iconColorVal	= getColorValue(iconColor),
+			fontColorVal	= getColorValue(fontColor);
+
+		if (!colorVal && !iconVal) {
+			preview.html('');
+			return;
+		}
 
 		var html = getPreviewHtml(colorVal, iconVal, iconColorVal);
 
