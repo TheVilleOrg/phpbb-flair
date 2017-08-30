@@ -4,11 +4,11 @@
 
 $(function() {
 
-	var color = $('#flair_color'),
-		icon = $('#flair_icon'),
-		iconColor = $('#flair_icon_color'),
-		fontColor = $('#flair_font_color'),
-		preview = $('#flair_preview');
+	var color		= $('#flair_color'),
+		icon		= $('#flair_icon'),
+		iconColor	= $('#flair_icon_color'),
+		fontColor	= $('#flair_font_color'),
+		preview		= $('#flair_preview');
 
 	/**
 	 * Get the HTML for a flair preview.
@@ -58,10 +58,10 @@ $(function() {
 	 * Update the flair preview based on the current values of the form fields.
 	 */
 	var updatePreview = function() {
-		var colorVal = color.val(),
-			iconVal = icon.val(),
-			iconColorVal = iconColor.val(),
-			fontColorVal = fontColor.val();
+		var colorVal		= color.val(),
+			iconVal			= icon.val(),
+			iconColorVal	= iconColor.val(),
+			fontColorVal	= fontColor.val();
 
 		var html = getPreviewHtml(colorVal, iconVal, iconColorVal);
 
