@@ -256,6 +256,7 @@ class moderator_controller implements moderator_interface
 						'FLAIR_COLOR'		=> $entity->get_color(),
 						'FLAIR_ICON'		=> $entity->get_icon(),
 						'FLAIR_ICON_COLOR'	=> $entity->get_icon_color(),
+						'FLAIR_FONT_COLOR'	=> $entity->get_font_color(),
 						'FLAIR_COUNT'		=> $item['count'],
 
 						'REMOVE_TITLE'		=> $this->language->lang('MCP_FLAIR_REMOVE_TITLE', $entity->get_name(), $username),

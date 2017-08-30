@@ -37,6 +37,7 @@ class version_1_0_0 extends migration
 						'flair_color'			=> array('VCHAR:6', ''),
 						'flair_icon'			=> array('VCHAR:50', ''),
 						'flair_icon_color'		=> array('VCHAR:6', ''),
+						'flair_font_color'		=> array('VCHAR:6', ''),
 						'flair_display_profile'	=> array('BOOL', 1),
 						'flair_display_posts'	=> array('BOOL', 1),
 					),

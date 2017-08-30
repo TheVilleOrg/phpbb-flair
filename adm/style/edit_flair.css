@@ -1,7 +1,8 @@
-#color_palette_placeholder2 {
+.color_palette_placeholder {
+	display: none;
 	padding-top: 0;
 }
 
-#color_palette_placeholder2 td {
+.color_palette_placeholder td {
 	padding: 0;
 }

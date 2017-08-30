@@ -202,6 +202,7 @@ class admin_controller implements admin_interface
 				'FLAIR_COLOR'		=> $entity->get_color(),
 				'FLAIR_ICON'		=> $entity->get_icon(),
 				'FLAIR_ICON_COLOR'	=> $entity->get_icon_color(),
+				'FLAIR_FONT_COLOR'	=> $entity->get_font_color(),
 
 				'U_EDIT'	=> $this->u_action . '&amp;action=edit&amp;flair_id=' . $entity->get_id(),
 				'U_DELETE'	=> $this->u_action . '&amp;action=delete&amp;flair_id=' . $entity->get_id(),
@@ -297,6 +298,8 @@ class admin_controller implements admin_interface
 							->set_icon($flair_icon)
 							->set_icon_color($this->request->variable('flair_icon_color', ''));
 					}
+
+					$entity->set_font_color($this->request->variable('flair_font_color', ''));
 				}
 
 				if (empty($errors))
@@ -342,6 +345,7 @@ class admin_controller implements admin_interface
 			'FLAIR_COLOR'		=> $entity->get_color(),
 			'FLAIR_ICON'		=> $entity->get_icon(),
 			'FLAIR_ICON_COLOR'	=> $entity->get_icon_color(),
+			'FLAIR_FONT_COLOR'	=> $entity->get_font_color(),
 
 			'U_BACK'	=> $this->u_action . '&amp;parent_id=' . $entity->get_parent(),
 		));

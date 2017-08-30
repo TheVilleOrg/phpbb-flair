@@ -7,32 +7,53 @@ $(function() {
 	var color = $('#flair_color'),
 		icon = $('#flair_icon'),
 		iconColor = $('#flair_icon_color'),
+		fontColor = $('#flair_font_color'),
 		preview = $('#flair_preview');
+
+	var getPreviewHtml = function(colorVal, iconVal, iconColorVal, fontColorVal) {
+		var html = '<span class="fa-stack">';
+
+		if (colorVal) {
+			html += '<i class="fa fa-square fa-stack-2x" style="color: #' + colorVal + '"></i>';
+
+			if (iconVal) {
+				html += '<i class="fa ' + iconVal + ' fa-stack-1x"';
+
+				if (iconColorVal) {
+					html += ' style="color: #' + iconColorVal + '"';
+				}
+
+				html += '></i>';
+			}
+		} else if (iconVal) {
+			html += '<i class="fa ' + iconVal + ' fa-stack-2x"';
+
+			if (iconColorVal) {
+				html += ' style="color: #' + iconColorVal + '"';
+			}
+
+			html += '></i>';
+		}
+
+		if (fontColorVal) {
+			html += '<i class="fa fa-stack-2x" style="color: #' + fontColorVal + '">2</i>';
+		}
+
+		html += '</span>';
+
+		return html;
+	};
 
 	var updatePreview = function() {
 		var colorVal = color.val(),
 			iconVal = icon.val(),
-			iconColorVal = iconColor.val();
+			iconColorVal = iconColor.val(),
+			fontColorVal = fontColor.val();
 
-		var html = '';
-		var size = 'fa-2x';
+		var html = getPreviewHtml(colorVal, iconVal, iconColorVal);
 
-		if (colorVal) {
-			size = 'fa-stack-1x';
-			html += '<span class="fa-stack">';
-			html += '<i class="fa fa-square fa-stack-2x" style="color: #' + colorVal + '"></i>';
-		}
-
-		if (iconVal) {
-			html += '<i class="fa ' + iconVal + ' ' + size + '"';
-			if (iconColorVal) {
-				html += ' style="color: #' + iconColorVal + '"';
-			}
-			html += '></i>';
-		}
-
-		if (colorVal) {
-			html += '</span>';
+		if (fontColorVal) {
+			html += getPreviewHtml(colorVal, iconVal, iconColorVal, fontColorVal);
 		}
 
 		preview.html(html);
@@ -50,14 +71,21 @@ $(function() {
 		e.preventDefault();
 	});
 
+	var palette3 = $('#color_palette_placeholder3');
+	phpbb.registerPalette(palette3);
+	$('#color_palette_toggle3').click(function(e) {
+		palette3.toggle();
+		e.preventDefault();
+	});
+
 	$('.colour-palette a').click(function() {
 		var colorVal = $(this).data('color'),
-			target = $($(this).parents('#color_palette_placeholder, #color_palette_placeholder2').data('target'));
+			target = $($(this).parents('.color_palette_placeholder').data('target'));
 		target.val(colorVal);
 		updatePreview();
 	});
 
-	$('#flair_color, #flair_icon, #flair_icon_color').change(function() {
+	$('#flair_color, #flair_icon, #flair_icon_color, #flair_font_color').change(function() {
 		updatePreview();
 	});
 

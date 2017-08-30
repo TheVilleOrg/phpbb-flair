@@ -154,6 +154,18 @@ interface flair_interface
 	public function set_icon_color($color);
 
 	/**
+	 * @return string The hex color string for the count font
+	 */
+	public function get_font_color();
+
+	/**
+	 * @param string $color The hex color string for the count font
+	 *
+	 * @throws \stevotvr\flair\exception\out_of_bounds
+	 */
+	public function set_font_color($color);
+
+	/**
 	 * @return bool Show this item on user profile pages
 	 */
 	public function show_on_profile();

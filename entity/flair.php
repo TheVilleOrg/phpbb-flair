@@ -36,6 +36,7 @@ class flair implements flair_interface
 	 *      	flair_color
 	 *      	flair_icon
 	 *      	flair_icon_color
+	 *      	flair_font_color
 	 *      	flair_display_profile
 	 *      	flair_display_posts
 	 */
@@ -87,6 +88,7 @@ class flair implements flair_interface
 			'flair_color'			=> 'set_color',
 			'flair_icon'			=> 'set_icon',
 			'flair_icon_color'		=> 'set_icon_color',
+			'flair_font_color'		=> 'set_font_color',
 			'flair_display_profile'	=> 'set_show_on_profile',
 			'flair_display_posts'	=> 'set_show_on_posts',
 		);
@@ -295,6 +297,25 @@ class flair implements flair_interface
 		}
 
 		$this->data['flair_icon_color'] = $color;
+
+		return $this;
+	}
+
+	public function get_font_color()
+	{
+		return isset($this->data['flair_font_color']) ? (string) $this->data['flair_font_color'] : '';
+	}
+
+	public function set_font_color($color)
+	{
+		$color = (string) $color;
+
+		if ($color !== '' && strlen($color) !== 6)
+		{
+			throw new out_of_bounds('flair_font_color');
+		}
+
+		$this->data['flair_font_color'] = $color;
 
 		return $this;
 	}

@@ -83,11 +83,13 @@ $lang = array_merge($lang, array(
 	'ACP_FLAIR_FORM_COLOR'		=> 'Flair color',
 	'ACP_FLAIR_FORM_ICON'		=> 'Flair icon',
 	'ACP_FLAIR_FORM_ICON_COLOR'	=> 'Flair icon color',
+	'ACP_FLAIR_FORM_FONT_COLOR'	=> 'Flair font color',
 
 	'ACP_FLAIR_DESC_EXPLAIN'		=> 'An optional short description that will appear in the flair legend.',
 	'ACP_FLAIR_COLOR_EXPLAIN'		=> 'The background color of the item. Leave blank for no background.',
 	'ACP_FLAIR_ICON_EXPLAIN'		=> 'Enter an optional Font Awesome icon identifier to represent this item. [ <a href="http://fontawesome.io/icons/" target="_blank">Font Awesome icon list</a> ]',
-	'ACP_FLAIR_ICON_COLOR_EXPLAIN'	=> 'The foreground color of the icon, if present.',
+	'ACP_FLAIR_ICON_COLOR_EXPLAIN'	=> 'The color of the icon, if present.',
+	'ACP_FLAIR_FONT_COLOR_EXPLAIN'	=> 'The color of the flair count text when a user has multiple of the same item. Leave blank to hide the count.',
 
 	'ACP_FLAIR_NAME'		=> 'Name',
 	'ACP_FLAIR_DISPLAY_ON'	=> 'Display on',
