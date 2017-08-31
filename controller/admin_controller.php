@@ -249,10 +249,6 @@ class admin_controller implements admin_interface
 		{
 			$this->template->assign_vars(array(
 				'S_EDIT_CAT'	=> true,
-
-				'FLAIR_SHOW_ON_PROFILE'	=> $entity->show_on_profile(),
-				'FLAIR_SHOW_ON_POSTS'	=> $entity->show_on_posts(),
-
 				'U_ACTION'		=> $this->u_action . '&amp;action=edit_cat&amp;flair_id=' . $flair_id,
 			));
 			return;
@@ -267,53 +263,53 @@ class admin_controller implements admin_interface
 	protected function add_edit_flair_data(flair_entity $entity)
 	{
 		$errors = array();
+
 		$submit = $this->request->is_set_post('submit');
+
 		add_form_key('add_edit_flair');
+
+		$data = array(
+			'parent'			=> $this->request->variable('flair_parent', 0),
+			'name'				=> $this->request->variable('flair_name', '', true),
+			'desc'				=> $this->request->variable('flair_desc', '', true),
+			'color'				=> $this->request->variable('flair_color', ''),
+			'icon'				=> $this->request->variable('flair_icon', ''),
+			'icon_color'		=> $this->request->variable('flair_icon_color', ''),
+			'font_color'		=> $this->request->variable('flair_font_color', ''),
+			'show_on_profile'	=> $this->request->variable('flair_show_on_profile', 1),
+			'show_on_posts'		=> $this->request->variable('flair_show_on_posts', 1),
+		);
+
 		if ($submit)
 		{
 			if (!check_form_key('add_edit_flair', -1))
 			{
-				$errors[] = $this->language->lang('FORM_INVALID');
+				$errors[] = 'FORM_INVALID';
 			}
 
-			try
+			if ($data['name'] === '')
 			{
-				$flair_name = $this->request->variable('flair_name', '', true);
-				if ($flair_name === '')
-				{
-					$errors[] = $entity->is_category() ? 'ACP_ERROR_CAT_NAME_REQUIRED' : 'ACP_ERROR_NAME_REQUIRED';
-				}
+				$errors[] = $entity->is_category() ? 'ACP_ERROR_CAT_NAME_REQUIRED' : 'ACP_ERROR_NAME_REQUIRED';
+			}
 
-				if (!$entity->is_category())
+			if (!$entity->is_category())
+			{
+				if ($data['color'] === '' && $data['icon'] === '')
 				{
-					$flair_color = $this->request->variable('flair_color', '');
-					$flair_icon = $this->request->variable('flair_icon', '');
-					if ($flair_color === '' && $flair_icon === '')
-					{
-						$errors[] = 'ACP_ERROR_APPEARANCE_REQUIRED';
-					}
-					else
-					{
-						$entity->set_color($flair_color)
-							->set_icon($flair_icon)
-							->set_icon_color($this->request->variable('flair_icon_color', ''));
-					}
-
-					$entity->set_font_color($this->request->variable('flair_font_color', ''));
-				}
-
-				if (empty($errors))
-				{
-					$entity->set_parent($this->request->variable('flair_parent', 0))
-						->set_name($flair_name)
-						->set_desc($this->request->variable('flair_desc', '', true))
-						->set_show_on_profile($this->request->variable('flair_show_on_profile', 1))
-						->set_show_on_posts($this->request->variable('flair_show_on_posts', 1));
+					$errors[] = 'ACP_ERROR_APPEARANCE_REQUIRED';
 				}
 			}
-			catch (base $e)
+
+			foreach ($data as $name => $value)
 			{
-				$errors[] = $e->get_message($this->language);
+				try
+				{
+					$entity->{'set_' . $name}($value);
+				}
+				catch (base $e)
+				{
+					$errors[] = $e->get_message($this->language);
+				}
 			}
 
 			if (empty($errors))
@@ -339,13 +335,15 @@ class admin_controller implements admin_interface
 			'S_ERROR'	=> (bool) count($errors),
 			'ERROR_MSG'	=> count($errors) ? implode('<br />', $errors) : '',
 
-			'FLAIR_PARENT'		=> $entity->get_parent(),
-			'FLAIR_NAME'		=> $entity->get_name(),
-			'FLAIR_DESC'		=> $entity->get_desc(),
-			'FLAIR_COLOR'		=> $entity->get_color(),
-			'FLAIR_ICON'		=> $entity->get_icon(),
-			'FLAIR_ICON_COLOR'	=> $entity->get_icon_color(),
-			'FLAIR_FONT_COLOR'	=> $entity->get_font_color(),
+			'FLAIR_PARENT'			=> $entity->get_parent(),
+			'FLAIR_NAME'			=> $entity->get_name(),
+			'FLAIR_DESC'			=> $entity->get_desc(),
+			'FLAIR_COLOR'			=> $entity->get_color(),
+			'FLAIR_ICON'			=> $entity->get_icon(),
+			'FLAIR_ICON_COLOR'		=> $entity->get_icon_color(),
+			'FLAIR_FONT_COLOR'		=> $entity->get_font_color(),
+			'FLAIR_SHOW_ON_PROFILE'	=> $entity->show_on_profile(),
+			'FLAIR_SHOW_ON_POSTS'	=> $entity->show_on_posts(),
 
 			'U_BACK'	=> $this->u_action . '&amp;parent_id=' . $entity->get_parent(),
 		));
