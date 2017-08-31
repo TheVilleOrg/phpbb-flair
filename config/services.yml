@@ -7,6 +7,7 @@ services:
         arguments:
             - '@config'
             - '@stevotvr.flair.operator.flair'
+            - '@request'
             - '@template'
             - '@stevotvr.flair.operator.user'
         tags:

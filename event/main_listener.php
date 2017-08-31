@@ -11,6 +11,7 @@
 namespace stevotvr\flair\event;
 
 use phpbb\config\config;
+use phpbb\request\request;
 use phpbb\template\template;
 use stevotvr\flair\operator\flair_interface;
 use stevotvr\flair\operator\user_interface;
@@ -32,6 +33,11 @@ class main_listener implements EventSubscriberInterface
 	protected $flair_operator;
 
 	/**
+	 * @var \phpbb\request\request
+	 */
+	protected $request;
+
+	/**
 	 * @var \phpbb\template\template
 	 */
 	protected $template;
@@ -44,13 +50,15 @@ class main_listener implements EventSubscriberInterface
 	/**
 	 * @param \phpbb\config\config						$config
 	 * @param \stevotvr\flair\operator\flair_interface	$flair_operator
+	 * @param \phpbb\request\request					$request
 	 * @param \phpbb\template\template					$template
 	 * @param \stevotvr\flair\operator\user_interface	$user_operator
 	 */
-	public function __construct(config $config, flair_interface $flair_operator, template $template, user_interface $user_operator)
+	public function __construct(config $config, flair_interface $flair_operator, request $request, template $template, user_interface $user_operator)
 	{
 		$this->config = $config;
 		$this->flair_operator = $flair_operator;
+		$this->request = $request;
 		$this->template = $template;
 		$this->user_operator = $user_operator;
 	}
@@ -73,9 +81,13 @@ class main_listener implements EventSubscriberInterface
 	{
 		if ($event['module_row']['name'] === '\stevotvr\flair\mcp\main_module')
 		{
-			$module_row = $event['module_row'];
-			$module_row['url_extra'] = phpbb_extra_url();
-			$event['module_row'] = $module_row;
+			$user_id = $this->request->variable('u', 0);
+			if ($user_id)
+			{
+				$module_row = $event['module_row'];
+				$module_row['url_extra'] = '&u=' . $user_id;
+				$event['module_row'] = $module_row;
+			}
 		}
 	}
 
