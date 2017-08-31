@@ -4,6 +4,11 @@ imports:
 services:
     stevotvr.flair.listener:
         class: stevotvr\flair\event\main_listener
+        arguments:
+            - '@config'
+            - '@stevotvr.flair.operator.flair'
+            - '@template'
+            - '@stevotvr.flair.operator.user'
         tags:
             - { name: event.listener }
     stevotvr.flair.admin.controller:
