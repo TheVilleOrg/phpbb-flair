@@ -251,9 +251,9 @@ class flair implements flair_interface
 
 	public function set_color($color)
 	{
-		$color = (string) $color;
+		$color = strtoupper($color);
 
-		if ($color !== '' && strlen($color) !== 6)
+		if ($color !== '' && !self::is_valid_color($color))
 		{
 			throw new out_of_bounds('flair_color');
 		}
@@ -289,9 +289,9 @@ class flair implements flair_interface
 
 	public function set_icon_color($color)
 	{
-		$color = (string) $color;
+		$color = strtoupper($color);
 
-		if ($color !== '' && strlen($color) !== 6)
+		if ($color !== '' && !self::is_valid_color($color))
 		{
 			throw new out_of_bounds('flair_icon_color');
 		}
@@ -308,9 +308,9 @@ class flair implements flair_interface
 
 	public function set_font_color($color)
 	{
-		$color = (string) $color;
+		$color = strtoupper($color);
 
-		if ($color !== '' && strlen($color) !== 6)
+		if ($color !== '' && !self::is_valid_color($color))
 		{
 			throw new out_of_bounds('flair_font_color');
 		}
@@ -346,5 +346,17 @@ class flair implements flair_interface
 		$this->data['flair_display_posts'] = (int) $show_on_posts;
 
 		return $this;
+	}
+
+	/**
+	 * Check if a given string is a valid color hexadecimal value.
+	 *
+	 * @param string	$color	The string to check
+	 *
+	 * @return boolean The string is a valid color hexadecimal value
+	 */
+	static protected function is_valid_color($color)
+	{
+		return preg_match('/^[0-9A-F]{6}$/i', $color) === 1;
 	}
 }
