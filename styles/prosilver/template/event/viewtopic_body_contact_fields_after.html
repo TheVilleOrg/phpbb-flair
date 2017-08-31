@@ -1,1 +1,3 @@
-{% include '@stevotvr_flair/flair_items.html' with postrow %}
+{% if postrow.flair %}
+	{% include '@stevotvr_flair/flair_items.html' with postrow %}
+{% endif %}

@@ -11,6 +11,7 @@
 namespace stevotvr\flair\event;
 
 use phpbb\config\config;
+use phpbb\language\language;
 use phpbb\request\request;
 use phpbb\template\template;
 use stevotvr\flair\operator\flair_interface;
@@ -33,6 +34,11 @@ class main_listener implements EventSubscriberInterface
 	protected $flair_operator;
 
 	/**
+	 * @var \phpbb\language\language
+	 */
+	protected $language;
+
+	/**
 	 * @var \phpbb\request\request
 	 */
 	protected $request;
@@ -50,14 +56,16 @@ class main_listener implements EventSubscriberInterface
 	/**
 	 * @param \phpbb\config\config						$config
 	 * @param \stevotvr\flair\operator\flair_interface	$flair_operator
+	 * @param \phpbb\language\language					$language
 	 * @param \phpbb\request\request					$request
 	 * @param \phpbb\template\template					$template
 	 * @param \stevotvr\flair\operator\user_interface	$user_operator
 	 */
-	public function __construct(config $config, flair_interface $flair_operator, request $request, template $template, user_interface $user_operator)
+	public function __construct(config $config, flair_interface $flair_operator, language $language, request $request, template $template, user_interface $user_operator)
 	{
 		$this->config = $config;
 		$this->flair_operator = $flair_operator;
+		$this->language = $language;
 		$this->request = $request;
 		$this->template = $template;
 		$this->user_operator = $user_operator;
@@ -66,10 +74,65 @@ class main_listener implements EventSubscriberInterface
 	static public function getSubscribedEvents()
 	{
 		return array(
+			'core.memberlist_view_profile'		=> 'memberlist_view_profile',
 			'core.modify_module_row'			=> 'modify_module_row',
 			'core.viewtopic_modify_post_data'	=> 'viewtopic_modify_post_data',
 			'core.viewtopic_post_row_after'		=> 'viewtopic_post_row_after',
 		);
+	}
+
+	/**
+	 * Adds the user profile flair template variables to the view profile page.
+	 *
+	 * @param \phpbb\event\data	$event
+	 */
+	public function memberlist_view_profile($event)
+	{
+		if (!$this->config['stevotvr_flair_show_on_profile'])
+		{
+			return;
+		}
+
+		$user_id = $event['member']['user_id'];
+		$username = $event['member']['username'];
+		$user_flair = $this->user_operator->get_user_flair($user_id, 'profile');
+
+		if (!isset($user_flair[$user_id]))
+		{
+			return;
+		}
+
+		$this->language->add_lang('common', 'stevotvr/flair');
+		$this->template->assign_var('FLAIR_TITLE', $this->language->lang('FLAIR_PROFILE_TITLE', $username));
+
+		$categories = $this->get_categories();
+		$user_flair = $user_flair[$user_id];
+
+		foreach ($categories as $category_id => $category)
+		{
+			if (!isset($user_flair[$category_id]))
+			{
+				continue;
+			}
+
+			$this->template->assign_block_vars('flair', array(
+				'CAT_NAME'	=> $category,
+			));
+
+			foreach ($user_flair[$category_id] as $item)
+			{
+				$entity = $item['flair'];
+				$this->template->assign_block_vars('flair.item', array(
+					'FLAIR_ID'			=> $entity->get_id(),
+					'FLAIR_NAME'		=> $entity->get_name(),
+					'FLAIR_COLOR'		=> $entity->get_color(),
+					'FLAIR_ICON'		=> $entity->get_icon(),
+					'FLAIR_ICON_COLOR'	=> $entity->get_icon_color(),
+					'FLAIR_FONT_COLOR'	=> $entity->get_font_color(),
+					'FLAIR_COUNT'		=> $item['count'],
+				));
+			}
+		}
 	}
 
 	/**
@@ -111,13 +174,7 @@ class main_listener implements EventSubscriberInterface
 			return;
 		}
 
-		$all_categories = $this->flair_operator->get_flair(-1, false, true);
-		$categories = array('');
-		foreach ($all_categories as $category)
-		{
-			$categories[$category->get_id()] = $category->get_name();
-		}
-		unset($all_categories);
+		$categories = $this->get_categories();
 
 		foreach ($user_flair as $user_id => $user)
 		{
@@ -184,5 +241,15 @@ class main_listener implements EventSubscriberInterface
 				));
 			}
 		}
+	}
+
+	protected function get_categories()
+	{
+		$categories = array('');
+		foreach ($this->flair_operator->get_flair(-1, false, true) as $entity)
+		{
+			$categories[$entity->get_id()] = $entity->get_name();
+		}
+		return $categories;
 	}
 }

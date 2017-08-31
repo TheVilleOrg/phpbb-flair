@@ -1,11 +1,9 @@
-{% if flair %}
-	<div class="profile_flair">
-		{% for cat in flair %}
-			{% if cat.CAT_NAME %}<h4>{{ cat.CAT_NAME }}</h4>{% endif %}
+<div class="profile_flair">
+	{% for cat in flair %}
+		{% if cat.CAT_NAME %}<h4>{{ cat.CAT_NAME }}</h4>{% endif %}
 
-			{% for item in cat.item %}
-				{% include '@stevotvr_flair/flair_item.html' with item %}
-			{% endfor %}
+		{% for item in cat.item %}
+			{% include '@stevotvr_flair/flair_item.html' with item %}
 		{% endfor %}
-	</div>
-{% endif %}
+	{% endfor %}
+</div>
