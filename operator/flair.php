@@ -128,7 +128,7 @@ class flair implements flair_interface
 		$ids = array();
 		while ($row = $this->db->sql_fetchrow($result))
 		{
-			$ids[] = (int) $row['flair_id'];
+			$ids[] = $row['flair_id'];
 		}
 		$this->db->sql_freeresult($result);
 
@@ -141,7 +141,7 @@ class flair implements flair_interface
 		{
 			$sql = 'UPDATE ' . $this->flair_table . '
 					SET flair_order = ' . $pos . '
-					WHERE flair_id = ' . $id;
+					WHERE flair_id = ' . (int) $id;
 			$this->db->sql_query($sql);
 		}
 	}

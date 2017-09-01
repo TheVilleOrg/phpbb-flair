@@ -145,7 +145,7 @@ class flair implements flair_interface
 		$data = array_diff_key($this->data, array('flair_id' => null));
 		$sql = 'UPDATE ' . $this->table_name . '
 				SET ' . $this->db->sql_build_array('UPDATE', $data) . '
-				WHERE flair_id = ' . $this->get_id();
+				WHERE flair_id = ' . (int) $this->get_id();
 		$this->db->sql_query($sql);
 
 		return $this;
