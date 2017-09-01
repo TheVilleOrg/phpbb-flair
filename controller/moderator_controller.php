@@ -195,7 +195,7 @@ class moderator_controller implements moderator_interface
 	 * @param string	$user_colour	The color of the user being worked on
 	 * @param array		$user_flair		The flair items assigned to the user being worked on
 	 */
-	protected function assign_tpl_vars($user_id, $username, $user_colour, $user_flair)
+	protected function assign_tpl_vars($user_id, $username, $user_colour, array $user_flair)
 	{
 		$this->template->assign_vars(array(
 			'USERNAME_FULL'	=> get_username_string('full', $user_id, $username, $user_colour),
@@ -203,14 +203,16 @@ class moderator_controller implements moderator_interface
 			'U_POST_ACTION'	=> $this->u_action,
 		));
 
-		$this->assign_flair_tpl_vars();
-		$this->assign_user_tpl_vars($user_flair);
+		$this->assign_flair_tpl_vars($username);
+		$this->assign_user_tpl_vars($username, $user_flair);
 	}
 
 	/**
 	 * Assign template variables for the available flair.
+	 *
+	 * @param string	$username	The username of the user being worked on
 	 */
-	protected function assign_flair_tpl_vars()
+	protected function assign_flair_tpl_vars($username)
 	{
 		$available_flair = $this->flair_operator->get_flair(-1, false, false);
 		$categories = array(array('name' => $this->language->lang('FLAIR_UNCATEGORIZED')));
@@ -254,9 +256,10 @@ class moderator_controller implements moderator_interface
 	/**
 	 * Assign template variables for the user flair.
 	 *
-	 * @param array	$user_flair	The flair items assigned to the user being worked on
+	 * @param string	$username	The username of the user being worked on
+	 * @param array		$user_flair	The flair items assigned to the user being worked on
 	 */
-	protected function assign_user_tpl_vars($user_flair)
+	protected function assign_user_tpl_vars($username, array $user_flair)
 	{
 		foreach ($user_flair as $category_id => $category)
 		{
