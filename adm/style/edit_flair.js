@@ -46,11 +46,18 @@ $(function() {
 	 * @param {String}	iconVal			The icon name
 	 * @param {String}	iconColorVal	The icon color
 	 * @param {String}	fontColorVal	The font color
+	 * @param {Boolean}	large			Get the larger preview
 	 *
 	 * @return {String} The HTML
 	 */
-	var getPreviewHtml = function(colorVal, iconVal, iconColorVal, fontColorVal) {
-		var html = '<span class="fa-stack fa-2x">';
+	var getPreviewHtml = function(colorVal, iconVal, iconColorVal, fontColorVal, large) {
+		var html = '<span class="fa-stack';
+
+		if (large) {
+			html += ' fa-2x';
+		}
+
+		html += '">';
 
 		if (colorVal) {
 			html += '<i class="fa fa-square fa-stack-2x" style="color: #' + colorVal + '"></i>';
@@ -97,14 +104,17 @@ $(function() {
 			return;
 		}
 
-		var html = getPreviewHtml(colorVal, iconVal, iconColorVal);
+		var html = [];
+
+		html.push(getPreviewHtml(colorVal, iconVal, iconColorVal, false, true));
+		html.push(getPreviewHtml(colorVal, iconVal, iconColorVal));
 
 		if (fontColorVal) {
-			html += '&nbsp;';
-			html += getPreviewHtml(colorVal, iconVal, iconColorVal, fontColorVal);
+			html.push(getPreviewHtml(colorVal, iconVal, iconColorVal, fontColorVal, true));
+			html.push(getPreviewHtml(colorVal, iconVal, iconColorVal, fontColorVal));
 		}
 
-		preview.html(html);
+		preview.html(html.join('&nbsp;'));
 	};
 
 	$('#color_palette_toggle1').click(function(e) {
