@@ -107,6 +107,7 @@ class main_listener implements EventSubscriberInterface
 			{
 				$entity = $item['flair'];
 				$this->template->assign_block_vars('flair.item', array(
+					'FLAIR_SIZE'		=> 2,
 					'FLAIR_ID'			=> $entity->get_id(),
 					'FLAIR_NAME'		=> $entity->get_name(),
 					'FLAIR_COLOR'		=> $entity->get_color(),

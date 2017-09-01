@@ -241,6 +241,7 @@ class moderator_controller implements moderator_interface
 			foreach ($category['items'] as $entity)
 			{
 				$this->template->assign_block_vars('cat.item', array(
+					'FLAIR_SIZE'		=> 2,
 					'FLAIR_ID'			=> $entity->get_id(),
 					'FLAIR_NAME'		=> $entity->get_name(),
 					'FLAIR_COLOR'		=> $entity->get_color(),
@@ -271,6 +272,7 @@ class moderator_controller implements moderator_interface
 			{
 				$entity = $item['flair'];
 				$this->template->assign_block_vars('flair.item', array(
+					'FLAIR_SIZE'		=> 2,
 					'FLAIR_ID'			=> $entity->get_id(),
 					'FLAIR_NAME'		=> $entity->get_name(),
 					'FLAIR_COLOR'		=> $entity->get_color(),

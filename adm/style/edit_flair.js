@@ -50,7 +50,7 @@ $(function() {
 	 * @return {String} The HTML
 	 */
 	var getPreviewHtml = function(colorVal, iconVal, iconColorVal, fontColorVal) {
-		var html = '<span class="fa-stack">';
+		var html = '<span class="fa-stack fa-2x">';
 
 		if (colorVal) {
 			html += '<i class="fa fa-square fa-stack-2x" style="color: #' + colorVal + '"></i>';
