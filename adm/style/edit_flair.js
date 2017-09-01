@@ -75,7 +75,7 @@ $(function() {
 		}
 
 		if (fontColorVal) {
-			html += '<i class="fa fa-stack-2x" style="color: #' + fontColorVal + '">2</i>';
+			html += '<b class="flair-count" style="color: #' + fontColorVal + '">2</b>';
 		}
 
 		html += '</span>';
