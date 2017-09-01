@@ -100,6 +100,7 @@ $(function() {
 		var html = getPreviewHtml(colorVal, iconVal, iconColorVal);
 
 		if (fontColorVal) {
+			html += '&nbsp;';
 			html += getPreviewHtml(colorVal, iconVal, iconColorVal, fontColorVal);
 		}
 
