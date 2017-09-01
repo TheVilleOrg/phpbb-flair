@@ -97,7 +97,7 @@ class main_listener implements EventSubscriberInterface
 		$this->language->add_lang('common', 'stevotvr/flair');
 		$this->template->assign_var('FLAIR_TITLE', $this->language->lang('FLAIR_PROFILE_TITLE', $username));
 
-		foreach ($user_flair[$user_id] as $category_id => $category)
+		foreach ($user_flair[$user_id] as $category)
 		{
 			$this->template->assign_block_vars('flair', array(
 				'CAT_NAME'	=> $category['category'],

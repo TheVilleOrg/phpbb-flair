@@ -227,7 +227,7 @@ class moderator_controller implements moderator_interface
 			$categories[$entity->get_parent()]['items'][] = $entity;
 		}
 
-		foreach ($categories as $cat_id => $category)
+		foreach ($categories as $category)
 		{
 			if (!isset($category['items']))
 			{
@@ -261,7 +261,7 @@ class moderator_controller implements moderator_interface
 	 */
 	protected function assign_user_tpl_vars($username, array $user_flair)
 	{
-		foreach ($user_flair as $category_id => $category)
+		foreach ($user_flair as $category)
 		{
 			$this->template->assign_block_vars('flair', array(
 				'CAT_NAME'	=> $category['category'],
