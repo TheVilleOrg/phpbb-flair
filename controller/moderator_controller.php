@@ -197,39 +197,48 @@ class moderator_controller implements moderator_interface
 	 */
 	protected function assign_tpl_vars($user_id, $username, $user_colour, $user_flair)
 	{
-		$available_flair = $this->flair_operator->get_flair(-1, false, false);
-		$categories = array(array('name' => $this->language->lang('FLAIR_UNCATEGORIZED')));
-		foreach ($available_flair as $entity)
-		{
-			if ($entity->is_category())
-			{
-				$categories[$entity->get_id()]['name'] = $entity->get_name();
-				continue;
-			}
-
-			$categories[$entity->get_parent()]['flair'][] = $entity;
-		}
-
 		$this->template->assign_vars(array(
 			'USERNAME_FULL'	=> get_username_string('full', $user_id, $username, $user_colour),
 
 			'U_POST_ACTION'	=> $this->u_action,
 		));
 
+		$this->assign_flair_tpl_vars();
+		$this->assign_user_tpl_vars($user_flair);
+	}
+
+	/**
+	 * Assign template variables for the available flair.
+	 */
+	protected function assign_flair_tpl_vars()
+	{
+		$available_flair = $this->flair_operator->get_flair(-1, false, false);
+		$categories = array(array('name' => $this->language->lang('FLAIR_UNCATEGORIZED')));
+		foreach ($available_flair as $entity)
+		{
+			if ($entity->is_category())
+			{
+				$categories[$entity->get_id()]['category'] = $entity->get_name();
+				continue;
+			}
+
+			$categories[$entity->get_parent()]['items'][] = $entity;
+		}
+
 		foreach ($categories as $cat_id => $category)
 		{
-			if (!isset($category['flair']))
+			if (!isset($category['items']))
 			{
 				continue;
 			}
 
 			$this->template->assign_block_vars('cat', array(
-				'CAT_NAME'	=> $category['name'],
+				'CAT_NAME'	=> $category['category'],
 			));
 
-			foreach ($category['flair'] as $entity)
+			foreach ($category['items'] as $entity)
 			{
-				$this->template->assign_block_vars('cat.flair', array(
+				$this->template->assign_block_vars('cat.item', array(
 					'FLAIR_ID'			=> $entity->get_id(),
 					'FLAIR_NAME'		=> $entity->get_name(),
 					'FLAIR_COLOR'		=> $entity->get_color(),
@@ -239,30 +248,37 @@ class moderator_controller implements moderator_interface
 					'ADD_TITLE'	=> $this->language->lang('MCP_FLAIR_ADD_TITLE', $entity->get_name(), $username),
 				));
 			}
+		}
+	}
 
-			if (isset($user_flair[$cat_id]))
+	/**
+	 * Assign template variables for the user flair.
+	 *
+	 * @param array	$user_flair	The flair items assigned to the user being worked on
+	 */
+	protected function assign_user_tpl_vars($user_flair)
+	{
+		foreach ($user_flair as $category_id => $category)
+		{
+			$this->template->assign_block_vars('flair', array(
+				'CAT_NAME'	=> $category['category'],
+			));
+
+			foreach ($category['items'] as $item)
 			{
-				$this->template->assign_block_vars('user_cat', array(
-					'CAT_ID'	=> $cat_id,
-					'CAT_NAME'	=> $category['name'],
+				$entity = $item['flair'];
+				$this->template->assign_block_vars('flair.item', array(
+					'FLAIR_ID'			=> $entity->get_id(),
+					'FLAIR_NAME'		=> $entity->get_name(),
+					'FLAIR_COLOR'		=> $entity->get_color(),
+					'FLAIR_ICON'		=> $entity->get_icon(),
+					'FLAIR_ICON_COLOR'	=> $entity->get_icon_color(),
+					'FLAIR_FONT_COLOR'	=> $entity->get_font_color(),
+					'FLAIR_COUNT'		=> $item['count'],
+
+					'REMOVE_TITLE'		=> $this->language->lang('MCP_FLAIR_REMOVE_TITLE', $entity->get_name(), $username),
+					'REMOVE_ALL_TITLE'	=> $this->language->lang('MCP_FLAIR_REMOVE_ALL_TITLE', $entity->get_name(), $username),
 				));
-
-				foreach ($user_flair[$cat_id] as $item)
-				{
-					$entity = $item['flair'];
-					$this->template->assign_block_vars('user_cat.flair', array(
-						'FLAIR_ID'			=> $entity->get_id(),
-						'FLAIR_NAME'		=> $entity->get_name(),
-						'FLAIR_COLOR'		=> $entity->get_color(),
-						'FLAIR_ICON'		=> $entity->get_icon(),
-						'FLAIR_ICON_COLOR'	=> $entity->get_icon_color(),
-						'FLAIR_FONT_COLOR'	=> $entity->get_font_color(),
-						'FLAIR_COUNT'		=> $item['count'],
-
-						'REMOVE_TITLE'		=> $this->language->lang('MCP_FLAIR_REMOVE_TITLE', $entity->get_name(), $username),
-						'REMOVE_ALL_TITLE'	=> $this->language->lang('MCP_FLAIR_REMOVE_ALL_TITLE', $entity->get_name(), $username),
-					));
-				}
 			}
 		}
 	}

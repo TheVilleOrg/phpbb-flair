@@ -14,7 +14,6 @@ use phpbb\config\config;
 use phpbb\language\language;
 use phpbb\request\request;
 use phpbb\template\template;
-use stevotvr\flair\operator\flair_interface;
 use stevotvr\flair\operator\user_interface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -27,11 +26,6 @@ class main_listener implements EventSubscriberInterface
 	 * @var \phpbb\config\config
 	 */
 	protected $config;
-
-	/**
-	 * @var \stevotvr\flair\operator\flair_interface
-	 */
-	protected $flair_operator;
 
 	/**
 	 * @var \phpbb\language\language
@@ -55,16 +49,14 @@ class main_listener implements EventSubscriberInterface
 
 	/**
 	 * @param \phpbb\config\config						$config
-	 * @param \stevotvr\flair\operator\flair_interface	$flair_operator
 	 * @param \phpbb\language\language					$language
 	 * @param \phpbb\request\request					$request
 	 * @param \phpbb\template\template					$template
 	 * @param \stevotvr\flair\operator\user_interface	$user_operator
 	 */
-	public function __construct(config $config, flair_interface $flair_operator, language $language, request $request, template $template, user_interface $user_operator)
+	public function __construct(config $config, language $language, request $request, template $template, user_interface $user_operator)
 	{
 		$this->config = $config;
-		$this->flair_operator = $flair_operator;
 		$this->language = $language;
 		$this->request = $request;
 		$this->template = $template;
@@ -105,21 +97,13 @@ class main_listener implements EventSubscriberInterface
 		$this->language->add_lang('common', 'stevotvr/flair');
 		$this->template->assign_var('FLAIR_TITLE', $this->language->lang('FLAIR_PROFILE_TITLE', $username));
 
-		$categories = $this->get_categories();
-		$user_flair = $user_flair[$user_id];
-
-		foreach ($categories as $category_id => $category)
+		foreach ($user_flair[$user_id] as $category_id => $category)
 		{
-			if (!isset($user_flair[$category_id]))
-			{
-				continue;
-			}
-
 			$this->template->assign_block_vars('flair', array(
-				'CAT_NAME'	=> $category,
+				'CAT_NAME'	=> $category['category'],
 			));
 
-			foreach ($user_flair[$category_id] as $item)
+			foreach ($category['items'] as $item)
 			{
 				$entity = $item['flair'];
 				$this->template->assign_block_vars('flair.item', array(
@@ -174,20 +158,13 @@ class main_listener implements EventSubscriberInterface
 			return;
 		}
 
-		$categories = $this->get_categories();
-
 		foreach ($user_flair as $user_id => $user)
 		{
-			foreach ($categories as $category_id => $category)
+			foreach ($user as $category_id => $category)
 			{
-				if (!isset($user[$category_id]))
-				{
-					continue;
-				}
+				$user_cache[$user_id]['flair'][$category_id]['category'] = $category['category'];
 
-				$user_cache[$user_id]['flair'][$category_id]['name'] = $category;
-
-				foreach ($user[$category_id] as $item)
+				foreach ($category['items'] as $item)
 				{
 					$entity = $item['flair'];
 					$user_cache[$user_id]['flair'][$category_id]['items'][$entity->get_id()] = array(
@@ -225,7 +202,7 @@ class main_listener implements EventSubscriberInterface
 		foreach ($event['user_poster_data']['flair'] as $category)
 		{
 			$this->template->assign_block_vars('postrow.flair', array(
-				'CAT_NAME'	=> $category['name'],
+				'CAT_NAME'	=> $category['category'],
 			));
 
 			foreach ($category['items'] as $item_id => $item)
@@ -241,15 +218,5 @@ class main_listener implements EventSubscriberInterface
 				));
 			}
 		}
-	}
-
-	protected function get_categories()
-	{
-		$categories = array('');
-		foreach ($this->flair_operator->get_flair(-1, false, true) as $entity)
-		{
-			$categories[$entity->get_id()] = $entity->get_name();
-		}
-		return $categories;
 	}
 }
