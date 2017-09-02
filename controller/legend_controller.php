@@ -100,8 +100,6 @@ class legend_controller
 					'FLAIR_COLOR'		=> $entity->get_color(),
 					'FLAIR_ICON'		=> $entity->get_icon(),
 					'FLAIR_ICON_COLOR'	=> $entity->get_icon_color(),
-
-					'ADD_TITLE'	=> $this->language->lang('MCP_FLAIR_ADD_TITLE', $entity->get_name(), $username),
 				));
 			}
 		}
