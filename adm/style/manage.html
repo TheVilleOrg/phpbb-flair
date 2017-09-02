@@ -119,7 +119,12 @@
 			</dl>
 			<dl>
 				<dt><label for="flair_desc">{{ lang('ACP_FLAIR_FORM_DESC') ~ lang('COLON') }}</label><br /><span>{{ lang('ACP_FLAIR_DESC_EXPLAIN') }}</span></dt>
-				<dd><textarea id="flair_desc" name="flair_desc" rows="5" cols="45">{{ FLAIR_DESC }}</textarea></dd>
+				<dd><textarea id="flair_desc" name="flair_desc" rows="5" cols="45" data-bbcode="true">{{ FLAIR_DESC }}</textarea></dd>
+				<dd>
+					<label><input type="checkbox" class="radio" name="parse_bbcode"{% if S_PARSE_BBCODE_CHECKED %} checked="checked"<{% endif %} /> {{ lang('PARSE_BBCODE') }}</label>
+					<label><input type="checkbox" class="radio" name="parse_smilies"<{% if S_PARSE_SMILIES_CHECKED %} checked="checked"<{% endif %} /> {{ lang('PARSE_SMILIES') }}</label>
+					<label><input type="checkbox" class="radio" name="parse_magic_url"<{% if S_PARSE_MAGIC_URL_CHECKED %} checked="checked"<{% endif %} /> {{ lang('PARSE_URLS') }}</label>
+				</dd>
 			</dl>
 		</fieldset>
 		<fieldset>

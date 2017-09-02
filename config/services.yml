@@ -45,6 +45,7 @@ services:
         class: stevotvr\flair\entity\flair
         shared: false
         arguments:
+            - '@config'
             - '@dbal.conn'
             - '%stevotvr.flair.tables.flair%'
     stevotvr.flair.operator.flair:

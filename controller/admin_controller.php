@@ -278,6 +278,23 @@ class admin_controller implements admin_interface
 			'show_on_posts'		=> $this->request->variable('flair_show_on_posts', 1),
 		);
 
+		$bbcode = $this->request->variable('parse_bbcode', false);
+		$magic_url = $this->request->variable('parse_magic_url', false);
+		$smilies = $this->request->variable('parse_smilies', false);
+
+		$content_parse_options = array(
+			'bbcode'	=> $submit ? $bbcode : ($entity->get_id() ? $entity->desc_bbcode_enabled() : 1),
+			'magic_url'	=> $submit ? $magic_url : ($entity->get_id() ? $entity->desc_magic_url_enabled() : 1),
+			'smilies'	=> $submit ? $smilies : ($entity->get_id() ? $entity->desc_smilies_enabled() : 1),
+		);
+
+		foreach ($content_parse_options as $function => $enabled)
+		{
+			$entity->{($enabled ? 'desc_enable_' : 'desc_disable_') . $function}();
+		}
+
+		unset($content_parse_options, $bbcode, $magic_url, $smilies);
+
 		if ($submit)
 		{
 			if (!check_form_key('add_edit_flair', -1))
@@ -335,13 +352,23 @@ class admin_controller implements admin_interface
 
 			'FLAIR_PARENT'			=> $entity->get_parent(),
 			'FLAIR_NAME'			=> $entity->get_name(),
-			'FLAIR_DESC'			=> $entity->get_desc(),
+			'FLAIR_DESC'			=> $entity->get_desc_for_edit(),
 			'FLAIR_COLOR'			=> $entity->get_color(),
 			'FLAIR_ICON'			=> $entity->get_icon(),
 			'FLAIR_ICON_COLOR'		=> $entity->get_icon_color(),
 			'FLAIR_FONT_COLOR'		=> $entity->get_font_color(),
 			'FLAIR_SHOW_ON_PROFILE'	=> $entity->show_on_profile(),
 			'FLAIR_SHOW_ON_POSTS'	=> $entity->show_on_posts(),
+
+			'S_PARSE_BBCODE_CHECKED'	=> $entity->desc_bbcode_enabled(),
+			'S_PARSE_SMILIES_CHECKED'	=> $entity->desc_smilies_enabled(),
+			'S_PARSE_MAGIC_URL_CHECKED'	=> $entity->desc_magic_url_enabled(),
+
+			'S_BBCODE_ALLOWED'	=> true,
+			'S_SMILIES_ALLOWED'	=> true,
+			'S_BBCODE_IMG'		=> true,
+			'S_BBCODE_FLASH'	=> true,
+			'S_LINKS_ALLOWED'	=> true,
 
 			'U_BACK'	=> $this->u_action . '&amp;parent_id=' . $entity->get_parent(),
 		));

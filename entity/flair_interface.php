@@ -94,9 +94,16 @@ interface flair_interface
 	public function set_name($name);
 
 	/**
-	 * @return string The description of this flair item
+	 * @return string The description of this flair item for editing
 	 */
-	public function get_desc();
+	public function get_desc_for_edit();
+
+	/**
+	 * @param bool	$censor_text	Censor the text
+	 *
+	 * @return string The description of this flair item for display
+	 */
+	public function get_desc_for_display($censor_text = true);
 
 	/**
 	 * @param string $desc The description of this flair item
@@ -104,6 +111,51 @@ interface flair_interface
 	 * @throws \stevotvr\flair\exception\unexpected_value
 	 */
 	public function set_desc($desc);
+
+	/**
+	 * @return boolean BBCode is enabled on the description
+	 */
+	public function desc_bbcode_enabled();
+
+	/**
+	 * Enable BBCode on the description.
+	 */
+	public function desc_enable_bbcode();
+
+	/**
+	 * Disable BBCode on the description.
+	 */
+	public function desc_disable_bbcode();
+
+	/**
+	 * @return boolean URL parsing is enabled on the description
+	 */
+	public function desc_magic_url_enabled();
+
+	/**
+	 * Enable URL parsing on the description.
+	 */
+	public function desc_enable_magic_url();
+
+	/**
+	 * Disable URL parsing on the description.
+	 */
+	public function desc_disable_magic_url();
+
+	/**
+	 * @return boolean Smilies are enabled on the description
+	 */
+	public function desc_smilies_enabled();
+
+	/**
+	 * Enable smilies on the description.
+	 */
+	public function desc_enable_smilies();
+
+	/**
+	 * Disable smilies on the description.
+	 */
+	public function desc_disable_smilies();
 
 	/**
 	 * @return int The order of this flair item

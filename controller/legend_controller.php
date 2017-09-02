@@ -94,7 +94,7 @@ class legend_controller
 					'FLAIR_SIZE'		=> 3,
 					'FLAIR_ID'			=> $entity->get_id(),
 					'FLAIR_NAME'		=> $entity->get_name(),
-					'FLAIR_DESC'		=> $entity->get_desc(),
+					'FLAIR_DESC'		=> $entity->get_desc_for_display(),
 					'FLAIR_COLOR'		=> $entity->get_color(),
 					'FLAIR_ICON'		=> $entity->get_icon(),
 					'FLAIR_ICON_COLOR'	=> $entity->get_icon_color(),

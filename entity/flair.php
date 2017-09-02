@@ -10,6 +10,7 @@
 
 namespace stevotvr\flair\entity;
 
+use phpbb\config\config;
 use phpbb\db\driver\driver_interface;
 use stevotvr\flair\exception\invalid_argument;
 use stevotvr\flair\exception\out_of_bounds;
@@ -20,6 +21,11 @@ use stevotvr\flair\exception\unexpected_value;
  */
 class flair implements flair_interface
 {
+	/**
+	 * @var \phpbb\config\config
+	 */
+	protected $config;
+
 	/**
 	 * @var \phpbb\db\driver\driver_interface
 	 */
@@ -32,6 +38,9 @@ class flair implements flair_interface
 	 *      	flair_parent
 	 *      	flair_name
 	 *      	flair_desc
+	 *      	flair_desc_bbcode_uid
+	 *      	flair_desc_bbcode_bitfield
+	 *      	flair_desc_bbcode_options
 	 *      	flair_order
 	 *      	flair_color
 	 *      	flair_icon
@@ -48,11 +57,13 @@ class flair implements flair_interface
 	protected $table_name;
 
 	/**
+	 * @param \phpbb\config\config				$config
 	 * @param \phpbb\db\driver\driver_interface	$db
 	 * @param string							$table_name	The name of the database table
 	 */
-	public function __construct(driver_interface $db, $table_name)
+	public function __construct(config $config, driver_interface $db, $table_name)
 	{
+		$this->config = $config;
 		$this->db = $db;
 		$this->table_name = $table_name;
 	}
@@ -79,18 +90,21 @@ class flair implements flair_interface
 		$this->data = array();
 
 		$columns = array(
-			'flair_id'				=> 'integer',
-			'flair_is_cat'			=> 'set_category',
-			'flair_parent'			=> 'integer',
-			'flair_name'			=> 'set_name',
-			'flair_desc'			=> 'set_desc',
-			'flair_order'			=> 'set_order',
-			'flair_color'			=> 'set_color',
-			'flair_icon'			=> 'set_icon',
-			'flair_icon_color'		=> 'set_icon_color',
-			'flair_font_color'		=> 'set_font_color',
-			'flair_display_profile'	=> 'set_show_on_profile',
-			'flair_display_posts'	=> 'set_show_on_posts',
+			'flair_id'						=> 'integer',
+			'flair_is_cat'					=> 'set_category',
+			'flair_parent'					=> 'integer',
+			'flair_name'					=> 'set_name',
+			'flair_desc'					=> 'string',
+			'flair_desc_bbcode_uid'			=> 'string',
+			'flair_desc_bbcode_bitfield'	=> 'string',
+			'flair_desc_bbcode_options'		=> 'integer',
+			'flair_order'					=> 'set_order',
+			'flair_color'					=> 'set_color',
+			'flair_icon'					=> 'set_icon',
+			'flair_icon_color'				=> 'set_icon_color',
+			'flair_font_color'				=> 'set_font_color',
+			'flair_display_profile'			=> 'set_show_on_profile',
+			'flair_display_posts'			=> 'set_show_on_posts',
 		);
 
 		foreach ($columns as $column => $type)
@@ -213,14 +227,94 @@ class flair implements flair_interface
 		return $this;
 	}
 
-	public function get_desc()
+	public function get_desc_for_edit()
 	{
-		return isset($this->data['flair_desc']) ? (string) $this->data['flair_desc'] : '';
+		$content = isset($this->data['flair_desc']) ? $this->data['flair_desc'] : '';
+		$uid = isset($this->data['flair_desc_bbcode_uid']) ? $this->data['flair_desc_bbcode_uid'] : '';
+		$options = isset($this->data['flair_desc_bbcode_options']) ? (int) $this->data['flair_desc_bbcode_options'] : 0;
+
+		$content_data = generate_text_for_edit($content, $uid, $options);
+
+		return $content_data['text'];
+	}
+
+	public function get_desc_for_display($censor_text = true)
+	{
+		$content = isset($this->data['flair_desc']) ? $this->data['flair_desc'] : '';
+		$uid = isset($this->data['flair_desc_bbcode_uid']) ? $this->data['flair_desc_bbcode_uid'] : '';
+		$bitfield = isset($this->data['flair_desc_bbcode_bitfield']) ? $this->data['flair_desc_bbcode_bitfield'] : '';
+		$options = isset($this->data['flair_desc_bbcode_options']) ? (int) $this->data['flair_desc_bbcode_options'] : 0;
+
+		return generate_text_for_display($content, $uid, $bitfield, $options, $censor_text);
 	}
 
 	public function set_desc($desc)
 	{
-		$this->data['flair_desc'] = (string) $desc;
+		$this->config['max_post_chars'] = 0;
+
+		$uid = $bitfield = $flags = '';
+		generate_text_for_storage($desc, $uid, $bitfield, $flags, $this->desc_bbcode_enabled(), $this->desc_magic_url_enabled(), $this->desc_smilies_enabled());
+
+		$this->data['flair_desc'] = $desc;
+		$this->data['flair_desc_bbcode_uid'] = $uid;
+		$this->data['flair_desc_bbcode_bitfield'] = $bitfield;
+
+		return $this;
+	}
+
+	public function desc_bbcode_enabled()
+	{
+		return ($this->data['flair_desc_bbcode_options'] & OPTION_FLAG_BBCODE);
+	}
+
+	public function desc_enable_bbcode()
+	{
+		$this->set_desc_option(OPTION_FLAG_BBCODE);
+
+		return $this;
+	}
+
+	public function desc_disable_bbcode()
+	{
+		$this->set_desc_option(OPTION_FLAG_BBCODE, true);
+
+		return $this;
+	}
+
+	public function desc_magic_url_enabled()
+	{
+		return ($this->data['flair_desc_bbcode_options'] & OPTION_FLAG_LINKS);
+	}
+
+	public function desc_enable_magic_url()
+	{
+		$this->set_desc_option(OPTION_FLAG_LINKS);
+
+		return $this;
+	}
+
+	public function desc_disable_magic_url()
+	{
+		$this->set_desc_option(OPTION_FLAG_LINKS, true);
+
+		return $this;
+	}
+
+	public function desc_smilies_enabled()
+	{
+		return ($this->data['flair_desc_bbcode_options'] & OPTION_FLAG_SMILIES);
+	}
+
+	public function desc_enable_smilies()
+	{
+		$this->set_desc_option(OPTION_FLAG_SMILIES);
+
+		return $this;
+	}
+
+	public function desc_disable_smilies()
+	{
+		$this->set_desc_option(OPTION_FLAG_SMILIES, true);
 
 		return $this;
 	}
@@ -346,6 +440,37 @@ class flair implements flair_interface
 		$this->data['flair_display_posts'] = (int) $show_on_posts;
 
 		return $this;
+	}
+
+	/**
+	 * Set an option on the description.
+	 *
+	 * @param int		$option_value
+	 * @param boolean	$negate
+	 * @param boolean	$reparse_content
+	 */
+	protected function set_desc_option($option_value, $negate = false, $reparse_content = true)
+	{
+		$this->data['flair_desc_bbcode_options'] = isset($this->data['flair_desc_bbcode_options']) ? $this->data['flair_desc_bbcode_options'] : 0;
+
+		if (!$negate && !($this->data['flair_desc_bbcode_options'] & $option_value))
+		{
+			$this->data['flair_desc_bbcode_options'] += $option_value;
+		}
+
+		if ($negate && $this->data['flair_desc_bbcode_options'] & $option_value)
+		{
+			$this->data['flair_desc_bbcode_options'] -= $option_value;
+		}
+
+		if ($reparse_content && !empty($this->data['flair_desc']))
+		{
+			$content = $this->data['flair_desc'];
+
+			decode_message($content, $this->data['flair_desc_bbcode_uid']);
+
+			$this->set_desc($content);
+		}
 	}
 
 	/**
