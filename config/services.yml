@@ -6,6 +6,7 @@ services:
         class: stevotvr\flair\event\main_listener
         arguments:
             - '@config'
+            - '@controller.helper'
             - '@language'
             - '@request'
             - '@template'

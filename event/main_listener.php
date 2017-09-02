@@ -11,6 +11,7 @@
 namespace stevotvr\flair\event;
 
 use phpbb\config\config;
+use phpbb\controller\helper;
 use phpbb\language\language;
 use phpbb\request\request;
 use phpbb\template\template;
@@ -26,6 +27,11 @@ class main_listener implements EventSubscriberInterface
 	 * @var \phpbb\config\config
 	 */
 	protected $config;
+
+	/**
+	 * @var \phpbb\controller\helper
+	 */
+	protected $helper;
 
 	/**
 	 * @var \phpbb\language\language
@@ -49,14 +55,16 @@ class main_listener implements EventSubscriberInterface
 
 	/**
 	 * @param \phpbb\config\config						$config
+	 * @param \phpbb\controller\helper					$helper
 	 * @param \phpbb\language\language					$language
 	 * @param \phpbb\request\request					$request
 	 * @param \phpbb\template\template					$template
 	 * @param \stevotvr\flair\operator\user_interface	$user_operator
 	 */
-	public function __construct(config $config, language $language, request $request, template $template, user_interface $user_operator)
+	public function __construct(config $config, helper $helper, language $language, request $request, template $template, user_interface $user_operator)
 	{
 		$this->config = $config;
+		$this->helper = $helper;
 		$this->language = $language;
 		$this->request = $request;
 		$this->template = $template;
@@ -110,7 +118,10 @@ class main_listener implements EventSubscriberInterface
 			return;
 		}
 
-		$this->template->assign_var('FLAIR_TITLE', $this->language->lang('FLAIR_PROFILE_TITLE', $username));
+		$this->template->assign_vars(array(
+			'FLAIR_TITLE'		=> $this->language->lang('FLAIR_PROFILE_TITLE', $username),
+			'U_FLAIR_LEGEND'	=> $this->helper->route('stevotvr_flair_legend'),
+		));
 
 		foreach ($user_flair[$user_id] as $category)
 		{
@@ -173,6 +184,8 @@ class main_listener implements EventSubscriberInterface
 		{
 			return;
 		}
+
+		$this->template->assign_var('U_FLAIR_LEGEND', $this->helper->route('stevotvr_flair_legend'));
 
 		foreach ($user_flair as $user_id => $user)
 		{
