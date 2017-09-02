@@ -278,42 +278,11 @@ class admin_controller implements admin_interface
 			'show_on_posts'		=> $this->request->variable('flair_show_on_posts', 1),
 		);
 
-		$bbcode = $this->request->variable('parse_bbcode', false);
-		$magic_url = $this->request->variable('parse_magic_url', false);
-		$smilies = $this->request->variable('parse_smilies', false);
-
-		$parse_options = array(
-			'bbcode'	=> $submit ? $bbcode : ($entity->get_id() ? $entity->desc_bbcode_enabled() : 1),
-			'magic_url'	=> $submit ? $magic_url : ($entity->get_id() ? $entity->desc_magic_url_enabled() : 1),
-			'smilies'	=> $submit ? $smilies : ($entity->get_id() ? $entity->desc_smilies_enabled() : 1),
-		);
-
-		foreach ($parse_options as $function => $enabled)
-		{
-			$entity->{($enabled ? 'desc_enable_' : 'desc_disable_') . $function}();
-		}
-
-		unset($parse_options, $bbcode, $magic_url, $smilies);
+		$this->set_parse_options($entity);
 
 		if ($submit)
 		{
-			if (!check_form_key('add_edit_flair', -1))
-			{
-				$errors[] = 'FORM_INVALID';
-			}
-
-			if ($data['name'] === '')
-			{
-				$errors[] = $entity->is_category() ? 'ACP_ERROR_CAT_NAME_REQUIRED' : 'ACP_ERROR_NAME_REQUIRED';
-			}
-
-			if (!$entity->is_category())
-			{
-				if ($data['color'] === '' && $data['icon'] === '')
-				{
-					$errors[] = 'ACP_ERROR_APPEARANCE_REQUIRED';
-				}
-			}
+			$this->validate_form($entity, $data, $errors);
 
 			foreach ($data as $name => $value)
 			{
@@ -364,18 +333,51 @@ class admin_controller implements admin_interface
 			'S_PARSE_SMILIES_CHECKED'	=> $entity->desc_smilies_enabled(),
 			'S_PARSE_MAGIC_URL_CHECKED'	=> $entity->desc_magic_url_enabled(),
 
-			'S_BBCODE_ALLOWED'	=> true,
-			'S_SMILIES_ALLOWED'	=> true,
-			'S_BBCODE_IMG'		=> true,
-			'S_BBCODE_FLASH'	=> true,
-			'S_LINKS_ALLOWED'	=> true,
-
 			'U_BACK'	=> $this->u_action . '&amp;parent_id=' . $entity->get_parent(),
 		));
 
 		if (!$entity->is_category())
 		{
 			$this->load_cat_select_data($entity->get_parent());
+		}
+	}
+
+	protected function set_parse_options(flair_entity $entity)
+	{
+		$bbcode = $this->request->variable('parse_bbcode', false);
+		$magic_url = $this->request->variable('parse_magic_url', false);
+		$smilies = $this->request->variable('parse_smilies', false);
+
+		$parse_options = array(
+			'bbcode'	=> $submit ? $bbcode : ($entity->get_id() ? $entity->desc_bbcode_enabled() : 1),
+			'magic_url'	=> $submit ? $magic_url : ($entity->get_id() ? $entity->desc_magic_url_enabled() : 1),
+			'smilies'	=> $submit ? $smilies : ($entity->get_id() ? $entity->desc_smilies_enabled() : 1),
+		);
+
+		foreach ($parse_options as $function => $enabled)
+		{
+			$entity->{($enabled ? 'desc_enable_' : 'desc_disable_') . $function}();
+		}
+	}
+
+	protected function validate_form(flair_entity $entity, array $data, array &$errors)
+	{
+		if (!check_form_key('add_edit_flair', -1))
+		{
+			$errors[] = 'FORM_INVALID';
+		}
+
+		if ($data['name'] === '')
+		{
+			$errors[] = $entity->is_category() ? 'ACP_ERROR_CAT_NAME_REQUIRED' : 'ACP_ERROR_NAME_REQUIRED';
+		}
+
+		if (!$entity->is_category())
+		{
+			if ($data['color'] === '' && $data['icon'] === '')
+			{
+				$errors[] = 'ACP_ERROR_APPEARANCE_REQUIRED';
+			}
 		}
 	}
 
