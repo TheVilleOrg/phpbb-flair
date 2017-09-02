@@ -33,6 +33,13 @@ services:
             - '@stevotvr.flair.operator.user'
             - '%core.root_path%'
             - '%core.php_ext%'
+    stevotvr.flair.legend.controller:
+        class: stevotvr\flair\controller\legend_controller
+        arguments:
+            - '@stevotvr.flair.operator.flair'
+            - '@controller.helper'
+            - '@language'
+            - '@template'
     stevotvr.flair.entity:
         class: stevotvr\flair\entity\flair
         shared: false
