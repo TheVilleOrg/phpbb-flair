@@ -215,7 +215,7 @@ class moderator_controller implements moderator_interface
 	protected function assign_flair_tpl_vars($username)
 	{
 		$available_flair = $this->flair_operator->get_flair(-1, false, false);
-		$categories = array(array('name' => $this->language->lang('FLAIR_UNCATEGORIZED')));
+		$categories = array(array('category' => $this->language->lang('FLAIR_UNCATEGORIZED')));
 		foreach ($available_flair as $entity)
 		{
 			if ($entity->is_category())
