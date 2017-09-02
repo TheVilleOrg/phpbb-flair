@@ -282,18 +282,18 @@ class admin_controller implements admin_interface
 		$magic_url = $this->request->variable('parse_magic_url', false);
 		$smilies = $this->request->variable('parse_smilies', false);
 
-		$content_parse_options = array(
+		$parse_options = array(
 			'bbcode'	=> $submit ? $bbcode : ($entity->get_id() ? $entity->desc_bbcode_enabled() : 1),
 			'magic_url'	=> $submit ? $magic_url : ($entity->get_id() ? $entity->desc_magic_url_enabled() : 1),
 			'smilies'	=> $submit ? $smilies : ($entity->get_id() ? $entity->desc_smilies_enabled() : 1),
 		);
 
-		foreach ($content_parse_options as $function => $enabled)
+		foreach ($parse_options as $function => $enabled)
 		{
 			$entity->{($enabled ? 'desc_enable_' : 'desc_disable_') . $function}();
 		}
 
-		unset($content_parse_options, $bbcode, $magic_url, $smilies);
+		unset($parse_options, $bbcode, $magic_url, $smilies);
 
 		if ($submit)
 		{
