@@ -140,8 +140,6 @@ class moderator_controller implements moderator_interface
 
 	public function edit_user_flair()
 	{
-		$this->language->add_lang('common', 'stevotvr/flair');
-
 		$user_id = $this->request->variable('u', 0);
 		$username = $this->request->variable('username', '', true);
 

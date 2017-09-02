@@ -52,8 +52,6 @@ class legend_controller
 		$this->helper = $helper;
 		$this->language = $language;
 		$this->template = $template;
-
-		$language->add_lang('common', 'stevotvr/flair');
 	}
 
 	/**

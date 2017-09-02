@@ -66,11 +66,27 @@ class main_listener implements EventSubscriberInterface
 	static public function getSubscribedEvents()
 	{
 		return array(
+			'core.user_setup'					=> 'user_setup',
 			'core.memberlist_view_profile'		=> 'memberlist_view_profile',
 			'core.modify_module_row'			=> 'modify_module_row',
 			'core.viewtopic_modify_post_data'	=> 'viewtopic_modify_post_data',
 			'core.viewtopic_post_row_after'		=> 'viewtopic_post_row_after',
 		);
+	}
+
+	/**
+	 * Adds the extension language set on user setup.
+	 *
+	 * @param \phpbb\event\data	$event
+	 */
+	public function user_setup($event)
+	{
+		$lang_set_ext = $event['lang_set_ext'];
+		$lang_set_ext[] = array(
+			'ext_name'	=> 'stevotvr/flair',
+			'lang_set'	=> 'common',
+		);
+		$event['lang_set_ext'] = $lang_set_ext;
 	}
 
 	/**
@@ -94,7 +110,6 @@ class main_listener implements EventSubscriberInterface
 			return;
 		}
 
-		$this->language->add_lang('common', 'stevotvr/flair');
 		$this->template->assign_var('FLAIR_TITLE', $this->language->lang('FLAIR_PROFILE_TITLE', $username));
 
 		foreach ($user_flair[$user_id] as $category)

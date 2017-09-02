@@ -70,8 +70,6 @@ class admin_controller implements admin_interface
 		$this->language = $language;
 		$this->request = $request;
 		$this->template = $template;
-
-		$language->add_lang('common', 'stevotvr/flair');
 	}
 
 	public function set_page_url($page_url)
