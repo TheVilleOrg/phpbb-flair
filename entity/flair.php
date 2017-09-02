@@ -447,9 +447,8 @@ class flair implements flair_interface
 	 *
 	 * @param int		$option_value
 	 * @param boolean	$negate
-	 * @param boolean	$reparse_content
 	 */
-	protected function set_desc_option($option_value, $negate = false, $reparse_content = true)
+	protected function set_desc_option($option_value, $negate = false)
 	{
 		$this->data['flair_desc_bbcode_options'] = isset($this->data['flair_desc_bbcode_options']) ? $this->data['flair_desc_bbcode_options'] : 0;
 
@@ -463,7 +462,7 @@ class flair implements flair_interface
 			$this->data['flair_desc_bbcode_options'] -= $option_value;
 		}
 
-		if ($reparse_content && !empty($this->data['flair_desc']))
+		if (!empty($this->data['flair_desc']))
 		{
 			$content = $this->data['flair_desc'];
 
