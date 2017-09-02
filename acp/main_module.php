@@ -102,7 +102,7 @@ class main_module
 	{
 		$this->tpl_name = 'manage';
 
-		$controller = $this->container->get('stevotvr.flair.admin.controller');
+		$controller = $this->container->get('stevotvr.flair.controller.admin');
 		$controller->set_page_url($this->u_action);
 
 		$action = $this->request->variable('action', '');

@@ -35,7 +35,7 @@ class main_module
 	public function main($id, $mode)
 	{
 		global $phpbb_container;
-		$controller = $phpbb_container->get('stevotvr.flair.moderator.controller');
+		$controller = $phpbb_container->get('stevotvr.flair.controller.moderator');
 		$request = $phpbb_container->get('request');
 
 		$this->page_title = 'MCP_FLAIR_TITLE';
