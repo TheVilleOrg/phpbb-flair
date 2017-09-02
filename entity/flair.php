@@ -238,14 +238,14 @@ class flair implements flair_interface
 		return $content_data['text'];
 	}
 
-	public function get_desc_for_display($censor_text = true)
+	public function get_desc_for_display()
 	{
 		$content = isset($this->data['flair_desc']) ? $this->data['flair_desc'] : '';
 		$uid = isset($this->data['flair_desc_bbcode_uid']) ? $this->data['flair_desc_bbcode_uid'] : '';
 		$bitfield = isset($this->data['flair_desc_bbcode_bitfield']) ? $this->data['flair_desc_bbcode_bitfield'] : '';
 		$options = isset($this->data['flair_desc_bbcode_options']) ? (int) $this->data['flair_desc_bbcode_options'] : 0;
 
-		return generate_text_for_display($content, $uid, $bitfield, $options, $censor_text);
+		return generate_text_for_display($content, $uid, $bitfield, $options);
 	}
 
 	public function set_desc($desc)

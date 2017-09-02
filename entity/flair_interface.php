@@ -99,11 +99,9 @@ interface flair_interface
 	public function get_desc_for_edit();
 
 	/**
-	 * @param bool	$censor_text	Censor the text
-	 *
 	 * @return string The description of this flair item for display
 	 */
-	public function get_desc_for_display($censor_text = true);
+	public function get_desc_for_display();
 
 	/**
 	 * @param string $desc The description of this flair item
