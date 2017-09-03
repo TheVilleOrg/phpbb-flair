@@ -12,49 +12,38 @@ namespace stevotvr\flair\entity;
 
 use phpbb\config\config;
 use phpbb\db\driver\driver_interface;
-use stevotvr\flair\exception\invalid_argument;
 use stevotvr\flair\exception\out_of_bounds;
 use stevotvr\flair\exception\unexpected_value;
 
 /**
  * Profile Flair flair entity.
  */
-class flair implements flair_interface
+class flair extends entity implements flair_interface
 {
 	/**
 	 * @var \phpbb\config\config
 	 */
 	protected $config;
 
-	/**
-	 * @var \phpbb\db\driver\driver_interface
-	 */
-	protected $db;
+	protected $columns = array(
+		'flair_id'						=> 'integer',
+		'flair_is_cat'					=> 'set_category',
+		'flair_parent'					=> 'integer',
+		'flair_name'					=> 'set_name',
+		'flair_desc'					=> 'string',
+		'flair_desc_bbcode_uid'			=> 'string',
+		'flair_desc_bbcode_bitfield'	=> 'string',
+		'flair_desc_bbcode_options'		=> 'integer',
+		'flair_order'					=> 'set_order',
+		'flair_color'					=> 'set_color',
+		'flair_icon'					=> 'set_icon',
+		'flair_icon_color'				=> 'set_icon_color',
+		'flair_font_color'				=> 'set_font_color',
+		'flair_display_profile'			=> 'set_show_on_profile',
+		'flair_display_posts'			=> 'set_show_on_posts',
+	);
 
-	/**
-	 * @var array The data for this entity
-	 *      	flair_id
-	 *      	flair_is_cat
-	 *      	flair_parent
-	 *      	flair_name
-	 *      	flair_desc
-	 *      	flair_desc_bbcode_uid
-	 *      	flair_desc_bbcode_bitfield
-	 *      	flair_desc_bbcode_options
-	 *      	flair_order
-	 *      	flair_color
-	 *      	flair_icon
-	 *      	flair_icon_color
-	 *      	flair_font_color
-	 *      	flair_display_profile
-	 *      	flair_display_posts
-	 */
-	protected $data = array();
-
-	/**
-	 * @var string The name of the database table
-	 */
-	protected $table_name;
+	protected $id_column = 'flair_id';
 
 	/**
 	 * @param \phpbb\config\config				$config
@@ -63,111 +52,8 @@ class flair implements flair_interface
 	 */
 	public function __construct(config $config, driver_interface $db, $table_name)
 	{
+		parent::__construct($db, $table_name);
 		$this->config = $config;
-		$this->db = $db;
-		$this->table_name = $table_name;
-	}
-
-	public function load($id)
-	{
-		$sql = 'SELECT *
-				FROM ' . $this->table_name . '
-				WHERE flair_id = ' . (int) $id;
-		$result = $this->db->sql_query($sql);
-		$this->data = $this->db->sql_fetchrow($result);
-		$this->db->sql_freeresult($result);
-
-		if ($this->data === false)
-		{
-			throw new out_of_bounds('flair_id');
-		}
-
-		return $this;
-	}
-
-	public function import(array $data)
-	{
-		$this->data = array();
-
-		$columns = array(
-			'flair_id'						=> 'integer',
-			'flair_is_cat'					=> 'set_category',
-			'flair_parent'					=> 'integer',
-			'flair_name'					=> 'set_name',
-			'flair_desc'					=> 'string',
-			'flair_desc_bbcode_uid'			=> 'string',
-			'flair_desc_bbcode_bitfield'	=> 'string',
-			'flair_desc_bbcode_options'		=> 'integer',
-			'flair_order'					=> 'set_order',
-			'flair_color'					=> 'set_color',
-			'flair_icon'					=> 'set_icon',
-			'flair_icon_color'				=> 'set_icon_color',
-			'flair_font_color'				=> 'set_font_color',
-			'flair_display_profile'			=> 'set_show_on_profile',
-			'flair_display_posts'			=> 'set_show_on_posts',
-		);
-
-		foreach ($columns as $column => $type)
-		{
-			if (!isset($data[$column]))
-			{
-				throw new invalid_argument(array($column, 'FIELD_MISSING'));
-			}
-
-			if (method_exists($this, $type))
-			{
-				$this->$type($data[$column]);
-				continue;
-			}
-
-			if ($type === 'integer' && $data[$column] < 0)
-			{
-				throw new out_of_bounds($column);
-			}
-
-			$value = $data[$column];
-			settype($value, $type);
-			$this->data[$column] = $value;
-		}
-
-		return $this;
-	}
-
-	public function insert()
-	{
-		if (!empty($this->data['flair_id']))
-		{
-			throw new out_of_bounds('flair_id');
-		}
-
-		$sql = 'INSERT INTO ' . $this->table_name . '
-				' . $this->db->sql_build_array('INSERT', $this->data);
-		$this->db->sql_query($sql);
-
-		$this->data['flair_id'] = (int) $this->db->sql_nextid();
-
-		return $this;
-	}
-
-	public function save()
-	{
-		if (empty($this->data['flair_id']))
-		{
-			throw new out_of_bounds('flair_id');
-		}
-
-		$data = array_diff_key($this->data, array('flair_id' => null));
-		$sql = 'UPDATE ' . $this->table_name . '
-				SET ' . $this->db->sql_build_array('UPDATE', $data) . '
-				WHERE flair_id = ' . (int) $this->get_id();
-		$this->db->sql_query($sql);
-
-		return $this;
-	}
-
-	public function get_id()
-	{
-		return isset($this->data['flair_id']) ? (int) $this->data['flair_id'] : 0;
 	}
 
 	public function is_category()
