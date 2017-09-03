@@ -113,47 +113,32 @@ interface flair_interface
 	/**
 	 * @return boolean BBCode is enabled on the description
 	 */
-	public function desc_bbcode_enabled();
+	public function is_bbcode_enabled();
 
 	/**
-	 * Enable BBCode on the description.
+	 * @param boolean	$enable	Enable BBCode on the description.
 	 */
-	public function desc_enable_bbcode();
-
-	/**
-	 * Disable BBCode on the description.
-	 */
-	public function desc_disable_bbcode();
+	public function set_bbcode_enabled($enable);
 
 	/**
 	 * @return boolean URL parsing is enabled on the description
 	 */
-	public function desc_magic_url_enabled();
+	public function is_magic_url_enabled();
 
 	/**
-	 * Enable URL parsing on the description.
+	 * @param boolean	$enable	Enable URL parsing on the description.
 	 */
-	public function desc_enable_magic_url();
-
-	/**
-	 * Disable URL parsing on the description.
-	 */
-	public function desc_disable_magic_url();
+	public function set_magic_url_enabled($enable);
 
 	/**
 	 * @return boolean Smilies are enabled on the description
 	 */
-	public function desc_smilies_enabled();
+	public function is_smilies_enabled();
 
 	/**
-	 * Enable smilies on the description.
+	 * @param boolean	$enable	Enable smilies on the description.
 	 */
-	public function desc_enable_smilies();
-
-	/**
-	 * Disable smilies on the description.
-	 */
-	public function desc_disable_smilies();
+	public function set_smilies_enabled($enable);
 
 	/**
 	 * @return int The order of this flair item

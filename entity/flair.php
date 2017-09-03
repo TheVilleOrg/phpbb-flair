@@ -253,7 +253,7 @@ class flair implements flair_interface
 		$this->config['max_post_chars'] = 0;
 
 		$uid = $bitfield = $flags = '';
-		generate_text_for_storage($desc, $uid, $bitfield, $flags, $this->desc_bbcode_enabled(), $this->desc_magic_url_enabled(), $this->desc_smilies_enabled());
+		generate_text_for_storage($desc, $uid, $bitfield, $flags, $this->is_bbcode_enabled(), $this->is_magic_url_enabled(), $this->is_smilies_enabled());
 
 		$this->data['flair_desc'] = $desc;
 		$this->data['flair_desc_bbcode_uid'] = $uid;
@@ -262,52 +262,38 @@ class flair implements flair_interface
 		return $this;
 	}
 
-	public function desc_bbcode_enabled()
+	public function is_bbcode_enabled()
 	{
 		return ($this->data['flair_desc_bbcode_options'] & OPTION_FLAG_BBCODE);
 	}
 
-	public function desc_enable_bbcode()
+	public function set_bbcode_enabled($enable)
 	{
-		$this->set_desc_option(OPTION_FLAG_BBCODE);
+		$this->set_desc_option(OPTION_FLAG_BBCODE, $enable);
 
 		return $this;
 	}
 
-	public function desc_disable_bbcode()
-	{
-		$this->set_desc_option(OPTION_FLAG_BBCODE, true);
-
-		return $this;
-	}
-
-	public function desc_magic_url_enabled()
+	public function is_magic_url_enabled()
 	{
 		return ($this->data['flair_desc_bbcode_options'] & OPTION_FLAG_LINKS);
 	}
 
-	public function desc_enable_magic_url()
+	public function set_magic_url_enabled($enable)
 	{
-		$this->set_desc_option(OPTION_FLAG_LINKS);
+		$this->set_desc_option(OPTION_FLAG_LINKS, $enable);
 
 		return $this;
 	}
 
-	public function desc_disable_magic_url()
-	{
-		$this->set_desc_option(OPTION_FLAG_LINKS, true);
-
-		return $this;
-	}
-
-	public function desc_smilies_enabled()
+	public function is_smilies_enabled()
 	{
 		return ($this->data['flair_desc_bbcode_options'] & OPTION_FLAG_SMILIES);
 	}
 
-	public function desc_enable_smilies()
+	public function set_smilies_enabled($enable)
 	{
-		$this->set_desc_option(OPTION_FLAG_SMILIES);
+		$this->set_desc_option(OPTION_FLAG_SMILIES, $enable);
 
 		return $this;
 	}
@@ -445,21 +431,21 @@ class flair implements flair_interface
 	/**
 	 * Set an option on the description.
 	 *
-	 * @param int		$option_value
-	 * @param boolean	$negate
+	 * @param int		$option
+	 * @param boolean	$value
 	 */
-	protected function set_desc_option($option_value, $negate = false)
+	protected function set_desc_option($option, $value)
 	{
 		$this->data['flair_desc_bbcode_options'] = isset($this->data['flair_desc_bbcode_options']) ? $this->data['flair_desc_bbcode_options'] : 0;
 
-		if (!$negate && !($this->data['flair_desc_bbcode_options'] & $option_value))
+		if ($value && !($this->data['flair_desc_bbcode_options'] & $option))
 		{
-			$this->data['flair_desc_bbcode_options'] += $option_value;
+			$this->data['flair_desc_bbcode_options'] += $option;
 		}
 
-		if ($negate && $this->data['flair_desc_bbcode_options'] & $option_value)
+		if (!$value && $this->data['flair_desc_bbcode_options'] & $option)
 		{
-			$this->data['flair_desc_bbcode_options'] -= $option_value;
+			$this->data['flair_desc_bbcode_options'] -= $option;
 		}
 
 		if (!empty($this->data['flair_desc']))

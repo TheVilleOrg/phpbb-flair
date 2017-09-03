@@ -278,7 +278,7 @@ class admin_controller implements admin_interface
 			'show_on_posts'		=> $this->request->variable('flair_show_on_posts', 1),
 		);
 
-		$this->set_parse_options($entity);
+		$this->set_parse_options($entity, $submit);
 
 		if ($submit)
 		{
@@ -329,9 +329,9 @@ class admin_controller implements admin_interface
 			'FLAIR_SHOW_ON_PROFILE'	=> $entity->show_on_profile(),
 			'FLAIR_SHOW_ON_POSTS'	=> $entity->show_on_posts(),
 
-			'S_PARSE_BBCODE_CHECKED'	=> $entity->desc_bbcode_enabled(),
-			'S_PARSE_SMILIES_CHECKED'	=> $entity->desc_smilies_enabled(),
-			'S_PARSE_MAGIC_URL_CHECKED'	=> $entity->desc_magic_url_enabled(),
+			'S_PARSE_BBCODE_CHECKED'	=> $entity->is_bbcode_enabled(),
+			'S_PARSE_SMILIES_CHECKED'	=> $entity->is_smilies_enabled(),
+			'S_PARSE_MAGIC_URL_CHECKED'	=> $entity->is_magic_url_enabled(),
 
 			'U_BACK'	=> $this->u_action . '&amp;parent_id=' . $entity->get_parent(),
 		));
@@ -342,21 +342,21 @@ class admin_controller implements admin_interface
 		}
 	}
 
-	protected function set_parse_options(flair_entity $entity)
+	protected function set_parse_options(flair_entity $entity, $submit)
 	{
 		$bbcode = $this->request->variable('parse_bbcode', false);
 		$magic_url = $this->request->variable('parse_magic_url', false);
 		$smilies = $this->request->variable('parse_smilies', false);
 
 		$parse_options = array(
-			'bbcode'	=> $submit ? $bbcode : ($entity->get_id() ? $entity->desc_bbcode_enabled() : 1),
-			'magic_url'	=> $submit ? $magic_url : ($entity->get_id() ? $entity->desc_magic_url_enabled() : 1),
-			'smilies'	=> $submit ? $smilies : ($entity->get_id() ? $entity->desc_smilies_enabled() : 1),
+			'bbcode'	=> $submit ? $bbcode : ($entity->get_id() ? $entity->is_bbcode_enabled() : 1),
+			'magic_url'	=> $submit ? $magic_url : ($entity->get_id() ? $entity->is_magic_url_enabled() : 1),
+			'smilies'	=> $submit ? $smilies : ($entity->get_id() ? $entity->is_smilies_enabled() : 1),
 		);
 
 		foreach ($parse_options as $function => $enabled)
 		{
-			$entity->{($enabled ? 'desc_enable_' : 'desc_disable_') . $function}();
+			$entity->{'set_' . $function . '_enabled'}($enabled);
 		}
 	}
 
