@@ -46,9 +46,9 @@ class flair extends entity implements flair_interface
 	protected $id_column = 'flair_id';
 
 	/**
-	 * @param \phpbb\config\config				$config
-	 * @param \phpbb\db\driver\driver_interface	$db
-	 * @param string							$table_name	The name of the database table
+	 * @param \phpbb\config\config              $config
+	 * @param \phpbb\db\driver\driver_interface $db
+	 * @param string                            $table_name The name of the database table
 	 */
 	public function __construct(config $config, driver_interface $db, $table_name)
 	{
@@ -315,10 +315,10 @@ class flair extends entity implements flair_interface
 	}
 
 	/**
-	 * Set an option on the description.
+	 * Set a parsing option on the description text.
 	 *
-	 * @param int		$option
-	 * @param boolean	$value
+	 * @param int     $option The option to set
+	 * @param boolean $value  The value of the option
 	 */
 	protected function set_desc_option($option, $value)
 	{
@@ -347,7 +347,7 @@ class flair extends entity implements flair_interface
 	/**
 	 * Check if a given string is a valid color hexadecimal value.
 	 *
-	 * @param string	$color	The string to check
+	 * @param string $color The string to check
 	 *
 	 * @return boolean The string is a valid color hexadecimal value
 	 */

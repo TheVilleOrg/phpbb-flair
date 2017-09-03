@@ -19,35 +19,42 @@ use stevotvr\flair\exception\out_of_bounds;
  */
 abstract class entity implements entity_interface
 {
-
 	/**
 	 * @var \phpbb\db\driver\driver_interface
 	 */
 	protected $db;
 
 	/**
-	 * @var array The data for this entity
+	 * The data for this entity.
+	 *
+	 * @var array
 	 */
 	protected $data = array();
 
 	/**
-	 * @var array The map of table columns to data types
+	 * The map of table columns to data types.
+	 *
+	 * @var array
 	 */
 	protected $columns = array();
 
 	/**
-	 * @var string The name of the column representing the unique row identifier
+	 * The name of the column representing the unique row identifier.
+	 *
+	 * @var string
 	 */
 	protected $id_column = 'id';
 
 	/**
-	 * @var string The name of the database table
+	 * The name of the database table.
+	 *
+	 * @var string
 	 */
 	private $table_name;
 
 	/**
-	 * @param \phpbb\db\driver\driver_interface	$db
-	 * @param string							$table_name	The name of the database table
+	 * @param \phpbb\db\driver\driver_interface $db
+	 * @param string                            $table_name The name of the database table
 	 */
 	public function __construct(driver_interface $db, $table_name)
 	{

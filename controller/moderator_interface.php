@@ -21,7 +21,7 @@ interface moderator_interface
 	public function set_page_url($page_url);
 
 	/**
-	 * @param \p_master	$p_master
+	 * @param \p_master $p_master
 	 */
 	public function set_master($p_master);
 

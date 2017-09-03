@@ -28,7 +28,7 @@ interface admin_interface
 	/**
 	 * Delete a category.
 	 *
-	 * @param int	$cat_id	The database ID of the category
+	 * @param int $cat_id The database ID of the category
 	 */
 	public function delete_cat($cat_id);
 
@@ -45,22 +45,22 @@ interface admin_interface
 	/**
 	 * Edit a flair item.
 	 *
-	 * @param int	$flair_id	The database ID of the flair item
+	 * @param int $flair_id The database ID of the flair item
 	 */
 	public function edit_flair($flair_id);
 
 	/**
 	 * Delete a flair item.
 	 *
-	 * @param int	$flair_id	The database ID of the flair item
+	 * @param int $flair_id The database ID of the flair item
 	 */
 	public function delete_flair($flair_id);
 
 	/**
 	 * Move a flair item in the sorting order.
 	 *
-	 * @param int	$flair_id	The database ID of the flair item
-	 * @param int	$offset		The offset by which to move the flair item
+	 * @param int $flair_id The database ID of the flair item
+	 * @param int $offset   The offset by which to move the flair item
 	 */
 	public function move_flair($flair_id, $offset);
 }

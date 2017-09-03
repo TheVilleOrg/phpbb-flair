@@ -18,7 +18,7 @@ interface entity_interface
 	/**
 	 * Load an entity from the database.
 	 *
-	 * @param int	$id	The database ID of the entity
+	 * @param int $id The database ID of the entity
 	 *
 	 * @return entity_interface This object for chaining
 	 *
@@ -29,7 +29,7 @@ interface entity_interface
 	/**
 	 * Import data from an external source.
 	 *
-	 * @param array	$data	The data to import
+	 * @param array $data The data to import
 	 *
 	 * @return entity_interface This object for chaining
 	 *

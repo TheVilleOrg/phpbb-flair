@@ -54,12 +54,12 @@ class main_listener implements EventSubscriberInterface
 	protected $user_operator;
 
 	/**
-	 * @param \phpbb\config\config						$config
-	 * @param \phpbb\controller\helper					$helper
-	 * @param \phpbb\language\language					$language
-	 * @param \phpbb\request\request					$request
-	 * @param \phpbb\template\template					$template
-	 * @param \stevotvr\flair\operator\user_interface	$user_operator
+	 * @param \phpbb\config\config                    $config
+	 * @param \phpbb\controller\helper                $helper
+	 * @param \phpbb\language\language                $language
+	 * @param \phpbb\request\request                  $request
+	 * @param \phpbb\template\template                $template
+	 * @param \stevotvr\flair\operator\user_interface $user_operator
 	 */
 	public function __construct(config $config, helper $helper, language $language, request $request, template $template, user_interface $user_operator)
 	{
@@ -85,7 +85,7 @@ class main_listener implements EventSubscriberInterface
 	/**
 	 * Adds the extension language set on user setup.
 	 *
-	 * @param \phpbb\event\data	$event
+	 * @param \phpbb\event\data $event The event data
 	 */
 	public function user_setup($event)
 	{
@@ -100,7 +100,7 @@ class main_listener implements EventSubscriberInterface
 	/**
 	 * Adds the user profile flair template variables to the view profile page.
 	 *
-	 * @param \phpbb\event\data	$event
+	 * @param \phpbb\event\data	$event The event data
 	 */
 	public function memberlist_view_profile($event)
 	{
@@ -149,7 +149,7 @@ class main_listener implements EventSubscriberInterface
 	/**
 	 * Adds the extra parameters to the MCP module URLs.
 	 *
-	 * @param \phpbb\event\data	$event
+	 * @param \phpbb\event\data	$event The event data
 	 */
 	public function modify_module_row($event)
 	{
@@ -168,7 +168,7 @@ class main_listener implements EventSubscriberInterface
 	/**
 	 * Loads all user profile flair data into the user cache for a topic.
 	 *
-	 * @param \phpbb\event\data	$event
+	 * @param \phpbb\event\data	$event The event data
 	 */
 	public function viewtopic_modify_post_data($event)
 	{
@@ -214,7 +214,7 @@ class main_listener implements EventSubscriberInterface
 	/**
 	 * Assigns user profile flair template block variables for a topic post.
 	 *
-	 * @param \phpbb\event\data	$event
+	 * @param \phpbb\event\data	$event The event data
 	 */
 	public function viewtopic_post_row_after($event)
 	{

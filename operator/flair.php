@@ -30,14 +30,16 @@ class flair implements flair_interface
 	protected $db;
 
 	/**
-	 * @var string The name of the flair table
+	 * The name of the flair table.
+	 *
+	 * @var string
 	 */
 	protected $flair_table;
 
 	/**
-	 * @param ContainerInterface				$container
-	 * @param \phpbb\db\driver\driver_interface	$db
-	 * @param string							$flair_table	The name of the flair table
+	 * @param ContainerInterface                $container
+	 * @param \phpbb\db\driver\driver_interface $db
+	 * @param string                            $flair_table The name of the flair table
 	 */
 	public function __construct(ContainerInterface $container, driver_interface $db, $flair_table)
 	{
@@ -164,7 +166,7 @@ class flair implements flair_interface
 	/**
 	 * Unlink all flair items from a category.
 	 *
-	 * @param int	$cat_id	The database ID of the category
+	 * @param int $cat_id The database ID of the category
 	 */
 	protected function unlink_flair($cat_id)
 	{

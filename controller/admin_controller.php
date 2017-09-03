@@ -57,11 +57,11 @@ class admin_controller implements admin_interface
 	protected $u_action;
 
 	/**
-	 * @param ContainerInterface						$container
-	 * @param \stevotvr\flair\operator\flair_interface	$flair_operator
-	 * @param \phpbb\language\language					$language
-	 * @param \phpbb\request\request					$request
-	 * @param \phpbb\template\template					$template
+	 * @param ContainerInterface                       $container
+	 * @param \stevotvr\flair\operator\flair_interface $flair_operator
+	 * @param \phpbb\language\language                 $language
+	 * @param \phpbb\request\request                   $request
+	 * @param \phpbb\template\template                 $template
 	 */
 	public function __construct(ContainerInterface $container, flair_operator $flair_operator, language $language, request $request, template $template)
 	{
@@ -258,6 +258,11 @@ class admin_controller implements admin_interface
 		));
 	}
 
+	/**
+	 * Process data for the add/edit flair form.
+	 *
+	 * @param \stevotvr\flair\entity\flair $entity The flair item being processed
+	 */
 	protected function add_edit_flair_data(flair_entity $entity)
 	{
 		$errors = array();
@@ -342,6 +347,12 @@ class admin_controller implements admin_interface
 		}
 	}
 
+	/**
+	 * Process parsing options for the flair description field.
+	 *
+	 * @param \stevotvr\flair\entity\flair $entity The flair item being processed
+	 * @param boolean                      $submit The form has been submitted
+	 */
 	protected function set_parse_options(flair_entity $entity, $submit)
 	{
 		$bbcode = $this->request->variable('parse_bbcode', false);
@@ -360,6 +371,13 @@ class admin_controller implements admin_interface
 		}
 	}
 
+	/**
+	 * Validate the add/edit flair form.
+	 *
+	 * @param \stevotvr\flair\entity\flair $entity  The flair item being processed
+	 * @param  array                       $data    The data to validate
+	 * @param  array                       &$errors The array of error strings to populate
+	 */
 	protected function validate_form(flair_entity $entity, array $data, array &$errors)
 	{
 		if (!check_form_key('add_edit_flair', -1))
@@ -435,7 +453,7 @@ class admin_controller implements admin_interface
 	/**
 	 * Load the template data for the category select box.
 	 *
-	 * @param int	$selected	The ID of the selected item
+	 * @param int $selected The ID of the selected item
 	 */
 	protected function load_cat_select_data($selected)
 	{

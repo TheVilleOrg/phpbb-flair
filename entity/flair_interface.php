@@ -21,7 +21,9 @@ interface flair_interface extends entity_interface
 	public function is_category();
 
 	/**
-	 * @param bool $is_category The item is a category
+	 * @param boolean $is_category The item is a category
+	 *
+	 * @return flair_interface This object for chaining
 	 */
 	public function set_category($is_category);
 
@@ -32,6 +34,10 @@ interface flair_interface extends entity_interface
 
 	/**
 	 * @param int $parent_id The database ID of the parent
+	 *
+	 * @return flair_interface This object for chaining
+	 *
+	 * @throws \stevotvr\flair\exception\out_of_bounds
 	 */
 	public function set_parent($parent_id);
 
@@ -42,6 +48,8 @@ interface flair_interface extends entity_interface
 
 	/**
 	 * @param string $name The name of this flair item
+	 *
+	 * @return flair_interface This object for chaining
 	 *
 	 * @throws \stevotvr\flair\exception\unexpected_value
 	 */
@@ -60,6 +68,8 @@ interface flair_interface extends entity_interface
 	/**
 	 * @param string $desc The description of this flair item
 	 *
+	 * @return flair_interface This object for chaining
+	 *
 	 * @throws \stevotvr\flair\exception\unexpected_value
 	 */
 	public function set_desc($desc);
@@ -70,7 +80,9 @@ interface flair_interface extends entity_interface
 	public function is_bbcode_enabled();
 
 	/**
-	 * @param boolean	$enable	Enable BBCode on the description.
+	 * @param boolean $enable Enable BBCode on the description.
+	 *
+	 * @return flair_interface This object for chaining
 	 */
 	public function set_bbcode_enabled($enable);
 
@@ -80,7 +92,9 @@ interface flair_interface extends entity_interface
 	public function is_magic_url_enabled();
 
 	/**
-	 * @param boolean	$enable	Enable URL parsing on the description.
+	 * @param boolean $enable Enable URL parsing on the description.
+	 *
+	 * @return flair_interface This object for chaining
 	 */
 	public function set_magic_url_enabled($enable);
 
@@ -90,7 +104,9 @@ interface flair_interface extends entity_interface
 	public function is_smilies_enabled();
 
 	/**
-	 * @param boolean	$enable	Enable smilies on the description.
+	 * @param boolean $enable Enable smilies on the description.
+	 *
+	 * @return flair_interface This object for chaining
 	 */
 	public function set_smilies_enabled($enable);
 
@@ -101,6 +117,8 @@ interface flair_interface extends entity_interface
 
 	/**
 	 * @param int $order The order of this flair item
+	 *
+	 * @return flair_interface This object for chaining
 	 *
 	 * @throws \stevotvr\flair\exception\out_of_bounds
 	 */
@@ -114,6 +132,8 @@ interface flair_interface extends entity_interface
 	/**
 	 * @param string $color The hex color string for this flair item
 	 *
+	 * @return flair_interface This object for chaining
+	 *
 	 * @throws \stevotvr\flair\exception\out_of_bounds
 	 */
 	public function set_color($color);
@@ -125,6 +145,8 @@ interface flair_interface extends entity_interface
 
 	/**
 	 * @param string $icon The identifier for the font icon
+	 *
+	 * @return flair_interface This object for chaining
 	 *
 	 * @throws \stevotvr\flair\exception\unexpected_value
 	 */
@@ -138,6 +160,8 @@ interface flair_interface extends entity_interface
 	/**
 	 * @param string $color The hex color string for the icon
 	 *
+	 * @return flair_interface This object for chaining
+	 *
 	 * @throws \stevotvr\flair\exception\out_of_bounds
 	 */
 	public function set_icon_color($color);
@@ -150,27 +174,33 @@ interface flair_interface extends entity_interface
 	/**
 	 * @param string $color The hex color string for the count font
 	 *
+	 * @return flair_interface This object for chaining
+	 *
 	 * @throws \stevotvr\flair\exception\out_of_bounds
 	 */
 	public function set_font_color($color);
 
 	/**
-	 * @return bool Show this item on user profile pages
+	 * @return boolean Show this item on user profile pages
 	 */
 	public function show_on_profile();
 
 	/**
-	 * @param bool $show_on_profile Show this item on user profile pages
+	 * @param boolean $show_on_profile Show this item on user profile pages
+	 *
+	 * @return flair_interface This object for chaining
 	 */
 	public function set_show_on_profile($show_on_profile);
 
 	/**
-	 * @return bool Show this item in the user info on each post
+	 * @return boolean Show this item in the user info on each post
 	 */
 	public function show_on_posts();
 
 	/**
-	 * @param bool $show_on_posts Show this item in the user info on each post
+	 * @param boolean $show_on_posts Show this item in the user info on each post
+	 *
+	 * @return flair_interface This object for chaining
 	 */
 	public function set_show_on_posts($show_on_posts);
 }

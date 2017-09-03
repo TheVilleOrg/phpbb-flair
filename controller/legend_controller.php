@@ -41,10 +41,10 @@ class legend_controller
 	protected $template;
 
 	/**
-	 * @param \stevotvr\flair\operator\flair_interface	$flair_operator
-	 * @param \phpbb\controller\helper					$helper
-	 * @param \phpbb\language\language					$language
-	 * @param \phpbb\template\template					$template
+	 * @param \stevotvr\flair\operator\flair_interface $flair_operator
+	 * @param \phpbb\controller\helper                 $helper
+	 * @param \phpbb\language\language                 $language
+	 * @param \phpbb\template\template                 $template
 	 */
 	public function __construct(flair_operator $flair_operator, helper $helper, language $language, template $template)
 	{
@@ -55,7 +55,7 @@ class legend_controller
 	}
 
 	/**
-	 * Controller for route /flair
+	 * Handler for route /flair
 	 *
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */

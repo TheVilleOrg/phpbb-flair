@@ -29,20 +29,24 @@ class user implements user_interface
 	protected $db;
 
 	/**
-	 * @var string The name of the flair table
+	 * The name of the flair table.
+	 *
+	 * @var string
 	 */
 	protected $flair_table;
 
 	/**
-	 * @var string The name of the flair_users table
+	 * The name of the flair_users table.
+	 *
+	 * @var string
 	 */
 	protected $user_table;
 
 	/**
-	 * @param ContainerInterface				$container
-	 * @param \phpbb\db\driver\driver_interface	$db
-	 * @param string							$flair_table	The name of the flair table
-	 * @param string							$user_table		The name of the flair_users table
+	 * @param ContainerInterface                $container
+	 * @param \phpbb\db\driver\driver_interface $db
+	 * @param string                            $flair_table The name of the flair table
+	 * @param string                            $user_table  The name of the flair_users table
 	 */
 	public function __construct(ContainerInterface $container, driver_interface $db, $flair_table, $user_table)
 	{
@@ -152,10 +156,10 @@ class user implements user_interface
 	/**
 	 * Get the number of a specified flair item associated with a user.
 	 *
-	 * @param int	$user_id	The database ID of the user
-	 * @param int	$flair_id	The database ID of the flair item
+	 * @param int $user_id  The database ID of the user
+	 * @param int $flair_id The database ID of the flair item
 	 *
-	 * @return int|bool The number of the specified item associated with the user or false if none
+	 * @return int|boolean The number of the specified item associated with the user. false if none
 	 */
 	protected function get_item_count($user_id, $flair_id)
 	{
@@ -178,9 +182,9 @@ class user implements user_interface
 	/**
 	 * Insert a row into the flair_users table.
 	 *
-	 * @param int	$user_id	The database ID of the user
-	 * @param int	$flair_id	The database ID of the flair item
-	 * @param int	$count		The item count
+	 * @param int $user_id  The database ID of the user
+	 * @param int $flair_id The database ID of the flair item
+	 * @param int $count    The item count
 	 */
 	protected function insert_row($user_id, $flair_id, $count = 1)
 	{
@@ -197,8 +201,8 @@ class user implements user_interface
 	/**
 	 * Delete a row from the flair_users table.
 	 *
-	 * @param int	$user_id	The database ID of the user
-	 * @param int	$flair_id	The database ID of the flair item
+	 * @param int $user_id  The database ID of the user
+	 * @param int $flair_id The database ID of the flair item
 	 */
 	protected function delete_row($user_id, $flair_id)
 	{
@@ -211,9 +215,9 @@ class user implements user_interface
 	/**
 	 * Update the flair_count column of a row in the flair_users table.
 	 *
-	 * @param int	$user_id	The database ID of the user
-	 * @param int	$flair_id	The database ID of the flair item
-	 * @param int	$count		The new item count
+	 * @param int $user_id  The database ID of the user
+	 * @param int $flair_id The database ID of the flair item
+	 * @param int $count    The new item count
 	 */
 	protected function update_count($user_id, $flair_id, $count)
 	{

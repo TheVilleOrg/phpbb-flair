@@ -91,16 +91,16 @@ class moderator_controller implements moderator_interface
 	protected $p_master;
 
 	/**
-	 * @param \phpbb\config\config						$config
-	 * @param \phpbb\db\driver\driver_interface			$db
-	 * @param \stevotvr\flair\operator\flair_interface	$flair_operator
-	 * @param \phpbb\language\language					$language
-	 * @param \phpbb\request\request					$request
-	 * @param \phpbb\template\template					$template
-	 * @param \phpbb\user								$user
-	 * @param \stevotvr\flair\operator\user_interface	$user_operator
-	 * @param string									$root_path		The root phpBB path
-	 * @param string									$php_ext		The script file extension
+	 * @param \phpbb\config\config                     $config
+	 * @param \phpbb\db\driver\driver_interface        $db
+	 * @param \stevotvr\flair\operator\flair_interface $flair_operator
+	 * @param \phpbb\language\language                 $language
+	 * @param \phpbb\request\request                   $request
+	 * @param \phpbb\template\template                 $template
+	 * @param \phpbb\user                              $user
+	 * @param \stevotvr\flair\operator\user_interface  $user_operator
+	 * @param string                                   $root_path      The root phpBB path
+	 * @param string                                   $php_ext        The script file extension
 	 */
 	public function __construct(config $config, driver_interface $db, flair_interface $flair_operator, language $language, request $request, template $template, user $user, user_interface $user_operator, $root_path, $php_ext)
 	{
@@ -188,10 +188,10 @@ class moderator_controller implements moderator_interface
 	/**
 	 * Assign the template variables for the user_flair page.
 	 *
-	 * @param int		$user_id		The ID of the user being worked on
-	 * @param string	$username		The username of the user being worked on
-	 * @param string	$user_colour	The color of the user being worked on
-	 * @param array		$user_flair		The flair items assigned to the user being worked on
+	 * @param int    $user_id     The ID of the user being worked on
+	 * @param string $username    The username of the user being worked on
+	 * @param string $user_colour The color of the user being worked on
+	 * @param array  $user_flair  The flair items assigned to the user being worked on
 	 */
 	protected function assign_tpl_vars($user_id, $username, $user_colour, array $user_flair)
 	{
@@ -208,7 +208,7 @@ class moderator_controller implements moderator_interface
 	/**
 	 * Assign template variables for the available flair.
 	 *
-	 * @param string	$username	The username of the user being worked on
+	 * @param string $username The username of the user being worked on
 	 */
 	protected function assign_flair_tpl_vars($username)
 	{
@@ -255,8 +255,8 @@ class moderator_controller implements moderator_interface
 	/**
 	 * Assign template variables for the user flair.
 	 *
-	 * @param string	$username	The username of the user being worked on
-	 * @param array		$user_flair	The flair items assigned to the user being worked on
+	 * @param string $username   The username of the user being worked on
+	 * @param array  $user_flair The flair items assigned to the user being worked on
 	 */
 	protected function assign_user_tpl_vars($username, array $user_flair)
 	{
@@ -289,8 +289,8 @@ class moderator_controller implements moderator_interface
 	/**
 	 * Make a change to the flair assigned to the user being worked on.
 	 *
-	 * @param int		$user_id	The ID of the user being worked on
-	 * @param string	$change		The type of change to make (add|remove|remove_all)
+	 * @param int    $user_id The ID of the user being worked on
+	 * @param string $change  The type of change to make (add|remove|remove_all)
 	 */
 	protected function change_flair($user_id, $change)
 	{

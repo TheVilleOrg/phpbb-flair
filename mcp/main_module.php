@@ -25,7 +25,7 @@ class main_module
 	protected $p_master;
 
 	/**
-	 * @param p_master	$p_master
+	 * @param p_master $p_master
 	 */
 	public function __construct($p_master)
 	{
