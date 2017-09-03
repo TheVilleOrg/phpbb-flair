@@ -184,13 +184,6 @@ class flair extends entity implements flair_interface
 		return $this;
 	}
 
-	public function desc_disable_smilies()
-	{
-		$this->set_desc_option(OPTION_FLAG_SMILIES, true);
-
-		return $this;
-	}
-
 	public function get_order()
 	{
 		return isset($this->data['flair_order']) ? (int) $this->data['flair_order'] : 0;
