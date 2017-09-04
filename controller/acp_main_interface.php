@@ -11,9 +11,9 @@
 namespace stevotvr\flair\controller;
 
 /**
- * Profile Flair admin controller interface.
+ * Profile Flair main ACP controller interface.
  */
-interface admin_interface
+interface acp_main_interface
 {
 	/**
 	 * @param string $page_url The URL for the current page

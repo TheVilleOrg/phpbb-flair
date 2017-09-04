@@ -85,6 +85,16 @@ $lang = array_merge($lang, array(
 	'ACP_FLAIR_FORM_ICON_COLOR'	=> 'Flair icon color',
 	'ACP_FLAIR_FORM_FONT_COLOR'	=> 'Flair font color',
 
+	'ACP_FLAIR_MANAGE_USERS'			=> 'Manage profile flair',
+	'ACP_FLAIR_MANAGE_USERS_EXPLAIN'	=> 'Here you can manage profile flair assigned to a user’s profile.',
+	'ACP_FLAIR_USER'					=> '%s’s flair',
+	'ACP_FLAIR_AVAILABLE'				=> 'Available flair',
+	'ACP_FLAIR_NO_FLAIR'				=> 'This user’s profile has no flair.',
+	'ACP_FLAIR_NO_AVAILABLE'			=> 'There are no flair items available.',
+	'ACP_FLAIR_ADD_TITLE'				=> 'Add the specified number of “%1$s” to %2$s’s profile',
+	'ACP_FLAIR_REMOVE_TITLE'			=> 'Remove the specified number of “%1$s” from %2$s’s profile',
+	'ACP_FLAIR_REMOVE_ALL_TITLE'		=> 'Remove all “%1$s” from %2$s’s profile',
+
 	'ACP_FLAIR_DESC_EXPLAIN'		=> 'An optional short description that will appear in the flair legend.',
 	'ACP_FLAIR_COLOR_EXPLAIN'		=> 'The background color of the item. Leave blank for no background.',
 	'ACP_FLAIR_ICON_EXPLAIN'		=> 'Enter an optional Font Awesome icon identifier to represent this item. [ <a href="http://fontawesome.io/icons/" target="_blank">Font Awesome icon list</a> ]',

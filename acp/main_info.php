@@ -11,7 +11,7 @@
 namespace stevotvr\flair\acp;
 
 /**
- * Profile Flair ACP module info.
+ * Profile Flair main ACP module info.
  */
 class main_info
 {

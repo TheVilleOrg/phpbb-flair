@@ -76,7 +76,6 @@ class main_listener implements EventSubscriberInterface
 		return array(
 			'core.user_setup'					=> 'user_setup',
 			'core.memberlist_view_profile'		=> 'memberlist_view_profile',
-			'core.modify_module_row'			=> 'modify_module_row',
 			'core.viewtopic_modify_post_data'	=> 'viewtopic_modify_post_data',
 			'core.viewtopic_post_row_after'		=> 'viewtopic_post_row_after',
 		);
@@ -142,25 +141,6 @@ class main_listener implements EventSubscriberInterface
 					'FLAIR_FONT_COLOR'	=> $entity->get_font_color(),
 					'FLAIR_COUNT'		=> $item['count'],
 				));
-			}
-		}
-	}
-
-	/**
-	 * Adds the extra parameters to the MCP module URLs.
-	 *
-	 * @param \phpbb\event\data	$event The event data
-	 */
-	public function modify_module_row($event)
-	{
-		if ($event['module_row']['name'] === '\stevotvr\flair\mcp\main_module')
-		{
-			$user_id = $this->request->variable('u', 0);
-			if ($user_id)
-			{
-				$module_row = $event['module_row'];
-				$module_row['url_extra'] = '&u=' . $user_id;
-				$event['module_row'] = $module_row;
 			}
 		}
 	}

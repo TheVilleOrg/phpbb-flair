@@ -11,7 +11,7 @@
 namespace stevotvr\flair\acp;
 
 /**
- * Profile Flair ACP module.
+ * Profile Flair main ACP module.
  */
 class main_module
 {
@@ -102,7 +102,7 @@ class main_module
 	{
 		$this->tpl_name = 'manage';
 
-		$controller = $this->container->get('stevotvr.flair.controller.admin');
+		$controller = $this->container->get('stevotvr.flair.controller.acp.main');
 		$controller->set_page_url($this->u_action);
 
 		$action = $this->request->variable('action', '');

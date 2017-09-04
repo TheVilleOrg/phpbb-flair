@@ -20,9 +20,9 @@ use stevotvr\flair\operator\flair_interface as flair_operator;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Profile Flair admin controller.
+ * Profile Flair main ACP controller.
  */
-class admin_controller implements admin_interface
+class acp_main_controller implements acp_main_interface
 {
 	/**
 	 * @var \Symfony\Component\DependencyInjection\ContainerInterface

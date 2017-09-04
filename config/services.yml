@@ -13,16 +13,16 @@ services:
             - '@stevotvr.flair.operator.user'
         tags:
             - { name: event.listener }
-    stevotvr.flair.controller.admin:
-        class: stevotvr\flair\controller\admin_controller
+    stevotvr.flair.controller.acp.main:
+        class: stevotvr\flair\controller\acp_main_controller
         arguments:
             - '@service_container'
             - '@stevotvr.flair.operator.flair'
             - '@language'
             - '@request'
             - '@template'
-    stevotvr.flair.controller.moderator:
-        class: stevotvr\flair\controller\moderator_controller
+    stevotvr.flair.controller.acp.user:
+        class: stevotvr\flair\controller\acp_user_controller
         arguments:
             - '@config'
             - '@dbal.conn'

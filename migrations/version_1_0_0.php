@@ -94,16 +94,11 @@ class version_1_0_0 extends migration
 				),
 			)),
 			array('module.add', array(
-				'mcp',
-				0,
-				'MCP_FLAIR_TITLE',
-			)),
-			array('module.add', array(
-				'mcp',
-				'MCP_FLAIR_TITLE',
+				'acp',
+				'ACP_CAT_USERS',
 				array(
-					'module_basename'	=> '\stevotvr\flair\mcp\main_module',
-					'modes'				=> array('front', 'user_flair'),
+					'module_basename'	=> '\stevotvr\flair\acp\user_module',
+					'modes'				=> array('main'),
 				),
 			)),
 		);

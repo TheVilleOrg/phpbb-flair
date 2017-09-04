@@ -20,9 +20,9 @@ use stevotvr\flair\operator\flair_interface;
 use stevotvr\flair\operator\user_interface;
 
 /**
- * Profile Flair moderator controller.
+ * Profile Flair user ACP controller.
  */
-class moderator_controller implements moderator_interface
+class acp_user_controller implements acp_user_interface
 {
 	/**
 	 * @var \phpbb\config\config
@@ -86,11 +86,6 @@ class moderator_controller implements moderator_interface
 	protected $u_action;
 
 	/**
-	 * @var \p_master
-	 */
-	protected $p_master;
-
-	/**
 	 * @param \phpbb\config\config                     $config
 	 * @param \phpbb\db\driver\driver_interface        $db
 	 * @param \stevotvr\flair\operator\flair_interface $flair_operator
@@ -120,21 +115,20 @@ class moderator_controller implements moderator_interface
 	{
 		$this->u_action = $page_url;
 	}
-
-	public function set_master($p_master)
-	{
-		$this->p_master = $p_master;
-	}
-
 	public function find_user()
 	{
+		$this->language->add_lang('acp/users');
+
 		$u_find_username = append_sid($this->root_path . 'memberlist.' . $this->php_ext,
-			'mode=searchuser&amp;form=mcp&amp;field=username&amp;select_single=true');
-		$u_post_action = append_sid($this->root_path . 'mcp.' . $this->php_ext,
-			'i=-stevotvr-flair-mcp-main_module&amp;mode=user_flair');
+			'mode=searchuser&amp;form=select_user&amp;field=username&amp;select_single=true');
+
 		$this->template->assign_vars(array(
+			'S_SELECT_USER'		=> true,
+
+			'ANONYMOUS_USER_ID'	=> ANONYMOUS,
+
+			'U_ACTION'			=> $this->u_action,
 			'U_FIND_USERNAME'	=> $u_find_username,
-			'U_POST_ACTION'		=> $u_post_action,
 		));
 	}
 
@@ -144,7 +138,7 @@ class moderator_controller implements moderator_interface
 		$username = $this->request->variable('username', '', true);
 
 		$where = ($user_id) ? 'user_id = ' . (int) $user_id : "username_clean = '" . $this->db->sql_escape(utf8_clean_string($username)) . "'";
-		$sql = 'SELECT user_id, username, user_colour
+		$sql = 'SELECT user_id, username
 				FROM ' . USERS_TABLE . '
 				WHERE ' . $where;
 		$result = $this->db->sql_query($sql);
@@ -153,16 +147,10 @@ class moderator_controller implements moderator_interface
 
 		if (!$userrow)
 		{
-			trigger_error('NO_USER');
+			trigger_error($this->language->lang('NO_USER') . adm_back_link($this->u_action), E_USER_WARNING);
 		}
 
 		$user_id = (int) $userrow['user_id'];
-
-		if (strpos($this->u_action, '&amp;u=' . $user_id) === false)
-		{
-			$this->p_master->adjust_url('&amp;u=' . $user_id);
-			$this->u_action .= '&amp;u=' . $user_id;
-		}
 
 		add_form_key('mcp_flair');
 
@@ -182,23 +170,24 @@ class moderator_controller implements moderator_interface
 		$user_flair = $this->user_operator->get_user_flair($user_id);
 		$user_flair = (isset($user_flair[$user_id])) ? $user_flair[$user_id] : array();
 
-		$this->assign_tpl_vars($user_id, $userrow['username'], $userrow['user_colour'], $user_flair);
+		$this->assign_tpl_vars($user_id, $userrow['username'], $user_flair);
 	}
 
 	/**
 	 * Assign the template variables for the user_flair page.
 	 *
-	 * @param int    $user_id     The ID of the user being worked on
-	 * @param string $username    The username of the user being worked on
-	 * @param string $user_colour The color of the user being worked on
-	 * @param array  $user_flair  The flair items assigned to the user being worked on
+	 * @param int    $user_id    The ID of the user being worked on
+	 * @param string $username   The username of the user being worked on
+	 * @param array  $user_flair The flair items assigned to the user being worked on
 	 */
-	protected function assign_tpl_vars($user_id, $username, $user_colour, array $user_flair)
+	protected function assign_tpl_vars($user_id, $username, array $user_flair)
 	{
 		$this->template->assign_vars(array(
-			'USERNAME_FULL'	=> get_username_string('full', $user_id, $username, $user_colour),
+			'FLAIR_USERNAME'	=> $username,
+			'USER_FLAIR_TITLE'	=> $this->language->lang('ACP_FLAIR_USER', $username),
 
-			'U_POST_ACTION'	=> $this->u_action,
+			'U_ACTION'	=> $this->u_action . '&amp;u=' . $user_id,
+			'U_BACK'	=> $this->u_action,
 		));
 
 		$this->assign_flair_tpl_vars($username);
@@ -246,7 +235,7 @@ class moderator_controller implements moderator_interface
 					'FLAIR_ICON'		=> $entity->get_icon(),
 					'FLAIR_ICON_COLOR'	=> $entity->get_icon_color(),
 
-					'ADD_TITLE'	=> $this->language->lang('MCP_FLAIR_ADD_TITLE', $entity->get_name(), $username),
+					'ADD_TITLE'	=> $this->language->lang('ACP_FLAIR_ADD_TITLE', $entity->get_name(), $username),
 				));
 			}
 		}
@@ -279,8 +268,8 @@ class moderator_controller implements moderator_interface
 					'FLAIR_FONT_COLOR'	=> $entity->get_font_color(),
 					'FLAIR_COUNT'		=> $item['count'],
 
-					'REMOVE_TITLE'		=> $this->language->lang('MCP_FLAIR_REMOVE_TITLE', $entity->get_name(), $username),
-					'REMOVE_ALL_TITLE'	=> $this->language->lang('MCP_FLAIR_REMOVE_ALL_TITLE', $entity->get_name(), $username),
+					'REMOVE_TITLE'		=> $this->language->lang('ACP_FLAIR_REMOVE_TITLE', $entity->get_name(), $username),
+					'REMOVE_ALL_TITLE'	=> $this->language->lang('ACP_FLAIR_REMOVE_ALL_TITLE', $entity->get_name(), $username),
 				));
 			}
 		}
@@ -319,7 +308,7 @@ class moderator_controller implements moderator_interface
 			$this->user_operator->{$change . '_flair'}($user_id, $id, $count);
 		}
 
-		redirect($this->u_action);
+		redirect($this->u_action . '&amp;u=' . $user_id);
 	}
 
 	/**

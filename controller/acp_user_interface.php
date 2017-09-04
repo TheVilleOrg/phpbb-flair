@@ -11,19 +11,14 @@
 namespace stevotvr\flair\controller;
 
 /**
- * Profile Flair moderator controller interface.
+ * Profile Flair user ACP controller interface.
  */
-interface moderator_interface
+interface acp_user_interface
 {
 	/**
 	 * @param string $page_url The URL for the current page
 	 */
 	public function set_page_url($page_url);
-
-	/**
-	 * @param \p_master $p_master
-	 */
-	public function set_master($p_master);
 
 	/**
 	 * Show the user search page.

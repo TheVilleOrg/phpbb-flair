@@ -1,0 +1,37 @@
+.flair-count {
+	position: absolute;
+	left: 0;
+	width: 100%;
+	font-family: sans-serif;
+	font-size: 1.5em;
+	text-align: center;
+	line-height: inherit;
+}
+
+.fa-2x .flair-count {
+	font-size: 1em;
+	text-align: right;
+	line-height: 1em;
+}
+
+.flair {
+	padding: 0 4px;
+}
+
+.flair-item {
+	display: inline-block;
+	text-align: center;
+}
+
+.flair-avalable .flair-item {
+	text-align: right;
+}
+
+.color_palette_placeholder {
+	display: none;
+	padding-top: 0;
+}
+
+.color_palette_placeholder td {
+	padding: 0;
+}
