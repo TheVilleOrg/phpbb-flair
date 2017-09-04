@@ -75,10 +75,23 @@ class main_listener implements EventSubscriberInterface
 	{
 		return array(
 			'core.user_setup'					=> 'user_setup',
+			'core.permissions'					=> 'permissions',
 			'core.memberlist_view_profile'		=> 'memberlist_view_profile',
 			'core.viewtopic_modify_post_data'	=> 'viewtopic_modify_post_data',
 			'core.viewtopic_post_row_after'		=> 'viewtopic_post_row_after',
 		);
+	}
+
+	/**
+	 * Adds the custom extension permissions.
+	 *
+	 * @param \phpbb\event\data $event The event data
+	 */
+	public function permissions($event)
+	{
+		$permissions = $event['permissions'];
+		$permissions['a_manage_flair'] = array('lang' => 'ACL_A_MANAGE_FLAIR', 'cat' => 'user_group');
+		$event['permissions'] = $permissions;
 	}
 
 	/**

@@ -23,7 +23,7 @@ class user_info
 			'modes'		=> array(
 				'main'	=> array(
 					'title'	=> 'ACP_FLAIR_MANAGE_USERS',
-					'auth'	=> 'ext_stevotvr/flair && acl_a_user',
+					'auth'	=> 'ext_stevotvr/flair && acl_a_manage_flair',
 					'cat'	=> array('ACP_FLAIR_MANAGE_USERS'),
 				),
 			),
