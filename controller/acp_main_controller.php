@@ -107,7 +107,6 @@ class acp_main_controller implements acp_main_interface
 			));
 		}
 
-
 		if (!$cat_id)
 		{
 			$cat_name = $this->language->lang('FLAIR_UNCATEGORIZED');
