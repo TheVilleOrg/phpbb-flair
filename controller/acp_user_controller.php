@@ -16,6 +16,7 @@ use phpbb\language\language;
 use phpbb\request\request;
 use phpbb\template\template;
 use phpbb\user;
+use stevotvr\flair\operator\category_interface;
 use stevotvr\flair\operator\flair_interface;
 use stevotvr\flair\operator\user_interface;
 
@@ -24,6 +25,11 @@ use stevotvr\flair\operator\user_interface;
  */
 class acp_user_controller implements acp_user_interface
 {
+	/**
+	 * @var \stevotvr\flair\operator\category_interface
+	 */
+	protected $cat_operator;
+
 	/**
 	 * @var \phpbb\config\config
 	 */
@@ -86,19 +92,21 @@ class acp_user_controller implements acp_user_interface
 	protected $u_action;
 
 	/**
-	 * @param \phpbb\config\config                     $config
-	 * @param \phpbb\db\driver\driver_interface        $db
-	 * @param \stevotvr\flair\operator\flair_interface $flair_operator
-	 * @param \phpbb\language\language                 $language
-	 * @param \phpbb\request\request                   $request
-	 * @param \phpbb\template\template                 $template
-	 * @param \phpbb\user                              $user
-	 * @param \stevotvr\flair\operator\user_interface  $user_operator
-	 * @param string                                   $root_path      The root phpBB path
-	 * @param string                                   $php_ext        The script file extension
+	 * @param \stevotvr\flair\operator\category_interface $cat_operator
+	 * @param \phpbb\config\config                        $config
+	 * @param \phpbb\db\driver\driver_interface           $db
+	 * @param \stevotvr\flair\operator\flair_interface    $flair_operator
+	 * @param \phpbb\language\language                    $language
+	 * @param \phpbb\request\request                      $request
+	 * @param \phpbb\template\template                    $template
+	 * @param \phpbb\user                                 $user
+	 * @param \stevotvr\flair\operator\user_interface     $user_operator
+	 * @param string                                      $root_path      The root phpBB path
+	 * @param string                                      $php_ext        The script file extension
 	 */
-	public function __construct(config $config, driver_interface $db, flair_interface $flair_operator, language $language, request $request, template $template, user $user, user_interface $user_operator, $root_path, $php_ext)
+	public function __construct(category_interface $cat_operator, config $config, driver_interface $db, flair_interface $flair_operator, language $language, request $request, template $template, user $user, user_interface $user_operator, $root_path, $php_ext)
 	{
+		$this->cat_operator = $cat_operator;
 		$this->config = $config;
 		$this->db = $db;
 		$this->flair_operator = $flair_operator;
@@ -201,17 +209,17 @@ class acp_user_controller implements acp_user_interface
 	 */
 	protected function assign_flair_tpl_vars($username)
 	{
-		$available_flair = $this->flair_operator->get_flair(-1, false, false);
+		$available_cats = $this->cat_operator->get_categories();
 		$categories = array(array('category' => $this->language->lang('FLAIR_UNCATEGORIZED')));
-		foreach ($available_flair as $entity)
+		foreach ($available_cats as $entity)
 		{
-			if ($entity->is_category())
-			{
-				$categories[$entity->get_id()]['category'] = $entity->get_name();
-				continue;
-			}
+			$categories[$entity->get_id()]['category'] = $entity->get_name();
+		}
 
-			$categories[$entity->get_parent()]['items'][] = $entity;
+		$flair = $this->flair_operator->get_flair();
+		foreach ($flair as $entity)
+		{
+			$categories[$entity->get_category()]['items'][] = $entity;
 		}
 
 		foreach ($categories as $category)

@@ -16,30 +16,18 @@ namespace stevotvr\flair\entity;
 interface flair_interface extends entity_interface
 {
 	/**
-	 * @return boolean The item is a category
+	 * @return int The database ID of the category
 	 */
-	public function is_category();
+	public function get_category();
 
 	/**
-	 * @param boolean $is_category The item is a category
-	 *
-	 * @return flair_interface This object for chaining
-	 */
-	public function set_category($is_category);
-
-	/**
-	 * @return int The database ID of the parent
-	 */
-	public function get_parent();
-
-	/**
-	 * @param int $parent_id The database ID of the parent
+	 * @param int $cat_id The database ID of the category
 	 *
 	 * @return flair_interface This object for chaining
 	 *
 	 * @throws \stevotvr\flair\exception\out_of_bounds
 	 */
-	public function set_parent($parent_id);
+	public function set_category($cat_id);
 
 	/**
 	 * @return string The name of this flair item
@@ -179,28 +167,4 @@ interface flair_interface extends entity_interface
 	 * @throws \stevotvr\flair\exception\out_of_bounds
 	 */
 	public function set_font_color($color);
-
-	/**
-	 * @return boolean Show this item on user profile pages
-	 */
-	public function show_on_profile();
-
-	/**
-	 * @param boolean $show_on_profile Show this item on user profile pages
-	 *
-	 * @return flair_interface This object for chaining
-	 */
-	public function set_show_on_profile($show_on_profile);
-
-	/**
-	 * @return boolean Show this item in the user info on each post
-	 */
-	public function show_on_posts();
-
-	/**
-	 * @param boolean $show_on_posts Show this item in the user info on each post
-	 *
-	 * @return flair_interface This object for chaining
-	 */
-	public function set_show_on_posts($show_on_posts);
 }

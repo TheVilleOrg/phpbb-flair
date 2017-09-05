@@ -16,6 +16,7 @@ services:
     stevotvr.flair.controller.acp.main:
         class: stevotvr\flair\controller\acp_main_controller
         arguments:
+            - '@stevotvr.flair.operator.category'
             - '@service_container'
             - '@stevotvr.flair.operator.flair'
             - '@language'
@@ -24,6 +25,7 @@ services:
     stevotvr.flair.controller.acp.user:
         class: stevotvr\flair\controller\acp_user_controller
         arguments:
+            - '@stevotvr.flair.operator.category'
             - '@config'
             - '@dbal.conn'
             - '@stevotvr.flair.operator.flair'
@@ -37,27 +39,42 @@ services:
     stevotvr.flair.controller.legend:
         class: stevotvr\flair\controller\legend_controller
         arguments:
+            - '@stevotvr.flair.operator.category'
             - '@stevotvr.flair.operator.flair'
             - '@controller.helper'
             - '@language'
             - '@template'
-    stevotvr.flair.entity:
+    stevotvr.flair.entity.flair:
         class: stevotvr\flair\entity\flair
         shared: false
         arguments:
             - '@config'
             - '@dbal.conn'
             - '%stevotvr.flair.tables.flair%'
+    stevotvr.flair.entity.category:
+        class: stevotvr\flair\entity\category
+        shared: false
+        arguments:
+            - '@dbal.conn'
+            - '%stevotvr.flair.tables.flair_categories%'
     stevotvr.flair.operator.flair:
         class: stevotvr\flair\operator\flair
         arguments:
             - '@service_container'
             - '@dbal.conn'
             - '%stevotvr.flair.tables.flair%'
+    stevotvr.flair.operator.category:
+        class: stevotvr\flair\operator\category
+        arguments:
+            - '@service_container'
+            - '@dbal.conn'
+            - '%stevotvr.flair.tables.flair%'
+            - '%stevotvr.flair.tables.flair_categories%'
     stevotvr.flair.operator.user:
         class: stevotvr\flair\operator\user
         arguments:
             - '@service_container'
             - '@dbal.conn'
             - '%stevotvr.flair.tables.flair%'
+            - '%stevotvr.flair.tables.flair_categories%'
             - '%stevotvr.flair.tables.flair_users%'

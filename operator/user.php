@@ -16,24 +16,14 @@ use phpbb\db\driver\driver_interface;
 /**
  * Profile Flair user operator.
  */
-class user implements user_interface
+class user extends operator implements user_interface
 {
 	/**
-	 * @var \Symfony\Component\DependencyInjection\ContainerInterface
-	 */
-	protected $container;
-
-	/**
-	 * @var \phpbb\db\driver\driver_interface
-	 */
-	protected $db;
-
-	/**
-	 * The name of the flair table.
+	 * The name of the flair_categories table.
 	 *
 	 * @var string
 	 */
-	protected $flair_table;
+	protected $cat_table;
 
 	/**
 	 * The name of the flair_users table.
@@ -46,13 +36,13 @@ class user implements user_interface
 	 * @param ContainerInterface                $container
 	 * @param \phpbb\db\driver\driver_interface $db
 	 * @param string                            $flair_table The name of the flair table
+	 * @param string                            $cat_table   The name of the flair_categories table
 	 * @param string                            $user_table  The name of the flair_users table
 	 */
-	public function __construct(ContainerInterface $container, driver_interface $db, $flair_table, $user_table)
+	public function __construct(ContainerInterface $container, driver_interface $db, $flair_table, $cat_table, $user_table)
 	{
-		$this->container = $container;
-		$this->db = $db;
-		$this->flair_table = $flair_table;
+		parent::__construct($container, $db, $flair_table);
+		$this->cat_table = $cat_table;
 		$this->user_table = $user_table;
 	}
 
@@ -116,11 +106,11 @@ class user implements user_interface
 		$where = $this->db->sql_in_set('u.user_id', (array) $user_ids);
 		if (in_array($filter, array('profile', 'posts')))
 		{
-			$where .= ' AND (c.flair_display_' . $filter . ' <> 0 OR c.flair_id IS NULL)';
+			$where .= ' AND (c.cat_display_' . $filter . ' <> 0 OR c.cat_id IS NULL)';
 		}
 
 		$sql_ary = array(
-			'SELECT'	=> 'f.*, c.flair_name AS cat_name, u.user_id, u.flair_count',
+			'SELECT'	=> 'f.*, c.cat_name, u.user_id, u.flair_count',
 			'FROM'		=> array($this->user_table	=> 'u'),
 			'LEFT_JOIN'	=> array(
 				array(
@@ -128,12 +118,12 @@ class user implements user_interface
 					'ON'	=> 'f.flair_id = u.flair_id',
 				),
 				array(
-					'FROM'	=> array($this->flair_table	=> 'c'),
-					'ON'	=> 'c.flair_id = f.flair_parent',
+					'FROM'	=> array($this->cat_table	=> 'c'),
+					'ON'	=> 'c.cat_id = f.flair_category',
 				),
 			),
 			'WHERE'		=> $where,
-			'ORDER_BY'	=> 'c.flair_order ASC, c.flair_id ASC, f.flair_order ASC, f.flair_id ASC',
+			'ORDER_BY'	=> 'c.cat_order ASC, c.cat_id ASC, f.flair_order ASC, f.flair_id ASC',
 		);
 
 		$sql = $this->db->sql_build_query('SELECT', $sql_ary);
@@ -143,9 +133,9 @@ class user implements user_interface
 		$user_flair = array();
 		while ($row = $this->db->sql_fetchrow($result))
 		{
-			$user_flair[(int) $row['user_id']][(int) $row['flair_parent']]['category'] = $row['cat_name'];
-			$entity = $this->container->get('stevotvr.flair.entity')->import($row);
-			$user_flair[(int) $row['user_id']][(int) $row['flair_parent']]['items'][] = array(
+			$user_flair[(int) $row['user_id']][(int) $row['flair_category']]['category'] = $row['cat_name'];
+			$entity = $this->container->get('stevotvr.flair.entity.flair')->import($row);
+			$user_flair[(int) $row['user_id']][(int) $row['flair_category']]['items'][] = array(
 				'count'	=> (int) $row['flair_count'],
 				'flair'	=> $entity,
 			);

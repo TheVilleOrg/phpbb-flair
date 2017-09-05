@@ -21,9 +21,21 @@ interface acp_main_interface
 	public function set_page_url($page_url);
 
 	/**
+	 * Display all flair.
+	 */
+	public function display_flair();
+
+	/**
 	 * Add a category.
 	 */
 	public function add_cat();
+
+	/**
+	 * Edit a category.
+	 *
+	 * @param int $cat_id The database ID of the category
+	 */
+	public function edit_cat($cat_id);
 
 	/**
 	 * Delete a category.
@@ -33,9 +45,12 @@ interface acp_main_interface
 	public function delete_cat($cat_id);
 
 	/**
-	 * Display all flair items.
+	 * Move a flair category in the sorting order.
+	 *
+	 * @param int $cat_id The database ID of the category
+	 * @param int $offset The offset by which to move the category
 	 */
-	public function display_flair();
+	public function move_cat($cat_id, $offset);
 
 	/**
 	 * Add a flair item.

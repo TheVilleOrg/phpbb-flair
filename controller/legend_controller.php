@@ -13,13 +13,19 @@ namespace stevotvr\flair\controller;
 use phpbb\controller\helper;
 use phpbb\language\language;
 use phpbb\template\template;
-use stevotvr\flair\operator\flair_interface as flair_operator;
+use stevotvr\flair\operator\category_interface;
+use stevotvr\flair\operator\flair_interface;
 
 /**
  * Profile Flair legend controller.
  */
 class legend_controller
 {
+	/**
+	 * @var \stevotvr\flair\operator\category_interface
+	 */
+	protected $cat_operator;
+
 	/**
 	 * @var \stevotvr\flair\operator\flair_interface
 	 */
@@ -41,13 +47,15 @@ class legend_controller
 	protected $template;
 
 	/**
-	 * @param \stevotvr\flair\operator\flair_interface $flair_operator
-	 * @param \phpbb\controller\helper                 $helper
-	 * @param \phpbb\language\language                 $language
-	 * @param \phpbb\template\template                 $template
+	 * @param \stevotvr\flair\operator\category_interface $cat_operator
+	 * @param \stevotvr\flair\operator\flair_interface    $flair_operator
+	 * @param \phpbb\controller\helper                    $helper
+	 * @param \phpbb\language\language                    $language
+	 * @param \phpbb\template\template                    $template
 	 */
-	public function __construct(flair_operator $flair_operator, helper $helper, language $language, template $template)
+	public function __construct(category_interface $cat_operator, flair_interface $flair_operator, helper $helper, language $language, template $template)
 	{
+		$this->cat_operator = $cat_operator;
 		$this->flair_operator = $flair_operator;
 		$this->helper = $helper;
 		$this->language = $language;
@@ -61,17 +69,17 @@ class legend_controller
 	 */
 	public function handle()
 	{
-		$flair = $this->flair_operator->get_flair(-1, false, false);
+		$available_cats = $this->cat_operator->get_categories();
 		$categories = array(array('category' => $this->language->lang('FLAIR_UNCATEGORIZED')));
+		foreach ($available_cats as $entity)
+		{
+			$categories[$entity->get_id()]['category'] = $entity->get_name();
+		}
+
+		$flair = $this->flair_operator->get_flair();
 		foreach ($flair as $entity)
 		{
-			if ($entity->is_category())
-			{
-				$categories[$entity->get_id()]['category'] = $entity->get_name();
-				continue;
-			}
-
-			$categories[$entity->get_parent()]['items'][] = $entity;
+			$categories[$entity->get_category()]['items'][] = $entity;
 		}
 
 		$show_cats = (count($categories) > 1);

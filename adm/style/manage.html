@@ -23,10 +23,9 @@
 		<fieldset>
 			<legend>{{ lang('ACP_FLAIR_CAT_DETAILS') }}</legend>
 			<dl>
-				<dt><label for="flair_name">{{ lang('ACP_FLAIR_FORM_CAT_NAME') ~ lang('COLON') }}</label></dt>
-				<dd><input class="text medium" type="text" id="flair_name" name="flair_name" value="{{ FLAIR_NAME }}" maxlength="50" /></dd>
+				<dt><label for="cat_name">{{ lang('ACP_FLAIR_FORM_CAT_NAME') ~ lang('COLON') }}</label></dt>
+				<dd><input class="text medium" type="text" id="cat_name" name="cat_name" value="{{ CAT_NAME }}" maxlength="50" /></dd>
 			</dl>
-			<input type="hidden" name="addcat" value="1" />
 		</fieldset>
 		{% include '@stevotvr_flair/display_options.html' %}
 		<fieldset class="submit-buttons">
@@ -49,8 +48,7 @@
 
 	<h1>{{ lang('ACP_FLAIR_DELETE_CAT') }}</h1>
 
-
-	<form id="add_delete_cat" method="post" action="{{ U_ACTION }}">
+	<form id="delete_cat" method="post" action="{{ U_ACTION }}">
 		<fieldset>
 			<legend>{{ lang('ACP_FLAIR_DELETE_CAT') }}</legend>
 			<dl>
@@ -64,7 +62,7 @@
 					<dd>
 						<label><input type="radio" class="radio" name="action_flair" value="move" /> {{ lang('ACP_FLAIR_FORM_MOVE_FLAIR_TO') }}</label>
 						<select name="flair_to_cat">
-							<option value="0">{{ lang('ACP_FLAIR_NO_CAT') }}</option>
+							<option value="0">{{ lang('FLAIR_UNCATEGORIZED') }}</option>
 							{% for cat in cats %}
 								<option value="{{ cat.CAT_ID }}">{{ cat.CAT_NAME }}</option>
 							{% endfor %}
@@ -104,8 +102,8 @@
 			<legend>{{ lang('ACP_FLAIR_DETAILS') }}</legend>
 			{% if cats %}
 				<dl>
-					<dt><label for="flair_parent">{{ lang('ACP_FLAIR_FORM_CAT') ~ lang('COLON') }}</label></dt>
-					<dd><select name="flair_parent">
+					<dt><label for="flair_category">{{ lang('ACP_FLAIR_FORM_CAT') ~ lang('COLON') }}</label></dt>
+					<dd><select name="flair_category">
 						<option value="0">{{ lang('FLAIR_UNCATEGORIZED') }}</option>
 						{% for cat in cats %}
 							<option value="{{ cat.CAT_ID }}"{% if cat.S_SELECTED %} selected="selected"{% endif %}>{{ cat.CAT_NAME }}</option>
@@ -232,7 +230,7 @@
 			<tbody>
 				{% for c in cats %}
 					<tr>
-						<td><strong>{% if c.U_FLAIR %}<a href="{{ c.U_FLAIR }}">{% endif %}{{ c.FLAIR_NAME }}{% if c.U_FLAIR %}</a>{% endif %}</strong></td>
+						<td><strong>{% if c.U_FLAIR %}<a href="{{ c.U_FLAIR }}">{% endif %}{{ c.CAT_NAME }}{% if c.U_FLAIR %}</a>{% endif %}</strong></td>
 						<td>{{ c.DISPLAY_ON }}</td>
 						<td class="actions">
 							<span class="up-disabled" style="display:none;">{{ ICON_MOVE_UP_DISABLED }}</span>
@@ -254,7 +252,6 @@
 		<form id="flair_add" method="post" action="{{ U_ADD_CAT }}">
 			<fieldset class="quick">
 				<input class="button2" type="submit" name="addcat" value="{{ lang('ACP_FLAIR_ADD_CAT') }}" />
-				{{ S_FORM_TOKEN }}
 			</fieldset>
 		</form>
 	{% else %}
@@ -309,11 +306,9 @@
 	<form id="flair_add" method="post" action="{{ U_ADD_FLAIR }}">
 		<fieldset class="quick">
 			<input class="button2" type="submit" name="addflair" value="{{ lang('ACP_FLAIR_ADD') }}" />
-			{{ S_FORM_TOKEN }}
 		</fieldset>
 	</form>
 
 {% endif %}
-
 
 {% include 'overall_footer.html' %}

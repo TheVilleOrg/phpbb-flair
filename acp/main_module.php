@@ -107,6 +107,7 @@ class main_module
 
 		$action = $this->request->variable('action', '');
 		$flair_id = $this->request->variable('flair_id', 0);
+		$cat_id = $this->request->variable('cat_id', 0);
 
 		switch ($action)
 		{
@@ -117,13 +118,19 @@ class main_module
 			break;
 			case 'edit_cat':
 				$this->page_title = 'ACP_FLAIR_EDIT_CAT';
-				$controller->edit_flair($flair_id);
+				$controller->edit_cat($cat_id);
 				return;
 			break;
 			case 'delete_cat':
 				$this->page_title = 'ACP_FLAIR_DELETE_CAT';
-				$controller->delete_cat($flair_id);
+				$controller->delete_cat($cat_id);
 				return;
+			break;
+			case 'move_cat_up':
+				$controller->move_cat($cat_id, -1);
+			break;
+			case 'move_cat_down':
+				$controller->move_cat($cat_id, 1);
 			break;
 			case 'add':
 				$this->page_title = 'ACP_FLAIR_ADD';

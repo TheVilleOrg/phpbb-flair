@@ -14,8 +14,10 @@ use phpbb\json_response;
 use phpbb\language\language;
 use phpbb\request\request;
 use phpbb\template\template;
+use stevotvr\flair\entity\category_interface as cat_entity;
 use stevotvr\flair\entity\flair_interface as flair_entity;
 use stevotvr\flair\exception\base;
+use stevotvr\flair\operator\category_interface as cat_operator;
 use stevotvr\flair\operator\flair_interface as flair_operator;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -24,6 +26,11 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class acp_main_controller implements acp_main_interface
 {
+	/**
+	 * @var \stevotvr\flair\operator\category_interface
+	 */
+	protected $cat_operator;
+
 	/**
 	 * @var \Symfony\Component\DependencyInjection\ContainerInterface
 	 */
@@ -57,14 +64,16 @@ class acp_main_controller implements acp_main_interface
 	protected $u_action;
 
 	/**
-	 * @param ContainerInterface                       $container
-	 * @param \stevotvr\flair\operator\flair_interface $flair_operator
-	 * @param \phpbb\language\language                 $language
-	 * @param \phpbb\request\request                   $request
-	 * @param \phpbb\template\template                 $template
+	 * @param \stevotvr\flair\operator\category_interface $cat_operator
+	 * @param ContainerInterface                          $container
+	 * @param \stevotvr\flair\operator\flair_interface    $flair_operator
+	 * @param \phpbb\language\language                    $language
+	 * @param \phpbb\request\request                      $request
+	 * @param \phpbb\template\template                    $template
 	 */
-	public function __construct(ContainerInterface $container, flair_operator $flair_operator, language $language, request $request, template $template)
+	public function __construct(cat_operator $cat_operator, ContainerInterface $container, flair_operator $flair_operator, language $language, request $request, template $template)
 	{
+		$this->cat_operator = $cat_operator;
 		$this->container = $container;
 		$this->flair_operator = $flair_operator;
 		$this->language = $language;
@@ -77,11 +86,78 @@ class acp_main_controller implements acp_main_interface
 		$this->u_action = $page_url;
 	}
 
+	public function display_flair()
+	{
+		$cat_id = $this->request->variable('cat_id', 0);
+
+		$entities = $this->flair_operator->get_flair($cat_id);
+		foreach ($entities as $entity)
+		{
+			$this->template->assign_block_vars('flair', array(
+				'FLAIR_NAME'		=> $entity->get_name(),
+				'FLAIR_COLOR'		=> $entity->get_color(),
+				'FLAIR_ICON'		=> $entity->get_icon(),
+				'FLAIR_ICON_COLOR'	=> $entity->get_icon_color(),
+				'FLAIR_FONT_COLOR'	=> $entity->get_font_color(),
+
+				'U_MOVE_UP'		=> $this->u_action . '&amp;action=move_up&amp;cat_id=' . $cat_id . '&amp;flair_id=' . $entity->get_id(),
+				'U_MOVE_DOWN'	=> $this->u_action . '&amp;action=move_down&amp;cat_id=' . $cat_id . '&amp;flair_id=' . $entity->get_id(),
+				'U_EDIT'	=> $this->u_action . '&amp;action=edit&amp;flair_id=' . $entity->get_id(),
+				'U_DELETE'	=> $this->u_action . '&amp;action=delete&amp;flair_id=' . $entity->get_id(),
+			));
+		}
+
+
+		if (!$cat_id)
+		{
+			$cat_name = $this->language->lang('FLAIR_UNCATEGORIZED');
+
+			$entities = $this->cat_operator->get_categories();
+			foreach ($entities as $entity)
+			{
+				$display_on = array();
+				if ($entity->show_on_profile())
+				{
+					$display_on[] = 'ACP_FLAIR_PROFILE';
+				}
+				if ($entity->show_on_posts())
+				{
+					$display_on[] = 'ACP_FLAIR_POSTS';
+				}
+				$display_on = array_map(array($this->language, 'lang'), $display_on);
+
+				$this->template->assign_block_vars('cats', array(
+					'CAT_NAME'		=> $entity->get_name(),
+					'DISPLAY_ON'	=> implode(', ', $display_on),
+
+					'U_FLAIR'		=> $this->u_action . '&amp;cat_id=' . $entity->get_id(),
+					'U_MOVE_UP'		=> $this->u_action . '&amp;action=move_cat_up&amp;cat_id=' . $entity->get_id(),
+					'U_MOVE_DOWN'	=> $this->u_action . '&amp;action=move_cat_down&amp;cat_id=' . $entity->get_id(),
+					'U_EDIT'		=> $this->u_action . '&amp;action=edit_cat&amp;cat_id=' . $entity->get_id(),
+					'U_DELETE'		=> $this->u_action . '&amp;action=delete_cat&amp;cat_id=' . $entity->get_id(),
+				));
+			}
+		}
+		else
+		{
+			$cat_name = $this->container->get('stevotvr.flair.entity.category')->load($cat_id)->get_name();
+		}
+
+		$this->template->assign_vars(array(
+			'S_IN_CAT'	=> (bool) $cat_id,
+
+			'CAT_NAME'	=> $cat_name,
+
+			'U_ACTION'		=> $this->u_action,
+			'U_ADD_CAT'		=> $this->u_action . '&amp;action=add_cat',
+			'U_ADD_FLAIR'	=> $this->u_action . '&amp;action=add&amp;cat_id=' . $cat_id,
+		));
+	}
+
 	public function add_cat()
 	{
-		$entity = $this->container->get('stevotvr.flair.entity');
-		$entity->set_category(true);
-		$this->add_edit_flair_data($entity);
+		$entity = $this->container->get('stevotvr.flair.entity.category');
+		$this->add_edit_cat_data($entity);
 		$this->template->assign_vars(array(
 			'S_ADD_CAT'	=> true,
 
@@ -89,6 +165,86 @@ class acp_main_controller implements acp_main_interface
 			'FLAIR_SHOW_ON_POSTS'	=> true,
 
 			'U_ACTION'	=> $this->u_action . '&amp;action=add_cat',
+		));
+	}
+
+	public function edit_cat($cat_id)
+	{
+		$entity = $this->container->get('stevotvr.flair.entity.category')->load($cat_id);
+		$this->add_edit_cat_data($entity);
+		$this->template->assign_vars(array(
+			'S_EDIT_CAT'	=> true,
+
+			'U_ACTION'		=> $this->u_action . '&amp;action=edit_cat&amp;cat_id=' . $cat_id,
+		));
+	}
+
+	/**
+	 * Process data for the add/edit category form.
+	 *
+	 * @param \stevotvr\flair\entity\category_interface $entity The category being processed
+	 */
+	protected function add_edit_cat_data(cat_entity $entity)
+	{
+		$errors = array();
+
+		$submit = $this->request->is_set_post('submit');
+
+		add_form_key('add_edit_cat');
+
+		$data = array(
+			'name'				=> $this->request->variable('cat_name', '', true),
+			'show_on_profile'	=> $this->request->variable('flair_show_on_profile', 1),
+			'show_on_posts'		=> $this->request->variable('flair_show_on_posts', 1),
+		);
+
+		if ($submit)
+		{
+			if (!check_form_key('add_edit_cat'))
+			{
+				$errors[] = 'FORM_INVALID';
+			}
+
+			foreach ($data as $name => $value)
+			{
+				try
+				{
+					$entity->{'set_' . $name}($value);
+				}
+				catch (base $e)
+				{
+					$errors[] = $e->get_message($this->language);
+				}
+			}
+
+			if (empty($errors))
+			{
+				if ($entity->get_id())
+				{
+					$entity->save();
+					$message = 'ACP_FLAIR_CATS_EDIT_SUCCESS';
+				}
+				else
+				{
+					$entity = $this->cat_operator->add_category($entity);
+					$message = 'ACP_FLAIR_CATS_ADD_SUCCESS';
+				}
+
+				trigger_error($this->language->lang($message) . adm_back_link($this->u_action . '&amp;cat_id=' . $entity->get_id()));
+			}
+		}
+
+		$errors = array_map(array($this->language, 'lang'), $errors);
+
+		$this->template->assign_vars(array(
+			'S_ERROR'	=> (bool) count($errors),
+			'ERROR_MSG'	=> count($errors) ? implode('<br />', $errors) : '',
+
+			'CAT_NAME'				=> $entity->get_name(),
+			'FLAIR_SHOW_ON_PROFILE'	=> $entity->show_on_profile(),
+			'FLAIR_SHOW_ON_POSTS'	=> $entity->show_on_posts(),
+
+			'U_BACK'	=> $this->u_action . '&amp;cat_id=' . $entity->get_id(),
 		));
 	}
 
@@ -112,14 +268,14 @@ class acp_main_controller implements acp_main_interface
 			{
 				if ($action_flair === 'delete')
 				{
-					$this->flair_operator->delete_all_flair($cat_id);
+					$this->cat_operator->delete_flair($cat_id);
 				}
 				else
 				{
-					$this->flair_operator->reassign_flair($cat_id, $flair_to_cat);
+					$this->cat_operator->reassign_flair($cat_id, $flair_to_cat);
 				}
 
-				$this->flair_operator->delete_flair($cat_id);
+				$this->cat_operator->delete_category($cat_id);
 			}
 			catch (base $e)
 			{
@@ -138,11 +294,11 @@ class acp_main_controller implements acp_main_interface
 
 			'CAT_ID'	=> $cat_id,
 
-			'U_ACTION'	=> $this->u_action . '&amp;action=delete_cat&amp;flair_id=' . $cat_id,
+			'U_ACTION'	=> $this->u_action . '&amp;action=delete_cat&amp;cat_id=' . $cat_id,
 			'U_BACK'	=> $this->u_action,
 		));
 
-		$categories = $this->flair_operator->get_flair(-1, false, true);
+		$categories = $this->cat_operator->get_categories();
 		foreach ($categories as $category)
 		{
 			if ($category->get_id() === $cat_id)
@@ -158,110 +314,44 @@ class acp_main_controller implements acp_main_interface
 		}
 	}
 
-	public function display_flair()
+	public function move_cat($cat_id, $offset)
 	{
-		$parent_id = $this->request->variable('parent_id', 0);
-		$in_cat = $parent_id > 0;
-		$entities = $this->flair_operator->get_flair($parent_id, $in_cat);
+		$this->cat_operator->move_category($cat_id, $offset);
 
-		foreach ($entities as $entity)
+		if ($this->request->is_ajax())
 		{
-			$vars = array(
-				'FLAIR_NAME'	=> $entity->get_name(),
-
-				'U_MOVE_UP'		=> $this->u_action . '&amp;action=move_up&amp;parent_id=' . $parent_id . '&amp;flair_id=' . $entity->get_id(),
-				'U_MOVE_DOWN'	=> $this->u_action . '&amp;action=move_down&amp;parent_id=' . $parent_id . '&amp;flair_id=' . $entity->get_id(),
-			);
-
-			if ($entity->is_category())
-			{
-				$display_on = array();
-				if ($entity->show_on_profile())
-				{
-					$display_on[] = 'ACP_FLAIR_PROFILE';
-				}
-				if ($entity->show_on_posts())
-				{
-					$display_on[] = 'ACP_FLAIR_POSTS';
-				}
-				$display_on = array_map(array($this->language, 'lang'), $display_on);
-
-				$this->template->assign_block_vars('cats', array_merge($vars, array(
-					'DISPLAY_ON'	=> implode(', ', $display_on),
-
-					'U_FLAIR'	=> $this->u_action . '&amp;parent_id=' . $entity->get_id(),
-					'U_EDIT'	=> $this->u_action . '&amp;action=edit_cat&amp;flair_id=' . $entity->get_id(),
-					'U_DELETE'	=> $this->u_action . '&amp;action=delete_cat&amp;flair_id=' . $entity->get_id(),
-				)));
-				continue;
-			}
-
-			$this->template->assign_block_vars('flair', array_merge($vars, array(
-				'FLAIR_COLOR'		=> $entity->get_color(),
-				'FLAIR_ICON'		=> $entity->get_icon(),
-				'FLAIR_ICON_COLOR'	=> $entity->get_icon_color(),
-				'FLAIR_FONT_COLOR'	=> $entity->get_font_color(),
-
-				'U_EDIT'	=> $this->u_action . '&amp;action=edit&amp;flair_id=' . $entity->get_id(),
-				'U_DELETE'	=> $this->u_action . '&amp;action=delete&amp;flair_id=' . $entity->get_id(),
-			)));
+			$json_response = new json_response();
+			$json_response->send(array('success' => true));
 		}
-
-		if ($in_cat)
-		{
-			$cat_name = $this->container->get('stevotvr.flair.entity')->load($parent_id)->get_name();
-		}
-		else
-		{
-			$cat_name = $this->language->lang('FLAIR_UNCATEGORIZED');
-		}
-
-		$this->template->assign_vars(array(
-			'S_IN_CAT'	=> $in_cat,
-
-			'CAT_NAME'	=> $cat_name,
-
-			'U_ACTION'		=> $this->u_action,
-			'U_ADD_CAT'		=> $this->u_action . '&amp;action=add_cat',
-			'U_ADD_FLAIR'	=> $this->u_action . '&amp;action=add&amp;parent_id=' . $parent_id,
-		));
 	}
 
 	public function add_flair()
 	{
-		$entity = $this->container->get('stevotvr.flair.entity');
-		$entity->set_parent($this->request->variable('parent_id', 0));
+		$entity = $this->container->get('stevotvr.flair.entity.flair');
+		$entity->set_category($this->request->variable('cat_id', 0));
 		$this->add_edit_flair_data($entity);
 		$this->template->assign_vars(array(
 			'S_ADD_FLAIR'	=> true,
-			'U_ACTION'		=> $this->u_action . '&amp;action=add&amp;parent_id=' . $entity->get_parent(),
+
+			'U_ACTION'		=> $this->u_action . '&amp;action=add&amp;cat_id=' . $entity->get_category(),
 		));
 	}
 
 	public function edit_flair($flair_id)
 	{
-		$entity = $this->container->get('stevotvr.flair.entity')->load($flair_id);
+		$entity = $this->container->get('stevotvr.flair.entity.flair')->load($flair_id);
 		$this->add_edit_flair_data($entity);
-
-		if ($entity->is_category())
-		{
-			$this->template->assign_vars(array(
-				'S_EDIT_CAT'	=> true,
-				'U_ACTION'		=> $this->u_action . '&amp;action=edit_cat&amp;flair_id=' . $flair_id,
-			));
-			return;
-		}
-
 		$this->template->assign_vars(array(
 			'S_EDIT_FLAIR'	=> true,
-			'U_ACTION'		=> $this->u_action . '&amp;action=edit&amp;parent_id=' . $entity->get_parent() . '&amp;flair_id=' . $flair_id,
+
+			'U_ACTION'		=> $this->u_action . '&amp;action=edit&amp;cat_id=' . $entity->get_category() . '&amp;flair_id=' . $flair_id,
 		));
 	}
 
 	/**
 	 * Process data for the add/edit flair form.
 	 *
-	 * @param \stevotvr\flair\entity\flair $entity The flair item being processed
+	 * @param \stevotvr\flair\entity\flair_interface $entity The flair item being processed
 	 */
 	protected function add_edit_flair_data(flair_entity $entity)
 	{
@@ -272,22 +362,28 @@ class acp_main_controller implements acp_main_interface
 		add_form_key('add_edit_flair');
 
 		$data = array(
-			'parent'			=> $this->request->variable('flair_parent', 0),
-			'name'				=> $this->request->variable('flair_name', '', true),
-			'desc'				=> $this->request->variable('flair_desc', '', true),
-			'color'				=> $this->request->variable('flair_color', ''),
-			'icon'				=> $this->request->variable('flair_icon', ''),
-			'icon_color'		=> $this->request->variable('flair_icon_color', ''),
-			'font_color'		=> $this->request->variable('flair_font_color', ''),
-			'show_on_profile'	=> $this->request->variable('flair_show_on_profile', 1),
-			'show_on_posts'		=> $this->request->variable('flair_show_on_posts', 1),
+			'category'		=> $this->request->variable('flair_category', 0),
+			'name'			=> $this->request->variable('flair_name', '', true),
+			'desc'			=> $this->request->variable('flair_desc', '', true),
+			'color'			=> $this->request->variable('flair_color', ''),
+			'icon'			=> $this->request->variable('flair_icon', ''),
+			'icon_color'	=> $this->request->variable('flair_icon_color', ''),
+			'font_color'	=> $this->request->variable('flair_font_color', ''),
 		);
 
 		$this->set_parse_options($entity, $submit);
 
 		if ($submit)
 		{
-			$this->validate_form($entity, $data, $errors);
+			if (!check_form_key('add_edit_flair', -1))
+			{
+				$errors[] = 'FORM_INVALID';
+			}
+
+			if ($data['color'] === '' && $data['icon'] === '')
+			{
+				$errors[] = 'ACP_ERROR_APPEARANCE_REQUIRED';
+			}
 
 			foreach ($data as $name => $value)
 			{
@@ -306,15 +402,15 @@ class acp_main_controller implements acp_main_interface
 				if ($entity->get_id())
 				{
 					$entity->save();
-					$message = $entity->is_category() ? 'ACP_FLAIR_CATS_EDIT_SUCCESS' : 'ACP_FLAIR_EDIT_SUCCESS';
+					$message = 'ACP_FLAIR_EDIT_SUCCESS';
 				}
 				else
 				{
 					$entity = $this->flair_operator->add_flair($entity);
-					$message = $entity->is_category() ? 'ACP_FLAIR_CATS_ADD_SUCCESS' : 'ACP_FLAIR_ADD_SUCCESS';
+					$message = 'ACP_FLAIR_ADD_SUCCESS';
 				}
 
-				trigger_error($this->language->lang($message) . adm_back_link($this->u_action . '&amp;parent_id=' . $entity->get_parent()));
+				trigger_error($this->language->lang($message) . adm_back_link($this->u_action . '&amp;cat_id=' . $entity->get_category()));
 			}
 		}
 
@@ -324,34 +420,29 @@ class acp_main_controller implements acp_main_interface
 			'S_ERROR'	=> (bool) count($errors),
 			'ERROR_MSG'	=> count($errors) ? implode('<br />', $errors) : '',
 
-			'FLAIR_PARENT'			=> $entity->get_parent(),
-			'FLAIR_NAME'			=> $entity->get_name(),
-			'FLAIR_DESC'			=> $entity->get_desc_for_edit(),
-			'FLAIR_COLOR'			=> $entity->get_color(),
-			'FLAIR_ICON'			=> $entity->get_icon(),
-			'FLAIR_ICON_COLOR'		=> $entity->get_icon_color(),
-			'FLAIR_FONT_COLOR'		=> $entity->get_font_color(),
-			'FLAIR_SHOW_ON_PROFILE'	=> $entity->show_on_profile(),
-			'FLAIR_SHOW_ON_POSTS'	=> $entity->show_on_posts(),
+			'FLAIR_CATEGORY'	=> $entity->get_category(),
+			'FLAIR_NAME'		=> $entity->get_name(),
+			'FLAIR_DESC'		=> $entity->get_desc_for_edit(),
+			'FLAIR_COLOR'		=> $entity->get_color(),
+			'FLAIR_ICON'		=> $entity->get_icon(),
+			'FLAIR_ICON_COLOR'	=> $entity->get_icon_color(),
+			'FLAIR_FONT_COLOR'	=> $entity->get_font_color(),
 
 			'S_PARSE_BBCODE_CHECKED'	=> $entity->is_bbcode_enabled(),
 			'S_PARSE_SMILIES_CHECKED'	=> $entity->is_smilies_enabled(),
 			'S_PARSE_MAGIC_URL_CHECKED'	=> $entity->is_magic_url_enabled(),
 
-			'U_BACK'	=> $this->u_action . '&amp;parent_id=' . $entity->get_parent(),
+			'U_BACK'	=> $this->u_action . '&amp;cat_id=' . $entity->get_category(),
 		));
 
-		if (!$entity->is_category())
-		{
-			$this->load_cat_select_data($entity->get_parent());
-		}
+		$this->load_cat_select_data($entity->get_category());
 	}
 
 	/**
 	 * Process parsing options for the flair description field.
 	 *
-	 * @param \stevotvr\flair\entity\flair $entity The flair item being processed
-	 * @param boolean                      $submit The form has been submitted
+	 * @param \stevotvr\flair\entity\flair_interface $entity The flair item being processed
+	 * @param boolean                                $submit The form has been submitted
 	 */
 	protected function set_parse_options(flair_entity $entity, $submit)
 	{
@@ -371,43 +462,15 @@ class acp_main_controller implements acp_main_interface
 		}
 	}
 
-	/**
-	 * Validate the add/edit flair form.
-	 *
-	 * @param \stevotvr\flair\entity\flair $entity  The flair item being processed
-	 * @param  array                       $data    The data to validate
-	 * @param  array                       &$errors The array of error strings to populate
-	 */
-	protected function validate_form(flair_entity $entity, array $data, array &$errors)
-	{
-		if (!check_form_key('add_edit_flair', -1))
-		{
-			$errors[] = 'FORM_INVALID';
-		}
-
-		if ($data['name'] === '')
-		{
-			$errors[] = $entity->is_category() ? 'ACP_ERROR_CAT_NAME_REQUIRED' : 'ACP_ERROR_NAME_REQUIRED';
-		}
-
-		if (!$entity->is_category())
-		{
-			if ($data['color'] === '' && $data['icon'] === '')
-			{
-				$errors[] = 'ACP_ERROR_APPEARANCE_REQUIRED';
-			}
-		}
-	}
-
 	public function delete_flair($flair_id)
 	{
-		$entity = $this->container->get('stevotvr.flair.entity')->load($flair_id);
+		$entity = $this->container->get('stevotvr.flair.entity.flair')->load($flair_id);
 
 		if (!confirm_box(true))
 		{
 			$hidden_fields = build_hidden_fields(array(
 				'flair_id'	=> $flair_id,
-				'parent_id'	=> $entity->get_parent(),
+				'cat_id'	=> $entity->get_category(),
 				'mode'		=> 'manage',
 				'action'	=> 'delete',
 			));
@@ -421,7 +484,7 @@ class acp_main_controller implements acp_main_interface
 		}
 		catch (base $e)
 		{
-			trigger_error($this->language->lang('ACP_FLAIR_DELETE_ERRORED') . adm_back_link($this->u_action . '&amp;parent_id=' . $entity->get_parent()), E_USER_WARNING);
+			trigger_error($this->language->lang('ACP_FLAIR_DELETE_ERRORED') . adm_back_link($this->u_action . '&amp;cat_id=' . $entity->get_category()), E_USER_WARNING);
 		}
 
 		if ($this->request->is_ajax())
@@ -436,7 +499,7 @@ class acp_main_controller implements acp_main_interface
 			));
 		}
 
-		trigger_error($this->language->lang('ACP_FLAIR_DELETE_SUCCESS') . adm_back_link($this->u_action . '&amp;parent_id=' . $entity->get_parent()));
+		trigger_error($this->language->lang('ACP_FLAIR_DELETE_SUCCESS') . adm_back_link($this->u_action . '&amp;cat_id=' . $entity->get_category()));
 	}
 
 	public function move_flair($flair_id, $offset)
@@ -457,7 +520,7 @@ class acp_main_controller implements acp_main_interface
 	 */
 	protected function load_cat_select_data($selected)
 	{
-		$categories = $this->flair_operator->get_flair(0, false, true);
+		$categories = $this->cat_operator->get_categories();
 		if (!count($categories))
 		{
 			return;

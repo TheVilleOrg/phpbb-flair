@@ -27,8 +27,7 @@ class flair extends entity implements flair_interface
 
 	protected $columns = array(
 		'flair_id'						=> 'integer',
-		'flair_is_cat'					=> 'set_category',
-		'flair_parent'					=> 'integer',
+		'flair_category'				=> 'integer',
 		'flair_name'					=> 'set_name',
 		'flair_desc'					=> 'string',
 		'flair_desc_bbcode_uid'			=> 'string',
@@ -39,8 +38,6 @@ class flair extends entity implements flair_interface
 		'flair_icon'					=> 'set_icon',
 		'flair_icon_color'				=> 'set_icon_color',
 		'flair_font_color'				=> 'set_font_color',
-		'flair_display_profile'			=> 'set_show_on_profile',
-		'flair_display_posts'			=> 'set_show_on_posts',
 	);
 
 	protected $id_column = 'flair_id';
@@ -56,35 +53,21 @@ class flair extends entity implements flair_interface
 		$this->config = $config;
 	}
 
-	public function is_category()
+	public function get_category()
 	{
-		return (bool) $this->data['flair_is_cat'];
+		return isset($this->data['flair_category']) ? (int) $this->data['flair_category'] : 0;
 	}
 
-	public function set_category($is_category)
+	public function set_category($cat_id)
 	{
-		$is_category = (bool) $is_category;
+		$cat_id = (int) $cat_id;
 
-		$this->data['flair_is_cat'] = (int) $is_category;
-
-		return $this;
-	}
-
-	public function get_parent()
-	{
-		return isset($this->data['flair_parent']) ? (int) $this->data['flair_parent'] : 0;
-	}
-
-	public function set_parent($parent_id)
-	{
-		$parent_id = (int) $parent_id;
-
-		if ($parent_id < 0)
+		if ($cat_id < 0)
 		{
-			throw new out_of_bounds('flair_parent');
+			throw new out_of_bounds('flair_category');
 		}
 
-		$this->data['flair_parent'] = $parent_id;
+		$this->data['flair_category'] = $cat_id;
 
 		return $this;
 	}
@@ -275,34 +258,6 @@ class flair extends entity implements flair_interface
 		}
 
 		$this->data['flair_font_color'] = $color;
-
-		return $this;
-	}
-
-	public function show_on_profile()
-	{
-		return (bool) $this->data['flair_display_profile'];
-	}
-
-	public function set_show_on_profile($show_on_profile)
-	{
-		$show_on_profile = (bool) $show_on_profile;
-
-		$this->data['flair_display_profile'] = (int) $show_on_profile;
-
-		return $this;
-	}
-
-	public function show_on_posts()
-	{
-		return (bool) $this->data['flair_display_posts'];
-	}
-
-	public function set_show_on_posts($show_on_posts)
-	{
-		$show_on_posts = (bool) $show_on_posts;
-
-		$this->data['flair_display_posts'] = (int) $show_on_posts;
 
 		return $this;
 	}

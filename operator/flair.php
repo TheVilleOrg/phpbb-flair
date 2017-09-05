@@ -10,68 +10,18 @@
 
 namespace stevotvr\flair\operator;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use phpbb\db\driver\driver_interface;
 use stevotvr\flair\exception\out_of_bounds;
 
 /**
  * Profile Flair flair operator.
  */
-class flair implements flair_interface
+class flair extends operator implements flair_interface
 {
-	/**
-	 * @var \Symfony\Component\DependencyInjection\ContainerInterface
-	 */
-	protected $container;
-
-	/**
-	 * @var \phpbb\db\driver\driver_interface
-	 */
-	protected $db;
-
-	/**
-	 * The name of the flair table.
-	 *
-	 * @var string
-	 */
-	protected $flair_table;
-
-	/**
-	 * @param ContainerInterface                $container
-	 * @param \phpbb\db\driver\driver_interface $db
-	 * @param string                            $flair_table The name of the flair table
-	 */
-	public function __construct(ContainerInterface $container, driver_interface $db, $flair_table)
-	{
-		$this->container = $container;
-		$this->db = $db;
-		$this->flair_table = $flair_table;
-	}
-
-	public function get_flair($parent_id = -1, $no_cats = true, $no_flair = false)
+	public function get_flair($cat_id = -1)
 	{
 		$entities = array();
 
-		if ($no_cats && $no_flair)
-		{
-			return $entities;
-		}
-
-		$where = array();
-		if ($no_cats)
-		{
-			$where[] = 'flair_is_cat = 0';
-		}
-		if ($no_flair)
-		{
-			$where[] = 'flair_is_cat <> 0';
-		}
-		if ($parent_id > -1)
-		{
-			$where[] = 'flair_parent = ' . (int) $parent_id;
-		}
-		$where = (!empty($where)) ? 'WHERE ' . implode(' AND ', $where) : '';
-
+		$where = ($cat_id > -1) ? 'WHERE flair_category = ' . (int) $cat_id : '';
 		$sql = 'SELECT *
 				FROM ' . $this->flair_table . '
 				' . $where . '
@@ -80,7 +30,7 @@ class flair implements flair_interface
 
 		while ($row = $this->db->sql_fetchrow($result))
 		{
-			$entities[] = $this->container->get('stevotvr.flair.entity')->import($row);
+			$entities[] = $this->container->get('stevotvr.flair.entity.flair')->import($row);
 		}
 		$this->db->sql_freeresult($result);
 
@@ -96,8 +46,6 @@ class flair implements flair_interface
 
 	public function delete_flair($flair_id)
 	{
-		$this->unlink_flair($flair_id);
-
 		$sql = 'DELETE FROM ' . $this->flair_table . '
 				WHERE flair_id = ' . (int) $flair_id;
 		$this->db->sql_query($sql);
@@ -107,7 +55,7 @@ class flair implements flair_interface
 
 	public function move_flair($flair_id, $offset)
 	{
-		$sql = 'SELECT flair_parent, flair_is_cat
+		$sql = 'SELECT flair_category
 				FROM ' . $this->flair_table . '
 				WHERE flair_id = ' . (int) $flair_id;
 		$result = $this->db->sql_query($sql);
@@ -119,11 +67,9 @@ class flair implements flair_interface
 			throw new out_of_bounds('flair_id');
 		}
 
-		$where = $row['flair_is_cat'] ? 'flair_is_cat <> 0' : 'flair_is_cat = 0 AND flair_parent = ' . $row['flair_parent'];
-
 		$sql = 'SELECT flair_id
 				FROM ' . $this->flair_table . '
-				WHERE ' . $where . '
+				WHERE flair_category = ' . $row['flair_category'] . '
 				ORDER BY flair_order ASC, flair_id ASC';
 		$result = $this->db->sql_query($sql);
 
@@ -146,33 +92,5 @@ class flair implements flair_interface
 					WHERE flair_id = ' . (int) $id;
 			$this->db->sql_query($sql);
 		}
-	}
-
-	public function delete_all_flair($cat_id)
-	{
-		$sql = 'DELETE FROM ' . $this->flair_table . '
-				WHERE flair_parent = ' . (int) $cat_id;
-		$this->db->sql_query($sql);
-	}
-
-	public function reassign_flair($cat_id, $new_cat_id)
-	{
-		$sql = 'UPDATE ' . $this->flair_table . '
-				SET flair_parent = ' . (int) $new_cat_id . '
-				WHERE flair_parent = ' . (int) $cat_id;
-		$this->db->sql_query($sql);
-	}
-
-	/**
-	 * Unlink all flair items from a category.
-	 *
-	 * @param int $cat_id The database ID of the category
-	 */
-	protected function unlink_flair($cat_id)
-	{
-		$sql = 'UPDATE ' . $this->flair_table . '
-				SET flair_parent = 0
-				WHERE flair_parent = ' . (int) $cat_id;
-		$this->db->sql_query($sql);
 	}
 }
