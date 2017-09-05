@@ -69,7 +69,7 @@ class flair extends operator implements flair_interface
 
 		$sql = 'SELECT flair_id
 				FROM ' . $this->flair_table . '
-				WHERE flair_category = ' . $row['flair_category'] . '
+				WHERE flair_category = ' . (int) $row['flair_category'] . '
 				ORDER BY flair_order ASC, flair_id ASC';
 		$result = $this->db->sql_query($sql);
 
