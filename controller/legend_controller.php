@@ -22,16 +22,6 @@ use stevotvr\flair\operator\flair_interface;
 class legend_controller
 {
 	/**
-	 * @var \stevotvr\flair\operator\category_interface
-	 */
-	protected $cat_operator;
-
-	/**
-	 * @var \stevotvr\flair\operator\flair_interface
-	 */
-	protected $flair_operator;
-
-	/**
 	 * @var \phpbb\controller\helper
 	 */
 	protected $helper;
@@ -47,19 +37,29 @@ class legend_controller
 	protected $template;
 
 	/**
-	 * @param \stevotvr\flair\operator\category_interface $cat_operator
-	 * @param \stevotvr\flair\operator\flair_interface    $flair_operator
+	 * @var \stevotvr\flair\operator\category_interface
+	 */
+	protected $cat_operator;
+
+	/**
+	 * @var \stevotvr\flair\operator\flair_interface
+	 */
+	protected $flair_operator;
+
+	/**
 	 * @param \phpbb\controller\helper                    $helper
 	 * @param \phpbb\language\language                    $language
 	 * @param \phpbb\template\template                    $template
+	 * @param \stevotvr\flair\operator\category_interface $cat_operator
+	 * @param \stevotvr\flair\operator\flair_interface    $flair_operator
 	 */
-	public function __construct(category_interface $cat_operator, flair_interface $flair_operator, helper $helper, language $language, template $template)
+	public function __construct(helper $helper, language $language, template $template, category_interface $cat_operator, flair_interface $flair_operator)
 	{
-		$this->cat_operator = $cat_operator;
-		$this->flair_operator = $flair_operator;
 		$this->helper = $helper;
 		$this->language = $language;
 		$this->template = $template;
+		$this->cat_operator = $cat_operator;
+		$this->flair_operator = $flair_operator;
 	}
 
 	/**
