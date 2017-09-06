@@ -102,11 +102,49 @@ class main_module
 	{
 		$this->tpl_name = 'manage';
 
+		$action = $this->request->variable('action', '');
+
+		switch ($action)
+		{
+			case 'add_cat':
+			case 'edit_cat':
+			case 'delete_cat':
+				$this->manage_cats($action);
+				return;
+			break;
+			case 'move_cat_up':
+			case 'move_cat_down':
+				$this->manage_cats($action);
+			break;
+			case 'add':
+			case 'edit':
+				$this->manage_flair($action);
+				return;
+			break;
+			case 'delete':
+			case 'move_up':
+			case 'move_down':
+				$this->manage_flair($action);
+			break;
+		}
+
 		$controller = $this->container->get('stevotvr.flair.controller.acp.main');
 		$controller->set_page_url($this->u_action);
 
-		$action = $this->request->variable('action', '');
-		$flair_id = $this->request->variable('flair_id', 0);
+		$this->page_title = 'ACP_FLAIR_MANAGE';
+		$controller->display_flair();
+	}
+
+	/**
+	 * Handle the category management actions.
+	 *
+	 * @param string $action The action parameter
+	 */
+	protected function manage_cats($action)
+	{
+		$controller = $this->container->get('stevotvr.flair.controller.acp.cats');
+		$controller->set_page_url($this->u_action);
+
 		$cat_id = $this->request->variable('cat_id', 0);
 
 		switch ($action)
@@ -114,17 +152,14 @@ class main_module
 			case 'add_cat':
 				$this->page_title = 'ACP_FLAIR_ADD_CAT';
 				$controller->add_cat();
-				return;
 			break;
 			case 'edit_cat':
 				$this->page_title = 'ACP_FLAIR_EDIT_CAT';
 				$controller->edit_cat($cat_id);
-				return;
 			break;
 			case 'delete_cat':
 				$this->page_title = 'ACP_FLAIR_DELETE_CAT';
 				$controller->delete_cat($cat_id);
-				return;
 			break;
 			case 'move_cat_up':
 				$controller->move_cat($cat_id, -1);
@@ -132,15 +167,30 @@ class main_module
 			case 'move_cat_down':
 				$controller->move_cat($cat_id, 1);
 			break;
+		}
+	}
+
+	/**
+	 * Handle the flair management actions.
+	 *
+	 * @param string $action The action parameter
+	 */
+	protected function manage_flair($action)
+	{
+		$controller = $this->container->get('stevotvr.flair.controller.acp.flair');
+		$controller->set_page_url($this->u_action);
+
+		$flair_id = $this->request->variable('flair_id', 0);
+
+		switch ($action)
+		{
 			case 'add':
 				$this->page_title = 'ACP_FLAIR_ADD';
 				$controller->add_flair();
-				return;
 			break;
 			case 'edit':
 				$this->page_title = 'ACP_FLAIR_EDIT';
 				$controller->edit_flair($flair_id);
-				return;
 			break;
 			case 'delete':
 				$controller->delete_flair($flair_id);
@@ -152,8 +202,5 @@ class main_module
 				$controller->move_flair($flair_id, 1);
 			break;
 		}
-
-		$this->page_title = 'ACP_FLAIR_MANAGE';
-		$controller->display_flair();
 	}
 }

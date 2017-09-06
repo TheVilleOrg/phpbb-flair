@@ -19,17 +19,13 @@ use phpbb\user;
 use stevotvr\flair\operator\category_interface;
 use stevotvr\flair\operator\flair_interface;
 use stevotvr\flair\operator\user_interface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Profile Flair user ACP controller.
  */
-class acp_user_controller implements acp_user_interface
+class acp_user_controller extends acp_base_controller implements acp_user_interface
 {
-	/**
-	 * @var \stevotvr\flair\operator\category_interface
-	 */
-	protected $cat_operator;
-
 	/**
 	 * @var \phpbb\config\config
 	 */
@@ -41,29 +37,19 @@ class acp_user_controller implements acp_user_interface
 	protected $db;
 
 	/**
-	 * @var \stevotvr\flair\operator\flair_interface
-	 */
-	protected $flair_operator;
-
-	/**
-	 * @var \phpbb\language\language
-	 */
-	protected $language;
-
-	/**
-	 * @var \phpbb\request\request
-	 */
-	protected $request;
-
-	/**
-	 * @var \phpbb\template\template
-	 */
-	protected $template;
-
-	/**
 	 * @var \phpbb\user
 	 */
 	protected $user;
+
+	/**
+	 * @var \stevotvr\flair\operator\category_interface
+	 */
+	protected $cat_operator;
+
+	/**
+	 * @var \stevotvr\flair\operator\flair_interface
+	 */
+	protected $flair_operator;
 
 	/**
 	 * @var \stevotvr\flair\operator\user_interface
@@ -85,44 +71,32 @@ class acp_user_controller implements acp_user_interface
 	protected $php_ext;
 
 	/**
-	 * The URL for the current page.
-	 *
-	 * @var string
-	 */
-	protected $u_action;
-
-	/**
-	 * @param \stevotvr\flair\operator\category_interface $cat_operator
-	 * @param \phpbb\config\config                        $config
-	 * @param \phpbb\db\driver\driver_interface           $db
-	 * @param \stevotvr\flair\operator\flair_interface    $flair_operator
+	 * @param ContainerInterface                          $container
 	 * @param \phpbb\language\language                    $language
 	 * @param \phpbb\request\request                      $request
 	 * @param \phpbb\template\template                    $template
+	 * @param \phpbb\config\config                        $config
+	 * @param \phpbb\db\driver\driver_interface           $db
 	 * @param \phpbb\user                                 $user
+	 * @param \stevotvr\flair\operator\category_interface $cat_operator
+	 * @param \stevotvr\flair\operator\flair_interface    $flair_operator
 	 * @param \stevotvr\flair\operator\user_interface     $user_operator
 	 * @param string                                      $root_path      The root phpBB path
 	 * @param string                                      $php_ext        The script file extension
 	 */
-	public function __construct(category_interface $cat_operator, config $config, driver_interface $db, flair_interface $flair_operator, language $language, request $request, template $template, user $user, user_interface $user_operator, $root_path, $php_ext)
+	public function __construct(ContainerInterface $container, language $language, request $request, template $template, config $config, driver_interface $db, user $user, category_interface $cat_operator, flair_interface $flair_operator, user_interface $user_operator, $root_path, $php_ext)
 	{
-		$this->cat_operator = $cat_operator;
+		parent::__construct($container, $language, $request, $template);
 		$this->config = $config;
 		$this->db = $db;
-		$this->flair_operator = $flair_operator;
-		$this->language = $language;
-		$this->request = $request;
-		$this->template = $template;
 		$this->user = $user;
+		$this->cat_operator = $cat_operator;
+		$this->flair_operator = $flair_operator;
 		$this->user_operator = $user_operator;
 		$this->root_path = $root_path;
 		$this->php_ext = $php_ext;
 	}
 
-	public function set_page_url($page_url)
-	{
-		$this->u_action = $page_url;
-	}
 	public function find_user()
 	{
 		$this->language->add_lang('acp/users');

@@ -11,17 +11,12 @@
 namespace stevotvr\flair\controller;
 
 /**
- * Profile Flair user flair management ACP controller interface.
+ * Profile Flair ACP controller interface.
  */
-interface acp_user_interface extends acp_base_interface
+interface acp_base_interface
 {
 	/**
-	 * Show the user search page.
+	 * @param string $page_url The URL for the current page
 	 */
-	public function find_user();
-
-	/**
-	 * Handle the user_flair mode.
-	 */
-	public function edit_user_flair();
+	public function set_page_url($page_url);
 }

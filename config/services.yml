@@ -16,23 +16,41 @@ services:
     stevotvr.flair.controller.acp.main:
         class: stevotvr\flair\controller\acp_main_controller
         arguments:
-            - '@stevotvr.flair.operator.category'
             - '@service_container'
-            - '@stevotvr.flair.operator.flair'
             - '@language'
             - '@request'
             - '@template'
+            - '@stevotvr.flair.operator.category'
+            - '@stevotvr.flair.operator.flair'
+    stevotvr.flair.controller.acp.cats:
+        class: stevotvr\flair\controller\acp_cats_controller
+        arguments:
+            - '@service_container'
+            - '@language'
+            - '@request'
+            - '@template'
+            - '@stevotvr.flair.operator.category'
+    stevotvr.flair.controller.acp.flair:
+        class: stevotvr\flair\controller\acp_flair_controller
+        arguments:
+            - '@service_container'
+            - '@language'
+            - '@request'
+            - '@template'
+            - '@stevotvr.flair.operator.category'
+            - '@stevotvr.flair.operator.flair'
     stevotvr.flair.controller.acp.user:
         class: stevotvr\flair\controller\acp_user_controller
         arguments:
-            - '@stevotvr.flair.operator.category'
-            - '@config'
-            - '@dbal.conn'
-            - '@stevotvr.flair.operator.flair'
+            - '@service_container'
             - '@language'
             - '@request'
             - '@template'
+            - '@config'
+            - '@dbal.conn'
             - '@user'
+            - '@stevotvr.flair.operator.category'
+            - '@stevotvr.flair.operator.flair'
             - '@stevotvr.flair.operator.user'
             - '%core.root_path%'
             - '%core.php_ext%'
