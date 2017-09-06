@@ -46,6 +46,10 @@ class flair extends operator implements flair_interface
 
 	public function delete_flair($flair_id)
 	{
+		$sql = 'DELETE FROM ' . $this->user_table . '
+				WHERE flair_id = ' . (int) $flair_id;
+		$this->db->sql_query($sql);
+
 		$sql = 'DELETE FROM ' . $this->flair_table . '
 				WHERE flair_id = ' . (int) $flair_id;
 		$this->db->sql_query($sql);

@@ -10,42 +10,11 @@
 
 namespace stevotvr\flair\operator;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use phpbb\db\driver\driver_interface;
-
 /**
  * Profile Flair user operator.
  */
 class user extends operator implements user_interface
 {
-	/**
-	 * The name of the flair_categories table.
-	 *
-	 * @var string
-	 */
-	protected $cat_table;
-
-	/**
-	 * The name of the flair_users table.
-	 *
-	 * @var string
-	 */
-	protected $user_table;
-
-	/**
-	 * @param ContainerInterface                $container
-	 * @param \phpbb\db\driver\driver_interface $db
-	 * @param string                            $flair_table The name of the flair table
-	 * @param string                            $cat_table   The name of the flair_categories table
-	 * @param string                            $user_table  The name of the flair_users table
-	 */
-	public function __construct(ContainerInterface $container, driver_interface $db, $flair_table, $cat_table, $user_table)
-	{
-		parent::__construct($container, $db, $flair_table);
-		$this->cat_table = $cat_table;
-		$this->user_table = $user_table;
-	}
-
 	public function add_flair($user_id, $flair_id, $count = 1)
 	{
 		if ($count < 1)

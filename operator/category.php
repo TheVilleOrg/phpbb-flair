@@ -10,33 +10,11 @@
 
 namespace stevotvr\flair\operator;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use phpbb\db\driver\driver_interface;
-
 /**
  * Profile Flair flair category operator.
  */
 class category extends operator implements category_interface
 {
-	/**
-	 * The name of the flair_categories table.
-	 *
-	 * @var string
-	 */
-	protected $cat_table;
-
-	/**
-	 * @param ContainerInterface                $container
-	 * @param \phpbb\db\driver\driver_interface $db
-	 * @param string                            $flair_table The name of the flair table
-	 * @param string                            $cat_table   The name of the flair_categories table
-	 */
-	public function __construct(ContainerInterface $container, driver_interface $db, $flair_table, $cat_table)
-	{
-		parent::__construct($container, $db, $flair_table);
-		$this->cat_table = $cat_table;
-	}
-
 	public function get_categories()
 	{
 		$entities = array();
@@ -103,6 +81,24 @@ class category extends operator implements category_interface
 
 	public function delete_flair($cat_id)
 	{
+		$sql = 'SELECT flair_id
+				FROM ' . $this->flair_table . '
+				WHERE flair_category = ' . (int) $cat_id;
+		$result = $this->db->sql_query($sql);
+		$ids = array();
+		while ($row = $this->db->sql_fetchrow($result))
+		{
+			$ids[] = $row['flair_id'];
+		}
+		$this->db->sql_freeresult($result);
+
+		if (count($ids))
+		{
+			$sql = 'DELETE FROM ' . $this->user_table . '
+					WHERE ' . $this->db->sql_in_set('flair_id', $ids);
+			$this->db->sql_query($sql);
+		}
+
 		$sql = 'DELETE FROM ' . $this->flair_table . '
 				WHERE flair_category = ' . (int) $cat_id;
 		$this->db->sql_query($sql);
