@@ -98,7 +98,6 @@ class base extends \Exception
 			}
 
 			$translated = $language->lang($value);
-			var_dump(strpos('EXCEPTION_FIELD_', $value));
 			if ($translated === $value && strpos($value, 'EXCEPTION_FIELD_') === 0)
 			{
 				$lang_array[] = strtolower(substr($value, 16));
