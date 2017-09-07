@@ -150,7 +150,7 @@ interface flair_interface extends entity_interface
 	 *
 	 * @return flair_interface This object for chaining
 	 *
-	 * @throws \stevotvr\flair\exception\out_of_bounds
+	 * @throws \stevotvr\flair\exception\unexpected_value
 	 */
 	public function set_icon_color($color);
 
@@ -164,7 +164,7 @@ interface flair_interface extends entity_interface
 	 *
 	 * @return flair_interface This object for chaining
 	 *
-	 * @throws \stevotvr\flair\exception\out_of_bounds
+	 * @throws \stevotvr\flair\exception\unexpected_value
 	 */
 	public function set_font_color($color);
 }

@@ -33,7 +33,7 @@ interface entity_interface
 	 *
 	 * @return entity_interface This object for chaining
 	 *
-	 * @throws \stevotvr\flair\exception\invalid_argument
+	 * @throws \stevotvr\flair\exception\missing_field
 	 * @throws \stevotvr\flair\exception\out_of_bounds
 	 */
 	public function import(array $data);

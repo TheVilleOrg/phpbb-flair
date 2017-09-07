@@ -10,6 +10,7 @@
 
 namespace stevotvr\flair\entity;
 
+use stevotvr\flair\exception\missing_field;
 use stevotvr\flair\exception\out_of_bounds;
 use stevotvr\flair\exception\unexpected_value;
 
@@ -39,12 +40,12 @@ class category extends entity implements category_interface
 
 		if ($name === '')
 		{
-			throw new unexpected_value(array('cat_name', 'FIELD_MISSING'));
+			throw new missing_field('cat_name', 'EXCEPTION_CAT_NAME_REQUIRED');
 		}
 
 		if (truncate_string($name, 255) !== $name)
 		{
-			throw new unexpected_value(array('cat_name', 'TOO_LONG'));
+			throw new unexpected_value('cat_name', 'TOO_LONG');
 		}
 
 		$this->data['cat_name'] = $name;

@@ -1,29 +1,28 @@
 <?php
 /**
-*
-* Pages extension for the phpBB Forum Software package.
-*
-* @copyright (c) 2014 phpBB Limited <https://www.phpbb.com>
-* @license GNU General Public License, version 2 (GPL-2.0)
-*
-*/
+ *
+ * Profile Flair. An extension for the phpBB Forum Software package.
+ *
+ * @copyright (c) 2017, Steve Guidetti, https://github.com/stevotvr
+ * @license GNU General Public License, version 2 (GPL-2.0)
+ *
+ */
 
 namespace stevotvr\flair\exception;
 
 /**
-* UnexpectedValue exception
-*/
+ * Profile Flair exception for a field that received an unexpected value.
+ */
 class unexpected_value extends base
 {
 	/**
-	* Translate this exception
-	*
-	* @param \phpbb\language\language $lang
-	* @return string
-	* @access public
-	*/
-	public function get_message(\phpbb\language\language $lang)
+	 * @param string $field       The name of the field
+	 * @param string $lang_string An optional language string for the message
+	 */
+	public function __construct($field, $lang_string = null)
 	{
-		return $this->translate_portions($lang, $this->message_full, 'EXCEPTION_UNEXPECTED_VALUE');
+		$message = sprintf('The field "%s" received an unexpected value. Reason: %s', $field, $lang_string);
+		$lang_array = ($lang_string) ? array('EXCEPTION_' . $lang_string, 'EXCEPTION_FIELD_' . strtoupper($field)) : null;
+		parent::__construct($message, $lang_array);
 	}
 }

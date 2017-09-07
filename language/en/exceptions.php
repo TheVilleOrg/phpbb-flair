@@ -1,12 +1,12 @@
 <?php
 /**
-*
-* Pages extension for the phpBB Forum Software package.
-*
-* @copyright (c) 2014 phpBB Limited <https://www.phpbb.com>
-* @license GNU General Public License, version 2 (GPL-2.0)
-*
-*/
+ *
+ * Profile Flair. An extension for the phpBB Forum Software package.
+ *
+ * @copyright (c) 2017, Steve Guidetti, https://github.com/stevotvr
+ * @license GNU General Public License, version 2 (GPL-2.0)
+ *
+ */
 
 /**
 * DO NOT CHANGE
@@ -37,22 +37,14 @@ if (empty($lang) || !is_array($lang))
 // ’ » “ ” …
 //
 
-/*
-* These are errors which can be triggered by sending invalid data to the
-* pages extension API.
-*
-* These errors will never show to a user unless they are either modifying
-* the core pages extension code OR unless they are writing an extension
-* which makes calls to this extension.
-*
-* Translators: Feel free to not translate these language strings
-*/
 $lang = array_merge($lang, array(
-	'EXCEPTION_FIELD_MISSING'		=> 'Required field missing',
-	'EXCEPTION_INVALID_ARGUMENT'	=> 'Invalid argument specified for `%1$s`. Reason: %2$s',
-	'EXCEPTION_OUT_OF_BOUNDS'		=> 'The field `%1$s` received data beyond its bounds',
-	'EXCEPTION_TOO_LONG'			=> 'The input was longer than the maximum length.',
-	'EXCEPTION_NOT_UNIQUE'			=> 'The input was not unique.',
-	'EXCEPTION_UNEXPECTED_VALUE'	=> 'The field `%1$s` received unexpected data. Reason: %2$s',
-	'EXCEPTION_ILLEGAL_CHARACTERS'	=> 'The input contained illegal characters.',
+	'EXCEPTION_OUT_OF_BOUNDS'		=> 'The field `%1$s` received a value out of its range.',
+	'EXCEPTION_INVALID_COLOR'		=> 'The field `%s` received an invalid color value. A valid color is a 6 character hexadecimal string (0-9, A-F).',
+	'EXCEPTION_TOO_LONG'			=> 'The field `%1$s` received a value longer than the maximum length of %2$d',
+	'EXCEPTION_NAME_REQUIRED'		=> 'You must enter a name for the flair item.',
+	'EXCEPTION_CAT_NAME_REQUIRED'	=> 'You must enter a name for the category.',
+
+	'EXCEPTION_FIELD_FLAIR_COLOR'		=> 'Flair color',
+	'EXCEPTION_FIELD_FLAIR_ICON_COLOR'	=> 'Flair icon color',
+	'EXCEPTION_FIELD_FLAIR_FONT_COLOR'	=> 'Flair font color',
 ));

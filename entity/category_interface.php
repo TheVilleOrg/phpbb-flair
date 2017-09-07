@@ -25,6 +25,7 @@ interface category_interface extends entity_interface
 	 *
 	 * @return flair_interface This object for chaining
 	 *
+	 * @throws \stevotvr\flair\exception\missing_field
 	 * @throws \stevotvr\flair\exception\unexpected_value
 	 */
 	public function set_name($name);

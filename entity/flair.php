@@ -12,6 +12,7 @@ namespace stevotvr\flair\entity;
 
 use phpbb\config\config;
 use phpbb\db\driver\driver_interface;
+use stevotvr\flair\exception\missing_field;
 use stevotvr\flair\exception\out_of_bounds;
 use stevotvr\flair\exception\unexpected_value;
 
@@ -83,12 +84,12 @@ class flair extends entity implements flair_interface
 
 		if ($name === '')
 		{
-			throw new unexpected_value(array('flair_name', 'FIELD_MISSING'));
+			throw new missing_field('flair_name', 'EXCEPTION_NAME_REQUIRED');
 		}
 
 		if (truncate_string($name, 255) !== $name)
 		{
-			throw new unexpected_value(array('flair_name', 'TOO_LONG'));
+			throw new unexpected_value('flair_name', 'TOO_LONG');
 		}
 
 		$this->data['flair_name'] = $name;
@@ -197,7 +198,7 @@ class flair extends entity implements flair_interface
 
 		if ($color !== '' && !self::is_valid_color($color))
 		{
-			throw new out_of_bounds('flair_color');
+			throw new unexpected_value('flair_color', 'INVALID_COLOR');
 		}
 
 		$this->data['flair_color'] = $color;
@@ -216,7 +217,7 @@ class flair extends entity implements flair_interface
 
 		if (truncate_string($icon, 50) !== $icon)
 		{
-			throw new unexpected_value(array('flair_icon', 'TOO_LONG'));
+			throw new unexpected_value('flair_icon', 'TOO_LONG');
 		}
 
 		$this->data['flair_icon'] = $icon;
@@ -235,7 +236,7 @@ class flair extends entity implements flair_interface
 
 		if ($color !== '' && !self::is_valid_color($color))
 		{
-			throw new out_of_bounds('flair_icon_color');
+			throw new unexpected_value('flair_icon_color', 'INVALID_COLOR');
 		}
 
 		$this->data['flair_icon_color'] = $color;
@@ -254,7 +255,7 @@ class flair extends entity implements flair_interface
 
 		if ($color !== '' && !self::is_valid_color($color))
 		{
-			throw new out_of_bounds('flair_font_color');
+			throw new unexpected_value('flair_font_color', 'INVALID_COLOR');
 		}
 
 		$this->data['flair_font_color'] = $color;

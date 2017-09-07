@@ -1,29 +1,27 @@
 <?php
 /**
-*
-* Pages extension for the phpBB Forum Software package.
-*
-* @copyright (c) 2014 phpBB Limited <https://www.phpbb.com>
-* @license GNU General Public License, version 2 (GPL-2.0)
-*
-*/
+ *
+ * Profile Flair. An extension for the phpBB Forum Software package.
+ *
+ * @copyright (c) 2017, Steve Guidetti, https://github.com/stevotvr
+ * @license GNU General Public License, version 2 (GPL-2.0)
+ *
+ */
 
 namespace stevotvr\flair\exception;
 
 /**
-* OutOfBounds exception
-*/
+ * Profile Flair exception for a field that received a value out of its range.
+ */
 class out_of_bounds extends base
 {
 	/**
-	* Translate this exception
-	*
-	* @param \phpbb\language\language $lang
-	* @return string
-	* @access public
-	*/
-	public function get_message(\phpbb\language\language $lang)
+	 * @param string $field The name of the field
+	 */
+	public function __construct($field)
 	{
-		return $this->translate_portions($lang, $this->message_full, 'EXCEPTION_OUT_OF_BOUNDS');
+		$message = sprintf('The field "%s" received a value out of its range.', $field);
+		$lang_array = array('EXCEPTION_OUT_OF_BOUNDS', 'EXCEPTION_FIELD_' . strtoupper($field));
+		parent::__construct($message, $lang_array);
 	}
 }

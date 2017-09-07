@@ -11,7 +11,7 @@
 namespace stevotvr\flair\entity;
 
 use phpbb\db\driver\driver_interface;
-use stevotvr\flair\exception\invalid_argument;
+use stevotvr\flair\exception\missing_field;
 use stevotvr\flair\exception\out_of_bounds;
 
 /**
@@ -87,7 +87,7 @@ abstract class entity implements entity_interface
 		{
 			if (!isset($data[$column]))
 			{
-				throw new invalid_argument(array($column, 'FIELD_MISSING'));
+				throw new missing_field($column);
 			}
 
 			if (method_exists($this, $type))
