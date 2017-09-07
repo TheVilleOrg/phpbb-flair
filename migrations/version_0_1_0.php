@@ -13,9 +13,9 @@ namespace stevotvr\flair\migrations;
 use phpbb\db\migration\migration;
 
 /**
- * Profile Flair migration for version 1.0.0.
+ * Profile Flair migration for version 0.1.0.
  */
-class version_1_0_0 extends migration
+class version_0_1_0 extends migration
 {
 	static public function depends_on()
 	{
