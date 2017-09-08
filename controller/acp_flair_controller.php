@@ -48,6 +48,8 @@ class acp_flair_controller extends acp_base_controller implements acp_flair_inte
 		parent::__construct($container, $language, $request, $template);
 		$this->cat_operator = $cat_operator;
 		$this->flair_operator = $flair_operator;
+
+		$language->add_lang('posting');
 	}
 
 	public function add_flair()
