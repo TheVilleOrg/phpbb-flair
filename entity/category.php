@@ -74,7 +74,7 @@ class category extends entity implements category_interface
 
 	public function show_on_profile()
 	{
-		return (bool) $this->data['cat_display_profile'];
+		return isset($this->data['cat_display_profile']) ? (bool) $this->data['cat_display_profile'] : false;
 	}
 
 	public function set_show_on_profile($show_on_profile)
@@ -88,7 +88,7 @@ class category extends entity implements category_interface
 
 	public function show_on_posts()
 	{
-		return (bool) $this->data['cat_display_posts'];
+		return isset($this->data['cat_display_posts']) ? (bool) $this->data['cat_display_posts'] : false;
 	}
 
 	public function set_show_on_posts($show_on_posts)
