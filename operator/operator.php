@@ -50,18 +50,27 @@ abstract class operator
 	protected $user_table;
 
 	/**
+	 * The name of the flair_groups table.
+	 *
+	 * @var string
+	 */
+	protected $group_table;
+
+	/**
 	 * @param ContainerInterface                $container
 	 * @param \phpbb\db\driver\driver_interface $db
 	 * @param string                            $flair_table The name of the flair table
 	 * @param string                            $cat_table   The name of the flair_categories table
 	 * @param string                            $user_table  The name of the flair_users table
+	 * @param string                            $group_table The name of the flair_groups table
 	 */
-	public function __construct(ContainerInterface $container, driver_interface $db, $flair_table, $cat_table, $user_table)
+	public function __construct(ContainerInterface $container, driver_interface $db, $flair_table, $cat_table, $user_table, $group_table)
 	{
 		$this->container = $container;
 		$this->db = $db;
 		$this->flair_table = $flair_table;
 		$this->cat_table = $cat_table;
 		$this->user_table = $user_table;
+		$this->group_table = $group_table;
 	}
 }

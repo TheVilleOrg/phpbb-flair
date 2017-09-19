@@ -11,9 +11,9 @@
 namespace stevotvr\flair\acp;
 
 /**
- * Profile Flair user ACP module.
+ * Profile Flair group ACP module.
  */
-class user_module
+class group_module
 {
 	public $u_action;
 	public $tpl_name;
@@ -22,18 +22,17 @@ class user_module
 	public function main($id, $mode)
 	{
 		global $phpbb_container;
-		$controller = $phpbb_container->get('stevotvr.flair.controller.acp.user');
+		$controller = $phpbb_container->get('stevotvr.flair.controller.acp.group');
 		$request = $phpbb_container->get('request');
 
-		$this->tpl_name = 'user';
-		$this->page_title = 'ACP_FLAIR_MANAGE_USERS';
+		$this->tpl_name = 'group';
+		$this->page_title = 'ACP_FLAIR_MANAGE_GROUPS';
 
 		$controller->set_page_url($this->u_action);
 
 		$user_id = $request->variable('subject_id', 0);
-		$username = $request->variable('username', '', true);
 
-		if (!$user_id && !$username)
+		if (!$user_id)
 		{
 			$controller->select_subject();
 			return;

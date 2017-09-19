@@ -11,45 +11,33 @@
 namespace stevotvr\flair\operator;
 
 /**
- * Profile Flair user operator.
+ * Profile Flair group operator.
  */
-class user extends subject implements user_interface
+class group extends subject implements group_interface
 {
-	protected $id_column = 'user_id';
+	protected $id_column = 'group_id';
 
 	protected function get_table()
 	{
-		return $this->user_table;
+		return $this->group_table;
 	}
 
 	public function get_flair($subject_id)
 	{
-		$user_flair = $this->get_user_flair($subject_id);
-		return count($user_flair) ? $user_flair[(int) $subject_id] : array();
-	}
-
-	public function get_user_flair($user_ids, $filter = '')
-	{
-		$where = $this->db->sql_in_set('u.user_id', (array) $user_ids);
-		if (in_array($filter, array('profile', 'posts')))
-		{
-			$where .= ' AND (c.cat_display_' . $filter . ' <> 0 OR c.cat_id IS NULL)';
-		}
-
 		$sql_ary = array(
-			'SELECT'	=> 'f.*, c.cat_name, u.user_id, u.flair_count',
-			'FROM'		=> array($this->user_table	=> 'u'),
+			'SELECT'	=> 'f.*, c.cat_name, g.flair_count',
+			'FROM'		=> array($this->group_table	=> 'g'),
 			'LEFT_JOIN'	=> array(
 				array(
 					'FROM'	=> array($this->flair_table	=> 'f'),
-					'ON'	=> 'f.flair_id = u.flair_id',
+					'ON'	=> 'f.flair_id = g.flair_id',
 				),
 				array(
 					'FROM'	=> array($this->cat_table	=> 'c'),
 					'ON'	=> 'c.cat_id = f.flair_category',
 				),
 			),
-			'WHERE'		=> $where,
+			'WHERE'		=> 'g.group_id = ' . (int) $subject_id,
 			'ORDER_BY'	=> 'c.cat_order ASC, c.cat_id ASC, f.flair_order ASC, f.flair_id ASC',
 		);
 
@@ -57,16 +45,16 @@ class user extends subject implements user_interface
 
 		$result = $this->db->sql_query($sql);
 
-		$user_flair = array();
+		$group_flair = array();
 		while ($row = $this->db->sql_fetchrow($result))
 		{
-			$user_flair[(int) $row['user_id']][(int) $row['flair_category']]['category'] = $row['cat_name'];
+			$group_flair[(int) $row['flair_category']]['category'] = $row['cat_name'];
 			$entity = $this->container->get('stevotvr.flair.entity.flair')->import($row);
-			$user_flair[(int) $row['user_id']][(int) $row['flair_category']]['items'][] = array(
+			$group_flair[(int) $row['flair_category']]['items'][] = array(
 				'count'	=> (int) $row['flair_count'],
 				'flair'	=> $entity,
 			);
 		}
-		return $user_flair;
+		return $group_flair;
 	}
 }
