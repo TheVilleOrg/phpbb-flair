@@ -13,59 +13,51 @@ services:
             - '@stevotvr.flair.operator.user'
         tags:
             - { name: event.listener }
-    stevotvr.flair.controller.acp.main:
-        class: stevotvr\flair\controller\acp_main_controller
+    stevotvr.flair.controller.acp:
+        class: stevotvr\flair\controller\acp_base_controller
         arguments:
             - '@service_container'
             - '@language'
             - '@request'
             - '@template'
+    stevotvr.flair.controller.acp.main:
+        class: stevotvr\flair\controller\acp_main_controller
+        parent: stevotvr.flair.controller.acp
+        arguments:
             - '@stevotvr.flair.operator.category'
             - '@stevotvr.flair.operator.flair'
     stevotvr.flair.controller.acp.cats:
         class: stevotvr\flair\controller\acp_cats_controller
+        parent: stevotvr.flair.controller.acp
         arguments:
-            - '@service_container'
-            - '@language'
-            - '@request'
-            - '@template'
             - '@stevotvr.flair.operator.category'
     stevotvr.flair.controller.acp.flair:
         class: stevotvr\flair\controller\acp_flair_controller
+        parent: stevotvr.flair.controller.acp
         arguments:
-            - '@service_container'
-            - '@language'
-            - '@request'
-            - '@template'
             - '@stevotvr.flair.operator.category'
             - '@stevotvr.flair.operator.flair'
-    stevotvr.flair.controller.acp.user:
-        class: stevotvr\flair\controller\acp_user_controller
+    stevotvr.flair.controller.acp.subject:
+        class: stevotvr\flair\controller\acp_subject_controller
+        parent: stevotvr.flair.controller.acp
+        abstract: true
         arguments:
-            - '@service_container'
-            - '@language'
-            - '@request'
-            - '@template'
             - '@config'
             - '@dbal.conn'
             - '@user'
             - '@stevotvr.flair.operator.category'
             - '@stevotvr.flair.operator.flair'
+    stevotvr.flair.controller.acp.user:
+        class: stevotvr\flair\controller\acp_user_controller
+        parent: stevotvr.flair.controller.acp.subject
+        arguments:
             - '@stevotvr.flair.operator.user'
             - '%core.root_path%'
             - '%core.php_ext%'
     stevotvr.flair.controller.acp.group:
         class: stevotvr\flair\controller\acp_group_controller
+        parent: stevotvr.flair.controller.acp.subject
         arguments:
-            - '@service_container'
-            - '@language'
-            - '@request'
-            - '@template'
-            - '@config'
-            - '@dbal.conn'
-            - '@user'
-            - '@stevotvr.flair.operator.category'
-            - '@stevotvr.flair.operator.flair'
             - '@stevotvr.flair.operator.group'
             - '@group_helper'
     stevotvr.flair.controller.legend:
@@ -89,39 +81,25 @@ services:
         arguments:
             - '@dbal.conn'
             - '%stevotvr.flair.tables.flair_categories%'
+    stevotvr.flair.operator:
+        class: stevotvr\flair\operator\flair
+        abstract: true
+        arguments:
+            - '@service_container'
+            - '@dbal.conn'
+            - '%stevotvr.flair.tables.flair%'
+            - '%stevotvr.flair.tables.flair_categories%'
+            - '%stevotvr.flair.tables.flair_users%'
+            - '%stevotvr.flair.tables.flair_groups%'
     stevotvr.flair.operator.flair:
         class: stevotvr\flair\operator\flair
-        arguments:
-            - '@service_container'
-            - '@dbal.conn'
-            - '%stevotvr.flair.tables.flair%'
-            - '%stevotvr.flair.tables.flair_categories%'
-            - '%stevotvr.flair.tables.flair_users%'
-            - '%stevotvr.flair.tables.flair_groups%'
+        parent: stevotvr.flair.operator
     stevotvr.flair.operator.category:
         class: stevotvr\flair\operator\category
-        arguments:
-            - '@service_container'
-            - '@dbal.conn'
-            - '%stevotvr.flair.tables.flair%'
-            - '%stevotvr.flair.tables.flair_categories%'
-            - '%stevotvr.flair.tables.flair_users%'
-            - '%stevotvr.flair.tables.flair_groups%'
+        parent: stevotvr.flair.operator
     stevotvr.flair.operator.user:
         class: stevotvr\flair\operator\user
-        arguments:
-            - '@service_container'
-            - '@dbal.conn'
-            - '%stevotvr.flair.tables.flair%'
-            - '%stevotvr.flair.tables.flair_categories%'
-            - '%stevotvr.flair.tables.flair_users%'
-            - '%stevotvr.flair.tables.flair_groups%'
+        parent: stevotvr.flair.operator
     stevotvr.flair.operator.group:
         class: stevotvr\flair\operator\group
-        arguments:
-            - '@service_container'
-            - '@dbal.conn'
-            - '%stevotvr.flair.tables.flair%'
-            - '%stevotvr.flair.tables.flair_categories%'
-            - '%stevotvr.flair.tables.flair_users%'
-            - '%stevotvr.flair.tables.flair_groups%'
+        parent: stevotvr.flair.operator
