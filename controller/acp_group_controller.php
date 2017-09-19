@@ -50,7 +50,7 @@ class acp_group_controller extends acp_subject_controller implements acp_subject
 	 * @param \stevotvr\flair\operator\group_interface    $group_operator
 	 * @param \phpbb\group\helper                         $group_helper
 	 */
-	public function __construct(ContainerInterface $container, language $language, request_interface $request, template $template, config $config, driver_interface $db, user $user, category_interface $cat_operator, flair_interface $flair_operator, group_interface $group_operator, $group_helper)
+	public function __construct(ContainerInterface $container, language $language, request_interface $request, template $template, config $config, driver_interface $db, user $user, category_interface $cat_operator, flair_interface $flair_operator, group_interface $group_operator, helper $group_helper)
 	{
 		parent::__construct($container, $language, $request, $template, $config, $db, $user, $cat_operator, $flair_operator, $group_operator);
 		$this->group_helper = $group_helper;
