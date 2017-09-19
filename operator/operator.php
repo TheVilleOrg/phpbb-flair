@@ -10,8 +10,8 @@
 
 namespace stevotvr\flair\operator;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use phpbb\db\driver\driver_interface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Profile Flair operator base class.

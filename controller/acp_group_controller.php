@@ -14,7 +14,7 @@ use phpbb\config\config;
 use phpbb\db\driver\driver_interface;
 use phpbb\group\helper;
 use phpbb\language\language;
-use phpbb\request\request;
+use phpbb\request\request_interface;
 use phpbb\template\template;
 use phpbb\user;
 use stevotvr\flair\operator\category_interface;
@@ -40,7 +40,7 @@ class acp_group_controller extends acp_subject_controller implements acp_subject
 	/**
 	 * @param ContainerInterface                          $container
 	 * @param \phpbb\language\language                    $language
-	 * @param \phpbb\request\request                      $request
+	 * @param \phpbb\request\request_interface            $request
 	 * @param \phpbb\template\template                    $template
 	 * @param \phpbb\config\config                        $config
 	 * @param \phpbb\db\driver\driver_interface           $db
@@ -50,7 +50,7 @@ class acp_group_controller extends acp_subject_controller implements acp_subject
 	 * @param \stevotvr\flair\operator\group_interface    $group_operator
 	 * @param \phpbb\group\helper                         $group_helper
 	 */
-	public function __construct(ContainerInterface $container, language $language, request $request, template $template, config $config, driver_interface $db, user $user, category_interface $cat_operator, flair_interface $flair_operator, group_interface $group_operator, $group_helper)
+	public function __construct(ContainerInterface $container, language $language, request_interface $request, template $template, config $config, driver_interface $db, user $user, category_interface $cat_operator, flair_interface $flair_operator, group_interface $group_operator, $group_helper)
 	{
 		parent::__construct($container, $language, $request, $template, $config, $db, $user, $cat_operator, $flair_operator, $group_operator);
 		$this->group_helper = $group_helper;

@@ -13,7 +13,7 @@ namespace stevotvr\flair\event;
 use phpbb\config\config;
 use phpbb\controller\helper;
 use phpbb\language\language;
-use phpbb\request\request;
+use phpbb\request\request_interface;
 use phpbb\template\template;
 use stevotvr\flair\operator\user_interface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -39,7 +39,7 @@ class main_listener implements EventSubscriberInterface
 	protected $language;
 
 	/**
-	 * @var \phpbb\request\request
+	 * @var \phpbb\request\request_interface
 	 */
 	protected $request;
 
@@ -57,11 +57,11 @@ class main_listener implements EventSubscriberInterface
 	 * @param \phpbb\config\config                    $config
 	 * @param \phpbb\controller\helper                $helper
 	 * @param \phpbb\language\language                $language
-	 * @param \phpbb\request\request                  $request
+	 * @param \phpbb\request\request_interface        $request
 	 * @param \phpbb\template\template                $template
 	 * @param \stevotvr\flair\operator\user_interface $user_operator
 	 */
-	public function __construct(config $config, helper $helper, language $language, request $request, template $template, user_interface $user_operator)
+	public function __construct(config $config, helper $helper, language $language, request_interface $request, template $template, user_interface $user_operator)
 	{
 		$this->config = $config;
 		$this->helper = $helper;

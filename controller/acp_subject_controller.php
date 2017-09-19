@@ -13,7 +13,7 @@ namespace stevotvr\flair\controller;
 use phpbb\config\config;
 use phpbb\db\driver\driver_interface;
 use phpbb\language\language;
-use phpbb\request\request;
+use phpbb\request\request_interface;
 use phpbb\template\template;
 use phpbb\user;
 use stevotvr\flair\operator\category_interface;
@@ -87,7 +87,7 @@ abstract class acp_subject_controller extends acp_base_controller
 	/**
 	 * @param ContainerInterface                          $container
 	 * @param \phpbb\language\language                    $language
-	 * @param \phpbb\request\request                      $request
+	 * @param \phpbb\request\request_interface            $request
 	 * @param \phpbb\template\template                    $template
 	 * @param \phpbb\config\config                        $config
 	 * @param \phpbb\db\driver\driver_interface           $db
@@ -96,7 +96,7 @@ abstract class acp_subject_controller extends acp_base_controller
 	 * @param \stevotvr\flair\operator\flair_interface    $flair_operator
 	 * @param \stevotvr\flair\operator\subject_interface  $subject_operator
 	 */
-	public function __construct(ContainerInterface $container, language $language, request $request, template $template, config $config, driver_interface $db, user $user, category_interface $cat_operator, flair_interface $flair_operator, subject_interface $subject_operator)
+	public function __construct(ContainerInterface $container, language $language, request_interface $request, template $template, config $config, driver_interface $db, user $user, category_interface $cat_operator, flair_interface $flair_operator, subject_interface $subject_operator)
 	{
 		parent::__construct($container, $language, $request, $template);
 		$this->config = $config;

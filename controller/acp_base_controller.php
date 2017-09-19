@@ -11,7 +11,7 @@
 namespace stevotvr\flair\controller;
 
 use phpbb\language\language;
-use phpbb\request\request;
+use phpbb\request\request_interface;
 use phpbb\template\template;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -31,7 +31,7 @@ abstract class acp_base_controller implements acp_base_interface
 	protected $language;
 
 	/**
-	 * @var \phpbb\request\request
+	 * @var \phpbb\request\request_interface
 	 */
 	protected $request;
 
@@ -48,12 +48,12 @@ abstract class acp_base_controller implements acp_base_interface
 	protected $u_action;
 
 	/**
-	 * @param ContainerInterface       $container
-	 * @param \phpbb\language\language $language
-	 * @param \phpbb\request\request   $request
-	 * @param \phpbb\template\template $template
+	 * @param ContainerInterface               $container
+	 * @param \phpbb\language\language         $language
+	 * @param \phpbb\request\request_interface $request
+	 * @param \phpbb\template\template         $template
 	 */
-	public function __construct(ContainerInterface $container, language $language, request $request, template $template)
+	public function __construct(ContainerInterface $container, language $language, request_interface $request, template $template)
 	{
 		$this->container = $container;
 		$this->language = $language;

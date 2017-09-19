@@ -11,7 +11,7 @@
 namespace stevotvr\flair\controller;
 
 use phpbb\language\language;
-use phpbb\request\request;
+use phpbb\request\request_interface;
 use phpbb\template\template;
 use stevotvr\flair\entity\category_interface as cat_entity;
 use stevotvr\flair\exception\base;
@@ -31,11 +31,11 @@ class acp_cats_controller extends acp_base_controller implements acp_cats_interf
 	/**
 	 * @param ContainerInterface                          $container
 	 * @param \phpbb\language\language                    $language
-	 * @param \phpbb\request\request                      $request
+	 * @param \phpbb\request\request_interface            $request
 	 * @param \phpbb\template\template                    $template
 	 * @param \stevotvr\flair\operator\category_interface $cat_operator
 	 */
-	public function __construct(ContainerInterface $container, language $language, request $request, template $template, cat_operator $cat_operator)
+	public function __construct(ContainerInterface $container, language $language, request_interface $request, template $template, cat_operator $cat_operator)
 	{
 		parent::__construct($container, $language, $request, $template);
 		$this->cat_operator = $cat_operator;
