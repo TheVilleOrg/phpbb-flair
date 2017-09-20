@@ -15,6 +15,7 @@ services:
             - { name: event.listener }
     stevotvr.flair.controller.acp:
         class: stevotvr\flair\controller\acp_base_controller
+        abstract: true
         arguments:
             - '@service_container'
             - '@language'
