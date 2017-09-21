@@ -100,6 +100,55 @@ abstract class subject extends operator implements subject_interface
 		}
 	}
 
+	public function get_subject_flair($subject_id)
+	{
+		$subject_id = (int) $subject_id;
+		$subject_flair = $this->get_flair((array) $subject_id);
+		return isset($subject_flair[$subject_id]) ? $subject_flair[$subject_id] : array();
+	}
+
+	public function get_flair(array $subject_ids, $filter = '')
+	{
+		$flair = array();
+
+		$where = $this->db->sql_in_set('s.' . $this->id_column, $subject_ids);
+		if (in_array($filter, array('profile', 'posts')))
+		{
+			$where .= ' AND (c.cat_display_' . $filter . ' <> 0 OR c.cat_id IS NULL)';
+		}
+
+		$sql_ary = array(
+			'SELECT'	=> 'f.*, c.cat_name, s.' . $this->id_column . ' AS subject_id, s.flair_count',
+			'FROM'		=> array($this->table_name	=> 's'),
+			'LEFT_JOIN'	=> array(
+				array(
+					'FROM'	=> array($this->flair_table	=> 'f'),
+					'ON'	=> 'f.flair_id = s.flair_id',
+				),
+				array(
+					'FROM'	=> array($this->cat_table	=> 'c'),
+					'ON'	=> 'c.cat_id = f.flair_category',
+				),
+			),
+			'WHERE'		=> $where,
+			'ORDER_BY'	=> 'c.cat_order ASC, c.cat_id ASC, f.flair_order ASC, f.flair_id ASC',
+		);
+		$sql = $this->db->sql_build_query('SELECT', $sql_ary);
+		$result = $this->db->sql_query($sql);
+		while ($row = $this->db->sql_fetchrow($result))
+		{
+			$flair[(int) $row['subject_id']][(int) $row['flair_category']]['category'] = $row['cat_name'];
+			$entity = $this->container->get('stevotvr.flair.entity.flair')->import($row);
+			$flair[(int) $row['subject_id']][(int) $row['flair_category']]['items'][] = array(
+				'count'	=> (int) $row['flair_count'],
+				'flair'	=> $entity,
+			);
+		}
+		$this->db->sql_freeresult($result);
+
+		return $flair;
+	}
+
 	/**
 	 * Get the number of a specified flair item associated with a subject.
 	 *

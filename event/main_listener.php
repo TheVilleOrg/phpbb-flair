@@ -123,7 +123,7 @@ class main_listener implements EventSubscriberInterface
 
 		$user_id = $event['member']['user_id'];
 		$username = $event['member']['username'];
-		$user_flair = $this->user_operator->get_user_flair($user_id, 'profile');
+		$user_flair = $this->user_operator->get_flair((array) $user_id, 'profile');
 
 		if (!isset($user_flair[$user_id]))
 		{
@@ -171,7 +171,7 @@ class main_listener implements EventSubscriberInterface
 		}
 
 		$user_cache = $event['user_cache'];
-		$user_flair = $this->user_operator->get_user_flair(array_keys($user_cache), 'posts');
+		$user_flair = $this->user_operator->get_flair(array_keys($user_cache), 'posts');
 
 		if (!count($user_flair))
 		{

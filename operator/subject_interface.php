@@ -54,5 +54,19 @@ interface subject_interface
 	 *                     count int
 	 *                     flair \stevotvr\flair\entity\flair
 	 */
-	public function get_flair($subject_id);
+	public function get_subject_flair($subject_id);
+
+	/**
+	 * Get the flair for a list of subjects.
+	 *
+	 * @param array  $subject_ids An array of subject database IDs
+	 * @param string $filter      Set to profile or posts to only get items shown in that area
+	 *
+	 * @return array An associative array of associative arrays of arrays of flair rows
+	 *                  subject_id
+	 *                     flair_parent
+	 *                        count int
+	 *                        flair \stevotvr\flair\entity\flair
+	 */
+	public function get_flair(array $subject_ids, $filter = '');
 }

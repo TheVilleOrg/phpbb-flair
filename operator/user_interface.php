@@ -15,17 +15,4 @@ namespace stevotvr\flair\operator;
  */
 interface user_interface extends subject_interface
 {
-	/**
-	 * Get the flair for a list of users.
-	 *
-	 * @param array|int $user_ids An array of user database IDs, or a single user ID
-	 * @param string    $filter   Set to profile or posts to only get items shown in that area
-	 *
-	 * @return array An associative array of associative arrays of arrays of flair rows
-	 *                  user_id
-	 *                     flair_parent
-	 *                        count int
-	 *                        flair \stevotvr\flair\entity\flair
-	 */
-	public function get_user_flair($user_ids, $filter = '');
 }

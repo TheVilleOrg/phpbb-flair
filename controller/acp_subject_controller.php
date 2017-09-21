@@ -124,7 +124,7 @@ abstract class acp_subject_controller extends acp_base_controller
 			$this->change_flair($subject_id, 'remove_all');
 		}
 
-		$subject_flair = $this->subject_operator->get_flair($subject_id);
+		$subject_flair = $this->subject_operator->get_subject_flair($subject_id);
 		$this->assign_tpl_vars($subject_id, $subject_name, $subject_flair);
 	}
 
