@@ -15,13 +15,6 @@ namespace stevotvr\flair\operator;
  */
 class user extends subject implements user_interface
 {
-	protected $id_column = 'user_id';
-
-	protected function get_table()
-	{
-		return $this->user_table;
-	}
-
 	public function get_flair($subject_id)
 	{
 		$user_flair = $this->get_user_flair($subject_id);

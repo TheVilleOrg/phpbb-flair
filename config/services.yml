@@ -101,6 +101,12 @@ services:
     stevotvr.flair.operator.user:
         class: stevotvr\flair\operator\user
         parent: stevotvr.flair.operator
+        calls:
+            - [set_table_name, ['%stevotvr.flair.tables.flair_users%']]
+            - [set_id_column, ['user_id']]
     stevotvr.flair.operator.group:
         class: stevotvr\flair\operator\group
         parent: stevotvr.flair.operator
+        calls:
+            - [set_table_name, ['%stevotvr.flair.tables.flair_groups%']]
+            - [set_id_column, ['group_id']]

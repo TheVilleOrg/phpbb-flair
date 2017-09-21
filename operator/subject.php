@@ -16,6 +16,13 @@ namespace stevotvr\flair\operator;
 abstract class subject extends operator implements subject_interface
 {
 	/**
+	 * The name of the database table.
+	 *
+	 * @var string
+	 */
+	protected $table_name;
+
+	/**
 	 * The name of the unique ID column.
 	 *
 	 * @var string
@@ -23,9 +30,20 @@ abstract class subject extends operator implements subject_interface
 	protected $id_column;
 
 	/**
-	 * @return string The name of the databases table
+	 * @param string $name The name of the database table
 	 */
-	abstract protected function get_table();
+	public function set_table_name($name)
+	{
+		$this->table_name = $name;
+	}
+
+	/**
+	 * @param string $name The name of the unique ID column
+	 */
+	public function set_id_column($name)
+	{
+		$this->id_column = $name;
+	}
 
 	public function add_flair($subject_id, $flair_id, $count = 1)
 	{
@@ -94,7 +112,7 @@ abstract class subject extends operator implements subject_interface
 	protected function get_item_count($subject_id, $flair_id)
 	{
 		$sql = 'SELECT flair_count
-				FROM ' . $this->get_table() . '
+				FROM ' . $this->table_name . '
 				WHERE ' . $this->id_column . ' = ' . (int) $subject_id . '
 					AND flair_id = ' . (int) $flair_id;
 		$result = $this->db->sql_query($sql);
@@ -123,7 +141,7 @@ abstract class subject extends operator implements subject_interface
 			'flair_id'			=> (int) $flair_id,
 			'flair_count'		=> (int) $count,
 		);
-		$sql = 'INSERT INTO ' . $this->get_table() . '
+		$sql = 'INSERT INTO ' . $this->table_name . '
 				' . $this->db->sql_build_array('INSERT', $data);
 		$this->db->sql_query($sql);
 	}
@@ -136,7 +154,7 @@ abstract class subject extends operator implements subject_interface
 	 */
 	protected function delete_row($subject_id, $flair_id)
 	{
-		$sql = 'DELETE FROM ' . $this->get_table() . '
+		$sql = 'DELETE FROM ' . $this->table_name . '
 				WHERE ' . $this->id_column . ' = ' . (int) $subject_id . '
 					AND flair_id = ' . (int) $flair_id;
 		$this->db->sql_query($sql);
@@ -151,7 +169,7 @@ abstract class subject extends operator implements subject_interface
 	 */
 	protected function update_count($subject_id, $flair_id, $count)
 	{
-		$sql = 'UPDATE ' . $this->get_table() . '
+		$sql = 'UPDATE ' . $this->table_name . '
 				SET flair_count = ' . (int) $count . '
 				WHERE ' . $this->id_column . ' = ' . (int) $subject_id . '
 					AND flair_id = ' . (int) $flair_id;

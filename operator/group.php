@@ -15,13 +15,6 @@ namespace stevotvr\flair\operator;
  */
 class group extends subject implements group_interface
 {
-	protected $id_column = 'group_id';
-
-	protected function get_table()
-	{
-		return $this->group_table;
-	}
-
 	public function get_flair($subject_id)
 	{
 		$sql_ary = array(
