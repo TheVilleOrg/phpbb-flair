@@ -44,23 +44,11 @@ class user extends subject implements user_interface
 		$result = $this->db->sql_query($sql);
 		while ($row = $this->db->sql_fetchrow($result))
 		{
-			$user_id = (int) $row['user_id'];
-			$flair_id = (int) $row['flair_id'];
-			$flair_category = (int) $row['flair_category'];
-			$flair_count = (int) $row['flair_count'];
-
-			$entity = $this->container->get('stevotvr.flair.entity.category');
-			if ($row['cat_id'])
+			if (!isset($flair[(int) $row['user_id']]))
 			{
-				$entity->import($row);
+				$flair[(int) $row['user_id']] = array();
 			}
-			$flair[$user_id][$flair_category]['category'] = $entity;
-
-			$entity = $this->container->get('stevotvr.flair.entity.flair')->import($row);
-			$flair[$user_id][$flair_category]['items'][$flair_id] = array(
-				'count'	=> $flair_count,
-				'flair'	=> $entity,
-			);
+			$this->import_flair_item($flair[(int) $row['user_id']], $row);
 		}
 		$this->db->sql_freeresult($result);
 
@@ -108,28 +96,20 @@ class user extends subject implements user_interface
 		{
 			$flair_id = (int) $row['flair_id'];
 			$flair_category = (int) $row['flair_category'];
-			$flair_count = (int) $row['flair_count'];
 
 			foreach ($memberships[(int) $row['group_id']] as $user_id)
 			{
 				if (isset($flair[$user_id][$flair_category]['items'][$flair_id]))
 				{
-					$flair[$user_id][$flair_category]['items'][$flair_id]['count'] += $flair_count;
+					$flair[$user_id][$flair_category]['items'][$flair_id]['count'] += (int) $row['flair_count'];
 					continue;
 				}
 
-				$entity = $this->container->get('stevotvr.flair.entity.category');
-				if ($row['cat_id'])
+				if (!isset($flair[$user_id]))
 				{
-					$entity->import($row);
+					$flair[$user_id] = array();
 				}
-				$flair[$user_id][$flair_category]['category'] = $entity;
-
-				$entity = $this->container->get('stevotvr.flair.entity.flair')->import($row);
-				$flair[$user_id][$flair_category]['items'][$flair_id] = array(
-					'count'	=> $row['flair_count'],
-					'flair'	=> $entity,
-				);
+				$this->import_flair_item($flair[$user_id], $row);
 			}
 		}
 		$this->db->sql_freeresult($result);

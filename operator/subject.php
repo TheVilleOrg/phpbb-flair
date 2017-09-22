@@ -105,7 +105,7 @@ abstract class subject extends operator implements subject_interface
 		$flair = array();
 
 		$sql_ary = array(
-			'SELECT'	=> 'f.*, c.cat_name, s.' . $this->id_column . ' AS subject_id, s.flair_count',
+			'SELECT'	=> 'f.*, c.*, s.flair_count',
 			'FROM'		=> array($this->table_name	=> 's'),
 			'LEFT_JOIN'	=> array(
 				array(
@@ -124,16 +124,33 @@ abstract class subject extends operator implements subject_interface
 		$result = $this->db->sql_query($sql);
 		while ($row = $this->db->sql_fetchrow($result))
 		{
-			$flair[(int) $row['flair_category']]['category'] = $row['cat_name'];
-			$entity = $this->container->get('stevotvr.flair.entity.flair')->import($row);
-			$flair[(int) $row['flair_category']]['items'][] = array(
-				'count'	=> (int) $row['flair_count'],
-				'flair'	=> $entity,
-			);
+			$this->import_flair_item($flair, $row);
 		}
 		$this->db->sql_freeresult($result);
 
 		return $flair;
+	}
+
+	/**
+	 * Import a flair item from a database query result row.
+	 *
+	 * @param array &$flair The array to which to add the item
+	 * @param array $row    The database result row data
+	 */
+	protected function import_flair_item(array &$flair, array $row)
+	{
+		$entity = $this->container->get('stevotvr.flair.entity.category');
+		if ($row['cat_id'])
+		{
+			$entity->import($row);
+		}
+		$flair[(int) $row['flair_category']]['category'] = $entity;
+
+		$entity = $this->container->get('stevotvr.flair.entity.flair')->import($row);
+		$flair[(int) $row['flair_category']]['items'][(int) $row['flair_id']] = array(
+			'count'	=> (int) $row['flair_count'],
+			'flair'	=> $entity,
+		);
 	}
 
 	/**

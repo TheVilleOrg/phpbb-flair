@@ -207,7 +207,7 @@ abstract class acp_subject_controller extends acp_base_controller
 		foreach ($subject_flair as $category)
 		{
 			$this->template->assign_block_vars('flair', array(
-				'CAT_NAME'	=> $category['category'],
+				'CAT_NAME'	=> $category['category']->get_name(),
 			));
 
 			foreach ($category['items'] as $item)
