@@ -55,7 +55,7 @@ class category extends entity implements category_interface
 
 	public function get_order()
 	{
-		return isset($this->data['cat_order']) ? (int) $this->data['cat_order'] : 0;
+		return isset($this->data['cat_order']) ? (int) $this->data['cat_order'] : -1;
 	}
 
 	public function set_order($order)

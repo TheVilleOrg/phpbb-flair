@@ -170,7 +170,7 @@ class flair extends entity implements flair_interface
 
 	public function get_order()
 	{
-		return isset($this->data['flair_order']) ? (int) $this->data['flair_order'] : 0;
+		return isset($this->data['flair_order']) ? (int) $this->data['flair_order'] : -1;
 	}
 
 	public function set_order($order)

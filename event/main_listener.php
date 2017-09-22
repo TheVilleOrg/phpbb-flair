@@ -123,7 +123,7 @@ class main_listener implements EventSubscriberInterface
 
 		$user_id = $event['member']['user_id'];
 		$username = $event['member']['username'];
-		$user_flair = $this->user_operator->get_flair((array) $user_id, 'profile');
+		$user_flair = $this->user_operator->get_user_flair((array) $user_id, 'profile');
 
 		if (!isset($user_flair[$user_id]))
 		{
@@ -138,7 +138,7 @@ class main_listener implements EventSubscriberInterface
 		foreach ($user_flair[$user_id] as $category)
 		{
 			$this->template->assign_block_vars('flair', array(
-				'CAT_NAME'	=> $category['category'],
+				'CAT_NAME'	=> $category['category']->get_name(),
 			));
 
 			foreach ($category['items'] as $item)
@@ -171,7 +171,7 @@ class main_listener implements EventSubscriberInterface
 		}
 
 		$user_cache = $event['user_cache'];
-		$user_flair = $this->user_operator->get_flair(array_keys($user_cache), 'posts');
+		$user_flair = $this->user_operator->get_user_flair(array_keys($user_cache), 'posts');
 
 		if (!count($user_flair))
 		{
@@ -184,7 +184,7 @@ class main_listener implements EventSubscriberInterface
 		{
 			foreach ($user as $category_id => $category)
 			{
-				$user_cache[$user_id]['flair'][$category_id]['category'] = $category['category'];
+				$user_cache[$user_id]['flair'][$category_id]['category'] = $category['category']->get_name();
 
 				foreach ($category['items'] as $item)
 				{
