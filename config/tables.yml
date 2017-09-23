@@ -3,3 +3,4 @@ parameters:
     stevotvr.flair.tables.flair_categories: '%core.table_prefix%flair_categories'
     stevotvr.flair.tables.flair_users: '%core.table_prefix%flair_users'
     stevotvr.flair.tables.flair_groups: '%core.table_prefix%flair_groups'
+    stevotvr.flair.tables.flair_triggers: '%core.table_prefix%flair_triggers'

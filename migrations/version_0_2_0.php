@@ -33,6 +33,19 @@ class version_0_2_0 extends migration
 					),
 					'PRIMARY_KEY' => array('flair_id', 'group_id'),
 				),
+				$this->table_prefix . 'flair_triggers' => array(
+					'COLUMNS' => array(
+						'trig_id'		=> array('UINT', null, 'auto_increment'),
+						'flair_id'		=> array('UINT', 0),
+						'trig_name'		=> array('VCHAR', ''),
+						'trig_value'	=> array('UINT', 0),
+					),
+					'PRIMARY_KEY' => 'trig_id',
+					'KEYS' => array(
+						'flair_id'	=> array('INDEX', 'flair_id'),
+						'trig_name'	=> array('INDEX', 'trig_name'),
+					),
+				),
 			),
 		);
 	}
@@ -42,6 +55,7 @@ class version_0_2_0 extends migration
 		return array(
 			'drop_tables'   => array(
 				$this->table_prefix . 'flair_groups',
+				$this->table_prefix . 'flair_triggers',
 			),
 		);
 	}

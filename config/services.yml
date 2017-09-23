@@ -73,6 +73,12 @@ services:
         arguments:
             - '@dbal.conn'
             - '%stevotvr.flair.tables.flair_categories%'
+    stevotvr.flair.entity.trigger:
+        class: stevotvr\flair\entity\trigger
+        shared: false
+        arguments:
+            - '@dbal.conn'
+            - '%stevotvr.flair.tables.flair_triggers%'
     stevotvr.flair.operator:
         class: stevotvr\flair\operator\flair
         abstract: true
@@ -92,3 +98,9 @@ services:
     stevotvr.flair.operator.user:
         class: stevotvr\flair\operator\user
         parent: stevotvr.flair.operator
+    stevotvr.flair.operator.trigger:
+        class: stevotvr\flair\operator\trigger
+        arguments:
+            - '@service_container'
+            - '@dbal.conn'
+            - '%stevotvr.flair.tables.flair_triggers%'
