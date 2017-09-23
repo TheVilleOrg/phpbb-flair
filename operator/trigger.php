@@ -88,7 +88,7 @@ class trigger extends operator implements trigger_interface
 		$this->db->sql_query($sql);
 
 		$sql_ary = array();
-		foreach ($trigger_names as $name => $value)
+		foreach ($triggers as $name => $value)
 		{
 			$sql_ary[] = array(
 				'flair_id'		=> (int) $flair_id,
