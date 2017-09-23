@@ -13,15 +13,15 @@ namespace stevotvr\flair\controller;
 /**
  * Profile Flair user/group flair management ACP controller interface.
  */
-interface acp_subject_interface extends acp_base_interface
+interface acp_user_interface extends acp_base_interface
 {
 	/**
-	 * Show the subject selection page.
+	 * Show the user search page.
 	 */
-	public function select_subject();
+	public function find_user();
 
 	/**
-	 * Handle the edit mode.
+	 * Handle the user flair edit mode.
 	 */
-	public function edit_subject_flair();
+	public function edit_user_flair();
 }

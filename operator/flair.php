@@ -97,4 +97,38 @@ class flair extends operator implements flair_interface
 			$this->db->sql_query($sql);
 		}
 	}
+
+	public function assign_groups($flair_id, array $group_ids)
+	{
+		$sql = 'DELETE FROM ' . $this->group_table . '
+				WHERE flair_id = ' . (int) $flair_id;
+		$this->db->sql_query($sql);
+
+		$sql_ary = array();
+		foreach ($group_ids as $group_id)
+		{
+			$sql_ary[] = array(
+				'group_id'	=> (int) $group_id,
+				'flair_id'	=> (int) $flair_id,
+			);
+		}
+		$this->db->sql_multi_insert($this->group_table, $sql_ary);
+	}
+
+	public function get_assigned_groups($flair_id)
+	{
+		$group_ids = array();
+
+		$sql = 'SELECT group_id
+				FROM ' . $this->group_table . '
+				WHERE flair_id = ' . (int) $flair_id;
+		$result = $this->db->sql_query($sql);
+		while ($row = $this->db->sql_fetchrow($result))
+		{
+			$group_ids[] = (int) $row['group_id'];
+		}
+		$this->db->sql_freeresult($result);
+
+		return $group_ids;
+	}
 }

@@ -10,6 +10,8 @@
 
 namespace stevotvr\flair\controller;
 
+use phpbb\db\driver\driver_interface;
+use phpbb\group\helper;
 use phpbb\json_response;
 use phpbb\language\language;
 use phpbb\request\request_interface;
@@ -26,6 +28,16 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class acp_flair_controller extends acp_base_controller implements acp_flair_interface
 {
 	/**
+	 * @var \phpbb\db\driver\driver_interface
+	 */
+	protected $db;
+
+	/**
+	 * @var \phpbb\group\helper
+	 */
+	protected $group_helper;
+
+	/**
 	 * @var \stevotvr\flair\operator\category_interface
 	 */
 	protected $cat_operator;
@@ -40,12 +52,16 @@ class acp_flair_controller extends acp_base_controller implements acp_flair_inte
 	 * @param \phpbb\language\language                    $language
 	 * @param \phpbb\request\request_interface            $request
 	 * @param \phpbb\template\template                    $template
+	 * @param \phpbb\db\driver\driver_interface           $db
+	 * @param \phpbb\group\helper                         $group_helper
 	 * @param \stevotvr\flair\operator\category_interface $cat_operator
 	 * @param \stevotvr\flair\operator\flair_interface    $flair_operator
 	 */
-	public function __construct(ContainerInterface $container, language $language, request_interface $request, template $template, cat_operator $cat_operator, flair_operator $flair_operator)
+	public function __construct(ContainerInterface $container, language $language, request_interface $request, template $template, driver_interface $db, helper $group_helper, cat_operator $cat_operator, flair_operator $flair_operator)
 	{
 		parent::__construct($container, $language, $request, $template);
+		$this->db = $db;
+		$this->group_helper = $group_helper;
 		$this->cat_operator = $cat_operator;
 		$this->flair_operator = $flair_operator;
 
@@ -129,6 +145,8 @@ class acp_flair_controller extends acp_base_controller implements acp_flair_inte
 					$message = 'ACP_FLAIR_ADD_SUCCESS';
 				}
 
+				$this->flair_operator->assign_groups($entity->get_id(), $this->request->variable('flair_groups', array(0)));
+
 				trigger_error($this->language->lang($message) . adm_back_link($this->u_action . '&amp;cat_id=' . $entity->get_category()));
 			}
 		}
@@ -155,6 +173,39 @@ class acp_flair_controller extends acp_base_controller implements acp_flair_inte
 		));
 
 		$this->load_cat_select_data($entity->get_category());
+		$this->load_groups($entity->get_id());
+	}
+
+	/**
+	 * Load the groups into template block variables.
+	 *
+	 * @param int $flair_id The flair item ID
+	 */
+	protected function load_groups($flair_id)
+	{
+		$groups = array();
+		$selected = $this->flair_operator->get_assigned_groups($flair_id);
+
+		$sql = 'SELECT group_id, group_name
+				FROM ' . GROUPS_TABLE;
+		$result = $this->db->sql_query($sql);
+		while ($row = $this->db->sql_fetchrow($result))
+		{
+			$groups[] = array(
+				'GROUP_ID'		=> (int) $row['group_id'],
+				'GROUP_NAME'	=> $this->group_helper->get_name($row['group_name']),
+
+				'S_SELECTED'	=> in_array((int) $row['group_id'], $selected),
+			);
+		}
+		$this->db->sql_freeresult($result);
+
+		$names = array_map('strtolower', array_column($groups, 'GROUP_NAME'));
+		array_multisort($names, SORT_ASC, SORT_STRING, $groups);
+		foreach ($groups as $group)
+		{
+			$this->template->assign_block_vars('group', $group);
+		}
 	}
 
 	/**

@@ -30,7 +30,6 @@ class version_0_2_0 extends migration
 					'COLUMNS' => array(
 						'group_id'		=> array('UINT', 0),
 						'flair_id'		=> array('UINT', 0),
-						'flair_count'	=> array('UINT', 1),
 					),
 					'PRIMARY_KEY' => array('flair_id', 'group_id'),
 				),
@@ -44,20 +43,6 @@ class version_0_2_0 extends migration
 			'drop_tables'   => array(
 				$this->table_prefix . 'flair_groups',
 			),
-		);
-	}
-
-	public function update_data()
-	{
-		return array(
-			array('module.add', array(
-				'acp',
-				'ACP_GROUPS',
-				array(
-					'module_basename'	=> '\stevotvr\flair\acp\group_module',
-					'modes'				=> array('main'),
-				),
-			)),
 		);
 	}
 }

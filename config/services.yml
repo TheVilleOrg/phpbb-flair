@@ -36,31 +36,22 @@ services:
         class: stevotvr\flair\controller\acp_flair_controller
         parent: stevotvr.flair.controller.acp
         arguments:
+            - '@dbal.conn'
+            - '@group_helper'
             - '@stevotvr.flair.operator.category'
             - '@stevotvr.flair.operator.flair'
-    stevotvr.flair.controller.acp.subject:
-        class: stevotvr\flair\controller\acp_subject_controller
+    stevotvr.flair.controller.acp.user:
+        class: stevotvr\flair\controller\acp_user_controller
         parent: stevotvr.flair.controller.acp
-        abstract: true
         arguments:
             - '@config'
             - '@dbal.conn'
             - '@user'
             - '@stevotvr.flair.operator.category'
             - '@stevotvr.flair.operator.flair'
-    stevotvr.flair.controller.acp.user:
-        class: stevotvr\flair\controller\acp_user_controller
-        parent: stevotvr.flair.controller.acp.subject
-        arguments:
             - '@stevotvr.flair.operator.user'
             - '%core.root_path%'
             - '%core.php_ext%'
-    stevotvr.flair.controller.acp.group:
-        class: stevotvr\flair\controller\acp_group_controller
-        parent: stevotvr.flair.controller.acp.subject
-        arguments:
-            - '@stevotvr.flair.operator.group'
-            - '@group_helper'
     stevotvr.flair.controller.legend:
         class: stevotvr\flair\controller\legend_controller
         arguments:
@@ -101,12 +92,3 @@ services:
     stevotvr.flair.operator.user:
         class: stevotvr\flair\operator\user
         parent: stevotvr.flair.operator
-        calls:
-            - [set_table_name, ['%stevotvr.flair.tables.flair_users%']]
-            - [set_id_column, ['user_id']]
-    stevotvr.flair.operator.group:
-        class: stevotvr\flair\operator\group
-        parent: stevotvr.flair.operator
-        calls:
-            - [set_table_name, ['%stevotvr.flair.tables.flair_groups%']]
-            - [set_id_column, ['group_id']]

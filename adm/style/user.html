@@ -27,13 +27,61 @@
 
 {% else %}
 
+{% INCLUDECSS '@stevotvr_flair/flair.css' %}
+
 <a href="{{ U_BACK }}" style="float: {{ S_CONTENT_FLOW_END }};">&laquo; {{ lang('BACK') }}</a>
 
-<h1>{{ lang('ACP_FLAIR_MANAGE_USERS') }} :: {{ FLAIR_SUBJECT_NAME }}</h1>
+<h1>{{ lang('ACP_FLAIR_MANAGE_USERS') }} :: {{ FLAIR_USER_NAME }}</h1>
 
 <p>{{ lang('ACP_FLAIR_MANAGE_USERS_EXPLAIN') }}</p>
 
-{% include '@stevotvr_flair/subject_flair_form.html' %}
+<form id="user_flair" method="post" action="{{ U_ACTION }}">
+
+	<fieldset>
+		<legend>{{ USER_FLAIR_TITLE }}</legend>
+		<div class="flair">
+		{% for cat in flair %}
+			{% if cat.CAT_NAME %}<h2>{{ cat.CAT_NAME }}</h2>{% endif %}
+
+			{% for item in cat.item %}
+			<span class="flair-item">
+				<div>
+					{% include '@stevotvr_flair/flair_item.html' with item %}
+				</div>
+				<input type="submit" name="remove_flair[{{ item.FLAIR_ID }}]" value="&minus;" class="button2" title="{{ item.REMOVE_TITLE }}" />
+				<input class="inputbox" type="number" name="remove_count[{{ item.FLAIR_ID }}]" width="1" min="1" value="1" />
+				<input type="submit" name="remove_all_flair[{{ item.FLAIR_ID }}]" value="&times;" class="button1" title="{{ item.REMOVE_ALL_TITLE }}" />
+			</span>{% if not loop.last %}&nbsp;| {% endif %}
+			{% endfor %}
+		{% else %}
+			<p>{{ lang('ACP_FLAIR_NO_FLAIR') }}</p>
+		{% endfor %}
+		</div>
+	</fieldset>
+
+	<fieldset>
+		<legend>{{ lang('ACP_FLAIR_AVAILABLE') }}</legend>
+		<div class="flair">
+		{% for cat in cat %}
+			<h2>{{ cat.CAT_NAME }}</h2>
+
+			{% for item in cat.item %}
+			<span class="flair-item">
+				<div>
+					{% include '@stevotvr_flair/flair_item.html' with item %}
+				</div>
+				<input type="submit" name="add_flair[{{ item.FLAIR_ID }}]" value="+" class="button2" title="{{ item.ADD_TITLE }}" />
+				<input class="inputbox" type="number" name="add_count[{{ item.FLAIR_ID }}]" width="1" min="1" value="1" />
+			</span>{% if not loop.last %}&nbsp;| {% endif %}
+			{% endfor %}
+		{% else %}
+			<p>{{ lang('ACP_FLAIR_NO_AVAILABLE') }}</p>
+		{% endfor %}
+		</div>
+	</fieldset>
+
+{{ S_FORM_TOKEN }}
+</form>
 
 {% endif %}
 

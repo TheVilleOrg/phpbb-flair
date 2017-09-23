@@ -205,6 +205,19 @@
 				</dd>
 			</dl>
 		</fieldset>
+		<fieldset>
+			<legend>{{ lang('ACP_FLAIR_AUTO_ASSIGN') }}</legend>
+			<dl>
+				<dt><label for="flair_groups">{{ lang('ACP_FLAIR_FORM_GROUPS') ~ lang('COLON')}}</label><br /><span>{{ lang('ACP_FLAIR_GROUPS_EXPLAIN') }}</span></dt>
+				<dd>
+					<select name="flair_groups[]" id="flair_groups" multiple="multiple" size="10">
+						{% for g in group %}
+							<option value="{{ g.GROUP_ID }}"{% if g.S_SELECTED %} selected="selected"{% endif %}>{{ g.GROUP_NAME }}</option>
+						{% endfor %}
+					</select>
+				</dd>
+			</dl>
+		</fieldset>
 		<fieldset class="submit-buttons">
 			<input class="button1" type="submit" id="submit" name="submit" value="{{ lang('SUBMIT') }}" />&nbsp;
 			<input class="button2" type="reset" id="reset" name="reset" value="{{ lang('RESET') }}" />

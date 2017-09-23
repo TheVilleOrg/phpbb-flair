@@ -30,15 +30,15 @@ class user_module
 
 		$controller->set_page_url($this->u_action);
 
-		$user_id = $request->variable('subject_id', 0);
+		$user_id = $request->variable('user_id', 0);
 		$username = $request->variable('username', '', true);
 
 		if (!$user_id && !$username)
 		{
-			$controller->select_subject();
+			$controller->find_user();
 			return;
 		}
 
-		$controller->edit_subject_flair();
+		$controller->edit_user_flair();
 	}
 }

@@ -51,4 +51,21 @@ interface flair_interface
 	 * @throws \stevotvr\flair\exception\out_of_bounds
 	 */
 	public function move_flair($flair_id, $offset);
+
+	/**
+	 * Set the list of groups whose members will automatically be assigned a flair item.
+	 *
+	 * @param int   $flair_id  The database ID of the flair item
+	 * @param array $group_ids The list of group IDs to which to assign this item
+	 */
+	public function assign_groups($flair_id, array $group_ids);
+
+	/**
+	 * Get the list of groups which is assigned this flair item.
+	 *
+	 * @param int $flair_id The database ID of the flair item
+	 *
+	 * @return array The list of group database IDs
+	 */
+	public function get_assigned_groups($flair_id);
 }
