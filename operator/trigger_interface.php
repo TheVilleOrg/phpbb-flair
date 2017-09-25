@@ -20,7 +20,7 @@ interface trigger_interface
 	 *
 	 * @param string $trigger_name The trigger name
 	 *
-	 * @return array An array of trigger entities
+	 * @return array An associative array of trigger names to values
 	 */
 	public function get_triggera($trigger_name);
 
@@ -29,7 +29,7 @@ interface trigger_interface
 	 *
 	 * @param int $flair_id The database ID of the flair item
 	 *
-	 * @return array An array of trigger entities
+	 * @return array An associative array of trigger names to values
 	 */
 	public function get_flair_triggers($flair_id);
 

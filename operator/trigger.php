@@ -62,11 +62,11 @@ class trigger extends operator implements trigger_interface
 	 *
 	 * @param string $where The WHERE clause of the database query
 	 *
-	 * @return array An array of trigger entities
+	 * @return array An associative array of trigger names to values
 	 */
 	protected function get_trigger_rows($where)
 	{
-		$entities = array();
+		$triggers = array();
 
 		$sql = 'SELECT *
 				FROM ' . $this->trigger_table . '
@@ -74,11 +74,11 @@ class trigger extends operator implements trigger_interface
 		$result = $this->db->sql_query($sql);
 		while ($row = $this->db->sql_fetchrow($result))
 		{
-			$entities[] = $this->container->get('stevotvr.flair.entity.trigger')->import($row);
+			$triggers[$row['trig_name']] = (int) $row['trig_value'];
 		}
 		$this->db->sql_freeresult($result);
 
-		return $entities;
+		return $triggers;
 	}
 
 	public function set_triggers($flair_id, array $triggers)
@@ -90,6 +90,16 @@ class trigger extends operator implements trigger_interface
 		$sql_ary = array();
 		foreach ($triggers as $name => $value)
 		{
+			if ($value < 0)
+			{
+				throw new out_of_bounds('trig_value');
+			}
+
+			if (!preg_match('/^[a-z_]+$/', $name))
+			{
+				throw new unexpected_value('trig_name', 'BAD_TRIG_NAME');
+			}
+
 			$sql_ary[] = array(
 				'flair_id'		=> (int) $flair_id,
 				'trig_name'		=> $name,

@@ -40,6 +40,7 @@ services:
             - '@group_helper'
             - '@stevotvr.flair.operator.category'
             - '@stevotvr.flair.operator.flair'
+            - '@stevotvr.flair.operator.trigger'
     stevotvr.flair.controller.acp.user:
         class: stevotvr\flair\controller\acp_user_controller
         parent: stevotvr.flair.controller.acp
@@ -73,12 +74,6 @@ services:
         arguments:
             - '@dbal.conn'
             - '%stevotvr.flair.tables.flair_categories%'
-    stevotvr.flair.entity.trigger:
-        class: stevotvr\flair\entity\trigger
-        shared: false
-        arguments:
-            - '@dbal.conn'
-            - '%stevotvr.flair.tables.flair_triggers%'
     stevotvr.flair.operator:
         class: stevotvr\flair\operator\flair
         abstract: true
