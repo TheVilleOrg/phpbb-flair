@@ -20,6 +20,7 @@ use stevotvr\flair\entity\flair_interface as flair_entity;
 use stevotvr\flair\exception\base;
 use stevotvr\flair\operator\category_interface as cat_operator;
 use stevotvr\flair\operator\flair_interface as flair_operator;
+use stevotvr\flair\operator\trigger_interface as trigger_operator;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -48,6 +49,18 @@ class acp_flair_controller extends acp_base_controller implements acp_flair_inte
 	protected $flair_operator;
 
 	/**
+	 * @var \stevotvr\flair\operator\trigger_interface
+	 */
+	protected $trigger_operator;
+
+	/**
+	 * The array of default trigger names.
+	 *
+	 * @var array
+	 */
+	protected $trigger_names;
+
+	/**
 	 * @param ContainerInterface                          $container
 	 * @param \phpbb\language\language                    $language
 	 * @param \phpbb\request\request_interface            $request
@@ -56,14 +69,19 @@ class acp_flair_controller extends acp_base_controller implements acp_flair_inte
 	 * @param \phpbb\group\helper                         $group_helper
 	 * @param \stevotvr\flair\operator\category_interface $cat_operator
 	 * @param \stevotvr\flair\operator\flair_interface    $flair_operator
+	 * @param \stevotvr\flair\operator\trigger_interface  $trigger_operator
+	 * @param array                                       $trigger_names    Array of default
+	 *                                                                      trigger names
 	 */
-	public function __construct(ContainerInterface $container, language $language, request_interface $request, template $template, driver_interface $db, helper $group_helper, cat_operator $cat_operator, flair_operator $flair_operator)
+	public function __construct(ContainerInterface $container, language $language, request_interface $request, template $template, driver_interface $db, helper $group_helper, cat_operator $cat_operator, flair_operator $flair_operator, trigger_operator $trigger_operator, array $trigger_names)
 	{
 		parent::__construct($container, $language, $request, $template);
 		$this->db = $db;
 		$this->group_helper = $group_helper;
 		$this->cat_operator = $cat_operator;
 		$this->flair_operator = $flair_operator;
+		$this->trigger_operator = $trigger_operator;
+		$this->trigger_names = $trigger_names;
 
 		$language->add_lang('posting');
 	}
@@ -103,6 +121,7 @@ class acp_flair_controller extends acp_base_controller implements acp_flair_inte
 		$submit = $this->request->is_set_post('submit');
 
 		add_form_key('add_edit_flair');
+
 
 		$data = array(
 			'category'		=> $this->request->variable('flair_category', 0),
@@ -145,9 +164,13 @@ class acp_flair_controller extends acp_base_controller implements acp_flair_inte
 					$message = 'ACP_FLAIR_ADD_SUCCESS';
 				}
 
+				$this->add_edit_triggers($entity->get_id(), $errors);
 				$this->flair_operator->assign_groups($entity->get_id(), $this->request->variable('flair_groups', array(0)));
 
-				trigger_error($this->language->lang($message) . adm_back_link($this->u_action . '&amp;cat_id=' . $entity->get_category()));
+				if (empty($errors))
+				{
+					trigger_error($this->language->lang($message) . adm_back_link($this->u_action . '&amp;cat_id=' . $entity->get_category()));
+				}
 			}
 		}
 
@@ -173,7 +196,54 @@ class acp_flair_controller extends acp_base_controller implements acp_flair_inte
 		));
 
 		$this->load_cat_select_data($entity->get_category());
+		$this->load_triggers($entity->get_id());
 		$this->load_groups($entity->get_id());
+	}
+
+	/**
+	 * Process the triggers portion of the add/edit flair form.
+	 *
+	 * @param int   $flair_id The flair item ID
+	 * @param array &$errors  The array to populate with error strings
+	 */
+	protected function add_edit_triggers($flair_id, array &$errors)
+	{
+		$triggers = $this->request->variable('flair_triggers', array('' => 0));
+		foreach ($triggers as $name => $value)
+		{
+			if (!in_array($name, $this->trigger_names))
+			{
+				continue;
+			}
+
+			try
+			{
+				$this->trigger_operator->set_trigger($flair_id, $name, $value);
+			}
+			catch (base $e)
+			{
+				$errors[] = $e->get_message($this->language);
+			}
+		}
+	}
+
+	/**
+	 * Load the triggers into template block variables.
+	 *
+	 * @param int $flair_id The flair item ID
+	 */
+	protected function load_triggers($flair_id)
+	{
+		$triggers = $this->trigger_operator->get_flair_triggers($flair_id);
+
+		foreach ($this->trigger_names as $name)
+		{
+			$this->template->assign_block_vars('trigger', array(
+				'TRIG_KEY'		=> $name,
+				'TRIG_NAME'		=> $this->language->lang('ACP_FLAIR_TRIGGER_' . strtoupper($name)),
+				'TRIG_VALUE'	=> isset($triggers[$name]) ? $triggers[$name] : '',
+			));
+		}
 	}
 
 	/**

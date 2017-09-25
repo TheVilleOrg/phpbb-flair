@@ -1,5 +1,6 @@
 imports:
     - { resource: tables.yml }
+    - { resource: triggers.yml }
 
 services:
     stevotvr.flair.listener:
@@ -41,6 +42,7 @@ services:
             - '@stevotvr.flair.operator.category'
             - '@stevotvr.flair.operator.flair'
             - '@stevotvr.flair.operator.trigger'
+            - '%stevotvr.flair.trigger_names%'
     stevotvr.flair.controller.acp.user:
         class: stevotvr\flair\controller\acp_user_controller
         parent: stevotvr.flair.controller.acp
@@ -84,6 +86,7 @@ services:
             - '%stevotvr.flair.tables.flair_categories%'
             - '%stevotvr.flair.tables.flair_users%'
             - '%stevotvr.flair.tables.flair_groups%'
+            - '%stevotvr.flair.tables.flair_triggers%'
     stevotvr.flair.operator.flair:
         class: stevotvr\flair\operator\flair
         parent: stevotvr.flair.operator
@@ -95,7 +98,4 @@ services:
         parent: stevotvr.flair.operator
     stevotvr.flair.operator.trigger:
         class: stevotvr\flair\operator\trigger
-        arguments:
-            - '@service_container'
-            - '@dbal.conn'
-            - '%stevotvr.flair.tables.flair_triggers%'
+        parent: stevotvr.flair.operator

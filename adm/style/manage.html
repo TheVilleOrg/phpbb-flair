@@ -217,6 +217,12 @@
 					</select>
 				</dd>
 			</dl>
+			{% for t in trigger %}
+				<dl>
+					<dt><label for="flair_trigger_{{ t.TRIG_KEY }}">{{ t.TRIG_NAME ~ lang('COLON') }}</label></dt>
+					<dd><input type="number" id="flair_trigger_{{ t.TRIG_KEY }}" name="flair_triggers[{{ t.TRIG_KEY }}]" value="{{ t.TRIG_VALUE }}" min="0" max="16777215" /></dd>
+				</dl>
+			{% endfor %}
 		</fieldset>
 		<fieldset class="submit-buttons">
 			<input class="button1" type="submit" id="submit" name="submit" value="{{ lang('SUBMIT') }}" />&nbsp;

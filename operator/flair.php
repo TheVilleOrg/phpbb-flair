@@ -50,6 +50,14 @@ class flair extends operator implements flair_interface
 				WHERE flair_id = ' . (int) $flair_id;
 		$this->db->sql_query($sql);
 
+		$sql = 'DELETE FROM ' . $this->group_table . '
+				WHERE flair_id = ' . (int) $flair_id;
+		$this->db->sql_query($sql);
+
+		$sql = 'DELETE FROM ' . $this->trigger_table . '
+				WHERE flair_id = ' . (int) $flair_id;
+		$this->db->sql_query($sql);
+
 		$sql = 'DELETE FROM ' . $this->flair_table . '
 				WHERE flair_id = ' . (int) $flair_id;
 		$this->db->sql_query($sql);

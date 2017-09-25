@@ -10,43 +10,14 @@
 
 namespace stevotvr\flair\operator;
 
-use phpbb\db\driver\driver_interface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use stevotvr\flair\exception\out_of_bounds;
+use stevotvr\flair\exception\unexpected_value;
 
 /**
  * Profile Flair flair trigger operator.
  */
 class trigger extends operator implements trigger_interface
 {
-	/**
-	 * @var \Symfony\Component\DependencyInjection\ContainerInterface
-	 */
-	protected $container;
-
-	/**
-	 * @var \phpbb\db\driver\driver_interface
-	 */
-	protected $db;
-
-	/**
-	 * The name of the flair_triggers table.
-	 *
-	 * @var string
-	 */
-	protected $trigger_table;
-
-	/**
-	 * @param ContainerInterface                $container
-	 * @param \phpbb\db\driver\driver_interface $db
-	 * @param string                            $trigger_table The name of the flair_triggers table
-	 */
-	public function __construct(ContainerInterface $container, driver_interface $db, $trigger_table)
-	{
-		$this->container = $container;
-		$this->db = $db;
-		$this->trigger_table = $trigger_table;
-	}
-
 	public function get_triggera($trigger_name)
 	{
 		return $this->get_trigger_rows("trig_name = '" . $this->db->sql_escape($trigger_name) . "'");
@@ -81,31 +52,40 @@ class trigger extends operator implements trigger_interface
 		return $triggers;
 	}
 
-	public function set_triggers($flair_id, array $triggers)
+	public function set_trigger($flair_id, $trigger_name, $trigger_value)
+	{
+		if ($trigger_value < 0)
+		{
+			throw new out_of_bounds('trig_value');
+		}
+
+		if (!preg_match('/^[a-z_]+$/', $trigger_name))
+		{
+			throw new unexpected_value('trig_name', 'BAD_TRIG_NAME');
+		}
+
+		$this->unset_trigger($flair_id, $trigger_name);
+
+		if (!$trigger_value)
+		{
+			return;
+		}
+
+		$sql_ary = array(
+			'flair_id'		=> (int) $flair_id,
+			'trig_name'		=> $trigger_name,
+			'trig_value'	=> (int) $trigger_value,
+		);
+		$sql = 'INSERT INTO ' . $this->trigger_table . '
+				' . $this->db->sql_build_array('INSERT', $sql_ary);
+		$this->db->sql_query($sql);
+	}
+
+	public function unset_trigger($flair_id, $trigger_name)
 	{
 		$sql = 'DELETE FROM ' . $this->trigger_table . '
-				WHERE flair_id = ' . (int) $flair_id;
+				WHERE flair_id = ' . (int) $flair_id . "
+					AND trig_name = '" . $this->db->sql_escape($trigger_name) . "'";
 		$this->db->sql_query($sql);
-
-		$sql_ary = array();
-		foreach ($triggers as $name => $value)
-		{
-			if ($value < 0)
-			{
-				throw new out_of_bounds('trig_value');
-			}
-
-			if (!preg_match('/^[a-z_]+$/', $name))
-			{
-				throw new unexpected_value('trig_name', 'BAD_TRIG_NAME');
-			}
-
-			$sql_ary[] = array(
-				'flair_id'		=> (int) $flair_id,
-				'trig_name'		=> $name,
-				'trig_value'	=> (int) $value,
-			);
-		}
-		$this->db->sql_multi_insert($this->trigger_table, $sql_ary);
 	}
 }

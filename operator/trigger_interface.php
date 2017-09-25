@@ -34,10 +34,22 @@ interface trigger_interface
 	public function get_flair_triggers($flair_id);
 
 	/**
-	 * Set the triggers for a flair item.
+	 * Set a trigger for a flair item.
 	 *
-	 * @param int   $flair_id      The database ID of the flair item
-	 * @param array $trigger_names An associative array of trigger names to values
+	 * @param int    $flair_id      The database ID of the flair item
+	 * @param string $trigger_name  The trigger name
+	 * @param int    $trigger_value The trigger value
+	 *
+	 * @throws \stevotvr\flair\exception\out_of_bounds
+	 * @throws \stevotvr\flair\exception\unexpected_value
 	 */
-	public function set_triggers($flair_id, array $trigger_names);
+	public function set_trigger($flair_id, $trigger_name, $trigger_value);
+
+	/**
+	 * Remove a trigger for a flair item.
+	 *
+	 * @param int    $flair_id     The database ID of the flair item
+	 * @param string $trigger_name The trigger name
+	 */
+	public function unset_trigger($flair_id, $trigger_name);
 }
