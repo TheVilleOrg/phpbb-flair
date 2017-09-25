@@ -122,7 +122,6 @@ class acp_flair_controller extends acp_base_controller implements acp_flair_inte
 
 		add_form_key('add_edit_flair');
 
-
 		$data = array(
 			'category'		=> $this->request->variable('flair_category', 0),
 			'name'			=> $this->request->variable('flair_name', '', true),
