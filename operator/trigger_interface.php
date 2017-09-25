@@ -52,4 +52,13 @@ interface trigger_interface
 	 * @param string $trigger_name The trigger name
 	 */
 	public function unset_trigger($flair_id, $trigger_name);
+
+	/**
+	 * Dispatch a trigger for a user.
+	 *
+	 * @param int    $user_id       The user ID
+	 * @param string $trigger_name  The trigger name
+	 * @param int    $trigger_value The trigger value
+	 */
+	public function dispatch($user_id, $trigger_name, $trigger_value);
 }

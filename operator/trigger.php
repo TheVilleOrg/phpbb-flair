@@ -88,4 +88,47 @@ class trigger extends operator implements trigger_interface
 					AND trig_name = '" . $this->db->sql_escape($trigger_name) . "'";
 		$this->db->sql_query($sql);
 	}
+
+	public function dispatch($user_id, $trigger_name, $trigger_value)
+	{
+		$flair_ids = array();
+
+		$sql = 'SELECT flair_id
+				FROM ' . $this->trigger_table . "
+				WHERE trig_name = '" . $this->db->sql_escape($trigger_name) . "'
+					AND trig_value <= " . (int) $trigger_value;
+		$result = $this->db->sql_query($sql);
+		while ($row = $this->db->sql_fetchrow($result))
+		{
+			$flair_ids[(int) $row['flair_id']] = true;
+		}
+		$this->db->sql_freeresult($result);
+
+		if (empty($flair_ids))
+		{
+			return;
+		}
+
+		$sql = 'SELECT flair_id
+				FROM ' . $this->user_table . '
+				WHERE user_id = ' . (int) $user_id . '
+					AND ' . $this->db->sql_in_set('flair_id', array_keys($flair_ids));
+		$result = $this->db->sql_query($sql);
+		while ($row = $this->db->sql_fetchrow($result))
+		{
+			unset($flair_ids[(int) $row['flair_id']]);
+		}
+		$this->db->sql_freeresult($result);
+
+		foreach (array_keys($flair_ids) as $flair_id)
+		{
+			$data = array(
+				'user_id'		=> (int) $user_id,
+				'flair_id'		=> $flair_id,
+			);
+			$sql = 'INSERT INTO ' . $this->user_table . '
+					' . $this->db->sql_build_array('INSERT', $data);
+			$this->db->sql_query($sql);
+		}
+	}
 }
