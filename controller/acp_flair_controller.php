@@ -11,6 +11,7 @@
 namespace stevotvr\flair\controller;
 
 use phpbb\db\driver\driver_interface;
+use phpbb\event\dispatcher_interface;
 use phpbb\group\helper;
 use phpbb\json_response;
 use phpbb\language\language;
@@ -67,13 +68,14 @@ class acp_flair_controller extends acp_base_controller implements acp_flair_inte
 	 * @param \phpbb\template\template                    $template
 	 * @param \phpbb\db\driver\driver_interface           $db
 	 * @param \phpbb\group\helper                         $group_helper
+	 * @param \phpbb\event\dispatcher_interface           $dispatcher
 	 * @param \stevotvr\flair\operator\category_interface $cat_operator
 	 * @param \stevotvr\flair\operator\flair_interface    $flair_operator
 	 * @param \stevotvr\flair\operator\trigger_interface  $trigger_operator
 	 * @param array                                       $trigger_names    Array of default
 	 *                                                                      trigger names
 	 */
-	public function __construct(ContainerInterface $container, language $language, request_interface $request, template $template, driver_interface $db, helper $group_helper, cat_operator $cat_operator, flair_operator $flair_operator, trigger_operator $trigger_operator, array $trigger_names)
+	public function __construct(ContainerInterface $container, language $language, request_interface $request, template $template, driver_interface $db, helper $group_helper, dispatcher_interface $dispatcher, cat_operator $cat_operator, flair_operator $flair_operator, trigger_operator $trigger_operator, array $trigger_names)
 	{
 		parent::__construct($container, $language, $request, $template);
 		$this->db = $db;
@@ -81,6 +83,16 @@ class acp_flair_controller extends acp_base_controller implements acp_flair_inte
 		$this->cat_operator = $cat_operator;
 		$this->flair_operator = $flair_operator;
 		$this->trigger_operator = $trigger_operator;
+
+		/**
+		 * Load the list of available triggers.
+		 *
+		 * @event stevotvr.flair.load_triggers
+		 * @var array trigger_names The list of trigger names
+		 * @since 0.2.0
+		 */
+		$vars = array('trigger_names');
+		extract($dispatcher->trigger_event('stevotvr.flair.load_triggers', compact($vars)));
 		$this->trigger_names = $trigger_names;
 
 		$language->add_lang('posting');
