@@ -12,9 +12,11 @@ namespace stevotvr\flair\event;
 
 use phpbb\config\config;
 use phpbb\controller\helper;
+use phpbb\db\driver\driver_interface;
 use phpbb\language\language;
 use phpbb\request\request_interface;
 use phpbb\template\template;
+use stevotvr\flair\operator\trigger_interface;
 use stevotvr\flair\operator\user_interface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -27,6 +29,11 @@ class main_listener implements EventSubscriberInterface
 	 * @var \phpbb\config\config
 	 */
 	protected $config;
+
+	/**
+	 * @var \phpbb\db\driver\driver_interface
+	 */
+	protected $db;
 
 	/**
 	 * @var \phpbb\controller\helper
@@ -49,25 +56,34 @@ class main_listener implements EventSubscriberInterface
 	protected $template;
 
 	/**
+	 * @var \stevotvr\flair\operator\trigger_interface
+	 */
+	protected $trigger_operator;
+
+	/**
 	 * @var \stevotvr\flair\operator\user_interface
 	 */
 	protected $user_operator;
 
 	/**
-	 * @param \phpbb\config\config                    $config
-	 * @param \phpbb\controller\helper                $helper
-	 * @param \phpbb\language\language                $language
-	 * @param \phpbb\request\request_interface        $request
-	 * @param \phpbb\template\template                $template
-	 * @param \stevotvr\flair\operator\user_interface $user_operator
+	 * @param \phpbb\config\config                       $config
+	 * @param \phpbb\db\driver\driver_interface          $db
+	 * @param \phpbb\controller\helper                   $helper
+	 * @param \phpbb\language\language                   $language
+	 * @param \phpbb\request\request_interface           $request
+	 * @param \phpbb\template\template                   $template
+	 * @param \stevotvr\flair\operator\trigger_interface $trigger_operator
+	 * @param \stevotvr\flair\operator\user_interface    $user_operator
 	 */
-	public function __construct(config $config, helper $helper, language $language, request_interface $request, template $template, user_interface $user_operator)
+	public function __construct(config $config, driver_interface $db, helper $helper, language $language, request_interface $request, template $template, trigger_interface $trigger_operator, user_interface $user_operator)
 	{
 		$this->config = $config;
+		$this->db = $db;
 		$this->helper = $helper;
 		$this->language = $language;
 		$this->request = $request;
 		$this->template = $template;
+		$this->trigger_operator = $trigger_operator;
 		$this->user_operator = $user_operator;
 	}
 
@@ -77,6 +93,7 @@ class main_listener implements EventSubscriberInterface
 			'core.user_setup'					=> 'user_setup',
 			'core.permissions'					=> 'permissions',
 			'core.memberlist_view_profile'		=> 'memberlist_view_profile',
+			'core.submit_post_end'				=> 'submit_post_end',
 			'core.viewtopic_modify_post_data'	=> 'viewtopic_modify_post_data',
 			'core.viewtopic_post_row_after'		=> 'viewtopic_post_row_after',
 		);
@@ -156,6 +173,28 @@ class main_listener implements EventSubscriberInterface
 				));
 			}
 		}
+	}
+
+	/**
+	 * Dispatch default triggers when a user makes a post.
+	 *
+	 * @param \phpbb\event\data	$event The event data
+	 */
+	public function submit_post_end($event)
+	{
+		$user_id = (int) $event['data']['poster_id'];
+		$sql = 'SELECT user_regdate, user_posts
+				FROM ' . USERS_TABLE . '
+				WHERE user_id = ' . $user_id;
+		$result = $this->db->sql_query($sql);
+		$row = $this->db->sql_fetchrow($result);
+		$this->db->sql_freeresult($result);
+
+		$post_count = (int) $row['user_posts'];
+		$this->trigger_operator->dispatch($user_id, 'post_count', $post_count);
+
+		$membership_days = (time() - (int) $row['user_regdate']) / 86400;
+		$this->trigger_operator->dispatch($user_id, 'membership_days', $membership_days);
 	}
 
 	/**

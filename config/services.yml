@@ -7,10 +7,12 @@ services:
         class: stevotvr\flair\event\main_listener
         arguments:
             - '@config'
+            - '@dbal.conn'
             - '@controller.helper'
             - '@language'
             - '@request'
             - '@template'
+            - '@stevotvr.flair.operator.trigger'
             - '@stevotvr.flair.operator.user'
         tags:
             - { name: event.listener }
