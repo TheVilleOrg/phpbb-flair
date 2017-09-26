@@ -13,6 +13,7 @@ namespace stevotvr\flair\event;
 use phpbb\config\config;
 use phpbb\controller\helper;
 use phpbb\db\driver\driver_interface;
+use phpbb\event\data;
 use phpbb\language\language;
 use phpbb\request\request_interface;
 use phpbb\template\template;
@@ -104,7 +105,7 @@ class main_listener implements EventSubscriberInterface
 	 *
 	 * @param \phpbb\event\data $event The event data
 	 */
-	public function permissions($event)
+	public function permissions(data $event)
 	{
 		$permissions = $event['permissions'];
 		$permissions['a_manage_flair'] = array('lang' => 'ACL_A_MANAGE_FLAIR', 'cat' => 'user_group');
@@ -116,7 +117,7 @@ class main_listener implements EventSubscriberInterface
 	 *
 	 * @param \phpbb\event\data $event The event data
 	 */
-	public function user_setup($event)
+	public function user_setup(data $event)
 	{
 		$lang_set_ext = $event['lang_set_ext'];
 		$lang_set_ext[] = array(
@@ -131,7 +132,7 @@ class main_listener implements EventSubscriberInterface
 	 *
 	 * @param \phpbb\event\data	$event The event data
 	 */
-	public function memberlist_view_profile($event)
+	public function memberlist_view_profile(data $event)
 	{
 		if (!$this->config['stevotvr_flair_show_on_profile'])
 		{
@@ -180,7 +181,7 @@ class main_listener implements EventSubscriberInterface
 	 *
 	 * @param \phpbb\event\data	$event The event data
 	 */
-	public function submit_post_end($event)
+	public function submit_post_end(data $event)
 	{
 		$user_id = (int) $event['data']['poster_id'];
 		$sql = 'SELECT user_regdate, user_posts
@@ -202,7 +203,7 @@ class main_listener implements EventSubscriberInterface
 	 *
 	 * @param \phpbb\event\data	$event The event data
 	 */
-	public function viewtopic_modify_post_data($event)
+	public function viewtopic_modify_post_data(data $event)
 	{
 		if (!$this->config['stevotvr_flair_show_on_posts'])
 		{
@@ -248,7 +249,7 @@ class main_listener implements EventSubscriberInterface
 	 *
 	 * @param \phpbb\event\data	$event The event data
 	 */
-	public function viewtopic_post_row_after($event)
+	public function viewtopic_post_row_after(data $event)
 	{
 		if (!$this->config['stevotvr_flair_show_on_posts'])
 		{
