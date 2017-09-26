@@ -183,10 +183,10 @@ class main_listener implements EventSubscriberInterface
 	 */
 	public function submit_post_end(data $event)
 	{
-		$user_id = (int) $event['data']['poster_id'];
+		$user_id = $event['data']['poster_id'];
 		$sql = 'SELECT user_regdate, user_posts
 				FROM ' . USERS_TABLE . '
-				WHERE user_id = ' . $user_id;
+				WHERE user_id = ' . (int) $user_id;
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
