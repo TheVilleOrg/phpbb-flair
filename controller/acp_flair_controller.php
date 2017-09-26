@@ -246,9 +246,12 @@ class acp_flair_controller extends acp_base_controller implements acp_flair_inte
 
 		foreach ($this->trigger_names as $name)
 		{
+			$lang_key = 'ACP_FLAIR_TRIGGER_' . strtoupper($name);
+			$explain = $this->language->is_set($lang_key . '_EXPLAIN') ? $this->language->lang($lang_key . '_EXPLAIN') : null;
 			$this->template->assign_block_vars('trigger', array(
 				'TRIG_KEY'		=> $name,
-				'TRIG_NAME'		=> $this->language->lang('ACP_FLAIR_TRIGGER_' . strtoupper($name)),
+				'TRIG_NAME'		=> $this->language->lang($lang_key),
+				'TRIG_EXPLAIN'	=> $explain,
 				'TRIG_VALUE'	=> isset($triggers[$name]) ? $triggers[$name] : '',
 			));
 		}

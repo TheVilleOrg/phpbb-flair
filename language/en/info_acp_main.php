@@ -94,8 +94,10 @@ $lang = array_merge($lang, array(
 	'ACP_FLAIR_FONT_COLOR_EXPLAIN'	=> 'The color of the flair count text when a user has multiple of the same item. Leave blank to hide the count.',
 	'ACP_FLAIR_GROUPS_EXPLAIN'		=> 'Members of groups selected here will automatically have this flair item assigned to their profile.',
 
-	'ACP_FLAIR_TRIGGER_POST_COUNT'		=> 'Post count',
-	'ACP_FLAIR_TRIGGER_MEMBERSHIP_DAYS'	=> 'Days registered',
+	'ACP_FLAIR_TRIGGER_POST_COUNT'				=> 'Post count',
+	'ACP_FLAIR_TRIGGER_POST_COUNT_EXPLAIN'		=> 'Set the minimum number of posts a user must have to automatically receive this item. Leave blank to disable.',
+	'ACP_FLAIR_TRIGGER_MEMBERSHIP_DAYS'			=> 'Days registered',
+	'ACP_FLAIR_TRIGGER_MEMBERSHIP_DAYS_EXPLAIN'	=> 'Set the minimum number of days a user must be registered before automatically receiving this item. Leave blank to disable.',
 
 	'ACP_FLAIR_MANAGE_USERS'			=> 'Manage profile flair',
 	'ACP_FLAIR_MANAGE_USERS_EXPLAIN'	=> 'Here you can manage profile flair assigned to a user’s profile.',
