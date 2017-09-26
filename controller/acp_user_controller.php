@@ -12,14 +12,10 @@ namespace stevotvr\flair\controller;
 
 use phpbb\config\config;
 use phpbb\db\driver\driver_interface;
-use phpbb\language\language;
-use phpbb\request\request_interface;
-use phpbb\template\template;
 use phpbb\user;
 use stevotvr\flair\operator\category_interface;
 use stevotvr\flair\operator\flair_interface;
 use stevotvr\flair\operator\user_interface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Profile Flair user ACP controller.
@@ -71,28 +67,33 @@ class acp_user_controller extends acp_base_controller implements acp_user_interf
 	protected $php_ext;
 
 	/**
-	 * @param ContainerInterface                          $container
-	 * @param \phpbb\language\language                    $language
-	 * @param \phpbb\request\request_interface            $request
-	 * @param \phpbb\template\template                    $template
+	 * Set up the controller.
+	 *
 	 * @param \phpbb\config\config                        $config
 	 * @param \phpbb\db\driver\driver_interface           $db
 	 * @param \phpbb\user                                 $user
 	 * @param \stevotvr\flair\operator\category_interface $cat_operator
 	 * @param \stevotvr\flair\operator\flair_interface    $flair_operator
 	 * @param \stevotvr\flair\operator\user_interface     $user_operator
-	 * @param string                                      $root_path      The root phpBB path
-	 * @param string                                      $php_ext        The script file extension
 	 */
-	public function __construct(ContainerInterface $container, language $language, request_interface $request, template $template, config $config, driver_interface $db, user $user, category_interface $cat_operator, flair_interface $flair_operator, user_interface $user_operator, $root_path, $php_ext)
+	public function setup(config $config, driver_interface $db, user $user, category_interface $cat_operator, flair_interface $flair_operator, user_interface $user_operator)
 	{
-		parent::__construct($container, $language, $request, $template);
 		$this->config = $config;
 		$this->db = $db;
 		$this->user = $user;
 		$this->cat_operator = $cat_operator;
 		$this->flair_operator = $flair_operator;
 		$this->user_operator = $user_operator;
+	}
+
+	/**
+	 * Set the phpBB installation path information.
+	 *
+	 * @param string $root_path The root phpBB path
+	 * @param string $php_ext   The script file extension
+	 */
+	public function set_path_info($root_path, $php_ext)
+	{
 		$this->root_path = $root_path;
 		$this->php_ext = $php_ext;
 	}

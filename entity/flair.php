@@ -11,7 +11,6 @@
 namespace stevotvr\flair\entity;
 
 use phpbb\config\config;
-use phpbb\db\driver\driver_interface;
 use stevotvr\flair\exception\missing_field;
 use stevotvr\flair\exception\out_of_bounds;
 use stevotvr\flair\exception\unexpected_value;
@@ -44,13 +43,12 @@ class flair extends entity implements flair_interface
 	protected $id_column = 'flair_id';
 
 	/**
-	 * @param \phpbb\config\config              $config
-	 * @param \phpbb\db\driver\driver_interface $db
-	 * @param string                            $table_name The name of the database table
+	 * Set up the entity.
+	 *
+	 * @param \phpbb\config\config $config
 	 */
-	public function __construct(config $config, driver_interface $db, $table_name)
+	public function setup(config $config)
 	{
-		parent::__construct($db, $table_name);
 		$this->config = $config;
 	}
 

@@ -27,37 +27,49 @@ services:
     stevotvr.flair.controller.acp.main:
         class: stevotvr\flair\controller\acp_main_controller
         parent: stevotvr.flair.controller.acp
-        arguments:
-            - '@stevotvr.flair.operator.category'
-            - '@stevotvr.flair.operator.flair'
+        calls:
+            - method: setup
+              arguments:
+                - '@stevotvr.flair.operator.category'
+                - '@stevotvr.flair.operator.flair'
     stevotvr.flair.controller.acp.cats:
         class: stevotvr\flair\controller\acp_cats_controller
         parent: stevotvr.flair.controller.acp
-        arguments:
-            - '@stevotvr.flair.operator.category'
+        calls:
+            - method: setup
+              arguments:
+                - '@stevotvr.flair.operator.category'
     stevotvr.flair.controller.acp.flair:
         class: stevotvr\flair\controller\acp_flair_controller
         parent: stevotvr.flair.controller.acp
-        arguments:
-            - '@dbal.conn'
-            - '@group_helper'
-            - '@dispatcher'
-            - '@stevotvr.flair.operator.category'
-            - '@stevotvr.flair.operator.flair'
-            - '@stevotvr.flair.operator.trigger'
-            - '%stevotvr.flair.trigger_names%'
+        calls:
+            - method: setup
+              arguments:
+                - '@dbal.conn'
+                - '@group_helper'
+                - '@stevotvr.flair.operator.category'
+                - '@stevotvr.flair.operator.flair'
+                - '@stevotvr.flair.operator.trigger'
+            - method: set_trigger_names
+              arguments:
+                - '@dispatcher'
+                - '%stevotvr.flair.trigger_names%'
     stevotvr.flair.controller.acp.user:
         class: stevotvr\flair\controller\acp_user_controller
         parent: stevotvr.flair.controller.acp
-        arguments:
-            - '@config'
-            - '@dbal.conn'
-            - '@user'
-            - '@stevotvr.flair.operator.category'
-            - '@stevotvr.flair.operator.flair'
-            - '@stevotvr.flair.operator.user'
-            - '%core.root_path%'
-            - '%core.php_ext%'
+        calls:
+            - method: setup
+              arguments:
+                - '@config'
+                - '@dbal.conn'
+                - '@user'
+                - '@stevotvr.flair.operator.category'
+                - '@stevotvr.flair.operator.flair'
+                - '@stevotvr.flair.operator.user'
+            - method: set_path_info
+              arguments:
+                - '%core.root_path%'
+                - '%core.php_ext%'
     stevotvr.flair.controller.legend:
         class: stevotvr\flair\controller\legend_controller
         arguments:
@@ -70,9 +82,12 @@ services:
         class: stevotvr\flair\entity\flair
         shared: false
         arguments:
-            - '@config'
             - '@dbal.conn'
             - '%stevotvr.flair.tables.flair%'
+        calls:
+            - method: setup
+              arguments:
+                - '@config'
     stevotvr.flair.entity.category:
         class: stevotvr\flair\entity\category
         shared: false

@@ -14,15 +14,11 @@ use phpbb\db\driver\driver_interface;
 use phpbb\event\dispatcher_interface;
 use phpbb\group\helper;
 use phpbb\json_response;
-use phpbb\language\language;
-use phpbb\request\request_interface;
-use phpbb\template\template;
 use stevotvr\flair\entity\flair_interface as flair_entity;
 use stevotvr\flair\exception\base;
 use stevotvr\flair\operator\category_interface as cat_operator;
 use stevotvr\flair\operator\flair_interface as flair_operator;
 use stevotvr\flair\operator\trigger_interface as trigger_operator;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Profile Flair flair management ACP controller.
@@ -62,28 +58,31 @@ class acp_flair_controller extends acp_base_controller implements acp_flair_inte
 	protected $trigger_names;
 
 	/**
-	 * @param ContainerInterface                          $container
-	 * @param \phpbb\language\language                    $language
-	 * @param \phpbb\request\request_interface            $request
-	 * @param \phpbb\template\template                    $template
+	 * Set up the controller.
+	 *
 	 * @param \phpbb\db\driver\driver_interface           $db
 	 * @param \phpbb\group\helper                         $group_helper
-	 * @param \phpbb\event\dispatcher_interface           $dispatcher
 	 * @param \stevotvr\flair\operator\category_interface $cat_operator
 	 * @param \stevotvr\flair\operator\flair_interface    $flair_operator
 	 * @param \stevotvr\flair\operator\trigger_interface  $trigger_operator
-	 * @param array                                       $trigger_names    Array of default
-	 *                                                                      trigger names
 	 */
-	public function __construct(ContainerInterface $container, language $language, request_interface $request, template $template, driver_interface $db, helper $group_helper, dispatcher_interface $dispatcher, cat_operator $cat_operator, flair_operator $flair_operator, trigger_operator $trigger_operator, array $trigger_names)
+	public function setup(driver_interface $db, helper $group_helper, cat_operator $cat_operator, flair_operator $flair_operator, trigger_operator $trigger_operator)
 	{
-		parent::__construct($container, $language, $request, $template);
 		$this->db = $db;
 		$this->group_helper = $group_helper;
 		$this->cat_operator = $cat_operator;
 		$this->flair_operator = $flair_operator;
 		$this->trigger_operator = $trigger_operator;
 
+		$this->language->add_lang('posting');
+	}
+
+	/**
+	 * @param \phpbb\event\dispatcher_interface $dispatcher
+	 * @param array                             $trigger_names Array of default trigger names
+	 */
+	public function set_trigger_names(dispatcher_interface $dispatcher, array $trigger_names)
+	{
 		/**
 		 * Load the list of available triggers.
 		 *
@@ -94,8 +93,6 @@ class acp_flair_controller extends acp_base_controller implements acp_flair_inte
 		$vars = array('trigger_names');
 		extract($dispatcher->trigger_event('stevotvr.flair.load_triggers', compact($vars)));
 		$this->trigger_names = $trigger_names;
-
-		$language->add_lang('posting');
 	}
 
 	public function add_flair()
