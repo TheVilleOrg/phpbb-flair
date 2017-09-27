@@ -54,7 +54,7 @@ class trigger extends operator implements trigger_interface
 
 	public function set_trigger($flair_id, $trigger_name, $trigger_value)
 	{
-		if ($trigger_value < 0)
+		if ($trigger_value < 0 || $trigger_value > 16777215)
 		{
 			throw new out_of_bounds('trig_value');
 		}
