@@ -12,6 +12,9 @@ This is a extension for phpBB 3.2 that allows you to add flair to user profiles.
     * Name and description
     * Background color and/or Font Awesome icon
     * Font color for the optional count
+    * Auto-assignment to groups
+    * Auto-assignment based on post count or days registered
+    * Custom auto-assignments can be added by extensions ([see wiki](https://github.com/stevotvr/phpbb-flair/wiki/Custom-triggers))
 * Flair categories allow you to group items and control where they are displayed
 * Settings to control where flair is displayed (overrides category settings)
 * Administrative permission to allow administrators to assign flair items to users
