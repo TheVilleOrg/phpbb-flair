@@ -59,6 +59,11 @@ class trigger extends operator implements trigger_interface
 			throw new out_of_bounds('trig_value');
 		}
 
+		if (truncate_string($trigger_name, 255) !== $trigger_name)
+		{
+			throw new unexpected_value('trig_name', 'TOO_LONG');
+		}
+
 		if (!preg_match('/^[a-z_]+$/', $trigger_name))
 		{
 			throw new unexpected_value('trig_name', 'BAD_TRIG_NAME');
