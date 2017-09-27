@@ -243,6 +243,7 @@ class acp_flair_controller extends acp_base_controller implements acp_flair_inte
 	protected function load_triggers($flair_id)
 	{
 		$triggers = $this->trigger_operator->get_flair_triggers($flair_id);
+		$triggers = array_merge($triggers, $this->request->variable('flair_triggers', array('' => 0)));
 
 		foreach ($this->trigger_names as $name)
 		{
@@ -265,7 +266,9 @@ class acp_flair_controller extends acp_base_controller implements acp_flair_inte
 	protected function load_groups($flair_id)
 	{
 		$groups = array();
+
 		$selected = $this->flair_operator->get_assigned_groups($flair_id);
+		$selected = array_merge($selected, $this->request->variable('flair_groups', array(0)));
 
 		$sql = 'SELECT group_id, group_name
 				FROM ' . GROUPS_TABLE;
