@@ -38,9 +38,9 @@ if (empty($lang) || !is_array($lang))
 //
 
 $lang = array_merge($lang, array(
-	'EXCEPTION_OUT_OF_BOUNDS'		=> 'The field `%1$s` received a value out of its range.',
+	'EXCEPTION_OUT_OF_BOUNDS'		=> 'The field `%s` received a value out of its range.',
 	'EXCEPTION_INVALID_COLOR'		=> 'The field `%s` received an invalid color value. A valid color is a 6 character hexadecimal string (0-9, A-F).',
-	'EXCEPTION_TOO_LONG'			=> 'The field `%1$s` received a value longer than the maximum length of %2$d',
+	'EXCEPTION_TOO_LONG'			=> 'The field `%s` received a value longer than the maximum length.',
 	'EXCEPTION_NAME_REQUIRED'		=> 'You must enter a name for the flair item.',
 	'EXCEPTION_CAT_NAME_REQUIRED'	=> 'You must enter a name for the category.',
 
