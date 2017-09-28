@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.1 (9/27/17)
+
+* Fixed fatal error when viewing a user profile
+* Fixed bad formatting of some error strings
+* Fixed the flair item editing form losing state when an error occurs
+
 ## 0.2.0 (9/26/17)
 
 * Fixed undefined index notices
