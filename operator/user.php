@@ -316,8 +316,8 @@ class user extends operator implements user_interface
 		$flair[(int) $row['flair_category']]['category'] = $entity;
 
 		$entity = $this->container->get('stevotvr.flair.entity.flair')->import($row);
-		$item = !isset($row['flair_count']) ? $entity : array(
-			'count'	=> (int) $row['flair_count'],
+		$item = array(
+			'count'	=> isset($row['flair_count']) ? (int) $row['flair_count'] : 1,
 			'flair'	=> $entity,
 		);
 		$flair[(int) $row['flair_category']]['items'][(int) $row['flair_id']] = $item;
