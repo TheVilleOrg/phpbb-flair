@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.2 (9/30/17)
+
+* Fixed errors caused by deleting categories
+
 ## 0.2.1 (9/27/17)
 
 * Fixed fatal error when viewing a user profile
