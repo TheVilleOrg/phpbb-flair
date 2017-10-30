@@ -43,11 +43,11 @@ class version_0_1_0 extends migration
 					),
 					'PRIMARY_KEY' => 'flair_id',
 					'KEYS' => array(
-						'flr_parent'	=> array('INDEX', 'flair_category'),
-						'flr_order'		=> array('INDEX', 'flair_order'),
+						'c'	=> array('INDEX', 'flair_category'),
+						'o'	=> array('INDEX', 'flair_order'),
 					),
 				),
-				$this->table_prefix . 'flair_categories' => array(
+				$this->table_prefix . 'flair_cats' => array(
 					'COLUMNS' => array(
 						'cat_id'				=> array('UINT', null, 'auto_increment'),
 						'cat_name'				=> array('VCHAR_UNI', ''),
@@ -57,9 +57,9 @@ class version_0_1_0 extends migration
 					),
 					'PRIMARY_KEY' => 'cat_id',
 					'KEYS' => array(
-						'ct_order'		=> array('INDEX', 'cat_order'),
-						'ct_profile'	=> array('INDEX', 'cat_display_profile'),
-						'ct_posts'		=> array('INDEX', 'cat_display_posts'),
+						'o'		=> array('INDEX', 'cat_order'),
+						'dpr'	=> array('INDEX', 'cat_display_profile'),
+						'dpo'	=> array('INDEX', 'cat_display_posts'),
 					),
 				),
 				$this->table_prefix . 'flair_users' => array(
