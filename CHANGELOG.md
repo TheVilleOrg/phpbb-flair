@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.2.3 (10/30/17)
+## 0.3.0 (10/30/17)
 
 * Fixed error when installing on phpBB 3.2.0 caused by long key names
 
