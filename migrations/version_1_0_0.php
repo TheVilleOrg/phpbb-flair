@@ -13,9 +13,9 @@ namespace stevotvr\flair\migrations;
 use phpbb\db\migration\migration;
 
 /**
- * Profile Flair migration for version 0.1.0.
+ * Profile Flair migration for version 1.0.0.
  */
-class version_0_1_0 extends migration
+class version_1_0_0 extends migration
 {
 	static public function depends_on()
 	{
@@ -70,6 +70,21 @@ class version_0_1_0 extends migration
 					),
 					'PRIMARY_KEY' => array('flair_id', 'user_id'),
 				),
+				$this->table_prefix . 'flair_groups' => array(
+					'COLUMNS' => array(
+						'group_id'		=> array('UINT', 0),
+						'flair_id'		=> array('UINT', 0),
+					),
+					'PRIMARY_KEY' => array('flair_id', 'group_id'),
+				),
+				$this->table_prefix . 'flair_triggers' => array(
+					'COLUMNS' => array(
+						'flair_id'		=> array('UINT', 0),
+						'trig_name'		=> array('VCHAR', ''),
+						'trig_value'	=> array('UINT', 0),
+					),
+					'PRIMARY_KEY' => array('flair_id', 'trig_value'),
+				),
 			),
 		);
 	}
@@ -79,8 +94,10 @@ class version_0_1_0 extends migration
 		return array(
 			'drop_tables'   => array(
 				$this->table_prefix . 'flair_users',
+				$this->table_prefix . 'flair_groups',
+				$this->table_prefix . 'flair_triggers',
 				$this->table_prefix . 'flair',
-				$this->table_prefix . 'flair_categories',
+				$this->table_prefix . 'flair_cats',
 			),
 		);
 	}
