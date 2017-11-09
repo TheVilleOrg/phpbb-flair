@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.0 (11/9/17)
+
+* Initial stable release
+* Fixed migration reversal leaving behind the categories table
+
 ## 0.3.0 (10/30/17)
 
 * Fixed error when installing on phpBB 3.2.0 caused by long key names
