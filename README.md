@@ -37,7 +37,7 @@ This is a extension for phpBB 3.2 that allows you to add flair to user profiles.
 ## Support
 
 * **Important: Only official release versions validated by the phpBB Extensions Team should be installed on a live forum. Pre-release (beta, RC) versions downloaded from this repository are only to be used for testing on offline/development forums and are not officially supported.**
-* Report bugs and other issues to our [Issue Tracker](https://github.com/stevotvr/phpbb-steamstatus/issues).
+* Report bugs and other issues to our [Issue Tracker](https://github.com/stevotvr/phpbb-flair/issues).
 * Support requests should be posted and discussed in the [Profile Flair topic at phpBB.com](https://www.phpbb.com/community/viewtopic.php?f=456&t=2437666).
 
 ## License
