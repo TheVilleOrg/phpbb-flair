@@ -185,8 +185,8 @@ class acp_flair_controller extends acp_base_controller implements acp_flair_inte
 		$errors = array_map(array($this->language, 'lang'), $errors);
 
 		$this->template->assign_vars(array(
-			'S_ERROR'	=> (bool) count($errors),
-			'ERROR_MSG'	=> count($errors) ? implode('<br />', $errors) : '',
+			'S_ERROR'	=> !empty($errors),
+			'ERROR_MSG'	=> !empty($errors) ? implode('<br />', $errors) : '',
 
 			'FLAIR_CATEGORY'	=> $entity->get_category(),
 			'FLAIR_NAME'		=> $entity->get_name(),
@@ -343,7 +343,7 @@ class acp_flair_controller extends acp_base_controller implements acp_flair_inte
 	protected function load_cat_select_data($selected)
 	{
 		$categories = $this->cat_operator->get_categories();
-		if (!count($categories))
+		if (empty($categories))
 		{
 			return;
 		}

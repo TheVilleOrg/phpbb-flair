@@ -213,7 +213,7 @@ class main_listener implements EventSubscriberInterface
 		$user_cache = $event['user_cache'];
 		$user_flair = $this->user_operator->get_user_flair(array_keys($user_cache), 'posts');
 
-		if (!count($user_flair))
+		if (empty($user_flair))
 		{
 			return;
 		}

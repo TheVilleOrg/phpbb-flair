@@ -117,8 +117,8 @@ class acp_cats_controller extends acp_base_controller implements acp_cats_interf
 		$errors = array_map(array($this->language, 'lang'), $errors);
 
 		$this->template->assign_vars(array(
-			'S_ERROR'	=> (bool) count($errors),
-			'ERROR_MSG'	=> count($errors) ? implode('<br />', $errors) : '',
+			'S_ERROR'	=> !empty($errors),
+			'ERROR_MSG'	=> !empty($errors) ? implode('<br />', $errors) : '',
 
 			'CAT_NAME'				=> $entity->get_name(),
 			'FLAIR_SHOW_ON_PROFILE'	=> $entity->show_on_profile(),
@@ -166,8 +166,8 @@ class acp_cats_controller extends acp_base_controller implements acp_cats_interf
 		}
 
 		$this->template->assign_vars(array(
-			'S_ERROR'	=> (bool) count($errors),
-			'ERROR_MSG'	=> count($errors) ? implode('<br />', $errors) : '',
+			'S_ERROR'	=> !empty($errors),
+			'ERROR_MSG'	=> !empty($errors) ? implode('<br />', $errors) : '',
 
 			'S_DELETE_CAT'	=> true,
 			'S_HAS_FLAIR'	=> true,

@@ -92,7 +92,7 @@ class category extends operator implements category_interface
 		}
 		$this->db->sql_freeresult($result);
 
-		if (count($ids))
+		if (!empty($ids))
 		{
 			$sql = 'DELETE FROM ' . $this->user_table . '
 					WHERE ' . $this->db->sql_in_set('flair_id', $ids);
