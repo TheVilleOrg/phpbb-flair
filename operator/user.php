@@ -104,6 +104,10 @@ class user extends operator implements user_interface
 	public function get_user_flair(array $user_ids, $filter = '')
 	{
 		$flair = array();
+		if (empty($user_ids))
+		{
+			return $flair;
+		}
 
 		$where = $this->db->sql_in_set('u.user_id', $user_ids);
 		if (in_array($filter, array('profile', 'posts')))
@@ -154,6 +158,10 @@ class user extends operator implements user_interface
 	protected function get_group_flair(array $user_ids, $filter, array &$flair)
 	{
 		$memberships = $this->get_group_memberships($user_ids);
+		if (empty($memberships))
+		{
+			return;
+		}
 
 		$where = $this->db->sql_in_set('g.group_id', array_keys($memberships));
 		if (in_array($filter, array('profile', 'posts')))
