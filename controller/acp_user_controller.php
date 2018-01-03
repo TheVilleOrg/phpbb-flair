@@ -108,8 +108,6 @@ class acp_user_controller extends acp_base_controller implements acp_user_interf
 		$this->template->assign_vars(array(
 			'S_SELECT_USER'		=> true,
 
-			'ANONYMOUS_USER_ID'	=> ANONYMOUS,
-
 			'U_ACTION'			=> $this->u_action,
 			'U_FIND_USERNAME'	=> $u_find_username,
 		));

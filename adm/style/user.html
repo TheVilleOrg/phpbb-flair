@@ -16,7 +16,6 @@
 			<dt><label for="username">{{ lang('ENTER_USERNAME') ~ lang('COLON') }}</label></dt>
 			<dd><input class="text medium" type="text" id="username" name="username" /></dd>
 			<dd>[ <a href="{{ U_FIND_USERNAME }}" onclick="find_username(this.href); return false;">{{ lang('FIND_USERNAME') }}</a> ]</dd>
-			<dd class="full" style="text-align: left;"><label><input type="checkbox" class="radio" id="anonymous" name="subject_id" value="{{ ANONYMOUS_USER_ID }}" /> {{ lang('SELECT_ANONYMOUS') }}</label></dd>
 		</dl>
 		<p class="quick">
 			<input type="submit" name="submituser" value="{{ lang('SUBMIT') }}" class="button1" />
