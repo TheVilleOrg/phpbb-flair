@@ -18,11 +18,6 @@ use stevotvr\flair\exception\unexpected_value;
  */
 class trigger extends operator implements trigger_interface
 {
-	public function get_triggera($trigger_name)
-	{
-		return $this->get_trigger_rows("trig_name = '" . $this->db->sql_escape($trigger_name) . "'");
-	}
-
 	public function get_flair_triggers($flair_id)
 	{
 		return $this->get_trigger_rows('flair_id = ' . (int) $flair_id);

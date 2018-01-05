@@ -16,15 +16,6 @@ namespace stevotvr\flair\operator;
 interface trigger_interface
 {
 	/**
-	 * Get all of the triggers of a specified name.
-	 *
-	 * @param string $trigger_name The trigger name
-	 *
-	 * @return array An associative array of trigger names to values
-	 */
-	public function get_triggera($trigger_name);
-
-	/**
 	 * Get all the triggers for a specified flair item.
 	 *
 	 * @param int $flair_id The database ID of the flair item
