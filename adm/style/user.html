@@ -61,10 +61,10 @@
 	<fieldset>
 		<legend>{{ lang('ACP_FLAIR_AVAILABLE') }}</legend>
 		<div class="flair">
-		{% for cat in cat %}
-			<h2>{{ cat.CAT_NAME }}</h2>
+		{% for c in cat %}
+			<h2>{{ c.CAT_NAME }}</h2>
 
-			{% for item in cat.item %}
+			{% for item in c.item %}
 			<span class="flair-item">
 				<div>
 					{% include '@stevotvr_flair/flair_item.html' with item %}
