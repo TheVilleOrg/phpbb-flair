@@ -12,6 +12,7 @@ services:
             - '@language'
             - '@request'
             - '@template'
+            - '@user'
             - '@stevotvr.flair.operator.trigger'
             - '@stevotvr.flair.operator.user'
         tags:

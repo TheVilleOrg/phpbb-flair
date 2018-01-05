@@ -17,6 +17,7 @@ use phpbb\event\data;
 use phpbb\language\language;
 use phpbb\request\request_interface;
 use phpbb\template\template;
+use phpbb\user;
 use stevotvr\flair\operator\trigger_interface;
 use stevotvr\flair\operator\user_interface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -62,6 +63,11 @@ class main_listener implements EventSubscriberInterface
 	protected $trigger_operator;
 
 	/**
+	 * @var \phpbb\user
+	 */
+	protected $user;
+
+	/**
 	 * @var \stevotvr\flair\operator\user_interface
 	 */
 	protected $user_operator;
@@ -73,10 +79,11 @@ class main_listener implements EventSubscriberInterface
 	 * @param \phpbb\language\language                   $language
 	 * @param \phpbb\request\request_interface           $request
 	 * @param \phpbb\template\template                   $template
+	 * @param \phpbb\user                                $user
 	 * @param \stevotvr\flair\operator\trigger_interface $trigger_operator
 	 * @param \stevotvr\flair\operator\user_interface    $user_operator
 	 */
-	public function __construct(config $config, driver_interface $db, helper $helper, language $language, request_interface $request, template $template, trigger_interface $trigger_operator, user_interface $user_operator)
+	public function __construct(config $config, driver_interface $db, helper $helper, language $language, request_interface $request, template $template, user $user, trigger_interface $trigger_operator, user_interface $user_operator)
 	{
 		$this->config = $config;
 		$this->db = $db;
@@ -84,6 +91,7 @@ class main_listener implements EventSubscriberInterface
 		$this->language = $language;
 		$this->request = $request;
 		$this->template = $template;
+		$this->user = $user;
 		$this->trigger_operator = $trigger_operator;
 		$this->user_operator = $user_operator;
 	}
@@ -91,13 +99,35 @@ class main_listener implements EventSubscriberInterface
 	static public function getSubscribedEvents()
 	{
 		return array(
-			'core.user_setup'					=> 'user_setup',
+			'core.add_form_key'					=> 'add_form_key',
 			'core.permissions'					=> 'permissions',
+			'core.user_setup'					=> 'user_setup',
 			'core.memberlist_view_profile'		=> 'memberlist_view_profile',
 			'core.submit_post_end'				=> 'submit_post_end',
 			'core.viewtopic_modify_post_data'	=> 'viewtopic_modify_post_data',
 			'core.viewtopic_post_row_after'		=> 'viewtopic_post_row_after',
 		);
+	}
+
+	/**
+	 * Modifies the creation time in the form token for the user flair ACP form to avoid 0 second
+	 * timespans.
+	 *
+	 * @param \phpbb\event\data $event The event data
+	 */
+	public function add_form_key(data $event)
+	{
+		if ($event['form_name'] === 'edit_user_flair')
+		{
+			$now = $event['now'] - 1;
+			$form_name = $event['form_name'];
+			$token_sid = $event['token_sid'];
+			$s_fields = build_hidden_fields(array(
+				'creation_time'	=> $now,
+				'form_token'	=> sha1($now . $this->user->data['user_form_salt'] . $form_name . $token_sid),
+			));
+			$event['s_fields'] = $s_fields;
+		}
 	}
 
 	/**
