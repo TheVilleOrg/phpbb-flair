@@ -10,6 +10,7 @@
 
 namespace stevotvr\flair\controller;
 
+use stevotvr\flair\exception\base;
 use stevotvr\flair\operator\category_interface as cat_operator;
 use stevotvr\flair\operator\flair_interface as flair_operator;
 
@@ -93,7 +94,14 @@ class acp_main_controller extends acp_base_controller implements acp_main_interf
 		}
 		else
 		{
-			$cat_name = $this->container->get('stevotvr.flair.entity.category')->load($cat_id)->get_name();
+			try
+			{
+				$cat_name = $this->container->get('stevotvr.flair.entity.category')->load($cat_id)->get_name();
+			}
+			catch(base $e)
+			{
+				trigger_error($e->get_message($this->language));
+			}
 		}
 
 		$this->template->assign_vars(array(

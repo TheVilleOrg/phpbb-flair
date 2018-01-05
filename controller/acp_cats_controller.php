@@ -50,13 +50,20 @@ class acp_cats_controller extends acp_base_controller implements acp_cats_interf
 
 	public function edit_cat($cat_id)
 	{
-		$entity = $this->container->get('stevotvr.flair.entity.category')->load($cat_id);
-		$this->add_edit_cat_data($entity);
-		$this->template->assign_vars(array(
-			'S_EDIT_CAT'	=> true,
+		try
+		{
+			$entity = $this->container->get('stevotvr.flair.entity.category')->load($cat_id);
+			$this->add_edit_cat_data($entity);
+			$this->template->assign_vars(array(
+				'S_EDIT_CAT'	=> true,
 
-			'U_ACTION'		=> $this->u_action . '&amp;action=edit_cat&amp;cat_id=' . $cat_id,
-		));
+				'U_ACTION'		=> $this->u_action . '&amp;action=edit_cat&amp;cat_id=' . $cat_id,
+			));
+		}
+		catch(base $e)
+		{
+			trigger_error($e->get_message($this->language));
+		}
 	}
 
 	/**

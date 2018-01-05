@@ -109,13 +109,20 @@ class acp_flair_controller extends acp_base_controller implements acp_flair_inte
 
 	public function edit_flair($flair_id)
 	{
-		$entity = $this->container->get('stevotvr.flair.entity.flair')->load($flair_id);
-		$this->add_edit_flair_data($entity);
-		$this->template->assign_vars(array(
-			'S_EDIT_FLAIR'	=> true,
+		try
+		{
+			$entity = $this->container->get('stevotvr.flair.entity.flair')->load($flair_id);
+			$this->add_edit_flair_data($entity);
+			$this->template->assign_vars(array(
+				'S_EDIT_FLAIR'	=> true,
 
-			'U_ACTION'		=> $this->u_action . '&amp;action=edit&amp;cat_id=' . $entity->get_category() . '&amp;flair_id=' . $flair_id,
-		));
+				'U_ACTION'		=> $this->u_action . '&amp;action=edit&amp;cat_id=' . $entity->get_category() . '&amp;flair_id=' . $flair_id,
+			));
+		}
+		catch(base $e)
+		{
+			trigger_error($e->get_message($this->language));
+		}
 	}
 
 	/**
@@ -361,42 +368,49 @@ class acp_flair_controller extends acp_base_controller implements acp_flair_inte
 
 	public function delete_flair($flair_id)
 	{
-		$entity = $this->container->get('stevotvr.flair.entity.flair')->load($flair_id);
-
-		if (!confirm_box(true))
-		{
-			$hidden_fields = build_hidden_fields(array(
-				'flair_id'	=> $flair_id,
-				'cat_id'	=> $entity->get_category(),
-				'mode'		=> 'manage',
-				'action'	=> 'delete',
-			));
-			confirm_box(false, $this->language->lang('ACP_FLAIR_DELETE_FLAIR_CONFIRM'), $hidden_fields);
-			return;
-		}
-
 		try
 		{
-			$this->flair_operator->delete_flair($flair_id);
-		}
-		catch (base $e)
-		{
-			trigger_error($this->language->lang('ACP_FLAIR_DELETE_ERRORED') . adm_back_link($this->u_action . '&amp;cat_id=' . $entity->get_category()), E_USER_WARNING);
-		}
+			$entity = $this->container->get('stevotvr.flair.entity.flair')->load($flair_id);
 
-		if ($this->request->is_ajax())
-		{
-			$json_response = new json_response();
-			$json_response->send(array(
-				'MESSAGE_TITLE'	=> $this->language->lang('INFORMATION'),
-				'MESSAGE_TEXT'	=> $this->language->lang('ACP_FLAIR_DELETE_SUCCESS'),
-				'REFRESH_DATA'	=> array(
-					'time'	=> 3
-				),
-			));
-		}
+			if (!confirm_box(true))
+			{
+				$hidden_fields = build_hidden_fields(array(
+					'flair_id'	=> $flair_id,
+					'cat_id'	=> $entity->get_category(),
+					'mode'		=> 'manage',
+					'action'	=> 'delete',
+				));
+				confirm_box(false, $this->language->lang('ACP_FLAIR_DELETE_FLAIR_CONFIRM'), $hidden_fields);
+				return;
+			}
 
-		trigger_error($this->language->lang('ACP_FLAIR_DELETE_SUCCESS') . adm_back_link($this->u_action . '&amp;cat_id=' . $entity->get_category()));
+			try
+			{
+				$this->flair_operator->delete_flair($flair_id);
+			}
+			catch (base $e)
+			{
+				trigger_error($this->language->lang('ACP_FLAIR_DELETE_ERRORED') . adm_back_link($this->u_action . '&amp;cat_id=' . $entity->get_category()), E_USER_WARNING);
+			}
+
+			if ($this->request->is_ajax())
+			{
+				$json_response = new json_response();
+				$json_response->send(array(
+					'MESSAGE_TITLE'	=> $this->language->lang('INFORMATION'),
+					'MESSAGE_TEXT'	=> $this->language->lang('ACP_FLAIR_DELETE_SUCCESS'),
+					'REFRESH_DATA'	=> array(
+						'time'	=> 3
+					),
+				));
+			}
+
+			trigger_error($this->language->lang('ACP_FLAIR_DELETE_SUCCESS') . adm_back_link($this->u_action . '&amp;cat_id=' . $entity->get_category()));
+		}
+		catch(base $e)
+		{
+			trigger_error($e->get_message($this->language));
+		}
 	}
 
 	public function move_flair($flair_id, $offset)
