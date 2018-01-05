@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.1 (1/5/17)
+
+* Fixed error caused by users with no group memberships
+* Removed anonymous user selector
+
 ## 1.0.0 (11/9/17)
 
 * Initial stable release
