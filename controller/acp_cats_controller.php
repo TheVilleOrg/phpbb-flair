@@ -60,7 +60,7 @@ class acp_cats_controller extends acp_base_controller implements acp_cats_interf
 				'U_ACTION'		=> $this->u_action . '&amp;action=edit_cat&amp;cat_id=' . $cat_id,
 			));
 		}
-		catch(base $e)
+		catch (base $e)
 		{
 			trigger_error($e->get_message($this->language));
 		}

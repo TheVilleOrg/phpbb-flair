@@ -119,7 +119,7 @@ class acp_flair_controller extends acp_base_controller implements acp_flair_inte
 				'U_ACTION'		=> $this->u_action . '&amp;action=edit&amp;cat_id=' . $entity->get_category() . '&amp;flair_id=' . $flair_id,
 			));
 		}
-		catch(base $e)
+		catch (base $e)
 		{
 			trigger_error($e->get_message($this->language));
 		}
@@ -407,7 +407,7 @@ class acp_flair_controller extends acp_base_controller implements acp_flair_inte
 
 			trigger_error($this->language->lang('ACP_FLAIR_DELETE_SUCCESS') . adm_back_link($this->u_action . '&amp;cat_id=' . $entity->get_category()));
 		}
-		catch(base $e)
+		catch (base $e)
 		{
 			trigger_error($e->get_message($this->language));
 		}

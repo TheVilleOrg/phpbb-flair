@@ -98,7 +98,7 @@ class acp_main_controller extends acp_base_controller implements acp_main_interf
 			{
 				$cat_name = $this->container->get('stevotvr.flair.entity.category')->load($cat_id)->get_name();
 			}
-			catch(base $e)
+			catch (base $e)
 			{
 				trigger_error($e->get_message($this->language));
 			}
