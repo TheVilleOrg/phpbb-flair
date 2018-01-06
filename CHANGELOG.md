@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.2 (1/5/17)
+
+* Fixed minor error in the user flair management page when there are no categories
+* Improved error handling
+
 ## 1.0.1 (1/5/17)
 
 * Fixed error caused by users with no group memberships
