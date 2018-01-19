@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.3 (1/19/18)
+
+* Fixed unapproved group members being assigned group flair
+* Added link to the Font Awesome CSS for styles that don't
+* Fixed line breaks in the Font Awesome icon list link
+
 ## 1.0.2 (1/5/17)
 
 * Fixed minor error in the user flair management page when there are no categories
