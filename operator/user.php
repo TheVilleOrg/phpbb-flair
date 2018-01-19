@@ -221,7 +221,8 @@ class user extends operator implements user_interface
 
 		$sql = 'SELECT user_id, group_id
 				FROM ' . USER_GROUP_TABLE . '
-				WHERE ' . $this->db->sql_in_set('user_id', $user_ids);
+				WHERE ' . $this->db->sql_in_set('user_id', $user_ids) . '
+					AND user_pending = 0';
 		$result = $this->db->sql_query($sql);
 		while ($row = $this->db->sql_fetchrow($result))
 		{
