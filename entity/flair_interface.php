@@ -15,6 +15,22 @@ namespace stevotvr\flair\entity;
  */
 interface flair_interface extends entity_interface
 {
+	/* Available flair types */
+	const TYPE_FA = 0;
+	const TYPE_IMG = 1;
+
+	/**
+	 * @return int The type of flair item
+	 */
+	public function get_type();
+
+	/**
+	 * @param int $type The type of flair item
+	 *
+	 * @return flair_interface This object for chaining
+	 */
+	public function set_type($type);
+
 	/**
 	 * @return int The database ID of the category
 	 */
@@ -167,4 +183,40 @@ interface flair_interface extends entity_interface
 	 * @throws \stevotvr\flair\exception\unexpected_value
 	 */
 	public function set_font_color($color);
+
+	/**
+	 * @return string The image path
+	 */
+	public function get_img();
+
+	/**
+	 * @param string $img_path The image path
+	 *
+	 * @return flair_interface This object for chaining
+	 */
+	public function set_img($img_path);
+
+	/**
+	 * @return int The width of the image
+	 */
+	public function get_img_width();
+
+	/**
+	 * @return int The height of the image
+	 */
+	public function get_img_height();
+
+	/**
+	 * @param int $width  The width of the image
+	 *
+	 * @return flair_interface This object for chaining
+	 */
+	public function set_img_width($width);
+
+	/**
+	 * @param int $height The height of the image
+	 *
+	 * @return flair_interface This object for chaining
+	 */
+	public function set_img_height($height);
 }

@@ -128,29 +128,18 @@
 		<fieldset>
 			<legend>{{ lang('ACP_FLAIR_APPEARANCE') }}</legend>
 			<dl>
-				<dt><label for="flair_color">{{ lang('ACP_FLAIR_FORM_PREVIEW') ~ lang('COLON') }}</label></dt>
+				<dt><label for="flair_type">{{ lang('ACP_FLAIR_TYPE') ~ lang('COLON') }}</label></dt>
+				<dd>
+					<select name="flair_type" id="flair_type">
+						<option value="0"{% if FLAIR_TYPE == 0 %} selected="selected"{% endif %}>{{ lang('ACP_FLAIR_TYPE_FA') }}</option>
+						<option value="1"{% if FLAIR_TYPE == 1 %} selected="selected"{% endif %}>{{ lang('ACP_FLAIR_TYPE_IMG') }}</option>
+					</select>
+				</dd>
+			</dl>
+			<dl>
+				<dt><label>{{ lang('ACP_FLAIR_FORM_PREVIEW') ~ lang('COLON') }}</label></dt>
 				<dd id="flair_preview">
-					<span class="fa-stack fa-2x">
-						{% if FLAIR_COLOR %}
-							<i class="fa fa-square fa-stack-2x" style="color: #{{ FLAIR_COLOR }}"></i>
-							{% if FLAIR_ICON %}
-								<i class="fa {{ FLAIR_ICON }} fa-stack-1x"{% if FLAIR_ICON_COLOR %} style="color: #{{ FLAIR_ICON_COLOR }}"{% endif %}></i>
-							{% endif %}
-						{% elseif FLAIR_ICON %}
-							<i class="fa {{ FLAIR_ICON }} fa-stack-2x"{% if FLAIR_ICON_COLOR %} style="color: #{{ FLAIR_ICON_COLOR }}"{% endif %}></i>
-						{% endif %}
-					</span>
-					<span class="fa-stack">
-						{% if FLAIR_COLOR %}
-							<i class="fa fa-square fa-stack-2x" style="color: #{{ FLAIR_COLOR }}"></i>
-							{% if FLAIR_ICON %}
-								<i class="fa {{ FLAIR_ICON }} fa-stack-1x"{% if FLAIR_ICON_COLOR %} style="color: #{{ FLAIR_ICON_COLOR }}"{% endif %}></i>
-							{% endif %}
-						{% elseif FLAIR_ICON %}
-							<i class="fa {{ FLAIR_ICON }} fa-stack-2x"{% if FLAIR_ICON_COLOR %} style="color: #{{ FLAIR_ICON_COLOR }}"{% endif %}></i>
-						{% endif %}
-					</span>
-					{% if FLAIR_FONT_COLOR %}
+					{% if S_FLAIR_TYPE == 0 %}
 						<span class="fa-stack fa-2x">
 							{% if FLAIR_COLOR %}
 								<i class="fa fa-square fa-stack-2x" style="color: #{{ FLAIR_COLOR }}"></i>
@@ -160,7 +149,6 @@
 							{% elseif FLAIR_ICON %}
 								<i class="fa {{ FLAIR_ICON }} fa-stack-2x"{% if FLAIR_ICON_COLOR %} style="color: #{{ FLAIR_ICON_COLOR }}"{% endif %}></i>
 							{% endif %}
-								<b class="flair-count" style="color: #{{ FLAIR_FONT_COLOR }}">2</b>
 						</span>
 						<span class="fa-stack">
 							{% if FLAIR_COLOR %}
@@ -171,12 +159,52 @@
 							{% elseif FLAIR_ICON %}
 								<i class="fa {{ FLAIR_ICON }} fa-stack-2x"{% if FLAIR_ICON_COLOR %} style="color: #{{ FLAIR_ICON_COLOR }}"{% endif %}></i>
 							{% endif %}
-								<b class="flair-count" style="color: #{{ FLAIR_FONT_COLOR }}">2</b>
 						</span>
+						{% if FLAIR_FONT_COLOR %}
+							<span class="fa-stack fa-2x">
+								{% if FLAIR_COLOR %}
+									<i class="fa fa-square fa-stack-2x" style="color: #{{ FLAIR_COLOR }}"></i>
+									{% if FLAIR_ICON %}
+										<i class="fa {{ FLAIR_ICON }} fa-stack-1x"{% if FLAIR_ICON_COLOR %} style="color: #{{ FLAIR_ICON_COLOR }}"{% endif %}></i>
+									{% endif %}
+								{% elseif FLAIR_ICON %}
+									<i class="fa {{ FLAIR_ICON }} fa-stack-2x"{% if FLAIR_ICON_COLOR %} style="color: #{{ FLAIR_ICON_COLOR }}"{% endif %}></i>
+								{% endif %}
+									<b class="flair-count" style="color: #{{ FLAIR_FONT_COLOR }}">2</b>
+							</span>
+							<span class="fa-stack">
+								{% if FLAIR_COLOR %}
+									<i class="fa fa-square fa-stack-2x" style="color: #{{ FLAIR_COLOR }}"></i>
+									{% if FLAIR_ICON %}
+										<i class="fa {{ FLAIR_ICON }} fa-stack-1x"{% if FLAIR_ICON_COLOR %} style="color: #{{ FLAIR_ICON_COLOR }}"{% endif %}></i>
+									{% endif %}
+								{% elseif FLAIR_ICON %}
+									<i class="fa {{ FLAIR_ICON }} fa-stack-2x"{% if FLAIR_ICON_COLOR %} style="color: #{{ FLAIR_ICON_COLOR }}"{% endif %}></i>
+								{% endif %}
+									<b class="flair-count" style="color: #{{ FLAIR_FONT_COLOR }}">2</b>
+							</span>
+						{% endif %}
+					{% else %}
+						<span class="flair_image">
+							<img src="{{ FLAIR_IMG }}" width="{{ FLAIR_IMG_W }}" height="{{ FLAIR_IMG_H }}" />
+						</span>
+						<span class="flair_image">
+							<img src="{{ FLAIR_IMG }}" height="24" />
+						</span>
+						{% if FLAIR_FONT_COLOR %}
+							<span class="flair_image">
+								<img src="{{ FLAIR_IMG }}" width="{{ FLAIR_IMG_W }}" height="{{ FLAIR_IMG_H }}" />
+								<b class="flair-count" style="color: #{{ FLAIR_FONT_COLOR }}">2</b>
+							</span>
+							<span class="flair_image">
+								<img src="{{ FLAIR_IMG }}" height="24" />
+								<b class="flair-count" style="color: #{{ FLAIR_FONT_COLOR }}">2</b>
+							</span>
+						{% endif %}
 					{% endif %}
 				</dd>
 			</dl>
-			<dl>
+			<dl class="type_fa">
 				<dt><label for="flair_color">{{ lang('ACP_FLAIR_FORM_COLOR') ~ lang('COLON') }}</label><br /><span>{{ lang('ACP_FLAIR_COLOR_EXPLAIN') }}</span></dt>
 				<dd>
 					<input type="text" id="flair_color" name="flair_color" value="{{ FLAIR_COLOR }}" size="6" maxlength="6" />
@@ -184,16 +212,27 @@
 					<div id="color_palette_placeholder" class="color_palette_placeholder" data-orientation="h" data-height="12" data-width="15" data-target="#flair_color"></div>
 				</dd>
 			</dl>
-			<dl>
+			<dl class="type_fa">
 				<dt><label for="flair_icon">{{ lang('ACP_FLAIR_FORM_ICON') ~ lang('COLON') }}</label><br /><span>{{ lang('ACP_FLAIR_ICON_EXPLAIN') }}</span></dt>
 				<dd><input class="text medium" type="text" id="flair_icon" name="flair_icon" value="{{ FLAIR_ICON }}" maxlength="50" /></dd>
 			</dl>
-			<dl>
+			<dl class="type_fa">
 				<dt><label for="flair_icon_color">{{ lang('ACP_FLAIR_FORM_ICON_COLOR') ~ lang('COLON') }}</label><br /><span>{{ lang('ACP_FLAIR_ICON_COLOR_EXPLAIN') }}</span></dt>
 				<dd>
 					<input type="text" id="flair_icon_color" name="flair_icon_color" value="{{ FLAIR_ICON_COLOR }}" size="6" maxlength="6" />
 					&nbsp;&nbsp;<span>[ <a href="#" id="color_palette_toggle2">{{ lang('COLOUR_SWATCH') }}</a> ]</span>
 					<div id="color_palette_placeholder2" class="color_palette_placeholder" data-orientation="h" data-height="12" data-width="15" data-target="#flair_icon_color"></div>
+				</dd>
+			</dl>
+			<dl class="type_img">
+				<dt><label for="flair_img">{{ lang('ACP_FLAIR_FORM_IMG') ~ lang('COLON') }}</label><br /><span>{{ lang('ACP_FLAIR_IMG_EXPLAIN') }}</span></dt>
+				<dd><input class="text medium" type="text" id="flair_img" name="flair_img" value="{{ FLAIR_IMG }}" maxlength="255" /></dd>
+			</dl>
+			<dl class="type_img">
+				<dt><label for="flair_img_width">{{ lang('ACP_FLAIR_FORM_IMG_SIZE') ~ lang('COLON') }}</label><br /><span>{{ lang('ACP_FLAIR_IMG_SIZE_EXPLAIN') }}</span></dt>
+				<dd>
+					<label for="flair_img_width">{{ lang('ACP_FLAIR_WIDTH') ~ lang('COLON') }}</label><input type="text" id="flair_img_width" name="flair_img_width" value="{{ FLAIR_IMG_W }}" size="8" maxlength="8" />&nbsp;&times;&nbsp;
+					<label for="flair_img_height">{{ lang('ACP_FLAIR_HEIGHT') ~ lang('COLON') }}</label><input type="text" id="flair_img_height" name="flair_img_height" value="{{ FLAIR_IMG_H }}" size="8" maxlength="8" />
 				</dd>
 			</dl>
 			<dl>

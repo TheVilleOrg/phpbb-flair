@@ -4,10 +4,14 @@
 
 $(function() {
 
-	var color		= $('#flair_color'),
+	var type		= $('#flair_type'),
+		color		= $('#flair_color'),
 		icon		= $('#flair_icon'),
 		iconColor	= $('#flair_icon_color'),
 		fontColor	= $('#flair_font_color'),
+		image		= $('#flair_img'),
+		imageWidth	= $('#flair_img_width'),
+		imageHeight	= $('#flair_img_height'),
 		preview		= $('#flair_preview');
 
 	var getColorValue = (function() {
@@ -91,27 +95,80 @@ $(function() {
 	};
 
 	/**
+	 * Get the HTML for an image flair preview.
+	 *
+	 * @param {String}	imgVal			The image path
+	 * @param {Integer}	imgWidthVal		The image width
+	 * @param {Integer}	imgHeightVal	The image height
+	 * @param {String}	fontColorVal	The font color
+	 * @param {Boolean}	large			Get the larger preview
+	 *
+	 * @return {String} The HTML
+	 */
+	var getImgPreviewHtml = function(imgVal, imgWidthVal, imgHeightVal, fontColorVal, large) {
+		var html = '<span class="flair_image">';
+
+		html += '<img src="' + imgVal + '"';
+
+		if (large) {
+			html += ' width="' + imgWidthVal + '" height="' + imgHeightVal + '"';
+		} else {
+			html += ' height="24"';
+		}
+
+		html += ' />';
+
+		if (fontColorVal) {
+			html += '<b class="flair-count" style="color: #' + fontColorVal + '">2</b>';
+		}
+
+		html += '</span>';
+
+		return html;
+	}
+
+	/**
 	 * Update the flair preview based on the current values of the form fields.
 	 */
 	var updatePreview = function() {
-		var colorVal		= getColorValue(color),
-			iconVal			= icon.val(),
-			iconColorVal	= getColorValue(iconColor),
-			fontColorVal	= getColorValue(fontColor);
-
-		if (!colorVal && !iconVal) {
-			preview.html('');
-			return;
-		}
-
 		var html = [];
 
-		html.push(getPreviewHtml(colorVal, iconVal, iconColorVal, false, true));
-		html.push(getPreviewHtml(colorVal, iconVal, iconColorVal));
+		if (type.val() === '0') {
+			var colorVal		= getColorValue(color),
+				iconVal			= icon.val(),
+				iconColorVal	= getColorValue(iconColor),
+				fontColorVal	= getColorValue(fontColor);
 
-		if (fontColorVal) {
-			html.push(getPreviewHtml(colorVal, iconVal, iconColorVal, fontColorVal, true));
-			html.push(getPreviewHtml(colorVal, iconVal, iconColorVal, fontColorVal));
+			if (!colorVal && !iconVal) {
+				preview.html('');
+				return;
+			}
+
+			html.push(getPreviewHtml(colorVal, iconVal, iconColorVal, false, true));
+			html.push(getPreviewHtml(colorVal, iconVal, iconColorVal));
+
+			if (fontColorVal) {
+				html.push(getPreviewHtml(colorVal, iconVal, iconColorVal, fontColorVal, true));
+				html.push(getPreviewHtml(colorVal, iconVal, iconColorVal, fontColorVal));
+			}
+		} else {
+			var imgVal			= image.val(),
+				imgWidthVal		= imageWidth.val(),
+				imgHeightVal	= imageHeight.val(),
+				fontColorVal	= getColorValue(fontColor);
+
+			if (!imgVal) {
+				preview.html('');
+				return;
+			}
+
+			html.push(getImgPreviewHtml(imgVal, imgWidthVal, imgHeightVal, false, true));
+			html.push(getImgPreviewHtml(imgVal, imgWidthVal, imgHeightVal));
+
+			if (fontColorVal) {
+				html.push(getImgPreviewHtml(imgVal, imgWidthVal, imgHeightVal, fontColorVal, true));
+				html.push(getImgPreviewHtml(imgVal, imgWidthVal, imgHeightVal, fontColorVal));
+			}
 		}
 
 		preview.html(html.join('&nbsp;'));
@@ -143,9 +200,20 @@ $(function() {
 		updatePreview();
 	});
 
-	$('#flair_color, #flair_icon, #flair_icon_color, #flair_font_color').change(function() {
+	$('#flair_type, #flair_color, #flair_icon, #flair_icon_color, #flair_font_color, #flair_img, #flair_img_width, #flair_img_height').change(function() {
 		updatePreview();
 	});
+
+	$('#flair_type').change(function() {
+		if ($(this).val() === '0') {
+			$('.type_img').hide();
+			$('.type_fa').show();
+		} else {
+			$('.type_fa').hide();
+			$('.type_img').show();
+		}
+	})
+	.trigger('change');
 
 });
 

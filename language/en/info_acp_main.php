@@ -77,6 +77,7 @@ $lang = array_merge($lang, array(
 	'ACP_FLAIR_AUTO_ASSIGN'		=> 'Flair auto-assignments',
 	'ACP_FLAIR_DELETE_SUCCESS'	=> 'Flair item deleted successfully',
 	'ACP_FLAIR_DELETE_ERRORED'	=> 'An error occurred while attempting to delete the flair item',
+	'ACP_FLAIR_TYPE'			=> 'Flair type',
 	'ACP_FLAIR_FORM_CAT'		=> 'Flair category',
 	'ACP_FLAIR_FORM_NAME'		=> 'Flair name',
 	'ACP_FLAIR_FORM_DESC'		=> 'Flair description',
@@ -84,6 +85,8 @@ $lang = array_merge($lang, array(
 	'ACP_FLAIR_FORM_COLOR'		=> 'Flair color',
 	'ACP_FLAIR_FORM_ICON'		=> 'Flair icon',
 	'ACP_FLAIR_FORM_ICON_COLOR'	=> 'Flair icon color',
+	'ACP_FLAIR_FORM_IMG'		=> 'Flair image path',
+	'ACP_FLAIR_FORM_IMG_SIZE'	=> 'Flair image size',
 	'ACP_FLAIR_FORM_FONT_COLOR'	=> 'Flair font color',
 	'ACP_FLAIR_FORM_GROUPS'		=> 'Group assignments',
 
@@ -91,6 +94,8 @@ $lang = array_merge($lang, array(
 	'ACP_FLAIR_COLOR_EXPLAIN'		=> 'The background color of the item. Leave blank for no background.',
 	'ACP_FLAIR_ICON_EXPLAIN'		=> 'Enter an optional Font Awesome icon identifier to represent this item. [&nbsp;<a href="http://fontawesome.io/icons/" target="_blank">Font Awesome icon list</a>&nbsp;]',
 	'ACP_FLAIR_ICON_COLOR_EXPLAIN'	=> 'The color of the icon, if present.',
+	'ACP_FLAIR_IMG_EXPLAIN'			=> 'The path to the image to use relative to your phpBB root.',
+	'ACP_FLAIR_IMG_SIZE_EXPLAIN'	=> 'Optionally specify the width and height of the image.',
 	'ACP_FLAIR_FONT_COLOR_EXPLAIN'	=> 'The color of the flair count text when a user has multiple of the same item. Leave blank to hide the count.',
 	'ACP_FLAIR_GROUPS_EXPLAIN'		=> 'Members of groups selected here will automatically have this flair item assigned to their profile.',
 
@@ -114,5 +119,12 @@ $lang = array_merge($lang, array(
 	'ACP_FLAIR_PROFILE'		=> 'Profile',
 	'ACP_FLAIR_POSTS'		=> 'Posts',
 
+	'ACP_FLAIR_TYPE_FA'		=> 'Font Awesome',
+	'ACP_FLAIR_TYPE_IMG'	=> 'Image',
+
+	'ACP_FLAIR_WIDTH'	=> 'Width',
+	'ACP_FLAIR_HEIGHT'	=> 'Height',
+
 	'ACP_ERROR_APPEARANCE_REQUIRED'	=> 'You must set either a color or an icon for the flair item.',
+	'ACP_ERROR_IMG_REQUIRED'		=> 'You must specify an image for the flair item.',
 ));

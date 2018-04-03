@@ -139,6 +139,7 @@ class acp_flair_controller extends acp_base_controller implements acp_flair_inte
 		add_form_key('add_edit_flair');
 
 		$data = array(
+			'type'			=> $this->request->variable('flair_type', 0),
 			'category'		=> $this->request->variable('flair_category', 0),
 			'name'			=> $this->request->variable('flair_name', '', true),
 			'desc'			=> $this->request->variable('flair_desc', '', true),
@@ -146,6 +147,9 @@ class acp_flair_controller extends acp_base_controller implements acp_flair_inte
 			'icon'			=> $this->request->variable('flair_icon', ''),
 			'icon_color'	=> $this->request->variable('flair_icon_color', ''),
 			'font_color'	=> $this->request->variable('flair_font_color', ''),
+			'img'			=> $this->request->variable('flair_img', ''),
+			'img_width'		=> $this->request->variable('flair_img_width', ''),
+			'img_height'	=> $this->request->variable('flair_img_height', ''),
 		);
 
 		$this->set_parse_options($entity, $submit);
@@ -195,12 +199,16 @@ class acp_flair_controller extends acp_base_controller implements acp_flair_inte
 			'S_ERROR'	=> !empty($errors),
 			'ERROR_MSG'	=> !empty($errors) ? implode('<br />', $errors) : '',
 
+			'FLAIR_TYPE'		=> $entity->get_type(),
 			'FLAIR_CATEGORY'	=> $entity->get_category(),
 			'FLAIR_NAME'		=> $entity->get_name(),
 			'FLAIR_DESC'		=> $entity->get_desc_for_edit(),
 			'FLAIR_COLOR'		=> $entity->get_color(),
 			'FLAIR_ICON'		=> $entity->get_icon(),
 			'FLAIR_ICON_COLOR'	=> $entity->get_icon_color(),
+			'FLAIR_IMG'			=> $entity->get_img(),
+			'FLAIR_IMG_W'		=> ((bool) $entity->get_img_width()) ? $entity->get_img_width() : '',
+			'FLAIR_IMG_H'		=> ((bool) $entity->get_img_height()) ? $entity->get_img_height() : '',
 			'FLAIR_FONT_COLOR'	=> $entity->get_font_color(),
 
 			'S_PARSE_BBCODE_CHECKED'	=> $entity->is_bbcode_enabled(),
@@ -336,9 +344,13 @@ class acp_flair_controller extends acp_base_controller implements acp_flair_inte
 			$errors[] = 'FORM_INVALID';
 		}
 
-		if ($data['color'] === '' && $data['icon'] === '')
+		if ($data['type'] === flair_entity::TYPE_FA && $data['color'] === '' && $data['icon'] === '')
 		{
 			$errors[] = 'ACP_ERROR_APPEARANCE_REQUIRED';
+		}
+		elseif ($data['img'] === '')
+		{
+			$errors[] = 'ACP_ERROR_IMG_REQUIRED';
 		}
 	}
 

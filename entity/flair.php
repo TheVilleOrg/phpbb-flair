@@ -27,6 +27,7 @@ class flair extends entity implements flair_interface
 
 	protected $columns = array(
 		'flair_id'						=> 'integer',
+		'flair_type'					=> 'integer',
 		'flair_category'				=> 'integer',
 		'flair_name'					=> 'set_name',
 		'flair_desc'					=> 'string',
@@ -38,6 +39,9 @@ class flair extends entity implements flair_interface
 		'flair_icon'					=> 'set_icon',
 		'flair_icon_color'				=> 'set_icon_color',
 		'flair_font_color'				=> 'set_font_color',
+		'flair_img'						=> 'set_img',
+		'flair_img_w'					=> 'integer',
+		'flair_img_h'					=> 'integer',
 	);
 
 	protected $id_column = 'flair_id';
@@ -50,6 +54,20 @@ class flair extends entity implements flair_interface
 	public function setup(config $config)
 	{
 		$this->config = $config;
+	}
+
+	public function get_type()
+	{
+		return isset($this->data['flair_type']) ? (int) $this->data['flair_type'] : 0;
+	}
+
+	public function set_type($type)
+	{
+		$type = (int) $type;
+
+		$this->data['flair_type'] = max(0, min(1, $type));
+
+		return $this;
 	}
 
 	public function get_category()
@@ -257,6 +275,49 @@ class flair extends entity implements flair_interface
 		}
 
 		$this->data['flair_font_color'] = $color;
+
+		return $this;
+	}
+
+	public function get_img()
+	{
+		return isset($this->data['flair_img']) ? (string) $this->data['flair_img'] : '';
+	}
+
+	public function set_img($img_path)
+	{
+		$flair_img = (string) $img_path;
+
+		if (truncate_string($flair_img, 255) !== $flair_img)
+		{
+			throw new unexpected_value('flair_img', 'TOO_LONG');
+		}
+
+		$this->data['flair_img'] = $flair_img;
+
+		return $this;
+	}
+
+	public function get_img_width()
+	{
+		return isset($this->data['flair_img_w']) ? (int) $this->data['flair_img_w'] : 0;
+	}
+
+	public function get_img_height()
+	{
+		return isset($this->data['flair_img_h']) ? (int) $this->data['flair_img_h'] : 0;
+	}
+
+	public function set_img_width($width)
+	{
+		$this->data['flair_img_w'] = max(0, (int) $width);
+
+		return $this;
+	}
+
+	public function set_img_height($height)
+	{
+		$this->data['flair_img_h'] = max(0, (int) $height);
 
 		return $this;
 	}
