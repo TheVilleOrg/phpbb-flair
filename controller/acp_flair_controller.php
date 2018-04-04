@@ -348,7 +348,7 @@ class acp_flair_controller extends acp_base_controller implements acp_flair_inte
 		{
 			$errors[] = 'ACP_ERROR_APPEARANCE_REQUIRED';
 		}
-		elseif ($data['img'] === '')
+		elseif ($data['type'] === flair_entity::TYPE_IMG && $data['img'] === '')
 		{
 			$errors[] = 'ACP_ERROR_IMG_REQUIRED';
 		}
