@@ -207,12 +207,14 @@ class acp_user_controller extends acp_base_controller implements acp_user_interf
 			foreach ($category['items'] as $entity)
 			{
 				$this->template->assign_block_vars('cat.item', array(
+					'FLAIR_TYPE'		=> $entity->get_type(),
 					'FLAIR_SIZE'		=> 2,
 					'FLAIR_ID'			=> $entity->get_id(),
 					'FLAIR_NAME'		=> $entity->get_name(),
 					'FLAIR_COLOR'		=> $entity->get_color(),
 					'FLAIR_ICON'		=> $entity->get_icon(),
 					'FLAIR_ICON_COLOR'	=> $entity->get_icon_color(),
+					'FLAIR_IMG'			=> $entity->get_img(),
 
 					'ADD_TITLE'	=> $this->language->lang('ACP_FLAIR_ADD_TITLE', $entity->get_name(), $user_name),
 				));
@@ -238,12 +240,14 @@ class acp_user_controller extends acp_base_controller implements acp_user_interf
 			{
 				$entity = $item['flair'];
 				$this->template->assign_block_vars('flair.item', array(
+					'FLAIR_TYPE'		=> $entity->get_type(),
 					'FLAIR_SIZE'		=> 2,
 					'FLAIR_ID'			=> $entity->get_id(),
 					'FLAIR_NAME'		=> $entity->get_name(),
 					'FLAIR_COLOR'		=> $entity->get_color(),
 					'FLAIR_ICON'		=> $entity->get_icon(),
 					'FLAIR_ICON_COLOR'	=> $entity->get_icon_color(),
+					'FLAIR_IMG'			=> $entity->get_img(),
 					'FLAIR_FONT_COLOR'	=> $entity->get_font_color(),
 					'FLAIR_COUNT'		=> $item['count'],
 

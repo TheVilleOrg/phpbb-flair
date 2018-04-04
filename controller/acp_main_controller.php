@@ -49,10 +49,12 @@ class acp_main_controller extends acp_base_controller implements acp_main_interf
 		foreach ($entities as $entity)
 		{
 			$this->template->assign_block_vars('flair', array(
+				'FLAIR_TYPE'		=> $entity->get_type(),
 				'FLAIR_NAME'		=> $entity->get_name(),
 				'FLAIR_COLOR'		=> $entity->get_color(),
 				'FLAIR_ICON'		=> $entity->get_icon(),
 				'FLAIR_ICON_COLOR'	=> $entity->get_icon_color(),
+				'FLAIR_IMG'			=> $entity->get_img(),
 				'FLAIR_FONT_COLOR'	=> $entity->get_font_color(),
 
 				'U_MOVE_UP'		=> $this->u_action . '&amp;action=move_up&amp;cat_id=' . $cat_id . '&amp;flair_id=' . $entity->get_id(),

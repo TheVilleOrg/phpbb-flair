@@ -332,16 +332,22 @@
 			{% for f in flair %}
 				<tr>
 					<td>
-						<span class="fa-stack">
-							{% if f.FLAIR_COLOR %}
-								<i class="fa fa-square fa-stack-2x" style="color: #{{ f.FLAIR_COLOR }}"></i>
-								{% if f.FLAIR_ICON %}
-									<i class="fa {{ f.FLAIR_ICON }} fa-stack-1x"{% if f.FLAIR_ICON_COLOR %} style="color: #{{ f.FLAIR_ICON_COLOR }}"{% endif %}></i>
+						{% if f.FLAIR_TYPE == 0 %}
+							<span class="fa-stack">
+								{% if f.FLAIR_COLOR %}
+									<i class="fa fa-square fa-stack-2x" style="color: #{{ f.FLAIR_COLOR }}"></i>
+									{% if f.FLAIR_ICON %}
+										<i class="fa {{ f.FLAIR_ICON }} fa-stack-1x"{% if f.FLAIR_ICON_COLOR %} style="color: #{{ f.FLAIR_ICON_COLOR }}"{% endif %}></i>
+									{% endif %}
+								{% elseif f.FLAIR_ICON %}
+									<i class="fa {{ f.FLAIR_ICON }} fa-stack-2x"{% if f.FLAIR_ICON_COLOR %} style="color: #{{ f.FLAIR_ICON_COLOR }}"{% endif %}></i>
 								{% endif %}
-							{% elseif f.FLAIR_ICON %}
-								<i class="fa {{ f.FLAIR_ICON }} fa-stack-2x"{% if f.FLAIR_ICON_COLOR %} style="color: #{{ f.FLAIR_ICON_COLOR }}"{% endif %}></i>
-							{% endif %}
-						</span>
+							</span>
+						{% else %}
+							<span class="flair">
+								<img src="{{ f.FLAIR_IMG }}" alt="{{ f.FLAIR_NAME }}" height="24" />
+							</span>
+						{% endif %}
 					</td>
 					<td><strong>{% if f.U_FLAIR %}<a href="{{ f.U_FLAIR }}">{% endif %}{{ f.FLAIR_NAME }}{% if f.U_FLAIR %}</a>{% endif %}</strong></td>
 					<td class="actions">
