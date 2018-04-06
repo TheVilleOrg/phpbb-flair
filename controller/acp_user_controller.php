@@ -53,20 +53,6 @@ class acp_user_controller extends acp_base_controller implements acp_user_interf
 	protected $user_operator;
 
 	/**
-	 * The root phpBB path.
-	 *
-	 * @var string
-	 */
-	protected $root_path;
-
-	/**
-	 * The script file extension.
-	 *
-	 * @var string
-	 */
-	protected $php_ext;
-
-	/**
 	 * Set up the controller.
 	 *
 	 * @param \phpbb\config\config                        $config
@@ -84,18 +70,6 @@ class acp_user_controller extends acp_base_controller implements acp_user_interf
 		$this->cat_operator = $cat_operator;
 		$this->flair_operator = $flair_operator;
 		$this->user_operator = $user_operator;
-	}
-
-	/**
-	 * Set the phpBB installation path information.
-	 *
-	 * @param string $root_path The root phpBB path
-	 * @param string $php_ext   The script file extension
-	 */
-	public function set_path_info($root_path, $php_ext)
-	{
-		$this->root_path = $root_path;
-		$this->php_ext = $php_ext;
 	}
 
 	public function find_user()
@@ -214,7 +188,7 @@ class acp_user_controller extends acp_base_controller implements acp_user_interf
 					'FLAIR_COLOR'		=> $entity->get_color(),
 					'FLAIR_ICON'		=> $entity->get_icon(),
 					'FLAIR_ICON_COLOR'	=> $entity->get_icon_color(),
-					'FLAIR_IMG'			=> $entity->get_img(),
+					'FLAIR_IMG'			=> $this->img_path . $entity->get_img(),
 
 					'ADD_TITLE'	=> $this->language->lang('ACP_FLAIR_ADD_TITLE', $entity->get_name(), $user_name),
 				));
@@ -247,7 +221,7 @@ class acp_user_controller extends acp_base_controller implements acp_user_interf
 					'FLAIR_COLOR'		=> $entity->get_color(),
 					'FLAIR_ICON'		=> $entity->get_icon(),
 					'FLAIR_ICON_COLOR'	=> $entity->get_icon_color(),
-					'FLAIR_IMG'			=> $entity->get_img(),
+					'FLAIR_IMG'			=> $this->img_path . $entity->get_img(),
 					'FLAIR_FONT_COLOR'	=> $entity->get_font_color(),
 					'FLAIR_COUNT'		=> $item['count'],
 

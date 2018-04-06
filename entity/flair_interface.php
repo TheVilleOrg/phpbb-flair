@@ -195,28 +195,4 @@ interface flair_interface extends entity_interface
 	 * @return flair_interface This object for chaining
 	 */
 	public function set_img($img_path);
-
-	/**
-	 * @return int The width of the image
-	 */
-	public function get_img_width();
-
-	/**
-	 * @return int The height of the image
-	 */
-	public function get_img_height();
-
-	/**
-	 * @param int $width  The width of the image
-	 *
-	 * @return flair_interface This object for chaining
-	 */
-	public function set_img_width($width);
-
-	/**
-	 * @param int $height The height of the image
-	 *
-	 * @return flair_interface This object for chaining
-	 */
-	public function set_img_height($height);
 }

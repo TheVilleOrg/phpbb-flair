@@ -48,6 +48,27 @@ abstract class acp_base_controller implements acp_base_interface
 	protected $u_action;
 
 	/**
+	 * The root phpBB path.
+	 *
+	 * @var string
+	 */
+	protected $root_path;
+
+	/**
+	 * The script file extension.
+	 *
+	 * @var string
+	 */
+	protected $php_ext;
+
+	/**
+	 * The path to the custom images.
+	 *
+	 * @var string
+	 */
+	protected $img_path;
+
+	/**
 	 * @param ContainerInterface               $container
 	 * @param \phpbb\language\language         $language
 	 * @param \phpbb\request\request_interface $request
@@ -59,6 +80,20 @@ abstract class acp_base_controller implements acp_base_interface
 		$this->language = $language;
 		$this->request = $request;
 		$this->template = $template;
+	}
+
+	/**
+	 * Set the phpBB installation path information.
+	 *
+	 * @param string $root_path The root phpBB path
+	 * @param string $php_ext   The script file extension
+	 * @param string $img_path  The path to the custom images
+	 */
+	public function set_path_info($root_path, $php_ext, $img_path)
+	{
+		$this->root_path = $root_path;
+		$this->php_ext = $php_ext;
+		$this->img_path = $img_path;
 	}
 
 	public function set_page_url($page_url)

@@ -85,8 +85,7 @@ $lang = array_merge($lang, array(
 	'ACP_FLAIR_FORM_COLOR'		=> 'Flair color',
 	'ACP_FLAIR_FORM_ICON'		=> 'Flair icon',
 	'ACP_FLAIR_FORM_ICON_COLOR'	=> 'Flair icon color',
-	'ACP_FLAIR_FORM_IMG'		=> 'Flair image path',
-	'ACP_FLAIR_FORM_IMG_SIZE'	=> 'Flair image size',
+	'ACP_FLAIR_FORM_IMG'		=> 'Flair image',
 	'ACP_FLAIR_FORM_FONT_COLOR'	=> 'Flair font color',
 	'ACP_FLAIR_FORM_GROUPS'		=> 'Group assignments',
 
@@ -94,8 +93,7 @@ $lang = array_merge($lang, array(
 	'ACP_FLAIR_COLOR_EXPLAIN'		=> 'The background color of the item. Leave blank for no background.',
 	'ACP_FLAIR_ICON_EXPLAIN'		=> 'Enter an optional Font Awesome icon identifier to represent this item. [&nbsp;<a href="http://fontawesome.io/icons/" target="_blank">Font Awesome icon list</a>&nbsp;]',
 	'ACP_FLAIR_ICON_COLOR_EXPLAIN'	=> 'The color of the icon, if present.',
-	'ACP_FLAIR_IMG_EXPLAIN'			=> 'The path to the image to use relative to your phpBB root.',
-	'ACP_FLAIR_IMG_SIZE_EXPLAIN'	=> 'Optionally specify the width and height of the image.',
+	'ACP_FLAIR_IMG_EXPLAIN'			=> 'The custom image file. Upload your custom icons to <b>images/flair</b>.',
 	'ACP_FLAIR_FONT_COLOR_EXPLAIN'	=> 'The color of the flair count text when a user has multiple of the same item. Leave blank to hide the count.',
 	'ACP_FLAIR_GROUPS_EXPLAIN'		=> 'Members of groups selected here will automatically have this flair item assigned to their profile.',
 
@@ -113,6 +111,7 @@ $lang = array_merge($lang, array(
 	'ACP_FLAIR_ADD_TITLE'				=> 'Add the specified number of “%1$s” to %2$s’s profile',
 	'ACP_FLAIR_REMOVE_TITLE'			=> 'Remove the specified number of “%1$s” from %2$s’s profile',
 	'ACP_FLAIR_REMOVE_ALL_TITLE'		=> 'Remove all “%1$s” from %2$s’s profile',
+	'ACP_FLAIR_NO_IMGS'					=> 'No images found in <b>images/flair</b>.',
 
 	'ACP_FLAIR_NAME'		=> 'Name',
 	'ACP_FLAIR_DISPLAY_ON'	=> 'Display on',
@@ -120,10 +119,7 @@ $lang = array_merge($lang, array(
 	'ACP_FLAIR_POSTS'		=> 'Posts',
 
 	'ACP_FLAIR_TYPE_FA'		=> 'Font Awesome',
-	'ACP_FLAIR_TYPE_IMG'	=> 'Image',
-
-	'ACP_FLAIR_WIDTH'	=> 'Width',
-	'ACP_FLAIR_HEIGHT'	=> 'Height',
+	'ACP_FLAIR_TYPE_IMG'	=> 'Custom Image',
 
 	'ACP_ERROR_APPEARANCE_REQUIRED'	=> 'You must set either a color or an icon for the flair item.',
 	'ACP_ERROR_IMG_REQUIRED'		=> 'You must specify an image for the flair item.',

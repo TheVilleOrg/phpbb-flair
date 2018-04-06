@@ -29,8 +29,6 @@ class version_1_1_0 extends migration
 				$this->table_prefix . 'flair' => array(
 					'flair_type'	=> array('USINT', 0),
 					'flair_img'		=> array('VCHAR_UNI', ''),
-					'flair_img_w'	=> array('UINT', 0),
-					'flair_img_h'	=> array('UINT', 0),
 				),
 			),
 		);

@@ -148,8 +148,6 @@ class acp_flair_controller extends acp_base_controller implements acp_flair_inte
 			'icon_color'	=> $this->request->variable('flair_icon_color', ''),
 			'font_color'	=> $this->request->variable('flair_font_color', ''),
 			'img'			=> $this->request->variable('flair_img', ''),
-			'img_width'		=> $this->request->variable('flair_img_width', ''),
-			'img_height'	=> $this->request->variable('flair_img_height', ''),
 		);
 
 		$this->set_parse_options($entity, $submit);
@@ -207,9 +205,8 @@ class acp_flair_controller extends acp_base_controller implements acp_flair_inte
 			'FLAIR_ICON'		=> $entity->get_icon(),
 			'FLAIR_ICON_COLOR'	=> $entity->get_icon_color(),
 			'FLAIR_IMG'			=> $entity->get_img(),
-			'FLAIR_IMG_W'		=> ((bool) $entity->get_img_width()) ? $entity->get_img_width() : '',
-			'FLAIR_IMG_H'		=> ((bool) $entity->get_img_height()) ? $entity->get_img_height() : '',
 			'FLAIR_FONT_COLOR'	=> $entity->get_font_color(),
+			'FLAIR_IMG_PATH'	=> $this->img_path,
 
 			'S_PARSE_BBCODE_CHECKED'	=> $entity->is_bbcode_enabled(),
 			'S_PARSE_SMILIES_CHECKED'	=> $entity->is_smilies_enabled(),
@@ -218,6 +215,7 @@ class acp_flair_controller extends acp_base_controller implements acp_flair_inte
 			'U_BACK'	=> $this->u_action . '&amp;cat_id=' . $entity->get_category(),
 		));
 
+		$this->load_img_select_data($entity->get_img());
 		$this->load_cat_select_data($entity->get_category());
 		$this->load_triggers($entity->get_id());
 		$this->load_groups($entity->get_id());
@@ -351,6 +349,24 @@ class acp_flair_controller extends acp_base_controller implements acp_flair_inte
 		elseif ($data['type'] === flair_entity::TYPE_IMG && $data['img'] === '')
 		{
 			$errors[] = 'ACP_ERROR_IMG_REQUIRED';
+		}
+	}
+
+	/**
+	 * Load the template data for the image select box.
+	 *
+	 * @param int $selected The selected item
+	 */
+	protected function load_img_select_data($selected)
+	{
+		foreach (glob($this->img_path . '*.{gif,png,jpg,jpeg,GIF,PNG,JPG,JPEG}', GLOB_BRACE) as $file)
+		{
+			$file = basename($file);
+			$this->template->assign_block_vars('imgs', array(
+				'IMG_NAME'	=> $file,
+
+				'S_SELECTED'	=> $file === $selected,
+			));
 		}
 	}
 

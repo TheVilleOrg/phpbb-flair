@@ -2,6 +2,9 @@ imports:
     - { resource: tables.yml }
     - { resource: triggers.yml }
 
+parameters:
+    stevotvr.flair.img_path: '%core.root_path%images/flair/'
+
 services:
     stevotvr.flair.listener:
         class: stevotvr\flair\event\main_listener
@@ -25,6 +28,12 @@ services:
             - '@language'
             - '@request'
             - '@template'
+        calls:
+            - method: set_path_info
+              arguments:
+                - '%core.root_path%'
+                - '%core.php_ext%'
+                - '%stevotvr.flair.img_path%'
     stevotvr.flair.controller.acp.main:
         class: stevotvr\flair\controller\acp_main_controller
         parent: stevotvr.flair.controller.acp
@@ -67,10 +76,6 @@ services:
                 - '@stevotvr.flair.operator.category'
                 - '@stevotvr.flair.operator.flair'
                 - '@stevotvr.flair.operator.user'
-            - method: set_path_info
-              arguments:
-                - '%core.root_path%'
-                - '%core.php_ext%'
     stevotvr.flair.controller.legend:
         class: stevotvr\flair\controller\legend_controller
         arguments:

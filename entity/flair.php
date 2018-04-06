@@ -40,8 +40,6 @@ class flair extends entity implements flair_interface
 		'flair_icon_color'				=> 'set_icon_color',
 		'flair_font_color'				=> 'set_font_color',
 		'flair_img'						=> 'set_img',
-		'flair_img_w'					=> 'integer',
-		'flair_img_h'					=> 'integer',
 	);
 
 	protected $id_column = 'flair_id';
@@ -284,40 +282,16 @@ class flair extends entity implements flair_interface
 		return isset($this->data['flair_img']) ? (string) $this->data['flair_img'] : '';
 	}
 
-	public function set_img($img_path)
+	public function set_img($img_name)
 	{
-		$flair_img = (string) $img_path;
+		$img_name = (string) $img_name;
 
-		if (truncate_string($flair_img, 255) !== $flair_img)
+		if (truncate_string($img_name, 255) !== $img_name)
 		{
-			throw new unexpected_value('flair_img', 'TOO_LONG');
+			throw new unexpected_value('img_name', 'TOO_LONG');
 		}
 
-		$this->data['flair_img'] = $flair_img;
-
-		return $this;
-	}
-
-	public function get_img_width()
-	{
-		return isset($this->data['flair_img_w']) ? (int) $this->data['flair_img_w'] : 0;
-	}
-
-	public function get_img_height()
-	{
-		return isset($this->data['flair_img_h']) ? (int) $this->data['flair_img_h'] : 0;
-	}
-
-	public function set_img_width($width)
-	{
-		$this->data['flair_img_w'] = max(0, (int) $width);
-
-		return $this;
-	}
-
-	public function set_img_height($height)
-	{
-		$this->data['flair_img_h'] = max(0, (int) $height);
+		$this->data['flair_img'] = $img_name;
 
 		return $this;
 	}

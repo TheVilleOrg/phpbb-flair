@@ -10,8 +10,6 @@ $(function() {
 		iconColor	= $('#flair_icon_color'),
 		fontColor	= $('#flair_font_color'),
 		image		= $('#flair_img'),
-		imageWidth	= $('#flair_img_width'),
-		imageHeight	= $('#flair_img_height'),
 		preview		= $('#flair_preview');
 
 	var getColorValue = (function() {
@@ -98,21 +96,17 @@ $(function() {
 	 * Get the HTML for an image flair preview.
 	 *
 	 * @param {String}	imgVal			The image path
-	 * @param {Integer}	imgWidthVal		The image width
-	 * @param {Integer}	imgHeightVal	The image height
 	 * @param {String}	fontColorVal	The font color
 	 * @param {Boolean}	large			Get the larger preview
 	 *
 	 * @return {String} The HTML
 	 */
-	var getImgPreviewHtml = function(imgVal, imgWidthVal, imgHeightVal, fontColorVal, large) {
+	var getImgPreviewHtml = function(imgVal, fontColorVal, large) {
 		var html = '<span class="flair_image">';
 
-		html += '<img src="' + imgVal + '"';
+		html += '<img src="' + flair.imgPath + imgVal + '"';
 
-		if (large) {
-			html += ' width="' + imgWidthVal + '" height="' + imgHeightVal + '"';
-		} else {
+		if (!large) {
 			html += ' height="24"';
 		}
 
@@ -153,8 +147,6 @@ $(function() {
 			}
 		} else {
 			var imgVal			= image.val(),
-				imgWidthVal		= imageWidth.val(),
-				imgHeightVal	= imageHeight.val(),
 				fontColorVal	= getColorValue(fontColor);
 
 			if (!imgVal) {
@@ -162,12 +154,12 @@ $(function() {
 				return;
 			}
 
-			html.push(getImgPreviewHtml(imgVal, imgWidthVal, imgHeightVal, false, true));
-			html.push(getImgPreviewHtml(imgVal, imgWidthVal, imgHeightVal));
+			html.push(getImgPreviewHtml(imgVal, false, true));
+			html.push(getImgPreviewHtml(imgVal));
 
 			if (fontColorVal) {
-				html.push(getImgPreviewHtml(imgVal, imgWidthVal, imgHeightVal, fontColorVal, true));
-				html.push(getImgPreviewHtml(imgVal, imgWidthVal, imgHeightVal, fontColorVal));
+				html.push(getImgPreviewHtml(imgVal, fontColorVal, true));
+				html.push(getImgPreviewHtml(imgVal, fontColorVal));
 			}
 		}
 
