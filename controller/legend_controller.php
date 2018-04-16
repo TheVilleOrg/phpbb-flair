@@ -47,19 +47,28 @@ class legend_controller
 	protected $flair_operator;
 
 	/**
+	 * The path to the custom images.
+	 *
+	 * @var string
+	 */
+	protected $img_path;
+
+	/**
 	 * @param \phpbb\controller\helper                    $helper
 	 * @param \phpbb\language\language                    $language
 	 * @param \phpbb\template\template                    $template
 	 * @param \stevotvr\flair\operator\category_interface $cat_operator
 	 * @param \stevotvr\flair\operator\flair_interface    $flair_operator
+	 * @param string                                      $img_path The path to the custom images
 	 */
-	public function __construct(helper $helper, language $language, template $template, category_interface $cat_operator, flair_interface $flair_operator)
+	public function __construct(helper $helper, language $language, template $template, category_interface $cat_operator, flair_interface $flair_operator, $img_path)
 	{
 		$this->helper = $helper;
 		$this->language = $language;
 		$this->template = $template;
 		$this->cat_operator = $cat_operator;
 		$this->flair_operator = $flair_operator;
+		$this->img_path = $img_path;
 	}
 
 	/**
@@ -99,6 +108,7 @@ class legend_controller
 			foreach ($category['items'] as $entity)
 			{
 				$this->template->assign_block_vars('cat.item', array(
+					'FLAIR_TYPE'		=> $entity->get_type(),
 					'FLAIR_SIZE'		=> 3,
 					'FLAIR_ID'			=> $entity->get_id(),
 					'FLAIR_NAME'		=> $entity->get_name(),
@@ -106,6 +116,7 @@ class legend_controller
 					'FLAIR_COLOR'		=> $entity->get_color(),
 					'FLAIR_ICON'		=> $entity->get_icon(),
 					'FLAIR_ICON_COLOR'	=> $entity->get_icon_color(),
+					'FLAIR_IMG'			=> $this->img_path . $entity->get_img(),
 				));
 			}
 		}

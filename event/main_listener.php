@@ -73,6 +73,13 @@ class main_listener implements EventSubscriberInterface
 	protected $user_operator;
 
 	/**
+	 * The path to the custom images.
+	 *
+	 * @var string
+	 */
+	protected $img_path;
+
+	/**
 	 * @param \phpbb\config\config                       $config
 	 * @param \phpbb\db\driver\driver_interface          $db
 	 * @param \phpbb\controller\helper                   $helper
@@ -82,8 +89,9 @@ class main_listener implements EventSubscriberInterface
 	 * @param \phpbb\user                                $user
 	 * @param \stevotvr\flair\operator\trigger_interface $trigger_operator
 	 * @param \stevotvr\flair\operator\user_interface    $user_operator
+	 * @param string                                     $img_path The path to the custom images
 	 */
-	public function __construct(config $config, driver_interface $db, helper $helper, language $language, request_interface $request, template $template, user $user, trigger_interface $trigger_operator, user_interface $user_operator)
+	public function __construct(config $config, driver_interface $db, helper $helper, language $language, request_interface $request, template $template, user $user, trigger_interface $trigger_operator, user_interface $user_operator, $img_path)
 	{
 		$this->config = $config;
 		$this->db = $db;
@@ -94,6 +102,7 @@ class main_listener implements EventSubscriberInterface
 		$this->user = $user;
 		$this->trigger_operator = $trigger_operator;
 		$this->user_operator = $user_operator;
+		$this->img_path = $img_path;
 	}
 
 	static public function getSubscribedEvents()
@@ -193,12 +202,14 @@ class main_listener implements EventSubscriberInterface
 			{
 				$entity = $item['flair'];
 				$this->template->assign_block_vars('flair.item', array(
+					'FLAIR_TYPE'		=> $entity->get_type(),
 					'FLAIR_SIZE'		=> 2,
 					'FLAIR_ID'			=> $entity->get_id(),
 					'FLAIR_NAME'		=> $entity->get_name(),
 					'FLAIR_COLOR'		=> $entity->get_color(),
 					'FLAIR_ICON'		=> $entity->get_icon(),
 					'FLAIR_ICON_COLOR'	=> $entity->get_icon_color(),
+					'FLAIR_IMG'			=> $this->img_path . $entity->get_img(),
 					'FLAIR_FONT_COLOR'	=> $entity->get_font_color(),
 					'FLAIR_COUNT'		=> $item['count'],
 				));
@@ -260,10 +271,12 @@ class main_listener implements EventSubscriberInterface
 				{
 					$entity = $item['flair'];
 					$user_cache[$user_id]['flair'][$category_id]['items'][$entity->get_id()] = array(
+						'type'			=> $entity->get_type(),
 						'name'			=> $entity->get_name(),
 						'color'			=> $entity->get_color(),
 						'icon'			=> $entity->get_icon(),
 						'icon_color'	=> $entity->get_icon_color(),
+						'img'			=> $entity->get_img(),
 						'font_color'	=> $entity->get_font_color(),
 						'count'			=> $item['count'],
 					);
@@ -300,11 +313,13 @@ class main_listener implements EventSubscriberInterface
 			foreach ($category['items'] as $item_id => $item)
 			{
 				$this->template->assign_block_vars('postrow.flair.item', array(
+					'FLAIR_TYPE'		=> $item['type'],
 					'FLAIR_ID'			=> $item_id,
 					'FLAIR_NAME'		=> $item['name'],
 					'FLAIR_COLOR'		=> $item['color'],
 					'FLAIR_ICON'		=> $item['icon'],
 					'FLAIR_ICON_COLOR'	=> $item['icon_color'],
+					'FLAIR_IMG'			=> $this->img_path . $item['img'],
 					'FLAIR_FONT_COLOR'	=> $item['font_color'],
 					'FLAIR_COUNT'		=> $item['count'],
 				));
