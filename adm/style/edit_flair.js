@@ -101,16 +101,10 @@ $(function() {
 	 *
 	 * @return {String} The HTML
 	 */
-	var getImgPreviewHtml = function(imgVal, fontColorVal, large) {
+	var getImgPreviewHtml = function(imgVal, fontColorVal) {
 		var html = '<span class="flair_image">';
 
-		html += '<img src="' + flair.imgPath + imgVal + '"';
-
-		if (!large) {
-			html += ' height="24"';
-		}
-
-		html += ' />';
+		html += '<img src="' + flair.imgPath + imgVal + '" />';
 
 		if (fontColorVal) {
 			html += '<b class="flair-count" style="color: #' + fontColorVal + '">2</b>';
@@ -154,11 +148,9 @@ $(function() {
 				return;
 			}
 
-			html.push(getImgPreviewHtml(imgVal, false, true));
 			html.push(getImgPreviewHtml(imgVal));
 
 			if (fontColorVal) {
-				html.push(getImgPreviewHtml(imgVal, fontColorVal, true));
 				html.push(getImgPreviewHtml(imgVal, fontColorVal));
 			}
 		}

@@ -188,16 +188,9 @@
 						<span class="flair_image">
 							<img src="{{ FLAIR_IMG_PATH ~ FLAIR_IMG }}" />
 						</span>
-						<span class="flair_image">
-							<img src="{{ FLAIR_IMG_PATH ~ FLAIR_IMG }}" height="24" />
-						</span>
 						{% if FLAIR_FONT_COLOR %}
 							<span class="flair_image">
 								<img src="{{ FLAIR_IMG_PATH ~ FLAIR_IMG }}" />
-								<b class="flair-count" style="color: #{{ FLAIR_FONT_COLOR }}">2</b>
-							</span>
-							<span class="flair_image">
-								<img src="{{ FLAIR_IMG_PATH ~ FLAIR_IMG }}" height="24" />
 								<b class="flair-count" style="color: #{{ FLAIR_FONT_COLOR }}">2</b>
 							</span>
 						{% endif %}
@@ -354,7 +347,7 @@
 							</span>
 						{% else %}
 							<span class="flair">
-								<img src="{{ f.FLAIR_IMG }}" alt="{{ f.FLAIR_NAME }}" height="24" />
+								<img src="{{ f.FLAIR_IMG }}" alt="{{ f.FLAIR_NAME }}" />
 							</span>
 						{% endif %}
 					</td>
