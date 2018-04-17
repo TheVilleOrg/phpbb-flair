@@ -209,7 +209,7 @@ class main_listener implements EventSubscriberInterface
 					'FLAIR_COLOR'		=> $entity->get_color(),
 					'FLAIR_ICON'		=> $entity->get_icon(),
 					'FLAIR_ICON_COLOR'	=> $entity->get_icon_color(),
-					'FLAIR_IMG'			=> $this->img_path . $entity->get_img(),
+					'FLAIR_IMG'			=> $this->img_path . $entity->get_img(2),
 					'FLAIR_FONT_COLOR'	=> $entity->get_font_color(),
 					'FLAIR_COUNT'		=> $item['count'],
 				));
@@ -276,7 +276,7 @@ class main_listener implements EventSubscriberInterface
 						'color'			=> $entity->get_color(),
 						'icon'			=> $entity->get_icon(),
 						'icon_color'	=> $entity->get_icon_color(),
-						'img'			=> $entity->get_img(),
+						'img'			=> $entity->get_img(1),
 						'font_color'	=> $entity->get_font_color(),
 						'count'			=> $item['count'],
 					);

@@ -186,11 +186,18 @@
 						{% endif %}
 					{% else %}
 						<span class="flair_image">
-							<img src="{{ FLAIR_IMG_PATH ~ FLAIR_IMG }}" />
+							<img src="{{ FLAIR_IMG_PATH ~ FLAIR_IMG_X2 }}" height="28" />
+						</span>
+						<span class="flair_image">
+							<img src="{{ FLAIR_IMG_PATH ~ FLAIR_IMG }}" height="16" />
 						</span>
 						{% if FLAIR_FONT_COLOR %}
 							<span class="flair_image">
-								<img src="{{ FLAIR_IMG_PATH ~ FLAIR_IMG }}" />
+								<img src="{{ FLAIR_IMG_PATH ~ FLAIR_IMG_X2 }}" height="28" />
+								<b class="flair-count" style="color: #{{ FLAIR_FONT_COLOR }}">2</b>
+							</span>
+							<span class="flair_image">
+								<img src="{{ FLAIR_IMG_PATH ~ FLAIR_IMG }}" height="16" />
 								<b class="flair-count" style="color: #{{ FLAIR_FONT_COLOR }}">2</b>
 							</span>
 						{% endif %}
@@ -218,7 +225,27 @@
 				</dd>
 			</dl>
 			<dl class="type_img">
-				<dt><label for="flair_img">{{ lang('ACP_FLAIR_FORM_IMG') ~ lang('COLON') }}</label><br /><span>{{ lang('ACP_FLAIR_IMG_EXPLAIN') }}</span></dt>
+				<dt>
+					<label for="flair_img">{{ lang('ACP_FLAIR_FORM_IMG') ~ lang('COLON') }}</label><br /><span>{{ lang('ACP_FLAIR_IMG_EXPLAIN') }}</span><br /><br /><span>{{ lang('ACP_FLAIR_IMG_TABLE_EXPLAIN') }}</span>
+					<table>
+						<tr>
+							<th>{{ lang('ACP_FLAIR_IMG_TABLE_NAME') }}</th>
+							<th>{{ lang('ACP_FLAIR_IMG_TABLE_SIZE') }}</th>
+						</tr>
+						<tr>
+							<td><i>[{{ lang('ACP_FLAIR_IMG_TABLE_PLACEHOLDER') }}]</i>-x1.<i>[gif|png|jpg]</i></td>
+							<td>16{{ lang('ACP_FLAIR_IMG_TABLE_PX') }}</td>
+						</tr>
+						<tr>
+							<td><i>[{{ lang('ACP_FLAIR_IMG_TABLE_PLACEHOLDER') }}]</i>-x2.<i>[gif|png|jpg]</i></td>
+							<td>28{{ lang('ACP_FLAIR_IMG_TABLE_PX') }}</td>
+						</tr>
+						<tr>
+							<td><i>[{{ lang('ACP_FLAIR_IMG_TABLE_PLACEHOLDER') }}]</i>-x3.<i>[gif|png|jpg]</i></td>
+							<td>54{{ lang('ACP_FLAIR_IMG_TABLE_PX') }}</td>
+						</tr>
+					</table>
+				</dt>
 				<dd>
 					{% if imgs %}
 						<select id="flair_img" name="flair_img">
@@ -347,7 +374,7 @@
 							</span>
 						{% else %}
 							<span class="flair">
-								<img src="{{ f.FLAIR_IMG }}" alt="{{ f.FLAIR_NAME }}" />
+								<img src="{{ f.FLAIR_IMG }}" height="16" alt="{{ f.FLAIR_NAME }}" />
 							</span>
 						{% endif %}
 					</td>

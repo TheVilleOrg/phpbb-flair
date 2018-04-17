@@ -185,9 +185,11 @@ interface flair_interface extends entity_interface
 	public function set_font_color($color);
 
 	/**
+	 * @param int $size The size requested
+	 *
 	 * @return string The image path
 	 */
-	public function get_img();
+	public function get_img($size = 1);
 
 	/**
 	 * @param string $img_path The image path

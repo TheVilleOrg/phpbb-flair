@@ -204,7 +204,8 @@ class acp_flair_controller extends acp_base_controller implements acp_flair_inte
 			'FLAIR_COLOR'		=> $entity->get_color(),
 			'FLAIR_ICON'		=> $entity->get_icon(),
 			'FLAIR_ICON_COLOR'	=> $entity->get_icon_color(),
-			'FLAIR_IMG'			=> $entity->get_img(),
+			'FLAIR_IMG'			=> $entity->get_img(1),
+			'FLAIR_IMG_X2'		=> $entity->get_img(2),
 			'FLAIR_FONT_COLOR'	=> $entity->get_font_color(),
 			'FLAIR_IMG_PATH'	=> $this->img_path,
 
@@ -359,13 +360,21 @@ class acp_flair_controller extends acp_base_controller implements acp_flair_inte
 	 */
 	protected function load_img_select_data($selected)
 	{
-		foreach (glob($this->img_path . '*.{gif,png,jpg,jpeg,GIF,PNG,JPG,JPEG}', GLOB_BRACE) as $file)
+		foreach (glob($this->img_path . '*-x1.{gif,png,jpg,jpeg,GIF,PNG,JPG,JPEG}', GLOB_BRACE) as $file)
 		{
-			$file = basename($file);
-			$this->template->assign_block_vars('imgs', array(
-				'IMG_NAME'	=> $file,
+			$ext = substr($file, strrpos($file, '.'));
+			$name = substr($file, 0, strrpos($file, '-x1.'));
 
-				'S_SELECTED'	=> $file === $selected,
+			if (!file_exists($name . '-x2' . $ext) || !file_exists($name . '-x3' . $ext))
+			{
+				continue;
+			}
+
+			$name = basename($name) . $ext;
+			$this->template->assign_block_vars('imgs', array(
+				'IMG_NAME'	=> $name,
+
+				'S_SELECTED'	=> $name === $selected,
 			));
 		}
 	}

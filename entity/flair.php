@@ -277,9 +277,23 @@ class flair extends entity implements flair_interface
 		return $this;
 	}
 
-	public function get_img()
+	public function get_img($size = 0)
 	{
-		return isset($this->data['flair_img']) ? (string) $this->data['flair_img'] : '';
+		if (empty($this->data['flair_img']))
+		{
+			return '';
+		}
+
+		$image = $this->data['flair_img'];
+		if (!$size)
+		{
+			return $image;
+		}
+
+		$size = min(3, max(1, $size));
+
+		$image_ext = substr($image, strrpos($image, '.'));
+		return substr($image, 0, strrpos($image, '.')) . '-x' . $size . $image_ext;
 	}
 
 	public function set_img($img_name)

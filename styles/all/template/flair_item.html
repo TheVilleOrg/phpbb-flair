@@ -13,8 +13,8 @@
 	{% endif %}
 </span>
 {% else %}
-<span class="flair">
-	<img src="{{ FLAIR_IMG }}" alt="{{ FLAIR_NAME }}{% if FLAIR_COUNT > 1 %} ({{ FLAIR_COUNT }}x){% endif %}"{% if FLAIR_IMG_W > 0 %} width="{{ FLAIR_IMG_W }}"{% endif %}{% if FLAIR_IMG_H > 0 %} height="{{ FLAIR_IMG_H }}"{% endif %} />
+<span class="flair_image">
+	<img src="{{ FLAIR_IMG }}" alt="{{ FLAIR_NAME }}{% if FLAIR_COUNT > 1 %} ({{ FLAIR_COUNT }}x){% endif %}" height="{% if not FLAIR_SIZE or FLAIR_SIZE == 1 %}16{% elseif FLAIR_SIZE == 2 %}28{% elseif FLAIR_SIZE > 2 %}54{% endif %}" />
 	{% if FLAIR_COUNT > 1 and FLAIR_FONT_COLOR %}
 		<b class="flair-count" style="color: #{{ FLAIR_FONT_COLOR }}">{{ FLAIR_COUNT }}</b>
 	{% endif %}

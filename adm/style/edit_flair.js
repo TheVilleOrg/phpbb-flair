@@ -101,10 +101,23 @@ $(function() {
 	 *
 	 * @return {String} The HTML
 	 */
-	var getImgPreviewHtml = function(imgVal, fontColorVal) {
-		var html = '<span class="flair_image">';
+	var getImgPreviewHtml = function(imgVal, fontColorVal, large) {
+		var name = imgVal.substr(0, imgVal.lastIndexOf('.')),
+			ext = imgVal.substr(imgVal.lastIndexOf('.')),
+			html = '<span class="flair_image">';
 
-		html += '<img src="' + flair.imgPath + imgVal + '" />';
+		html += '<img src="' + flair.imgPath + name;
+
+		if (large)
+		{
+			html += '-x2' + ext + '" height="28"';
+		}
+		else
+		{
+			html += '-x1' + ext + '" height="16"';
+		}
+
+		html += ' />';
 
 		if (fontColorVal) {
 			html += '<b class="flair-count" style="color: #' + fontColorVal + '">2</b>';
@@ -148,9 +161,11 @@ $(function() {
 				return;
 			}
 
+			html.push(getImgPreviewHtml(imgVal, false, true));
 			html.push(getImgPreviewHtml(imgVal));
 
 			if (fontColorVal) {
+				html.push(getImgPreviewHtml(imgVal, fontColorVal, true));
 				html.push(getImgPreviewHtml(imgVal, fontColorVal));
 			}
 		}
