@@ -139,4 +139,17 @@ class flair extends operator implements flair_interface
 
 		return $group_ids;
 	}
+
+	public function count_image_items($image)
+	{
+		$sql = 'SELECT COUNT(flair_id) AS count
+				FROM ' . $this->flair_table . "
+				WHERE flair_type = 1
+					AND flair_img = '" . $this->db->sql_escape($image) . "'";
+		$result = $this->db->sql_query($sql);
+		$count = (int) $this->db->sql_fetchfield('count');
+		$this->db->sql_freeresult($result);
+
+		return $count;
+	}
 }

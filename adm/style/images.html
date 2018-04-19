@@ -1,0 +1,77 @@
+{% include 'overall_header.html' %}
+
+<a id="maincontent"></a>
+
+{% if S_ADD %}
+
+	<a href="{{ U_BACK }}" style="float: {{ S_CONTENT_FLOW_END }};">&laquo; {{ lang('BACK') }}</a>
+
+	<h1>{{ lang('ACP_FLAIR_IMG_ADD') }}</h1>
+
+	{% if S_ERROR %}
+		<div class="errorbox">
+			<h3>{{ lang('WARNING') }}</h3>
+			<p>{{ ERROR_MSG }}</p>
+		</div>
+	{% endif %}
+
+	{% if S_SHOW_FORM %}
+		<form id="image_add" method="post" action="{{ U_ADD }}" enctype="multipart/form-data">
+			<fieldset>
+				<dl>
+					<dt><label for="img_file">{{ lang('ACP_FLAIR_FORM_IMG_FILE') ~ lang('COLON') }}</label><br /><span>{{ lang('ACP_FLAIR_FORM_IMG_FILE_EXPLAIN') }}</span></dt>
+					<dd><input type="file" id="img_file" name="img_file" /></dd>
+				</dl>
+			</fieldset>
+			<fieldset class="submit-buttons">
+				<input class="button1" type="submit" id="submit" name="submit" value="{{ lang('SUBMIT') }}" />&nbsp;
+				<input class="button2" type="reset" id="reset" name="reset" value="{{ lang('RESET') }}" />
+				{{ S_FORM_TOKEN }}
+			</fieldset>
+		</form>
+	{% endif %}
+
+{% else %}
+
+	<h1>{{ lang('ACP_FLAIR_IMAGES') }}</h1>
+
+	<p>{{ lang('ACP_FLAIR_IMAGES_EXPLAIN') }}</p>
+
+	<table class="table1 zebra-table responsive">
+		<thead>
+			<tr>
+				<th>{{ lang('ACP_FLAIR_NAME') }}</th>
+				<th style="width: 10%">X1</th>
+				<th style="width: 10%">X2</th>
+				<th style="width: 10%">X3</th>
+				<th style="width: 10%">{{ lang('ACTION') }}</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for i in imgs %}
+				<tr>
+					<td>{{ i.IMG_NAME }}</td>
+					<td><img src="{{ i.U_IMG_X1 }}" height="16" alt="{{ i.IMG_NAME }}" \></td>
+					<td><img src="{{ i.U_IMG_X2 }}" height="28" alt="{{ i.IMG_NAME }}" \></td>
+					<td><img src="{{ i.U_IMG_X3 }}" height="54" alt="{{ i.IMG_NAME }}" \></td>
+					<td class="actions">
+						{% if i.U_DELETE %}<a href="{{ i.U_DELETE }}" data-ajax="row_delete">{{ ICON_DELETE }}</a>{% endif %}
+					</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="5" style="text-align: center;">{{ lang('ACP_FLAIR_IMGS_EMPTY') }}</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+	<form id="image_add" method="post" action="{{ U_ADD }}">
+		<fieldset class="quick">
+			<input class="button2" type="submit" name="addflair" value="{{ lang('ACP_FLAIR_IMG_ADD') }}" />
+		</fieldset>
+	</form>
+
+{% endif %}
+
+{% include 'overall_footer.html' %}

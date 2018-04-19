@@ -43,6 +43,7 @@ $lang = array_merge($lang, array(
 	'EXCEPTION_TOO_LONG'			=> 'The field `%s` received a value longer than the maximum length.',
 	'EXCEPTION_NAME_REQUIRED'		=> 'You must enter a name for the flair item.',
 	'EXCEPTION_CAT_NAME_REQUIRED'	=> 'You must enter a name for the category.',
+	'EXCEPTION_IMG_PROCESSING'		=> 'An error occurred while processing the image.',
 
 	'EXCEPTION_FIELD_FLAIR_COLOR'		=> 'Flair color',
 	'EXCEPTION_FIELD_FLAIR_ICON_COLOR'	=> 'Flair icon color',

@@ -33,4 +33,18 @@ class version_1_1_0 extends migration
 			),
 		);
 	}
+
+	public function update_data()
+	{
+		return array(
+			array('module.add', array(
+				'acp',
+				'ACP_FLAIR_TITLE',
+				array(
+					'module_basename'	=> '\stevotvr\flair\acp\main_module',
+					'modes'				=> array('images'),
+				),
+			)),
+		);
+	}
 }

@@ -1,0 +1,200 @@
+<?php
+/**
+ *
+ * Profile Flair. An extension for the phpBB Forum Software package.
+ *
+ * @copyright (c) 2018, Steve Guidetti, https://github.com/stevotvr
+ * @license GNU General Public License, version 2 (GPL-2.0)
+ *
+ */
+
+namespace stevotvr\flair\controller;
+
+use phpbb\files\factory;
+use phpbb\json_response;
+use stevotvr\flair\exception\base;
+use stevotvr\flair\operator\image_interface as image_operator;
+
+/**
+ * Profile Flair images management ACP controller.
+ */
+class acp_images_controller extends acp_base_controller implements acp_images_interface
+{
+	/**
+	 * @var \phpbb\files\factory
+	 */
+	protected $files_factory;
+
+	/**
+	 * @var \stevotvr\flair\operator\image_interface
+	 */
+	protected $image_operator;
+
+	/**
+	 * Set up the controller.
+	 *
+	 * @param \phpbb\files\factory                     $files_factory
+	 * @param \stevotvr\flair\operator\image_interface $image_operator
+	 */
+	public function setup(factory $files_factory, image_operator $image_operator)
+	{
+		$this->files_factory = $files_factory;
+		$this->image_operator = $image_operator;
+	}
+
+	public function list_images()
+	{
+		$used = $this->image_operator->get_used_images();
+		foreach ($this->image_operator->get_images() as $file)
+		{
+			$ext = substr($file, strrpos($file, '.'));
+			$name = substr($file, 0, strrpos($file, '.'));
+
+			$vars = array(
+				'IMG_NAME'	=> $file,
+
+				'U_IMG_X1'	=> $this->img_path . $name . '-x1' . $ext,
+				'U_IMG_X2'	=> $this->img_path . $name . '-x2' . $ext,
+				'U_IMG_X3'	=> $this->img_path . $name . '-x3' . $ext,
+			);
+
+			if (!in_array($file, $used))
+			{
+				$vars['U_DELETE'] = $this->u_action . '&amp;action=delete&amp;image_name=' . $file;
+			}
+
+			$this->template->assign_block_vars('imgs', $vars);
+		}
+
+		$this->template->assign_vars(array(
+			'U_ADD'	=> $this->u_action . '&amp;action=add',
+		));
+	}
+
+	public function add_image()
+	{
+		$errors = array();
+
+		if (!$this->image_operator->is_writable())
+		{
+			$errors[] = 'ACP_ERROR_NOT_WRITABLE';
+		}
+
+		if (!$this->image_operator->can_process())
+		{
+			$errors[] = 'ACP_ERROR_NO_IMG_LIB';
+		}
+
+		if (empty($errors))
+		{
+			add_form_key('add_image');
+
+			$upload = $this->files_factory->get('files.upload');
+
+			if ($upload->is_valid('img_file'))
+			{
+				if (!check_form_key('add_image'))
+				{
+					$errors[] = 'FORM_INVALID';
+				}
+
+				$this->upload_image($errors, $upload);
+			}
+
+			$this->template->assign_vars(array(
+				'S_SHOW_FORM'	=> true,
+
+				'U_ACTION'	=> $this->u_action . '&amp;action=add',
+			));
+		}
+
+		$errors = array_map(array($this->language, 'lang'), $errors);
+
+		$this->template->assign_vars(array(
+			'S_ADD'	=> true,
+
+			'S_ERROR'	=> !empty($errors),
+			'ERROR_MSG'	=> !empty($errors) ? implode('<br />', $errors) : '',
+
+			'U_BACK'	=> $this->u_action,
+		));
+	}
+
+	/**
+	 * Handle image uploading.
+	 *
+	 * @param array               &$errors The array to populate with error strings
+	 * @param \phpbb\files\upload $upload  The upload object
+	 */
+	protected function upload_image(array &$errors, \phpbb\files\upload $upload)
+	{
+		$filespec = $upload->set_allowed_extensions(array('gif', 'png', 'jpg', 'jpeg'))
+						->handle_upload('files.types.form', 'img_file');
+
+		if (!$filespec)
+		{
+			$errors[] = 'ACP_ERROR_NOT_UPLOADED';
+			return;
+		}
+
+		if (!empty($filespec->error))
+		{
+			$errors = array_merge($errors, $filespec->error);
+			return;
+		}
+
+		if (!$filespec->is_image())
+		{
+			$errors[] = 'ACP_ERROR_UPLOAD_INVALID';
+			return;
+		}
+
+		$filespec->clean_filename('real');
+
+		try
+		{
+			$this->image_operator->add_image($filespec->get('realname'), $filespec->get('filename'));
+
+			trigger_error($this->language->lang('ACP_FLAIR_IMG_ADD_SUCCESS') . adm_back_link($this->u_action));
+		}
+		catch (base $e)
+		{
+			$errors[] = $e->get_message($this->language);
+		}
+	}
+
+	public function delete_image($name)
+	{
+		if ($this->image_operator->count_image_items($name))
+		{
+			trigger_error($this->language->lang('ACP_FLAIR_IMG_DELETE_ERRORED') . adm_back_link($this->u_action), E_USER_WARNING);
+		}
+
+		if (!confirm_box(true))
+		{
+			$hidden_fields = build_hidden_fields(array(
+				'image_name'	=> $name,
+				'mode'			=> 'images',
+				'action'		=> 'delete',
+			));
+			confirm_box(false, $this->language->lang('ACP_FLAIR_DELETE_IMG_CONFIRM'), $hidden_fields);
+			return;
+		}
+
+		$this->image_operator->delete_image($name);
+
+		if ($this->request->is_ajax())
+		{
+			$json_response = new json_response();
+			$json_response->send(array(
+				'MESSAGE_TITLE'	=> $this->language->lang('INFORMATION'),
+				'MESSAGE_TEXT'	=> $this->language->lang('ACP_FLAIR_IMG_DELETE_SUCCESS'),
+				'REFRESH_DATA'	=> array(
+					'time'	=> 3
+				),
+			));
+		}
+
+		trigger_error($this->language->lang('ACP_FLAIR_IMG_DELETE_SUCCESS') . adm_back_link($this->u_action));
+	}
+}

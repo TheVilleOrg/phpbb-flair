@@ -46,6 +46,9 @@ class main_module
 			case 'manage':
 				$this->manage();
 			break;
+			case 'images':
+				$this->images();
+			break;
 			default:
 				$this->settings();
 			break;
@@ -202,5 +205,32 @@ class main_module
 				$controller->move_flair($flair_id, 1);
 			break;
 		}
+	}
+
+	/**
+	 * Handle the image management actions.
+	 *
+	 */
+	protected function images()
+	{
+		$this->tpl_name = 'images';
+
+		$controller = $this->container->get('stevotvr.flair.controller.acp.images');
+		$controller->set_page_url($this->u_action);
+
+		$action = $this->request->variable('action', '');
+
+		switch ($action)
+		{
+			case 'add':
+				$controller->add_image();
+			break;
+			case 'delete':
+				$controller->delete_image($this->request->variable('image_name', ''));
+			break;
+		}
+
+		$this->page_title = 'ACP_FLAIR_IMAGES';
+		$controller->list_images();
 	}
 }

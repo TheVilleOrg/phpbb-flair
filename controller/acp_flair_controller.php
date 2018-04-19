@@ -18,6 +18,7 @@ use stevotvr\flair\entity\flair_interface as flair_entity;
 use stevotvr\flair\exception\base;
 use stevotvr\flair\operator\category_interface as cat_operator;
 use stevotvr\flair\operator\flair_interface as flair_operator;
+use stevotvr\flair\operator\image_interface as image_operator;
 use stevotvr\flair\operator\trigger_interface as trigger_operator;
 
 /**
@@ -46,6 +47,11 @@ class acp_flair_controller extends acp_base_controller implements acp_flair_inte
 	protected $flair_operator;
 
 	/**
+	 * @var \stevotvr\flair\operator\image_interface
+	 */
+	protected $image_operator;
+
+	/**
 	 * @var \stevotvr\flair\operator\trigger_interface
 	 */
 	protected $trigger_operator;
@@ -64,14 +70,16 @@ class acp_flair_controller extends acp_base_controller implements acp_flair_inte
 	 * @param \phpbb\group\helper                         $group_helper
 	 * @param \stevotvr\flair\operator\category_interface $cat_operator
 	 * @param \stevotvr\flair\operator\flair_interface    $flair_operator
+	 * @param \stevotvr\flair\operator\image_interface    $image_operator
 	 * @param \stevotvr\flair\operator\trigger_interface  $trigger_operator
 	 */
-	public function setup(driver_interface $db, helper $group_helper, cat_operator $cat_operator, flair_operator $flair_operator, trigger_operator $trigger_operator)
+	public function setup(driver_interface $db, helper $group_helper, cat_operator $cat_operator, flair_operator $flair_operator, image_operator $image_operator, trigger_operator $trigger_operator)
 	{
 		$this->db = $db;
 		$this->group_helper = $group_helper;
 		$this->cat_operator = $cat_operator;
 		$this->flair_operator = $flair_operator;
+		$this->image_operator = $image_operator;
 		$this->trigger_operator = $trigger_operator;
 
 		$this->language->add_lang('posting');
@@ -360,17 +368,8 @@ class acp_flair_controller extends acp_base_controller implements acp_flair_inte
 	 */
 	protected function load_img_select_data($selected)
 	{
-		foreach (glob($this->img_path . '*-x1.{gif,png,jpg,jpeg,GIF,PNG,JPG,JPEG}', GLOB_BRACE) as $file)
+		foreach ($this->image_operator->get_images() as $name)
 		{
-			$ext = substr($file, strrpos($file, '.'));
-			$name = substr($file, 0, strrpos($file, '-x1.'));
-
-			if (!file_exists($name . '-x2' . $ext) || !file_exists($name . '-x3' . $ext))
-			{
-				continue;
-			}
-
-			$name = basename($name) . $ext;
 			$this->template->assign_block_vars('imgs', array(
 				'IMG_NAME'	=> $name,
 

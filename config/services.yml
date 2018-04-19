@@ -60,11 +60,20 @@ services:
                 - '@group_helper'
                 - '@stevotvr.flair.operator.category'
                 - '@stevotvr.flair.operator.flair'
+                - '@stevotvr.flair.operator.image'
                 - '@stevotvr.flair.operator.trigger'
             - method: set_trigger_names
               arguments:
                 - '@dispatcher'
                 - '%stevotvr.flair.trigger_names%'
+    stevotvr.flair.controller.acp.images:
+        class: stevotvr\flair\controller\acp_images_controller
+        parent: stevotvr.flair.controller.acp
+        calls:
+            - method: setup
+              arguments:
+                - '@files.factory'
+                - '@stevotvr.flair.operator.image'
     stevotvr.flair.controller.acp.user:
         class: stevotvr\flair\controller\acp_user_controller
         parent: stevotvr.flair.controller.acp
@@ -125,3 +134,11 @@ services:
     stevotvr.flair.operator.trigger:
         class: stevotvr\flair\operator\trigger
         parent: stevotvr.flair.operator
+    stevotvr.flair.operator.image:
+        class: stevotvr\flair\operator\image
+        parent: stevotvr.flair.operator
+        calls:
+            - method: setup
+              arguments:
+                - '@filesystem'
+                - '%stevotvr.flair.img_path%'

@@ -68,4 +68,13 @@ interface flair_interface
 	 * @return array The list of group database IDs
 	 */
 	public function get_assigned_groups($flair_id);
+
+	/**
+	 * Count the number of flair items using an image.
+	 *
+	 * @param string $image The name of the image
+	 *
+	 * @return int The number of items using the image
+	 */
+	public function count_image_items($image);
 }
