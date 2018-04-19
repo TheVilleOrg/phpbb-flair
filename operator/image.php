@@ -159,6 +159,7 @@ class image extends operator implements image_interface
 		try
 		{
 			$image = new \Imagick($file);
+			$image->stripImage();
 
 			$src_width = $image->getImageWidth();
 			$src_height = $image->getImageHeight();
@@ -169,11 +170,9 @@ class image extends operator implements image_interface
 			{
 				$width = (int) ($src_width * ($height / $src_height));
 
-				$scaled = clone $image;
-				if ($scaled->resizeImage($width, $height, \Imagick::FILTER_LANCZOS, 1))
-				{
-					$scaled->writeImage($dest_path . $name . '-x' . $size . $ext);
-				}
+				$scaled = $image->clone();
+				$scaled->resizeImage($width, $height, \Imagick::FILTER_LANCZOS, 1);
+				file_put_contents($dest_path . $name . '-x' . $size . $ext, $scaled);
 
 				$scaled->clear();
 			}
@@ -223,6 +222,23 @@ class image extends operator implements image_interface
 
 		$src_width = imagesx($image);
 		$src_height = imagesy($image);
+		$palette = imagecolorstotal($image) > 0;
+		$trans_color = array('red' => 0, 'green' => 0, 'blue' => 0);
+		if($type === "gif" || $type === "png")
+		{
+			$trans_idx = imagecolortransparent($image);
+			if ($trans_idx >= 0)
+			{
+				$trans_color = imagecolorsforindex($image, $trans_idx);
+			}
+			$trans_color = imagecolorallocatealpha(
+				$image,
+				$trans_color['red'],
+				$trans_color['green'],
+				$trans_color['blue'],
+				127
+			);
+		}
 
 		foreach ($this->sizes as $size => $height)
 		{
@@ -230,18 +246,38 @@ class image extends operator implements image_interface
 
 			$scaled = imagecreatetruecolor($width, $height);
 
-			if($type === "gif" || $type === "png")
+			if($type === 'gif' || $type === 'png')
 			{
-				imagecolortransparent($scaled, imagecolorallocatealpha($scaled, 0, 0, 0, 127));
 				imagealphablending($scaled, false);
+				imagecolortransparent($scaled, $trans_color);
+				imagefill($scaled, 0, 0, $trans_color);
+			}
+
+			imagecopyresampled($scaled, $image, 0, 0, 0, 0, $width, $height, $src_width, $src_height);
+
+			if($type === 'gif' || $type === 'png')
+			{
+				for ($y = 0; $y < $height; $y++)
+				{
+					for ($x = 0; $x < $width; $x++)
+					{
+						if (((imagecolorat($scaled, $x, $y) >> 24) & 0x7f) >= 100)
+						{
+							imagesetpixel($scaled, $x, $y, $trans_color);
+						}
+					}
+				}
+
+				if ($palette)
+				{
+					imagetruecolortopalette($scaled, true, 255);
+				}
+
 				imagesavealpha($scaled, true);
 			}
 
-			if (imagecopyresampled($scaled, $image, 0, 0, 0, 0, $width, $height, $src_width, $src_height))
-			{
-				$dest = $this->img_path . $name . '-x' . $size . $ext;
-				call_user_func('image' . $type, $scaled, $dest);
-			}
+			$dest = $this->img_path . $name . '-x' . $size . $ext;
+			call_user_func('image' . $type, $scaled, $dest);
 
 			imagedestroy($scaled);
 		}
