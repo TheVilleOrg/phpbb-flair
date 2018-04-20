@@ -90,7 +90,7 @@ $lang = array_merge($lang, array(
 
 	'ACP_FLAIR_DESC_EXPLAIN'		=> 'وصف مُختصر إختياري. سيتم عرضه في صفحة الأوسمة.',
 	'ACP_FLAIR_COLOR_EXPLAIN'		=> 'لون الخلفية للوسام. اتركه فارغاً لو تريده بلا خلفيه.',
-	'ACP_FLAIR_ICON_EXPLAIN'		=> 'ادخل الإسم التعريفي للأيقونة. [ <a href="http://fontawesome.io/icons/" target="_blank">انقر هنا للحصول على قائمة الأيقونات</a> ]',
+	'ACP_FLAIR_ICON_EXPLAIN'		=> 'ادخل الإسم التعريفي للأيقونة. [ <a href="https://fontawesome.com/v4.7.0/icons/" target="_blank">انقر هنا للحصول على قائمة الأيقونات</a> ]',
 	'ACP_FLAIR_ICON_COLOR_EXPLAIN'	=> 'لون أيقونة الوسام ',
 	'ACP_FLAIR_FONT_COLOR_EXPLAIN'	=> 'لون الخط الذي سيعرض عدد الأوسمة عندما يحصل العضو على نفس الوسام لأكثر من مرة. اتركه فارغاً لإخفاء العدد.',
 	'ACP_FLAIR_GROUPS_EXPLAIN'		=> 'سيتم إضافة هذا الوسام تلقائياً إلى أعضاء المجموعات التي تحددها هنا.',
