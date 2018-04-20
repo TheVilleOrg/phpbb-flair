@@ -103,12 +103,14 @@
 			{% if cats %}
 				<dl>
 					<dt><label for="flair_category">{{ lang('ACP_FLAIR_FORM_CAT') ~ lang('COLON') }}</label></dt>
-					<dd><select name="flair_category">
-						<option value="0">{{ lang('FLAIR_UNCATEGORIZED') }}</option>
-						{% for cat in cats %}
-							<option value="{{ cat.CAT_ID }}"{% if cat.S_SELECTED %} selected="selected"{% endif %}>{{ cat.CAT_NAME }}</option>
-						{% endfor %}
-					</select></dd>
+					<dd>
+						<select name="flair_category">
+							<option value="0">{{ lang('FLAIR_UNCATEGORIZED') }}</option>
+							{% for cat in cats %}
+								<option value="{{ cat.CAT_ID }}"{% if cat.S_SELECTED %} selected="selected"{% endif %}>{{ cat.CAT_NAME }}</option>
+							{% endfor %}
+						</select>
+					</dd>
 				</dl>
 			{% endif %}
 			<dl>
