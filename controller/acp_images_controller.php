@@ -143,15 +143,9 @@ class acp_images_controller extends acp_base_controller implements acp_images_in
 		$filespec = $upload->set_allowed_extensions(array('gif', 'png', 'jpg', 'jpeg'))
 						->handle_upload('files.types.form', 'img_file');
 
-		if (!$filespec)
+		if (!$filespec || !empty($filespec->error))
 		{
 			$errors[] = 'ACP_ERROR_NOT_UPLOADED';
-			return;
-		}
-
-		if (!empty($filespec->error))
-		{
-			$errors = array_merge($errors, $filespec->error);
 			return;
 		}
 
