@@ -341,19 +341,33 @@ class acp_flair_controller extends acp_base_controller implements acp_flair_inte
 	/**
 	 * Validate the add/edit flair form.
 	 *
-	 * @param array $data    The form data
+	 * @param array &$data   The form data
 	 * @param array &$errors The array to populate with error strings
 	 */
-	protected function validate_form(array $data, array &$errors)
+	protected function validate_form(array &$data, array &$errors)
 	{
 		if (!check_form_key('add_edit_flair', -1))
 		{
 			$errors[] = 'FORM_INVALID';
 		}
 
-		if ($data['type'] === flair_entity::TYPE_FA && $data['color'] === '' && $data['icon'] === '')
+		if ($data['type'] === flair_entity::TYPE_FA)
 		{
-			$errors[] = 'ACP_ERROR_APPEARANCE_REQUIRED';
+			if ($data['color'] === '' && $data['icon'] === '')
+			{
+				$errors[] = 'ACP_ERROR_APPEARANCE_REQUIRED';
+			}
+
+			if ($data['icon'] !== '')
+			{
+				$icon = strtolower(trim($data['icon']));
+				$icon = strtok($icon, ' ');
+				if (substr($icon, 0, 3) !== 'fa-')
+				{
+					$icon = 'fa-' . $icon;
+				}
+				$data['icon'] = $icon;
+			}
 		}
 		else if ($data['type'] === flair_entity::TYPE_IMG && $data['img'] === '')
 		{

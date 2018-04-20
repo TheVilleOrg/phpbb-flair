@@ -200,6 +200,21 @@ $(function() {
 		updatePreview();
 	});
 
+	$('#flair_icon').change(function() {
+		var value = $(this).val().trim();
+		if (value !== '') {
+			value = value.toLowerCase();
+			var spaceIdx = value.indexOf(' ');
+			if (spaceIdx > -1) {
+				value = value.substr(0, spaceIdx);
+			}
+			if (value.substr(0, 3) !== 'fa-') {
+				value = 'fa-' + value;
+			}
+			$(this).val(value);
+		}
+	});
+
 	$('#flair_type, #flair_color, #flair_icon, #flair_icon_color, #flair_font_color, #flair_img, #flair_img_width, #flair_img_height').change(function() {
 		updatePreview();
 	});
