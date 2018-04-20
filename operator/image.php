@@ -164,7 +164,7 @@ class image extends operator implements image_interface
 			$src_width = $image->getImageWidth();
 			$src_height = $image->getImageHeight();
 
-			$dest_path = realpath($this->img_path) . DIRECTORY_SEPARATOR;
+			$dest_path = $this->img_path . DIRECTORY_SEPARATOR;
 
 			foreach ($this->sizes as $size => $height)
 			{
@@ -172,14 +172,14 @@ class image extends operator implements image_interface
 
 				$scaled = $image->clone();
 				$scaled->resizeImage($width, $height, \Imagick::FILTER_LANCZOS, 1);
-				file_put_contents($dest_path . $name . '-x' . $size . $ext, $scaled);
+				$this->filesystem->dump_file($dest_path . $name . '-x' . $size . $ext, $scaled);
 
 				$scaled->clear();
 			}
 
 			$image->clear();
 		}
-		catch (\ImagickException $e)
+		catch (\Exception $e)
 		{
 			throw new base('EXCEPTION_IMG_PROCESSING');
 		}
