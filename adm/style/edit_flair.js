@@ -56,7 +56,7 @@ $(function() {
 		var html = '<span class="fa-stack';
 
 		if (large) {
-			html += ' fa-2x';
+			html += ' fa-2x flair_lg';
 		}
 
 		html += '">';
@@ -104,26 +104,27 @@ $(function() {
 	var getImgPreviewHtml = function(imgVal, fontColorVal, large) {
 		var name = imgVal.substr(0, imgVal.lastIndexOf('.')),
 			ext = imgVal.substr(imgVal.lastIndexOf('.')),
-			html = '<span class="flair_image">';
+			html = '<span class="flair_image';
 
-		html += '<img src="' + flair.imgPath + name;
-
-		if (large)
-		{
-			html += '-x2' + ext + '" height="38"';
-		}
-		else
-		{
-			html += '-x1' + ext + '" height="18"';
+		if (large) {
+			html += ' flair_lg';
 		}
 
-		html += ' />';
+		html += '">';
 
 		if (fontColorVal) {
 			html += '<b class="flair-count" style="color: #' + fontColorVal + '">2</b>';
 		}
 
-		html += '</span>';
+		html += '<img src="' + flair.imgPath + name;
+
+		if (large) {
+			html += '-x2' + ext + '" height="38"';
+		} else {
+			html += '-x1' + ext + '" height="18"';
+		}
+
+		html += ' /></span>';
 
 		return html;
 	}
