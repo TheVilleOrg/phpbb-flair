@@ -142,7 +142,7 @@ class image extends operator implements image_interface
 		{
 			$this->create_images_imagick($name, $ext, $file);
 		}
-		elseif (function_exists('gd_info'))
+		else if (function_exists('gd_info'))
 		{
 			$this->create_images_gd($name, $ext, $file);
 		}
@@ -234,7 +234,7 @@ class image extends operator implements image_interface
 		$src_height = imagesy($image);
 		$palette = imagecolorstotal($image) > 0;
 		$trans_color = array('red' => 0, 'green' => 0, 'blue' => 0);
-		if($type === "gif" || $type === "png")
+		if ($type === 'gif' || $type === 'png')
 		{
 			$trans_idx = imagecolortransparent($image);
 			if ($trans_idx >= 0)
@@ -256,7 +256,7 @@ class image extends operator implements image_interface
 
 			$scaled = imagecreatetruecolor($width, $height);
 
-			if($type === 'gif' || $type === 'png')
+			if ($type === 'gif' || $type === 'png')
 			{
 				imagealphablending($scaled, false);
 				imagecolortransparent($scaled, $trans_color);
@@ -265,7 +265,7 @@ class image extends operator implements image_interface
 
 			imagecopyresampled($scaled, $image, 0, 0, 0, 0, $width, $height, $src_width, $src_height);
 
-			if($type === 'gif' || $type === 'png')
+			if ($type === 'gif' || $type === 'png')
 			{
 				for ($y = 0; $y < $height; $y++)
 				{
