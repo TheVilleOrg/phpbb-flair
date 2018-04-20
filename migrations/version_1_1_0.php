@@ -47,4 +47,16 @@ class version_1_1_0 extends migration
 			)),
 		);
 	}
+
+	public function revert_schema()
+	{
+		return array(
+			'drop_columns'	=> array(
+				$this->table_prefix . 'flair' => array(
+					'flair_type',
+					'flair_img',
+				),
+			),
+		);
+	}
 }
