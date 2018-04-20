@@ -110,11 +110,11 @@ $(function() {
 
 		if (large)
 		{
-			html += '-x2' + ext + '" height="28"';
+			html += '-x2' + ext + '" height="38"';
 		}
 		else
 		{
-			html += '-x1' + ext + '" height="16"';
+			html += '-x1' + ext + '" height="18"';
 		}
 
 		html += ' />';
