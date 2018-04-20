@@ -34,9 +34,16 @@
 
 	<h1>{{ lang('ACP_FLAIR_IMG_UPLOADING') }}</h1>
 
-	{% if S_ERROR %}
+	{% if S_NOTICE %}
 		<div class="errorbox notice">
 			<h3>{{ lang('NOTICE') }}</h3>
+			<p>{{ NOTICE_MSG }}</p>
+		</div>
+	{% endif %}
+
+	{% if S_ERROR %}
+		<div class="errorbox">
+			<h3>{{ lang('WARNING') }}</h3>
 			<p>{{ ERROR_MSG }}</p>
 		</div>
 	{% endif %}
@@ -48,6 +55,10 @@
 				<dl>
 					<dt><label for="img_file">{{ lang('ACP_FLAIR_FORM_IMG_FILE') ~ lang('COLON') }}</label><br /><span>{{ lang('ACP_FLAIR_FORM_IMG_FILE_EXPLAIN') }}</span></dt>
 					<dd><input type="file" id="img_file" name="img_file" /></dd>
+				</dl>
+				<dl>
+					<dt><label for="img_overwrite">{{ lang('ACP_FLAIR_FORM_IMG_OVERWRITE') ~ lang('COLON') }}</label><br /><span>{{ lang('ACP_FLAIR_FORM_IMG_OVERWRITE_EXPLAIN') }}</span></dt>
+					<dd><label><input type="radio" id="img_overwrite" name="img_overwrite" value="1"{% if IMG_OVERWRITE %} checked="checked"{% endif %} class="radio" /> {{ lang('YES') }}</label><label><input type="radio" name="img_overwrite" value="0"{% if not IMG_OVERWRITE %} checked="checked"{% endif %} class="radio" /> {{ lang('NO') }}</label></dd>
 				</dl>
 			</fieldset>
 			<fieldset class="submit-buttons">

@@ -123,10 +123,20 @@ class image extends operator implements image_interface
 		return array_keys($images);
 	}
 
-	public function add_image($name, $file)
+	public function add_image($name, $file, $overwrite)
 	{
+		if ($overwrite)
+		{
+			$this->delete_image($name);
+		}
+
 		$ext = substr($name, strrpos($name, '.'));
 		$name = substr($name, 0, strrpos($name, '.'));
+
+		if (count(glob($this->img_path . $name . '-x[123]' . $ext)) > 0)
+		{
+			throw new base('EXCEPTION_IMG_CONFLICT');
+		}
 
 		if (class_exists('Imagick'))
 		{

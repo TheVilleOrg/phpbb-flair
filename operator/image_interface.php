@@ -55,12 +55,13 @@ interface image_interface
 	/**
 	 * Create a new icon image set from a file.
 	 *
-	 * @param string $name The name to assign to the set
-	 * @param string $file The path to the source file
+	 * @param string  $name      The name to assign to the set
+	 * @param string  $file      The path to the source file
+	 * @param boolean $overwrite Overwrite any existing images with the same name
 	 *
 	 * @throws \stevotvr\flair\exception\base
 	 */
-	public function add_image($name, $file);
+	public function add_image($name, $file, $overwrite);
 
 	/**
 	 * Delete an icon image.

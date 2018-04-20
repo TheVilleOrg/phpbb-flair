@@ -73,20 +73,22 @@ class acp_images_controller extends acp_base_controller implements acp_images_in
 
 	public function add_image()
 	{
-		$errors = array();
+		$notices = array();
 
 		if (!$this->image_operator->is_writable())
 		{
-			$errors[] = 'ACP_ERROR_NOT_WRITABLE';
+			$notices[] = 'ACP_ERROR_NOT_WRITABLE';
 		}
 
 		if (!$this->image_operator->can_process())
 		{
-			$errors[] = 'ACP_ERROR_NO_IMG_LIB';
+			$notices[] = 'ACP_ERROR_NO_IMG_LIB';
 		}
 
-		if (empty($errors))
+		if (empty($notices))
 		{
+			$errors = array();
+
 			add_form_key('add_image');
 
 			$upload = $this->files_factory->get('files.upload');
@@ -98,23 +100,32 @@ class acp_images_controller extends acp_base_controller implements acp_images_in
 					$errors[] = 'FORM_INVALID';
 				}
 
-				$this->upload_image($errors, $upload);
+				$overwrite = $this->request->variable('img_overwrite', false);
+
+				$this->upload_image($errors, $upload, $overwrite);
 			}
+
+			$errors = array_map(array($this->language, 'lang'), $errors);
 
 			$this->template->assign_vars(array(
 				'S_SHOW_FORM'	=> true,
+
+				'S_ERROR'	=> !empty($errors),
+				'ERROR_MSG'	=> !empty($errors) ? implode('<br />', $errors) : '',
+
+				'IMG_OVERWRITE'	=> $this->request->variable('img_overwrite', false),
 
 				'U_ACTION'	=> $this->u_action . '&amp;action=add',
 			));
 		}
 
-		$errors = array_map(array($this->language, 'lang'), $errors);
+		$notices = array_map(array($this->language, 'lang'), $notices);
 
 		$this->template->assign_vars(array(
 			'S_ADD'	=> true,
 
-			'S_ERROR'	=> !empty($errors),
-			'ERROR_MSG'	=> !empty($errors) ? implode('<br />', $errors) : '',
+			'S_NOTICE'		=> !empty($notices),
+			'NOTICE_MSG'	=> !empty($notices) ? implode('<br />', $notices) : '',
 
 			'U_BACK'	=> $this->u_action,
 		));
@@ -123,10 +134,11 @@ class acp_images_controller extends acp_base_controller implements acp_images_in
 	/**
 	 * Handle image uploading.
 	 *
-	 * @param array               &$errors The array to populate with error strings
-	 * @param \phpbb\files\upload $upload  The upload object
+	 * @param array               &$errors   The array to populate with error strings
+	 * @param \phpbb\files\upload $upload    The upload object
+	 * @param boolean             $overwrite Overwrite any existing images with the same name
 	 */
-	protected function upload_image(array &$errors, \phpbb\files\upload $upload)
+	protected function upload_image(array &$errors, \phpbb\files\upload $upload, $overwrite)
 	{
 		$filespec = $upload->set_allowed_extensions(array('gif', 'png', 'jpg', 'jpeg'))
 						->handle_upload('files.types.form', 'img_file');
@@ -153,7 +165,7 @@ class acp_images_controller extends acp_base_controller implements acp_images_in
 
 		try
 		{
-			$this->image_operator->add_image($filespec->get('realname'), $filespec->get('filename'));
+			$this->image_operator->add_image($filespec->get('realname'), $filespec->get('filename'), $overwrite);
 
 			trigger_error($this->language->lang('ACP_FLAIR_IMG_ADD_SUCCESS') . adm_back_link($this->u_action));
 		}
