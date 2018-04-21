@@ -1,5 +1,7 @@
 {% include 'overall_header.html' %}
 
+{% INCLUDECSS '@stevotvr_flair/flair.css' %}
+
 <a id="maincontent"></a>
 
 {% if S_ADD_CAT or S_EDIT_CAT %}
@@ -79,7 +81,6 @@
 
 {% elseif S_ADD_FLAIR or S_EDIT_FLAIR %}
 
-	{% INCLUDECSS '@stevotvr_flair/flair.css' %}
 	{% INCLUDEJS '@stevotvr_flair/edit_flair.js' %}
 
 	<a href="{{ U_BACK }}" style="float: {{ S_CONTENT_FLOW_END }};">&laquo; {{ lang('BACK') }}</a>
@@ -142,7 +143,7 @@
 				<dt><label>{{ lang('ACP_FLAIR_FORM_PREVIEW') ~ lang('COLON') }}</label></dt>
 				<dd id="flair_preview">
 					{% if FLAIR_TYPE == 0 %}
-						<span class="fa-stack fa-2x flair_lg">
+						<span class="flair_icon fa-stack fa-2x flair_lg">
 							{% if FLAIR_COLOR %}
 								<i class="fa fa-square fa-stack-2x" style="color: #{{ FLAIR_COLOR }}" aria-hidden="true"></i>
 								{% if FLAIR_ICON %}
@@ -152,7 +153,7 @@
 								<i class="fa {{ FLAIR_ICON }} fa-stack-2x"{% if FLAIR_ICON_COLOR %} style="color: #{{ FLAIR_ICON_COLOR }}"{% endif %} aria-hidden="true"></i>
 							{% endif %}
 						</span>
-						<span class="fa-stack">
+						<span class="flair_icon fa-stack">
 							{% if FLAIR_COLOR %}
 								<i class="fa fa-square fa-stack-2x" style="color: #{{ FLAIR_COLOR }}" aria-hidden="true"></i>
 								{% if FLAIR_ICON %}
@@ -163,7 +164,7 @@
 							{% endif %}
 						</span>
 						{% if FLAIR_FONT_COLOR %}
-							<span class="fa-stack fa-2x flair_lg">
+							<span class="flair_icon fa-stack fa-2x flair_lg">
 								{% if FLAIR_COLOR %}
 									<i class="fa fa-square fa-stack-2x" style="color: #{{ FLAIR_COLOR }}" aria-hidden="true"></i>
 									{% if FLAIR_ICON %}
@@ -174,7 +175,7 @@
 								{% endif %}
 									<b class="flair-count" style="color: #{{ FLAIR_FONT_COLOR }}" aria-hidden="true">2</b>
 							</span>
-							<span class="fa-stack">
+							<span class="flair_icon fa-stack">
 								{% if FLAIR_COLOR %}
 									<i class="fa fa-square fa-stack-2x" style="color: #{{ FLAIR_COLOR }}" aria-hidden="true"></i>
 									{% if FLAIR_ICON %}
@@ -346,7 +347,7 @@
 				<tr>
 					<td style="text-align: center">
 						{% if f.FLAIR_TYPE == 0 %}
-							<span class="fa-stack">
+							<span class="flair_icon fa-stack">
 								{% if f.FLAIR_COLOR %}
 									<i class="fa fa-square fa-stack-2x" style="color: #{{ f.FLAIR_COLOR }}" aria-hidden="true"></i>
 									{% if f.FLAIR_ICON %}

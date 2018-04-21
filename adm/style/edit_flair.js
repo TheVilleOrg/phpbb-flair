@@ -53,7 +53,7 @@ $(function() {
 	 * @return {String} The HTML
 	 */
 	var getPreviewHtml = function(colorVal, iconVal, iconColorVal, fontColorVal, large) {
-		var html = '<span class="fa-stack';
+		var html = '<span class="flair_icon fa-stack';
 
 		if (large) {
 			html += ' fa-2x flair_lg';
