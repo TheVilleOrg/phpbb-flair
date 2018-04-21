@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.1.0-beta (4/21/18)
+
+* Added the option to use images for flair items
+* Added the ability to upload images from the ACP
+* Fixed layout bugs caused by some wide icons
+* Fixed error caused by using the extension with an unsupported style
+* Updated the link to the Font Awesome icon list
+* The fa- prefix will now automatically be added if it is not included
+* Fixed list items in the ACP not being clickable
+* Improved accessibility markup
+
 ## 1.0.3 (1/19/18)
 
 * Fixed unapproved group members being assigned group flair
