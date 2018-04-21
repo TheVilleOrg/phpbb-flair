@@ -6,7 +6,7 @@
 
 	<a href="{{ U_BACK }}" style="float: {{ S_CONTENT_FLOW_END }};">&laquo; {{ lang('BACK') }}</a>
 
-	<h1>{{ lang('ACP_FLAIR_IMGS_ADD') }}</h1>
+	<h1>{{ lang('ACP_FLAIR_ADD_IMGS') }}</h1>
 
 	<div>
 		<p>{{ lang('ACP_FLAIR_IMG_TABLE_EXPLAIN') }}</p>
@@ -51,7 +51,7 @@
 	{% if S_SHOW_FORM %}
 		<form id="image_add" method="post" action="{{ U_ADD }}" enctype="multipart/form-data">
 			<fieldset>
-				<legend>{{ lang('ACP_FLAIR_IMG_UPLOAD') }}</legend>
+				<legend>{{ lang('ACP_FLAIR_UPLOAD_IMG') }}</legend>
 				<dl>
 					<dt><label for="img_file">{{ lang('ACP_FLAIR_FORM_IMG_FILE') ~ lang('COLON') }}</label><br /><span>{{ lang('ACP_FLAIR_FORM_IMG_FILE_EXPLAIN') }}</span></dt>
 					<dd><input type="file" id="img_file" name="img_file" /></dd>
@@ -106,7 +106,7 @@
 
 	<form id="image_add" method="post" action="{{ U_ADD }}">
 		<fieldset class="quick">
-			<input class="button2" type="submit" name="addflair" value="{{ lang('ACP_FLAIR_IMG_ADD') }}" />
+			<input class="button2" type="submit" name="addflair" value="{{ lang('ACP_FLAIR_ADD_IMG') }}" />
 		</fieldset>
 	</form>
 
