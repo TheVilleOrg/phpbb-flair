@@ -1,5 +1,5 @@
 {% if FLAIR_TYPE == 0 %}
-<span class="flair_icon fa-stack{% if FLAIR_SIZE %} fa-{{ FLAIR_SIZE }}x{% endif %}{% if FLAIR_SIZE > 1 %} flair_lg{% endif %}" title="{{ FLAIR_NAME }}{% if FLAIR_COUNT > 1 %} ({{ FLAIR_COUNT }}x){% endif %}">
+<span class="flair-icon fa-stack{% if FLAIR_SIZE %} fa-{{ FLAIR_SIZE }}x{% endif %}{% if FLAIR_SIZE > 1 %} flair-lg{% endif %}" title="{{ FLAIR_NAME }}{% if FLAIR_COUNT > 1 %} ({{ FLAIR_COUNT }}x){% endif %}">
 	{% if FLAIR_COLOR %}
 		<i class="fa fa-square fa-stack-2x" style="color: #{{ FLAIR_COLOR }}" aria-hidden="true"></i>
 		{% if FLAIR_ICON %}
@@ -13,7 +13,7 @@
 	{% endif %}
 </span>
 {% else %}
-<span class="flair_image{% if FLAIR_SIZE > 1 %} flair_lg{% endif %}" title="{{ FLAIR_NAME }}{% if FLAIR_COUNT > 1 %} ({{ FLAIR_COUNT }}x){% endif %}">
+<span class="flair-image{% if FLAIR_SIZE > 1 %} flair-lg{% endif %}" title="{{ FLAIR_NAME }}{% if FLAIR_COUNT > 1 %} ({{ FLAIR_COUNT }}x){% endif %}">
 	{% if FLAIR_COUNT > 1 and FLAIR_FONT_COLOR %}
 		<b class="flair-count" style="color: #{{ FLAIR_FONT_COLOR }}" aria-hidden="true">{{ FLAIR_COUNT }}</b>
 	{% endif %}

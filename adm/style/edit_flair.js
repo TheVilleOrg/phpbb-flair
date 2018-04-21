@@ -53,10 +53,10 @@ $(function() {
 	 * @return {String} The HTML
 	 */
 	var getPreviewHtml = function(colorVal, iconVal, iconColorVal, fontColorVal, large) {
-		var html = '<span class="flair_icon fa-stack';
+		var html = '<span class="flair-icon fa-stack';
 
 		if (large) {
-			html += ' fa-2x flair_lg';
+			html += ' fa-2x flair-lg';
 		}
 
 		html += '">';
@@ -104,10 +104,10 @@ $(function() {
 	var getImgPreviewHtml = function(imgVal, fontColorVal, large) {
 		var name = imgVal.substr(0, imgVal.lastIndexOf('.')),
 			ext = imgVal.substr(imgVal.lastIndexOf('.')),
-			html = '<span class="flair_image';
+			html = '<span class="flair-image';
 
 		if (large) {
-			html += ' flair_lg';
+			html += ' flair-lg';
 		}
 
 		html += '">';

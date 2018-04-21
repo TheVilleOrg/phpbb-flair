@@ -143,7 +143,7 @@
 				<dt><label>{{ lang('ACP_FLAIR_FORM_PREVIEW') ~ lang('COLON') }}</label></dt>
 				<dd id="flair_preview">
 					{% if FLAIR_TYPE == 0 %}
-						<span class="flair_icon fa-stack fa-2x flair_lg">
+						<span class="flair-icon fa-stack fa-2x flair-lg">
 							{% if FLAIR_COLOR %}
 								<i class="fa fa-square fa-stack-2x" style="color: #{{ FLAIR_COLOR }}" aria-hidden="true"></i>
 								{% if FLAIR_ICON %}
@@ -153,7 +153,7 @@
 								<i class="fa {{ FLAIR_ICON }} fa-stack-2x"{% if FLAIR_ICON_COLOR %} style="color: #{{ FLAIR_ICON_COLOR }}"{% endif %} aria-hidden="true"></i>
 							{% endif %}
 						</span>
-						<span class="flair_icon fa-stack">
+						<span class="flair-icon fa-stack">
 							{% if FLAIR_COLOR %}
 								<i class="fa fa-square fa-stack-2x" style="color: #{{ FLAIR_COLOR }}" aria-hidden="true"></i>
 								{% if FLAIR_ICON %}
@@ -164,7 +164,7 @@
 							{% endif %}
 						</span>
 						{% if FLAIR_FONT_COLOR %}
-							<span class="flair_icon fa-stack fa-2x flair_lg">
+							<span class="flair-icon fa-stack fa-2x flair-lg">
 								{% if FLAIR_COLOR %}
 									<i class="fa fa-square fa-stack-2x" style="color: #{{ FLAIR_COLOR }}" aria-hidden="true"></i>
 									{% if FLAIR_ICON %}
@@ -175,7 +175,7 @@
 								{% endif %}
 									<b class="flair-count" style="color: #{{ FLAIR_FONT_COLOR }}" aria-hidden="true">2</b>
 							</span>
-							<span class="flair_icon fa-stack">
+							<span class="flair-icon fa-stack">
 								{% if FLAIR_COLOR %}
 									<i class="fa fa-square fa-stack-2x" style="color: #{{ FLAIR_COLOR }}" aria-hidden="true"></i>
 									{% if FLAIR_ICON %}
@@ -188,18 +188,18 @@
 							</span>
 						{% endif %}
 					{% else %}
-						<span class="flair_image flair_lg">
+						<span class="flair-image flair_lg">
 							<img src="{{ FLAIR_IMG_PATH ~ FLAIR_IMG_X2 }}" height="44" aria-hidden="true" />
 						</span>
-						<span class="flair_image">
+						<span class="flair-image">
 							<img src="{{ FLAIR_IMG_PATH ~ FLAIR_IMG }}" height="22" aria-hidden="true" />
 						</span>
 						{% if FLAIR_FONT_COLOR %}
-							<span class="flair_image flair_lg">
+							<span class="flair-image flair-lg">
 								<b class="flair-count" style="color: #{{ FLAIR_FONT_COLOR }}" aria-hidden="true">2</b>
 								<img src="{{ FLAIR_IMG_PATH ~ FLAIR_IMG_X2 }}" height="44" aria-hidden="true" />
 							</span>
-							<span class="flair_image">
+							<span class="flair-image">
 								<b class="flair-count" style="color: #{{ FLAIR_FONT_COLOR }}" aria-hidden="true">2</b>
 								<img src="{{ FLAIR_IMG_PATH ~ FLAIR_IMG }}" height="22" aria-hidden="true" />
 							</span>
@@ -347,7 +347,7 @@
 				<tr>
 					<td style="text-align: center">
 						{% if f.FLAIR_TYPE == 0 %}
-							<span class="flair_icon fa-stack">
+							<span class="flair-icon fa-stack">
 								{% if f.FLAIR_COLOR %}
 									<i class="fa fa-square fa-stack-2x" style="color: #{{ f.FLAIR_COLOR }}" aria-hidden="true"></i>
 									{% if f.FLAIR_ICON %}
@@ -358,7 +358,7 @@
 								{% endif %}
 							</span>
 						{% else %}
-							<span class="flair_image">
+							<span class="flair-image">
 								<img src="{{ f.FLAIR_IMG }}" height="22" aria-hidden="true" />
 							</span>
 						{% endif %}

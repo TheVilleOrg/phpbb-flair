@@ -8,22 +8,22 @@
 	line-height: inherit;
 }
 
-.flair_lg .flair-count {
+.flair-lg .flair-count {
 	font-size: 16px;
 	text-align: right;
 	line-height: 1em;
 }
 
-.flair_icon {
+.flair-icon {
 	width: 2.5714285714285716em;
 }
 
-.flair_image {
+.flair-image {
 	display: inline-block;
 	position: relative;
 }
 
-.flair_image .flair-count:before {
+.flair-image .flair-count:before {
 	content: '';
 	display: inline-block;
 }
