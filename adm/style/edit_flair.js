@@ -119,9 +119,9 @@ $(function() {
 		html += '<img src="' + flair.imgPath + name;
 
 		if (large) {
-			html += '-x2' + ext + '" height="38"';
+			html += '-x2' + ext + '" height="44"';
 		} else {
-			html += '-x1' + ext + '" height="18"';
+			html += '-x1' + ext + '" height="22"';
 		}
 
 		html += ' aria-hidden="true" /></span>';

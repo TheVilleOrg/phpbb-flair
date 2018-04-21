@@ -35,7 +35,7 @@ class image extends operator implements image_interface
 	 *
 	 * @var array
 	 */
-	protected $sizes = array(1 => 18, 2 => 38, 3 => 64);
+	protected $sizes = array(1 => 22, 2 => 44, 3 => 66);
 
 	/**
 	 * Set up the operator.
