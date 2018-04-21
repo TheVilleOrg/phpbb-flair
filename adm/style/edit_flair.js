@@ -62,7 +62,7 @@ $(function() {
 		html += '">';
 
 		if (colorVal) {
-			html += '<i class="fa fa-square fa-stack-2x" style="color: #' + colorVal + '"></i>';
+			html += '<i class="fa fa-square fa-stack-2x" style="color: #' + colorVal + '" aria-hidden="true"></i>';
 
 			if (iconVal) {
 				html += '<i class="fa ' + iconVal + ' fa-stack-1x"';
@@ -71,7 +71,7 @@ $(function() {
 					html += ' style="color: #' + iconColorVal + '"';
 				}
 
-				html += '></i>';
+				html += ' aria-hidden="true"></i>';
 			}
 		} else if (iconVal) {
 			html += '<i class="fa ' + iconVal + ' fa-stack-2x"';
@@ -80,11 +80,11 @@ $(function() {
 				html += ' style="color: #' + iconColorVal + '"';
 			}
 
-			html += '></i>';
+			html += ' aria-hidden="true"></i>';
 		}
 
 		if (fontColorVal) {
-			html += '<b class="flair-count" style="color: #' + fontColorVal + '">2</b>';
+			html += '<b class="flair-count" style="color: #' + fontColorVal + '" aria-hidden="true">2</b>';
 		}
 
 		html += '</span>';
@@ -113,7 +113,7 @@ $(function() {
 		html += '">';
 
 		if (fontColorVal) {
-			html += '<b class="flair-count" style="color: #' + fontColorVal + '">2</b>';
+			html += '<b class="flair-count" style="color: #' + fontColorVal + '" aria-hidden="true">2</b>';
 		}
 
 		html += '<img src="' + flair.imgPath + name;
@@ -124,7 +124,7 @@ $(function() {
 			html += '-x1' + ext + '" height="18"';
 		}
 
-		html += ' /></span>';
+		html += ' aria-hidden="true" /></span>';
 
 		return html;
 	}
