@@ -119,7 +119,7 @@ $lang = array_merge($lang, array(
 	'ACP_FLAIR_IMG_DELETE_ERRORED'			=> 'An error occurred while attempting to delete the custom image',
 	'ACP_FLAIR_DELETE_IMG_CONFIRM'			=> 'Are you sure you wish to delete this item?',
 	'ACP_FLAIR_FORM_IMG_FILE'				=> 'Image file',
-	'ACP_FLAIR_FORM_IMG_FILE_EXPLAIN'		=> 'Select the source image file. You can upload any GIF, PNG, or JPEG file. A square image at least 54px in height is recommended.',
+	'ACP_FLAIR_FORM_IMG_FILE_EXPLAIN'		=> 'Select the source image file. You can upload any GIF, PNG, or JPEG file. A square image at least 66px in height is recommended.',
 	'ACP_FLAIR_FORM_IMG_OVERWRITE'			=> 'Overwrite existing',
 	'ACP_FLAIR_FORM_IMG_OVERWRITE_EXPLAIN'	=> 'Enable to permanently overwrite any existing images with the same name.',
 
