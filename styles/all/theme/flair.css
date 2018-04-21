@@ -36,3 +36,7 @@
 	content: '';
 	display: inline-block;
 }
+
+.flair_legend dt {
+	padding-right: 20px;
+}
