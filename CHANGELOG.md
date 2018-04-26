@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.0-beta2 (4/26/18)
+
+* Fixed incorrect permissions being applied to the image directory
+* Fixed flair being auto assigned to the guest account
+
 ## 1.1.0-beta (4/21/18)
 
 * Added the option to use images for flair items
