@@ -58,11 +58,11 @@ class image extends operator implements image_interface
 
 		if ($this->filesystem->exists($this->img_path))
 		{
-			$this->filesystem->chmod($this->img_path, filesystem_interface::CHMOD_ALL);
+			$this->filesystem->phpbb_chmod($this->img_path, filesystem_interface::CHMOD_ALL);
 		}
 		else
 		{
-			$this->filesystem->mkdir($this->img_path, filesystem_interface::CHMOD_ALL);
+			$this->filesystem->mkdir($this->img_path, 0777);
 		}
 
 		return $this->filesystem->is_writable($this->img_path);
