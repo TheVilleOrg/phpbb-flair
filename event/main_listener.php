@@ -227,10 +227,16 @@ class main_listener implements EventSubscriberInterface
 		$user_id = $event['data']['poster_id'];
 		$sql = 'SELECT user_regdate, user_posts
 				FROM ' . USERS_TABLE . '
-				WHERE user_id = ' . (int) $user_id;
+				WHERE user_id = ' . (int) $user_id . '
+					AND user_type <> 2';
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
+
+		if (!$row)
+		{
+			return;
+		}
 
 		$post_count = (int) $row['user_posts'];
 		$this->trigger_operator->dispatch($user_id, 'post_count', $post_count);
