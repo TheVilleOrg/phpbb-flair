@@ -90,17 +90,24 @@ class image extends operator implements image_interface
 	{
 		$images = array();
 
-		foreach (glob($this->img_path . '*-x1.{gif,png,jpg,jpeg,GIF,PNG,JPG,JPEG}', GLOB_BRACE) as $file)
+		foreach (glob($this->img_path . '*{-x1.{gif,png,jpg,jpeg,GIF,PNG,JPG,JPEG},.{svg,SVG}}', GLOB_BRACE) as $file)
 		{
 			$ext = substr($file, strrpos($file, '.'));
-			$name = substr($file, 0, strrpos($file, '-x1.'));
-
-			if (!$this->filesystem->exists(array($name . '-x2' . $ext, $name . '-x3' . $ext)))
+			if (strtolower($ext) === '.svg')
 			{
-				continue;
+				$images[] = basename($file);
 			}
+			else
+			{
+				$name = substr($file, 0, strrpos($file, '-x1.'));
 
-			$images[] = basename($name) . $ext;
+				if (!$this->filesystem->exists(array($name . '-x2' . $ext, $name . '-x3' . $ext)))
+				{
+					continue;
+				}
+
+				$images[] = basename($name) . $ext;
+			}
 		}
 
 		return $images;
@@ -133,26 +140,46 @@ class image extends operator implements image_interface
 		$ext = substr($name, strrpos($name, '.'));
 		$name = substr($name, 0, strrpos($name, '.'));
 
-		if (count(glob($this->img_path . $name . '-x[123]' . $ext)) > 0)
+		if (strtolower($ext) === '.svg')
 		{
-			throw new base('EXCEPTION_IMG_CONFLICT');
+			if ($this->filesystem->exists($this->img_path . $name . $ext))
+			{
+				throw new base('EXCEPTION_IMG_CONFLICT');
+			}
+
+			$this->filesystem->copy($file, $this->img_path . $name . $ext);
+		}
+		else
+		{
+			if (count(glob($this->img_path . $name . '-x[123]' . $ext)) > 0)
+			{
+				throw new base('EXCEPTION_IMG_CONFLICT');
+			}
+
+			if (class_exists('Imagick'))
+			{
+				$this->create_images_imagick($name, $ext, $file);
+			}
+			else if (function_exists('gd_info'))
+			{
+				$this->create_images_gd($name, $ext, $file);
+			}
 		}
 
-		if (class_exists('Imagick'))
-		{
-			$this->create_images_imagick($name, $ext, $file);
-		}
-		else if (function_exists('gd_info'))
-		{
-			$this->create_images_gd($name, $ext, $file);
-		}
 	}
 
 	public function delete_image($name)
 	{
 		$ext = substr($name, strrpos($name, '.'));
-		$name = substr($name, 0, strrpos($name, '.'));
-		$this->filesystem->remove(glob($this->img_path . $name . '-x[123]' . $ext));
+		if (strtolower($ext) === '.svg')
+		{
+			$this->filesystem->remove($this->img_path . $name);
+		}
+		else
+		{
+			$name = substr($name, 0, strrpos($name, '.'));
+			$this->filesystem->remove(glob($this->img_path . $name . '-x[123]' . $ext));
+		}
 	}
 
 	/**

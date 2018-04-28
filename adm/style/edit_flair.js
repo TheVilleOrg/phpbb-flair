@@ -104,6 +104,7 @@ $(function() {
 	var getImgPreviewHtml = function(imgVal, fontColorVal, large) {
 		var name = imgVal.substr(0, imgVal.lastIndexOf('.')),
 			ext = imgVal.substr(imgVal.lastIndexOf('.')),
+			svg = ext.toLowerCase() === '.svg',
 			html = '<span class="flair-image';
 
 		if (large) {
@@ -119,9 +120,15 @@ $(function() {
 		html += '<img src="' + flair.imgPath + name;
 
 		if (large) {
-			html += '-x2' + ext + '" height="44"';
+			if (!svg) {
+				html += '-x2';
+			}
+			html += ext + '" height="44"';
 		} else {
-			html += '-x1' + ext + '" height="22"';
+			if (!svg) {
+				html += '-x1';
+			}
+			html += ext + '" height="22"';
 		}
 
 		html += ' aria-hidden="true" /></span>';

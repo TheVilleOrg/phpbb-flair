@@ -48,15 +48,28 @@ class acp_images_controller extends acp_base_controller implements acp_images_in
 		foreach ($this->image_operator->get_images() as $file)
 		{
 			$ext = substr($file, strrpos($file, '.'));
-			$name = substr($file, 0, strrpos($file, '.'));
+			if (strtolower($ext) === '.svg')
+			{
+				$vars = array(
+					'IMG_NAME'	=> $file,
 
-			$vars = array(
-				'IMG_NAME'	=> $file,
+					'U_IMG_X1'	=> $this->img_path . $file,
+					'U_IMG_X2'	=> $this->img_path . $file,
+					'U_IMG_X3'	=> $this->img_path . $file,
+				);
+			}
+			else
+			{
+				$name = substr($file, 0, strrpos($file, '.'));
 
-				'U_IMG_X1'	=> $this->img_path . $name . '-x1' . $ext,
-				'U_IMG_X2'	=> $this->img_path . $name . '-x2' . $ext,
-				'U_IMG_X3'	=> $this->img_path . $name . '-x3' . $ext,
-			);
+				$vars = array(
+					'IMG_NAME'	=> $file,
+
+					'U_IMG_X1'	=> $this->img_path . $name . '-x1' . $ext,
+					'U_IMG_X2'	=> $this->img_path . $name . '-x2' . $ext,
+					'U_IMG_X3'	=> $this->img_path . $name . '-x3' . $ext,
+				);
+			}
 
 			if (!in_array($file, $used))
 			{
@@ -73,19 +86,23 @@ class acp_images_controller extends acp_base_controller implements acp_images_in
 
 	public function add_image()
 	{
+		$show_form = true;
+		$svg_only = false;
 		$notices = array();
 
 		if (!$this->image_operator->is_writable())
 		{
 			$notices[] = 'ACP_ERROR_NOT_WRITABLE';
+			$show_form = false;
 		}
 
 		if (!$this->image_operator->can_process())
 		{
 			$notices[] = 'ACP_ERROR_NO_IMG_LIB';
+			$svg_only = true;
 		}
 
-		if (empty($notices))
+		if ($show_form)
 		{
 			$errors = array();
 
@@ -102,13 +119,13 @@ class acp_images_controller extends acp_base_controller implements acp_images_in
 
 				$overwrite = $this->request->variable('img_overwrite', false);
 
-				$this->upload_image($errors, $upload, $overwrite);
+				$this->upload_image($errors, $upload, $overwrite, $svg_only);
 			}
 
 			$errors = array_map(array($this->language, 'lang'), $errors);
 
 			$this->template->assign_vars(array(
-				'S_SHOW_FORM'	=> true,
+				'S_SHOW_FORM'	=> $show_form,
 
 				'S_ERROR'	=> !empty($errors),
 				'ERROR_MSG'	=> !empty($errors) ? implode('<br />', $errors) : '',
@@ -137,10 +154,12 @@ class acp_images_controller extends acp_base_controller implements acp_images_in
 	 * @param array               &$errors   The array to populate with error strings
 	 * @param \phpbb\files\upload $upload    The upload object
 	 * @param boolean             $overwrite Overwrite any existing images with the same name
+	 * @param boolean             $svg_only  Only allow SVG files
 	 */
-	protected function upload_image(array &$errors, \phpbb\files\upload $upload, $overwrite)
+	protected function upload_image(array &$errors, \phpbb\files\upload $upload, $overwrite, $svg_only)
 	{
-		$filespec = $upload->set_allowed_extensions(array('gif', 'png', 'jpg', 'jpeg'))
+		$allowed = $svg_only ? array('svg') : array('gif', 'png', 'jpg', 'jpeg', 'svg');
+		$filespec = $upload->set_allowed_extensions($allowed)
 						->handle_upload('files.types.form', 'img_file');
 
 		if (!$filespec || !empty($filespec->error))

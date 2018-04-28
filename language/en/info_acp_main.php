@@ -107,7 +107,7 @@ $lang = array_merge($lang, array(
 	'ACP_FLAIR_IMGS_EMPTY'					=> 'No custom image sets were found.',
 	'ACP_FLAIR_ADD_IMG'						=> 'Add image',
 	'ACP_FLAIR_ADD_IMGS'					=> 'Add images',
-	'ACP_FLAIR_IMG_TABLE_EXPLAIN'			=> 'You can upload your custom icons to <b>images/flair</b>. Each icon requires the following files:',
+	'ACP_FLAIR_IMG_TABLE_EXPLAIN'			=> 'You can upload your custom icons to <b>images/flair</b>. SVG images can be uploaded as-is. Each GIF, PNG, or JPEG icon requires the following files:',
 	'ACP_FLAIR_IMG_TABLE_NAME'				=> 'File Name',
 	'ACP_FLAIR_IMG_TABLE_SIZE'				=> 'Recommended Height',
 	'ACP_FLAIR_IMG_TABLE_PLACEHOLDER'		=> 'icon_name',
@@ -119,7 +119,7 @@ $lang = array_merge($lang, array(
 	'ACP_FLAIR_IMG_DELETE_ERRORED'			=> 'An error occurred while attempting to delete the custom image',
 	'ACP_FLAIR_DELETE_IMG_CONFIRM'			=> 'Are you sure you wish to delete this item?',
 	'ACP_FLAIR_FORM_IMG_FILE'				=> 'Image file',
-	'ACP_FLAIR_FORM_IMG_FILE_EXPLAIN'		=> 'Select the source image file. You can upload any GIF, PNG, or JPEG file. A square image at least 66px in height is recommended.',
+	'ACP_FLAIR_FORM_IMG_FILE_EXPLAIN'		=> 'Select the source image file. You can upload any GIF, PNG, JPEG, or SVG file. A square image at least 66px in height is recommended.',
 	'ACP_FLAIR_FORM_IMG_OVERWRITE'			=> 'Overwrite existing',
 	'ACP_FLAIR_FORM_IMG_OVERWRITE_EXPLAIN'	=> 'Enable to permanently overwrite any existing images with the same name.',
 
@@ -145,7 +145,7 @@ $lang = array_merge($lang, array(
 	'ACP_ERROR_APPEARANCE_REQUIRED'	=> 'You must set either a color or an icon for the flair item.',
 	'ACP_ERROR_IMG_REQUIRED'		=> 'You must specify an image for the flair item.',
 	'ACP_ERROR_NOT_WRITABLE'		=> 'The <b>images/flair</b> directory is not writable.',
-	'ACP_ERROR_NO_IMG_LIB'			=> 'You must install/enable Imagemagick (recommended) or GD to use this feature.',
-	'ACP_ERROR_UPLOAD_INVALID'		=> 'The file you selected is not a valid GIF, PNG, or JPEG file.',
+	'ACP_ERROR_NO_IMG_LIB'			=> 'You must install/enable Imagemagick (recommended) or GD to use this feature with raster images. Only SVG images will be allowed.',
+	'ACP_ERROR_UPLOAD_INVALID'		=> 'The file you selected is not an accepted image file.',
 	'ACP_ERROR_NOT_UPLOADED'		=> 'The image upload failed.',
 ));

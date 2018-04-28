@@ -285,7 +285,7 @@ class flair extends entity implements flair_interface
 		}
 
 		$image = $this->data['flair_img'];
-		if (!$size)
+		if (!$size || strtolower(substr($image, strrpos($image, '.'))) === '.svg')
 		{
 			return $image;
 		}
