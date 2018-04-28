@@ -12,6 +12,7 @@ namespace stevotvr\flair\controller;
 
 use phpbb\controller\helper;
 use phpbb\language\language;
+use phpbb\path_helper;
 use phpbb\template\template;
 use stevotvr\flair\operator\category_interface;
 use stevotvr\flair\operator\flair_interface;
@@ -56,19 +57,20 @@ class legend_controller
 	/**
 	 * @param \phpbb\controller\helper                    $helper
 	 * @param \phpbb\language\language                    $language
+	 * @param \phpbb\path_helper                          $path_helper
 	 * @param \phpbb\template\template                    $template
 	 * @param \stevotvr\flair\operator\category_interface $cat_operator
 	 * @param \stevotvr\flair\operator\flair_interface    $flair_operator
-	 * @param string                                      $img_path The path to the custom images
 	 */
-	public function __construct(helper $helper, language $language, template $template, category_interface $cat_operator, flair_interface $flair_operator, $img_path)
+	public function __construct(helper $helper, language $language, path_helper $path_helper, template $template, category_interface $cat_operator, flair_interface $flair_operator)
 	{
 		$this->helper = $helper;
 		$this->language = $language;
 		$this->template = $template;
 		$this->cat_operator = $cat_operator;
 		$this->flair_operator = $flair_operator;
-		$this->img_path = $img_path;
+
+		$this->img_path = $path_helper->get_web_root_path() . 'images/flair/';
 	}
 
 	/**
