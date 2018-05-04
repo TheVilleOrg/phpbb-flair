@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.0-beta3 (5/4/18)
+
+* Added support for SVG images
+* Fixed broken image links in the legend
+
 ## 1.1.0-beta2 (4/26/18)
 
 * Fixed incorrect permissions being applied to the image directory
