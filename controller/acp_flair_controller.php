@@ -361,7 +361,6 @@ class acp_flair_controller extends acp_base_controller implements acp_flair_inte
 			if ($data['icon'] !== '')
 			{
 				$icon = strtolower(trim($data['icon']));
-				$icon = strtok($icon, ' ');
 				if (substr($icon, 0, 3) !== 'fa-')
 				{
 					$icon = 'fa-' . $icon;

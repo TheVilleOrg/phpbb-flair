@@ -211,10 +211,6 @@ $(function() {
 		var value = $(this).val().trim();
 		if (value !== '') {
 			value = value.toLowerCase();
-			var spaceIdx = value.indexOf(' ');
-			if (spaceIdx > -1) {
-				value = value.substr(0, spaceIdx);
-			}
 			if (value.substr(0, 3) !== 'fa-') {
 				value = 'fa-' + value;
 			}
