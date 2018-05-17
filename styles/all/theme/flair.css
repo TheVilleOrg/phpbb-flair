@@ -1,10 +1,18 @@
 .profile-flair {
+	margin: 0;
 	padding: 8px;
 }
 
 .profile-flair h4 {
 	margin-top: 4px;
 	font-size: 12px;
+}
+
+.profile-flair a {
+	margin: 0;
+	padding: 0;
+	border: none;
+	vertical-align: top;
 }
 
 .flair-count {
@@ -24,19 +32,23 @@
 }
 
 .flair-icon {
-	width: 2.5714285714285716em;
-}
-
-.flair-image {
 	display: inline-block;
 	position: relative;
+	text-align: center;
 }
 
-.flair-image .flair-count:before {
+.flair-icon img {
+	margin: 0;
+	padding: 0;
+	border: none;
+}
+
+.flair-icon .flair-count:before {
 	content: '';
 	display: inline-block;
 }
 
 .flair-legend dt {
+	margin-bottom: 12px;
 	padding-right: 20px;
 }

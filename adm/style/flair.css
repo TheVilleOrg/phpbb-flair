@@ -15,15 +15,12 @@
 }
 
 .flair-icon {
+	display: inline-block;
+	position: relative;
 	width: 2.5714285714285716em;
 }
 
-.flair-image {
-	display: inline-block;
-	position: relative;
-}
-
-.flair-image .flair-count:before {
+.flair-icon .flair-count:before {
 	content: '';
 	display: inline-block;
 }

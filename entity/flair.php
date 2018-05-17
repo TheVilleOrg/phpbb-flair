@@ -25,6 +25,13 @@ class flair extends entity implements flair_interface
 	 */
 	protected $config;
 
+	/**
+	 * The metadata for the FA icons.
+	 *
+	 * @var array
+	 */
+	protected $icons;
+
 	protected $columns = array(
 		'flair_id'						=> 'integer',
 		'flair_type'					=> 'integer',
@@ -48,10 +55,12 @@ class flair extends entity implements flair_interface
 	 * Set up the entity.
 	 *
 	 * @param \phpbb\config\config $config
+	 * @param array                $icons
 	 */
-	public function setup(config $config)
+	public function setup(config $config, array $icons)
 	{
 		$this->config = $config;
+		$this->icons = $icons;
 	}
 
 	public function get_type()
@@ -256,6 +265,22 @@ class flair extends entity implements flair_interface
 		$this->data['flair_icon_color'] = $color;
 
 		return $this;
+	}
+
+	public function get_icon_width()
+	{
+		if (isset($this->data['flair_icon']))
+		{
+			foreach (explode(' ', $this->data['flair_icon']) as $icon)
+			{
+				if (isset($this->icons[$icon]))
+				{
+					return (float) $this->icons[$icon]['w'];
+				}
+			}
+		}
+
+		return 1.0;
 	}
 
 	public function get_font_color()

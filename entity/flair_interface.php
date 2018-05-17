@@ -171,6 +171,11 @@ interface flair_interface extends entity_interface
 	public function set_icon_color($color);
 
 	/**
+	 * @return float The width of the icon in ems
+	 */
+	public function get_icon_width();
+
+	/**
 	 * @return string The hex color string for the count font
 	 */
 	public function get_font_color();

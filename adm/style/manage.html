@@ -188,18 +188,18 @@
 							</span>
 						{% endif %}
 					{% else %}
-						<span class="flair-image flair_lg">
+						<span class="flair-icon flair_lg">
 							<img src="{{ FLAIR_IMG_PATH ~ FLAIR_IMG_X2 }}" height="44" aria-hidden="true" />
 						</span>
-						<span class="flair-image">
+						<span class="flair-icon">
 							<img src="{{ FLAIR_IMG_PATH ~ FLAIR_IMG }}" height="22" aria-hidden="true" />
 						</span>
 						{% if FLAIR_FONT_COLOR %}
-							<span class="flair-image flair-lg">
+							<span class="flair-icon flair-lg">
 								<b class="flair-count" style="color: #{{ FLAIR_FONT_COLOR }}" aria-hidden="true">2</b>
 								<img src="{{ FLAIR_IMG_PATH ~ FLAIR_IMG_X2 }}" height="44" aria-hidden="true" />
 							</span>
-							<span class="flair-image">
+							<span class="flair-icon">
 								<b class="flair-count" style="color: #{{ FLAIR_FONT_COLOR }}" aria-hidden="true">2</b>
 								<img src="{{ FLAIR_IMG_PATH ~ FLAIR_IMG }}" height="22" aria-hidden="true" />
 							</span>
@@ -358,7 +358,7 @@
 								{% endif %}
 							</span>
 						{% else %}
-							<span class="flair-image">
+							<span class="flair-icon">
 								<img src="{{ f.FLAIR_IMG }}" height="22" aria-hidden="true" />
 							</span>
 						{% endif %}

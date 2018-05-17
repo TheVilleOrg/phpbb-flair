@@ -118,6 +118,7 @@ class legend_controller
 					'FLAIR_COLOR'		=> $entity->get_color(),
 					'FLAIR_ICON'		=> $entity->get_icon(),
 					'FLAIR_ICON_COLOR'	=> $entity->get_icon_color(),
+					'FLAIR_ICON_WIDTH'	=> $entity->get_icon_width(),
 					'FLAIR_IMG'			=> $this->img_path . $entity->get_img(3),
 				));
 			}

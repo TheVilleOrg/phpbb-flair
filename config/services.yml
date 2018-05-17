@@ -1,6 +1,7 @@
 imports:
     - { resource: tables.yml }
     - { resource: triggers.yml }
+    - { resource: icons.yml }
 
 parameters:
     stevotvr.flair.img_path: '%core.root_path%images/flair/'
@@ -105,6 +106,7 @@ services:
             - method: setup
               arguments:
                 - '@config'
+                - '%stevotvr.flair.icons%'
     stevotvr.flair.entity.category:
         class: stevotvr\flair\entity\category
         shared: false
