@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.0-rc1 (5/24/18)
+
+* Fixed size inconsistencies between Font Awesome icons
+* Fixed spaces not being accepted in the icon field
+* Added Hebrew translation
+
 ## 1.1.0-beta3 (5/4/18)
 
 * Added support for SVG images
