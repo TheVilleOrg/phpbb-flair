@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.0 (6/11/18)
+
+* No changes
+
 ## 1.1.0-rc1 (5/24/18)
 
 * Fixed size inconsistencies between Font Awesome icons
