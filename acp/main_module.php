@@ -209,7 +209,6 @@ class main_module
 
 	/**
 	 * Handle the image management actions.
-	 *
 	 */
 	protected function images()
 	{
