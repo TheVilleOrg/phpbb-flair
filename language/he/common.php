@@ -47,5 +47,5 @@ $lang = array_merge($lang, array(
 
 	'FLAIR_FLAIR_NOTIFICATION'	=> 'קיבלת סמל אישי חדש: %s',
 	'NOTIFICATION_TYPE_FLAIR'     => 'סמל חדש בשבילי',
-	'FLAIR_ADDED'     => 'סמל אישי נוסף ל %s',		
+	'FLAIR_ADDED'     => 'סמל אישי נוסף ל %s',
 ));
