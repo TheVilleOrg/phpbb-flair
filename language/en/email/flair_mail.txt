@@ -1,0 +1,10 @@
+Subject: You got a new flair
+
+Hello {AUTHOR_NAME},
+
+You just recievied a new flair at "{SITENAME}".
+
+To view the flair use this link:
+{U_LINK_TO_TOPIC}
+
+{EMAIL_SIG}
