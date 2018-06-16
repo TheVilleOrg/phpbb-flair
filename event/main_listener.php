@@ -21,6 +21,7 @@ use phpbb\user;
 use stevotvr\flair\operator\trigger_interface;
 use stevotvr\flair\operator\user_interface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use phpbb\notification\manager;
 
 /**
  * Profile Flair event listener.
@@ -80,6 +81,11 @@ class main_listener implements EventSubscriberInterface
 	protected $img_path;
 
 	/**
+	 * @var manager
+	 */
+	private $notification_manager;	
+
+	/**
 	 * @param \phpbb\config\config                       $config
 	 * @param \phpbb\db\driver\driver_interface          $db
 	 * @param \phpbb\controller\helper                   $helper
@@ -90,8 +96,9 @@ class main_listener implements EventSubscriberInterface
 	 * @param \stevotvr\flair\operator\trigger_interface $trigger_operator
 	 * @param \stevotvr\flair\operator\user_interface    $user_operator
 	 * @param string                                     $img_path The path to the custom images
+	 * @param manager $notification_manager	 	 		  $notification_manager Notification manager	 
 	 */
-	public function __construct(config $config, driver_interface $db, helper $helper, language $language, request_interface $request, template $template, user $user, trigger_interface $trigger_operator, user_interface $user_operator, $img_path)
+	public function __construct(config $config, driver_interface $db, helper $helper, language $language, request_interface $request, template $template, user $user, trigger_interface $trigger_operator, user_interface $user_operator, $img_path, manager $notification_manager)
 	{
 		$this->config = $config;
 		$this->db = $db;
@@ -103,6 +110,7 @@ class main_listener implements EventSubscriberInterface
 		$this->trigger_operator = $trigger_operator;
 		$this->user_operator = $user_operator;
 		$this->img_path = $img_path;
+		$this->notification_manager = $notification_manager;		
 	}
 
 	static public function getSubscribedEvents()
@@ -115,6 +123,7 @@ class main_listener implements EventSubscriberInterface
 			'core.submit_post_end'				=> 'submit_post_end',
 			'core.viewtopic_modify_post_data'	=> 'viewtopic_modify_post_data',
 			'core.viewtopic_post_row_after'		=> 'viewtopic_post_row_after',
+			'core.markread_before'              => 'mark_read',
 		);
 	}
 
@@ -166,6 +175,88 @@ class main_listener implements EventSubscriberInterface
 		$event['lang_set_ext'] = $lang_set_ext;
 	}
 
+	/**
+	 * Mark notifications as read when topics are read,
+	 * or when user uses the mark as read function.
+	 *
+	 * @param array $event
+	 */
+	public function mark_read($event)
+	{
+		switch ($event['mode'])
+		{
+			case 'all':
+				$this->mark_all_read($event['post_time']);
+			break;
+
+			case 'topics':
+				$this->mark_forum_read($event['forum_id'], $event['post_time']);
+			break;
+
+			case 'topic':
+				$this->mark_topic_tead($event['topic_id'], $event['post_time']);
+			break;
+		}
+	}
+
+	/**
+	 * Mark all notifications as read
+	 * @param int $post_time
+	 */
+	private function mark_all_read($post_time)
+	{
+		$this->notification_manager->mark_notifications([
+			'stevotvr.flair.notification.type.flair',
+		], false, $this->user->data['user_id'], $post_time);
+	}
+
+	/**
+	 * Mark notifications for a topic_id as read
+	 * @param int|array $topic_id
+	 * @param int $post_time
+	 */
+	private function mark_topic_tead($topic_id, $post_time)
+	{
+		$this->notification_manager->mark_notifications_by_parent(array(
+			'stevotvr.flair.notification.type.flair',
+		), $topic_id, $this->user->data['user_id'], $post_time);
+	}
+
+	/**
+	 * Mark notifications for forum_id as read
+	 * @param int|array $forum_id
+	 * @param int $post_time
+	 */
+	private function mark_forum_read($forum_id, $post_time)
+	{
+		// Mark all topics in forums read
+		if (!is_array($forum_id))
+		{
+			$forum_id = [$forum_id];
+		}
+		else
+		{
+			$forum_id = array_unique($forum_id);
+		}
+
+		// Mark all post/quote notifications read for this user in this forum
+		// Pretty bad, as this query is already done in mark_read, but
+		// because we have no access to that data in the event we need to run it
+		// again :(
+		$topic_ids = array();
+		$sql = 'SELECT topic_id
+			FROM ' . TOPICS_TABLE . '
+			WHERE ' . $this->db->sql_in_set('forum_id', $forum_id);
+		$result = $this->db->sql_query($sql);
+		while ($row = $this->db->sql_fetchrow($result))
+		{
+			$topic_ids[] = $row['topic_id'];
+		}
+		$this->db->sql_freeresult($result);
+
+		$this->mark_topic_tead($topic_ids, $post_time);
+	}	
+	
 	/**
 	 * Adds the user profile flair template variables to the view profile page.
 	 *
