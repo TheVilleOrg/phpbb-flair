@@ -47,5 +47,5 @@ $lang = array_merge($lang, array(
 
 	'FLAIR_FLAIR_NOTIFICATION'	=> 'You got a new flair: %s',
 	'NOTIFICATION_TYPE_FLAIR'     => 'New flair for me',
-	'FLAIR_ADDED'     => 'flair added to %s',	
+	'FLAIR_ADDED'     => 'flair added to %s',
 ));
