@@ -44,4 +44,8 @@ $lang = array_merge($lang, array(
 	'FLAIR_NO_FLAIR'	=> 'לא נוצר תג.',
 
 	'FLAIR_UNCATEGORIZED'	=> 'לא-מקוטלג',
+
+	'FLAIR_FLAIR_NOTIFICATION'	=> 'קיבלת סמל אישי חדש: %s',
+	'NOTIFICATION_TYPE_FLAIR'     => 'סמל חדש בשבילי',
+	'FLAIR_ADDED'     => 'סמל אישי נוסף ל %s',		
 ));
