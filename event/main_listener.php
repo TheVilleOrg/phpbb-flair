@@ -83,7 +83,7 @@ class main_listener implements EventSubscriberInterface
 	/**
 	 * @var manager
 	 */
-	private $notification_manager;	
+	private $notification_manager;
 
 	/**
 	 * @param \phpbb\config\config                       $config
@@ -96,7 +96,7 @@ class main_listener implements EventSubscriberInterface
 	 * @param \stevotvr\flair\operator\trigger_interface $trigger_operator
 	 * @param \stevotvr\flair\operator\user_interface    $user_operator
 	 * @param string                                     $img_path The path to the custom images
-	 * @param manager $notification_manager	 	 		  $notification_manager Notification manager	 
+	 * @param manager $notification_manager	 	 		  $notification_manager Notification manager
 	 */
 	public function __construct(config $config, driver_interface $db, helper $helper, language $language, request_interface $request, template $template, user $user, trigger_interface $trigger_operator, user_interface $user_operator, $img_path, manager $notification_manager)
 	{
@@ -110,7 +110,7 @@ class main_listener implements EventSubscriberInterface
 		$this->trigger_operator = $trigger_operator;
 		$this->user_operator = $user_operator;
 		$this->img_path = $img_path;
-		$this->notification_manager = $notification_manager;		
+		$this->notification_manager = $notification_manager;
 	}
 
 	static public function getSubscribedEvents()
@@ -255,8 +255,8 @@ class main_listener implements EventSubscriberInterface
 		$this->db->sql_freeresult($result);
 
 		$this->mark_topic_tead($topic_ids, $post_time);
-	}	
-	
+	}
+
 	/**
 	 * Adds the user profile flair template variables to the view profile page.
 	 *
