@@ -19,7 +19,7 @@ use phpbb\notification\type\base;
 * This class handles notifications for flair
 *
 * @package notifications
-*/ 
+*/
 class flair extends \phpbb\notification\type\base
 {
 	/** @var \phpbb\controller\helper */
@@ -35,7 +35,7 @@ class flair extends \phpbb\notification\type\base
 	 */
 	protected $user_loader;
 	/**
-	
+
 	 * Set the controller helper
 	 *
 	 * @param \phpbb\controller\helper $helper
@@ -45,14 +45,14 @@ class flair extends \phpbb\notification\type\base
 	{
 		$this->helper = $helper;
 	}
-	
+
 	/**
 	 * Set the config class
 	 *
 	 * @param config $config
 	 *
 	 */
- 	public function set_config(config $config)
+	public function set_config(config $config)
 	{
 		$this->config = $config;
 	}
@@ -60,7 +60,7 @@ class flair extends \phpbb\notification\type\base
 	public function set_user_loader(\phpbb\user_loader $user_loader)
 	{
 		$this->user_loader = $user_loader;
-	} 
+	}
 
 	/**
 	 * Get notification type name
@@ -78,7 +78,7 @@ class flair extends \phpbb\notification\type\base
 	 * @var bool|array False if the service should use it's default data
 	 * 					Array of data (including keys 'id', 'lang', and 'group')
 	 */
- 	public static $notification_option = array(
+	public static $notification_option = array(
 		'lang'	=> 'NOTIFICATION_TYPE_FLAIR',
 	);
 
@@ -111,10 +111,10 @@ class flair extends \phpbb\notification\type\base
 	 *
 	 * @return int Id of the parent
 	 */
-	public static function get_item_parent_id($data)
+	public static function get_item_parent_id()
 	{
 		// No parent
-        return 0;
+		return 0;
 	}
 
 	/**
@@ -135,7 +135,7 @@ class flair extends \phpbb\notification\type\base
 
 		$users = array((int) $data['user_ids']);
 
-		return $this->check_user_notification_options($users, $options);		
+		return $this->check_user_notification_options($users, $options);
 	}
 
 	/**
@@ -154,7 +154,7 @@ class flair extends \phpbb\notification\type\base
 	 * @return string
 	 */
 	public function get_title()
-	{		
+	{
 		if (isset ( $this->notification_data['flair_name']))
 		{
 			$name = $this->notification_data['flair_name'];
@@ -164,7 +164,7 @@ class flair extends \phpbb\notification\type\base
 		else
 		{
 			return $this->language->lang('FLAIR_FLAIR_NOTIFICATION', '');
-		} 
+		}
 	}
 
 	/**
