@@ -1,0 +1,8 @@
+Subject: סמל אישי חדש ב{SITENAME}
+
+{AUTHOR_NAME} שלום,
+קיבלת סמל אישי חדש באתר "{SITENAME}".
+
+כדי לצפות בסמל, לחץ על הקישור: {U_LINK_TO_TOPIC}
+
+{EMAIL_SIG}
