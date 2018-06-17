@@ -21,7 +21,9 @@ use phpbb\config\config;
 */
 class flair extends \phpbb\notification\type\base
 {
-	/** @var \phpbb\controller\helper */
+	/**
+	 * @var \phpbb\controller\helper
+	 */
 	protected $helper;
 
 	/**
