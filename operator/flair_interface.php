@@ -85,5 +85,5 @@ interface flair_interface
 	 *
 	 * @return string The name of this flair item.
 	 */
-	public function get_flair_name($flair_id);		
+	public function get_flair_name($flair_id);
 }
