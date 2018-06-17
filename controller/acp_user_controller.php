@@ -319,4 +319,5 @@ class acp_user_controller extends acp_base_controller implements acp_user_interf
 		array(
 			'user_ids' => $data['user_ids'],
 		));
+	}
 }
