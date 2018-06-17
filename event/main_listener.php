@@ -81,7 +81,7 @@ class main_listener implements EventSubscriberInterface
 	protected $img_path;
 
 	/**
-	 * @var manager
+	 * @var \phpbb\notification\manager
 	 */
 	private $notification_manager;
 
@@ -96,7 +96,7 @@ class main_listener implements EventSubscriberInterface
 	 * @param \stevotvr\flair\operator\trigger_interface $trigger_operator
 	 * @param \stevotvr\flair\operator\user_interface    $user_operator
 	 * @param string                                     $img_path The path to the custom images
-	 * @param manager $notification_manager	 	 		  $notification_manager Notification manager
+	 * @param \phpbb\notification\manager 	 		     $notification_manager Notification manager
 	 */
 	public function __construct(config $config, driver_interface $db, helper $helper, language $language, request_interface $request, template $template, user $user, trigger_interface $trigger_operator, user_interface $user_operator, $img_path, manager $notification_manager)
 	{
@@ -205,9 +205,9 @@ class main_listener implements EventSubscriberInterface
 	 */
 	private function mark_all_read($post_time)
 	{
-		$this->notification_manager->mark_notifications([
+		$this->notification_manager->mark_notifications(array(
 			'stevotvr.flair.notification.type.flair',
-		], false, $this->user->data['user_id'], $post_time);
+		), false, $this->user->data['user_id'], $post_time);
 	}
 
 	/**
