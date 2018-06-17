@@ -54,7 +54,7 @@ class acp_user_controller extends acp_base_controller implements acp_user_interf
 	protected $user_operator;
 
 	/**
-	 * @var manager
+	 * @var \phpbb\notification\manager
 	 */
 	private $notification_manager;
 
@@ -71,7 +71,7 @@ class acp_user_controller extends acp_base_controller implements acp_user_interf
 	 * @param \stevotvr\flair\operator\category_interface $cat_operator
 	 * @param \stevotvr\flair\operator\flair_interface    $flair_operator
 	 * @param \stevotvr\flair\operator\user_interface     $user_operator
-	 * @param manager $notification_manager	 	 		  $notification_manager Notification manager
+	 * @param \phpbb\notification\manager 				  $notification_manager
 	 * @param \phpbb\log\log							  $log	Log object
 	 */
 	public function setup(config $config, driver_interface $db, user $user, category_interface $cat_operator, flair_interface $flair_operator, user_interface $user_operator, manager $notification_manager, \phpbb\log\log $log)
@@ -284,12 +284,12 @@ class acp_user_controller extends acp_base_controller implements acp_user_interf
 					$this->config->set('flair_notification_'. $id, 0);
 				}
 				$notification_id = floatval( $this->config['flair_notification_'. $notification_id]. '.' .$id);
-				$insert = [
+				$insert = array(
 					'username'      => $username,
 					'user_ids'       => $user_id,
 					'flair_name'      =>  $this->flair_operator->get_flair_name($id),
 					'notification_id'      => $notification_id,
-				];
+				);
 				$this->send_notification($insert);
 			}
 
@@ -309,13 +309,13 @@ class acp_user_controller extends acp_base_controller implements acp_user_interf
 	 */
 	private function send_notification($data)
 	{
-		$this->notification_manager->add_notifications('stevotvr.flair.notification.type.flair', [
+		$this->notification_manager->add_notifications('stevotvr.flair.notification.type.flair', array(
 			'user_ids' => $data['user_ids'],
 			'notification_id' => $data['notification_id'],
 			'username' => $data['username'],
 			'flair_name' => $data['flair_name'],
-		],
-		[
+		),
+		array(
 			'user_ids' => $data['user_ids'],
-		]);
+		));
 }
