@@ -12,7 +12,6 @@
 namespace stevotvr\flair\notification\type;
 
 use phpbb\config\config;
-use phpbb\notification\type\base;
 
 /**
 * flair notifications class
@@ -26,7 +25,7 @@ class flair extends \phpbb\notification\type\base
 	protected $helper;
 
 	/**
-	 * @var config
+	 * @var \phpbb\config\config
 	 */
 	private $config;
 
@@ -39,7 +38,6 @@ class flair extends \phpbb\notification\type\base
 	 * Set the controller helper
 	 *
 	 * @param \phpbb\controller\helper $helper
-	 * @return void
 	 */
 	public function set_controller_helper(\phpbb\controller\helper $helper)
 	{
@@ -49,7 +47,7 @@ class flair extends \phpbb\notification\type\base
 	/**
 	 * Set the config class
 	 *
-	 * @param config $config
+	 * @param \phpbb\config\config $config
 	 *
 	 */
 	public function set_config(config $config)
@@ -57,6 +55,11 @@ class flair extends \phpbb\notification\type\base
 		$this->config = $config;
 	}
 
+	/**
+	* Set the user loader
+	*
+	* @param \phpbb\user_loader	$user_loader
+	*/
 	public function set_user_loader(\phpbb\user_loader $user_loader)
 	{
 		$this->user_loader = $user_loader;
@@ -214,8 +217,6 @@ class flair extends \phpbb\notification\type\base
 	 *
 	 * @param array $data The data for the flair
 	 * @param array $pre_create_data Data from pre_create_insert_array()
-	 *
-	 * @return array Array of data ready to be inserted into the database
 	 */
 	public function create_insert_array($data, $pre_create_data = array())
 	{
