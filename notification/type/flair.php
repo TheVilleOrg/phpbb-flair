@@ -116,7 +116,7 @@ class flair extends \phpbb\notification\type\base
 	 *
 	 * @return int Id of the parent
 	 */
-	public static function get_item_parent_id()
+	public static function get_item_parent_id($data)
 	{
 		// No parent
 		return 0;
