@@ -58,8 +58,9 @@ class acp_user_controller extends acp_base_controller implements acp_user_interf
 	 */
 	private $notification_manager;
 
-
-	/** @var \phpbb\log\log */
+	/**
+	 * @var \phpbb\log\log
+	 */
 	protected $log;
 
 	/**
@@ -275,7 +276,7 @@ class acp_user_controller extends acp_base_controller implements acp_user_interf
 			}
 			else if ($change === 'add')
 			{
- 				if (isset($this->config['flair_notification_'. $id]))
+				if (isset($this->config['flair_notification_'. $id]))
 				{
 					$this->config->increment('flair_notification_'. $id, 1);
 				}
