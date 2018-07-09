@@ -229,7 +229,7 @@ class main_listener implements EventSubscriberInterface
 		$sql = 'SELECT user_regdate, user_posts
 				FROM ' . USERS_TABLE . '
 				WHERE user_id = ' . (int) $user_id . '
-					AND user_type <> 2';
+					AND user_type <> ' . USER_IGNORE;
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
