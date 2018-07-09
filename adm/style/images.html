@@ -89,9 +89,9 @@
 			{% for i in imgs %}
 				<tr>
 					<td>{{ i.IMG_NAME }}</td>
-					<td style="text-align: center"><img src="{{ i.U_IMG_X1 }}" height="18" alt="{{ i.IMG_NAME }}" \></td>
-					<td style="text-align: center"><img src="{{ i.U_IMG_X2 }}" height="38" alt="{{ i.IMG_NAME }}" \></td>
-					<td style="text-align: center"><img src="{{ i.U_IMG_X3 }}" height="64" alt="{{ i.IMG_NAME }}" \></td>
+					<td style="text-align: center"><img src="{{ i.U_IMG_X1 }}" height="18" alt="{{ i.IMG_NAME }}"></td>
+					<td style="text-align: center"><img src="{{ i.U_IMG_X2 }}" height="38" alt="{{ i.IMG_NAME }}"></td>
+					<td style="text-align: center"><img src="{{ i.U_IMG_X3 }}" height="64" alt="{{ i.IMG_NAME }}"></td>
 					<td class="actions">
 						{% if i.U_DELETE %}<a href="{{ i.U_DELETE }}" data-ajax="row_delete">{{ ICON_DELETE }}</a>{% endif %}
 					</td>
