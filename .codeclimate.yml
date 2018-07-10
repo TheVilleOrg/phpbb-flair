@@ -12,10 +12,6 @@ checks:
     enabled: false
   return-statements:
     enabled: false
-  similar-code:
-    enabled: false
-  identical-code:
-    enabled: false
 plugins:
   csslint:
     enabled: true
