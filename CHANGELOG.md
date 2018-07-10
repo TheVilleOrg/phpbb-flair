@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.1 (7/10/18)
+
+* Fixed error when multiple triggers have the same value
+* Fixed some HTML syntax errors
+
 ## 1.1.0 (6/11/18)
 
 * No changes
