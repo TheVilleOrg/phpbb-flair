@@ -22,7 +22,7 @@ This is a extension for phpBB 3.2 that allows you to add flair to user profiles.
 
 ## Install
 
-1. [Download the latest release](https://www.phpbb.com/customise/db/extension/profile_flair/).
+1. [Download the latest validated release](https://www.phpbb.com/customise/db/extension/profile_flair/).
 2. Unzip the downloaded release and copy it to the `ext` directory of your phpBB board.
 3. Navigate in the ACP to `Customise -> Manage extensions`.
 4. Look for `Profile Flair` under the Disabled Extensions list, and click its `Enable` link.
