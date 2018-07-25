@@ -16,6 +16,7 @@ use phpbb\user;
 use stevotvr\flair\operator\category_interface;
 use stevotvr\flair\operator\flair_interface;
 use stevotvr\flair\operator\user_interface;
+use phpbb\notification\manager;
 
 /**
  * Profile Flair user ACP controller.
@@ -53,6 +54,16 @@ class acp_user_controller extends acp_base_controller implements acp_user_interf
 	protected $user_operator;
 
 	/**
+	 * @var \phpbb\notification\manager
+	 */
+	private $notification_manager;
+
+	/**
+	 * @var \phpbb\log\log
+	 */
+	protected $log;
+
+	/**
 	 * Set up the controller.
 	 *
 	 * @param \phpbb\config\config                        $config
@@ -61,8 +72,10 @@ class acp_user_controller extends acp_base_controller implements acp_user_interf
 	 * @param \stevotvr\flair\operator\category_interface $cat_operator
 	 * @param \stevotvr\flair\operator\flair_interface    $flair_operator
 	 * @param \stevotvr\flair\operator\user_interface     $user_operator
+	 * @param \phpbb\notification\manager 				  $notification_manager
+	 * @param \phpbb\log\log							  $log	Log object
 	 */
-	public function setup(config $config, driver_interface $db, user $user, category_interface $cat_operator, flair_interface $flair_operator, user_interface $user_operator)
+	public function setup(config $config, driver_interface $db, user $user, category_interface $cat_operator, flair_interface $flair_operator, user_interface $user_operator, manager $notification_manager, \phpbb\log\log $log)
 	{
 		$this->config = $config;
 		$this->db = $db;
@@ -70,6 +83,8 @@ class acp_user_controller extends acp_base_controller implements acp_user_interf
 		$this->cat_operator = $cat_operator;
 		$this->flair_operator = $flair_operator;
 		$this->user_operator = $user_operator;
+		$this->notification_manager = $notification_manager;
+		$this->log = $log;
 	}
 
 	public function find_user()
@@ -111,15 +126,15 @@ class acp_user_controller extends acp_base_controller implements acp_user_interf
 
 		if ($this->request->is_set_post('add_flair'))
 		{
-			$this->change_flair($user_id, 'add');
+			$this->change_flair($user_id, 'add', $userrow['username']);
 		}
 		else if ($this->request->is_set_post('remove_flair'))
 		{
-			$this->change_flair($user_id, 'remove');
+			$this->change_flair($user_id, 'remove', $userrow['username']);
 		}
 		else if ($this->request->is_set_post('remove_all_flair'))
 		{
-			$this->change_flair($user_id, 'remove_all');
+			$this->change_flair($user_id, 'remove_all', $userrow['username']);
 		}
 
 		$user_flair = $this->user_operator->get_flair($user_id);
@@ -237,8 +252,9 @@ class acp_user_controller extends acp_base_controller implements acp_user_interf
 	 *
 	 * @param int    $user_id The ID of the user being worked on
 	 * @param string $change  The type of change to make (add|remove|remove_all)
+	 * @param string $username The name of the user being worked on
 	 */
-	protected function change_flair($user_id, $change)
+	protected function change_flair($user_id, $change, $username)
 	{
 		if (!check_form_key('edit_user_flair'))
 		{
@@ -258,6 +274,25 @@ class acp_user_controller extends acp_base_controller implements acp_user_interf
 				$this->user_operator->set_flair_count($user_id, $id, 0);
 				return;
 			}
+			else if ($change === 'add')
+			{
+				if (isset($this->config['flair_notification_'. $id]))
+				{
+					$this->config->increment('flair_notification_'. $id, 1);
+				}
+				else
+				{
+					$this->config->set('flair_notification_'. $id, 0);
+				}
+				$notification_id = floatval( $this->config['flair_notification_'. $notification_id]. '.' .$id);
+				$insert = array(
+					'username'      => $username,
+					'user_ids'       => $user_id,
+					'flair_name'      =>  $this->flair_operator->get_flair_name($id),
+					'notification_id'      => $notification_id,
+				);
+				$this->send_notification($insert);
+			}
 
 			$counts = $this->request->variable($change . '_count', array('' => ''));
 			$count = (isset($counts[$id])) ? (int) $counts[$id] : 1;
@@ -266,5 +301,23 @@ class acp_user_controller extends acp_base_controller implements acp_user_interf
 		}
 
 		redirect($this->u_action . '&amp;user_id=' . $user_id);
+	}
+
+	/**
+	 * send notification to the user or group being worked on and log the action.
+	 *
+	 * @param array $data The data for the notification
+	 */
+	private function send_notification($data)
+	{
+		$this->notification_manager->add_notifications('stevotvr.flair.notification.type.flair', array(
+			'user_ids' => $data['user_ids'],
+			'notification_id' => $data['notification_id'],
+			'username' => $data['username'],
+			'flair_name' => $data['flair_name'],
+		),
+		array(
+			'user_ids' => $data['user_ids'],
+		));
 	}
 }
