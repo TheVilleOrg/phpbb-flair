@@ -42,7 +42,7 @@ This is a extension for phpBB 3.2 that allows you to add flair to user profiles.
 
 ## Translations
 
-* Translations should be posted to the [Profile Flair topic at phpBB.com](https://www.phpbb.com/customise/db/extension/profile_flair/support/topic/184956). We accept pull requests for translation corrections, but we do not accept pull requests for new translations.
+* Translations should be posted to the [Profile Flair topic at phpBB.com](https://www.phpbb.com/customise/db/extension/profile_flair/support/topic/184956).
 
 ## License
 [GNU General Public License v2](http://opensource.org/licenses/GPL-2.0)
