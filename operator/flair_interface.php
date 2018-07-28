@@ -79,11 +79,11 @@ interface flair_interface
 	public function count_image_items($image);
 
 	/**
-	 * Get the name of this flair item.
+	 * Get the name of a flair item.
 	 *
 	 * @param int $flair_id The database ID of the flair item
 	 *
-	 * @return string The name of this flair item.
+	 * @return string The name of the flair item.
 	 */
 	public function get_flair_name($flair_id);
 }

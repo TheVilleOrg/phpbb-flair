@@ -156,6 +156,7 @@ class flair extends operator implements flair_interface
 	public function get_flair_name($flair_id)
 	{
 		$flair_name = '';
+
 		$sql = 'SELECT flair_name
 				FROM ' . $this->flair_table . '
 				WHERE flair_id = ' . (int) $flair_id;

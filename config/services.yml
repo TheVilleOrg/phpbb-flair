@@ -14,13 +14,13 @@ services:
             - '@dbal.conn'
             - '@controller.helper'
             - '@language'
+            - '@notification_manager'
             - '@request'
             - '@template'
             - '@user'
             - '@stevotvr.flair.operator.trigger'
             - '@stevotvr.flair.operator.user'
             - '%stevotvr.flair.img_path%'
-            - '@notification_manager'
         tags:
             - { name: event.listener }
     stevotvr.flair.controller.acp:
@@ -84,12 +84,11 @@ services:
               arguments:
                 - '@config'
                 - '@dbal.conn'
+                - '@notification_manager'
                 - '@user'
                 - '@stevotvr.flair.operator.category'
                 - '@stevotvr.flair.operator.flair'
                 - '@stevotvr.flair.operator.user'
-                - '@notification_manager'
-                - '@log'               
     stevotvr.flair.controller.legend:
         class: stevotvr\flair\controller\legend_controller
         arguments:
@@ -149,11 +148,9 @@ services:
                 - '%stevotvr.flair.img_path%'
     stevotvr.flair.notification.type.flair:
         class: stevotvr\flair\notification\type\flair
-        shared: false # service MUST not be shared for this to work!
+        shared: false
         parent: notification.type.base
         calls:
-            - [set_controller_helper, ['@controller.helper']]
-            - [set_config, ['@config']]
-            - [set_user_loader, ['@user_loader']]            
+            - [setup, ['@user_loader']]
         tags:
             - { name: notification.type }
