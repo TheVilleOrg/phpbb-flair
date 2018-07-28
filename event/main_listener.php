@@ -15,7 +15,6 @@ use phpbb\controller\helper;
 use phpbb\db\driver\driver_interface;
 use phpbb\event\data;
 use phpbb\language\language;
-use phpbb\notification\manager;
 use phpbb\request\request_interface;
 use phpbb\template\template;
 use phpbb\user;
@@ -47,11 +46,6 @@ class main_listener implements EventSubscriberInterface
 	 * @var \phpbb\language\language
 	 */
 	protected $language;
-
-	/**
-	 * @var \phpbb\notification\manager
-	 */
-	protected $notification_manager;
 
 	/**
 	 * @var \phpbb\request\request_interface
@@ -90,7 +84,6 @@ class main_listener implements EventSubscriberInterface
 	 * @param \phpbb\db\driver\driver_interface          $db
 	 * @param \phpbb\controller\helper                   $helper
 	 * @param \phpbb\language\language                   $language
-	 * @param \phpbb\notification\manager 	 		     $notification_manager
 	 * @param \phpbb\request\request_interface           $request
 	 * @param \phpbb\template\template                   $template
 	 * @param \phpbb\user                                $user
@@ -98,13 +91,12 @@ class main_listener implements EventSubscriberInterface
 	 * @param \stevotvr\flair\operator\user_interface    $user_operator
 	 * @param string                                     $img_path The path to the custom images
 	 */
-	public function __construct(config $config, driver_interface $db, helper $helper, language $language, manager $notification_manager, request_interface $request, template $template, user $user, trigger_interface $trigger_operator, user_interface $user_operator, $img_path)
+	public function __construct(config $config, driver_interface $db, helper $helper, language $language, request_interface $request, template $template, user $user, trigger_interface $trigger_operator, user_interface $user_operator, $img_path)
 	{
 		$this->config = $config;
 		$this->db = $db;
 		$this->helper = $helper;
 		$this->language = $language;
-		$this->notification_manager = $notification_manager;
 		$this->request = $request;
 		$this->template = $template;
 		$this->user = $user;
@@ -119,7 +111,6 @@ class main_listener implements EventSubscriberInterface
 			'core.add_form_key'					=> 'add_form_key',
 			'core.permissions'					=> 'permissions',
 			'core.user_setup'					=> 'user_setup',
-			'core.markread_before'              => 'markread_before',
 			'core.memberlist_view_profile'		=> 'memberlist_view_profile',
 			'core.submit_post_end'				=> 'submit_post_end',
 			'core.viewtopic_modify_post_data'	=> 'viewtopic_modify_post_data',
@@ -173,87 +164,6 @@ class main_listener implements EventSubscriberInterface
 			'lang_set'	=> 'common',
 		);
 		$event['lang_set_ext'] = $lang_set_ext;
-	}
-
-	/**
-	 * Mark notifications as read when topics are read, or when user uses the mark as read
-	 * function.
-	 *
-	 * @param \phpbb\event\data $event The event data
-	 */
-	public function markread_before($event)
-	{
-		switch ($event['mode'])
-		{
-			case 'all':
-				$this->mark_all_read($event['post_time']);
-			break;
-
-			case 'topics':
-				$this->mark_forum_read($event['forum_id'], $event['post_time']);
-			break;
-
-			case 'topic':
-				$this->mark_topic_read($event['topic_id'], $event['post_time']);
-			break;
-		}
-	}
-
-	/**
-	 * Mark all notifications as read.
-	 *
-	 * @param int $post_time
-	 */
-	private function mark_all_read($post_time)
-	{
-		$this->notification_manager->mark_notifications(array('stevotvr.flair.notification.type.flair'), false, $this->user->data['user_id'], $post_time);
-	}
-
-	/**
-	 * Mark notifications for a topic as read.
-	 *
-	 * @param int|array $topic_id
-	 * @param int       $post_time
-	 */
-	private function mark_topic_read($topic_id, $post_time)
-	{
-		$this->notification_manager->mark_notifications_by_parent(array('stevotvr.flair.notification.type.flair'), $topic_id, $this->user->data['user_id'], $post_time);
-	}
-
-	/**
-	 * Mark notifications for a forum as read.
-	 *
-	 * @param int|array $forum_id
-	 * @param int       $post_time
-	 */
-	private function mark_forum_read($forum_id, $post_time)
-	{
-		// Mark all topics in forums read
-		if (!is_array($forum_id))
-		{
-			$forum_id = array($forum_id);
-		}
-		else
-		{
-			$forum_id = array_unique($forum_id);
-		}
-
-		// Mark all post/quote notifications read for this user in this forum
-		// Pretty bad, as this query is already done in mark_read, but
-		// because we have no access to that data in the event we need to run it
-		// again :(
-		$topic_ids = array();
-		$sql = 'SELECT topic_id
-			FROM ' . TOPICS_TABLE . '
-			WHERE ' . $this->db->sql_in_set('forum_id', $forum_id);
-		$result = $this->db->sql_query($sql);
-		while ($row = $this->db->sql_fetchrow($result))
-		{
-			$topic_ids[] = $row['topic_id'];
-		}
-		$this->db->sql_freeresult($result);
-
-		$this->mark_topic_read($topic_ids, $post_time);
 	}
 
 	/**

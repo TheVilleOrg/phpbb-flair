@@ -14,7 +14,6 @@ services:
             - '@dbal.conn'
             - '@controller.helper'
             - '@language'
-            - '@notification_manager'
             - '@request'
             - '@template'
             - '@user'
