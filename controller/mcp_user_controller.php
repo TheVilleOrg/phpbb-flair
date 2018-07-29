@@ -82,7 +82,7 @@ class mcp_user_controller extends acp_base_controller implements mcp_user_interf
 		$this->template->assign_vars(array(
 			'S_SELECT_USER'		=> true,
 
-			'U_ACTION'			=> $this->u_action,
+			'U_ACTION'			=> str_replace('mode=front', 'mode=user_flair', $this->u_action),
 			'U_FIND_USERNAME'	=> $u_find_username,
 		));
 	}
@@ -137,7 +137,7 @@ class mcp_user_controller extends acp_base_controller implements mcp_user_interf
 	protected function assign_tpl_vars($user_id, $username, $user_colour, array $user_flair)
 	{
 		$this->template->assign_vars(array(
-			'USER_FLAIR_TITLE'	=> $this->language->lang('MCP_FLAIR_USER', get_username_string('full', $user_id, $username, $user_colour)),
+			'USER_FLAIR_TITLE'	=> $this->language->lang('MCP_FLAIR_USER_FLAIR', get_username_string('full', $user_id, $username, $user_colour)),
 
 			'U_ACTION'	=> $this->u_action . '&amp;user_id=' . $user_id,
 		));

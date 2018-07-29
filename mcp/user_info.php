@@ -19,12 +19,17 @@ class user_info
 	{
 		return array(
 			'filename'	=> '\stevotvr\flair\mcp\user_module',
-			'title'		=> 'MCP_FLAIR_MANAGE_USERS',
+			'title'		=> 'MCP_FLAIR',
 			'modes'		=> array(
-				'main'	=> array(
-					'title'	=> 'MCP_FLAIR_MANAGE_USERS',
+				'front'			=> array(
+					'title'	=> 'MCP_FLAIR_FRONT',
 					'auth'	=> 'ext_stevotvr/flair && acl_m_userflair',
-					'cat'	=> array('MCP_FLAIR_MANAGE_USERS'),
+					'cat'	=> array('MCP_FLAIR'),
+				),
+				'user_flair'	=> array(
+					'title'	=> 'MCP_FLAIR_USER',
+					'auth'	=> 'ext_stevotvr/flair && acl_m_userflair',
+					'cat'	=> array('MCP_FLAIR'),
 				),
 			),
 		);

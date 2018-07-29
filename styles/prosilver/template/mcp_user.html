@@ -1,7 +1,8 @@
 {% include 'mcp_header.html' %}
 
+<h2>{{ lang('MCP_FLAIR') }}</h2>
+
 {% if S_SELECT_USER %}
-<h2>{{ lang('MCP_FLAIR_MANAGE_USERS') }}</h2>
 
 <form id="select_user" method="post" action="{{ U_ACTION }}">
 
@@ -26,8 +27,6 @@
 {% else %}
 
 {% INCLUDECSS '@stevotvr_flair/flair.css' %}
-
-<h2>{{ lang('MCP_FLAIR_MANAGE_USERS') }}</h2>
 
 <form id="user_flair" method="post" action="{{ U_ACTION }}">
 

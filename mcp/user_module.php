@@ -19,6 +19,13 @@ class user_module
 	public $tpl_name;
 	public $page_title;
 
+	private $p_master;
+
+	public function __construct($p_master)
+	{
+		$this->p_master = $p_master;
+	}
+
 	public function main($id, $mode)
 	{
 		global $phpbb_container;
@@ -26,7 +33,7 @@ class user_module
 		$request = $phpbb_container->get('request');
 
 		$this->tpl_name = 'mcp_user';
-		$this->page_title = 'MCP_FLAIR_MANAGE_USERS';
+		$this->page_title = 'MCP_FLAIR';
 
 		$controller->set_page_url($this->u_action);
 
@@ -36,6 +43,7 @@ class user_module
 		if (!$user_id && !$username)
 		{
 			$controller->find_user();
+			$this->p_master->set_display($id, 'user_flair', false);
 			return;
 		}
 

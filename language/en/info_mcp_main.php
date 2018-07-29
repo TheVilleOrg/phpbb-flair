@@ -38,10 +38,12 @@ if (empty($lang) || !is_array($lang))
 //
 
 $lang = array_merge($lang, array(
-	'MCP_FLAIR_TITLE'	=> 'Profile Flair',
+	'MCP_FLAIR'	=> 'Profile Flair',
 
-	'MCP_FLAIR_MANAGE_USERS'		=> 'Manage users’ flair',
-	'MCP_FLAIR_USER'				=> '%s’s flair',
+	'MCP_FLAIR_USER'	=> 'Manage users’ flair',
+	'MCP_FLAIR_FRONT'	=> 'Front page',
+
+	'MCP_FLAIR_USER_FLAIR'			=> '%s’s flair',
 	'MCP_FLAIR_AVAILABLE'			=> 'Available flair',
 	'MCP_FLAIR_NO_FLAIR'			=> 'No flair is assigned to this user’s profile.',
 	'MCP_FLAIR_NO_AVAILABLE'		=> 'There are no flair items available.',

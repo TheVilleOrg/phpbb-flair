@@ -74,14 +74,14 @@ class version_1_2_0 extends migration
 			array('module.add', array(
 				'mcp',
 				0,
-				'MCP_FLAIR_TITLE',
+				'MCP_FLAIR',
 			)),
 			array('module.add', array(
 				'mcp',
-				'MCP_FLAIR_TITLE',
+				'MCP_FLAIR',
 				array(
 					'module_basename'	=> '\stevotvr\flair\mcp\user_module',
-					'modes'				=> array('main'),
+					'modes'				=> array('front', 'user_flair'),
 				),
 			)),
 		);
