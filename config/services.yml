@@ -161,7 +161,7 @@ services:
             - [setup, ['@user_loader']]
         tags:
             - { name: notification.type }
-    stevotvr.groupsub.cron.task.main:
+    stevotvr.flair.cron.task.main:
         class: stevotvr\flair\cron\task\main
         arguments:
             - '@config'
