@@ -11,9 +11,9 @@
 namespace stevotvr\flair\controller;
 
 /**
- * Profile Flair user/group flair management ACP controller interface.
+ * Profile Flair user/group flair management MCP controller interface.
  */
-interface acp_user_interface extends acp_base_interface
+interface mcp_user_interface extends acp_base_interface
 {
 	/**
 	 * Show the user search page.

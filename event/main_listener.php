@@ -147,7 +147,7 @@ class main_listener implements EventSubscriberInterface
 	public function permissions(data $event)
 	{
 		$permissions = $event['permissions'];
-		$permissions['a_manage_flair'] = array('lang' => 'ACL_A_MANAGE_FLAIR', 'cat' => 'user_group');
+		$permissions['m_userflair'] = array('lang' => 'ACL_M_MANAGE_FLAIR', 'cat' => 'misc');
 		$event['permissions'] = $permissions;
 	}
 

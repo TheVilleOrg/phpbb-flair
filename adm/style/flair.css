@@ -25,11 +25,6 @@
 	display: inline-block;
 }
 
-.flair-item {
-	display: inline-block;
-	text-align: center;
-}
-
 .color_palette_placeholder {
 	display: none;
 	padding-top: 0;

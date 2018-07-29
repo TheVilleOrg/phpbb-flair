@@ -75,8 +75,8 @@ services:
               arguments:
                 - '@files.factory'
                 - '@stevotvr.flair.operator.image'
-    stevotvr.flair.controller.acp.user:
-        class: stevotvr\flair\controller\acp_user_controller
+    stevotvr.flair.controller.mcp.user:
+        class: stevotvr\flair\controller\mcp_user_controller
         parent: stevotvr.flair.controller.acp
         calls:
             - method: setup

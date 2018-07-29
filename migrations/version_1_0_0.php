@@ -108,7 +108,7 @@ class version_1_0_0 extends migration
 			array('config.add', array('stevotvr_flair_show_on_profile', 1)),
 			array('config.add', array('stevotvr_flair_show_on_posts', 1)),
 
-			array('permission.add', array('a_manage_flair', true, 'a_user')),
+			array('permission.add', array('a_manage_flair', true, 'm_warn')),
 
 			array('module.add', array(
 				'acp',

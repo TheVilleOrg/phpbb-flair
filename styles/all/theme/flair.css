@@ -52,3 +52,12 @@
 	margin-bottom: 12px;
 	padding-right: 20px;
 }
+
+.flair-item {
+	display: inline-block;
+	text-align: center;
+}
+
+.flair-item .inputbox {
+	width: 3em;
+}

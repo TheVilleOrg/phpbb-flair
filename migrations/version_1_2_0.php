@@ -59,6 +59,31 @@ class version_1_2_0 extends migration
 		return array(
 			array('config.add', array('stevotvr_flair_notify_users', 1)),
 			array('config.add', array('stevotvr_flair_cron_last_run', 0)),
+
+			array('permission.add', array('m_userflair', true, 'a_manage_flair')),
+			array('permission.remove', array('a_manage_flair')),
+
+			array('module.remove', array(
+				'acp',
+				'ACP_CAT_USERS',
+				array(
+					'module_basename'	=> '\stevotvr\flair\acp\user_module',
+					'modes'				=> array('main'),
+				),
+			)),
+			array('module.add', array(
+				'mcp',
+				0,
+				'MCP_FLAIR_TITLE',
+			)),
+			array('module.add', array(
+				'mcp',
+				'MCP_FLAIR_TITLE',
+				array(
+					'module_basename'	=> '\stevotvr\flair\mcp\user_module',
+					'modes'				=> array('main'),
+				),
+			)),
 		);
 	}
 }

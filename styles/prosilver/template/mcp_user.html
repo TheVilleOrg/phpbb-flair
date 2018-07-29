@@ -1,0 +1,89 @@
+{% include 'mcp_header.html' %}
+
+{% if S_SELECT_USER %}
+<h2>{{ lang('MCP_FLAIR_MANAGE_USERS') }}</h2>
+
+<form id="select_user" method="post" action="{{ U_ACTION }}">
+
+	<div class="panel">
+		<div class="inner">
+			<fieldset>
+				<dl>
+					<dt><label for="username">{{ lang('SELECT_USER') ~ lang('COLON') }}</label></dt>
+					<dd><input class="inputbox" type="text" id="username" name="username" /></dd>
+					<dd><strong><a href="{{ U_FIND_USERNAME }}" onclick="find_username(this.href); return false;">{{ lang('FIND_USERNAME') }}</a></strong></dd>
+				</dl>
+			</fieldset>
+		</div>
+	</div>
+	<fieldset class="submit-buttons">
+		<input type="reset" name="reset" value="{{ lang('RESET') }}" class="button2" />
+		&nbsp;
+		<input type="submit" name="submituser" value="{{ lang('SUBMIT') }}" class="button1" />
+	</fieldset>
+</form>
+
+{% else %}
+
+{% INCLUDECSS '@stevotvr_flair/flair.css' %}
+
+<h2>{{ lang('MCP_FLAIR_MANAGE_USERS') }} :: {{ FLAIR_USER_NAME }}</h2>
+
+<form id="user_flair" method="post" action="{{ U_ACTION }}">
+
+	<div class="panel">
+		<div class="inner">
+			<fieldset>
+				<h3>{{ USER_FLAIR_TITLE }}</h3>
+				<div class="flair">
+				{% for cat in flair %}
+					{% if cat.CAT_NAME %}<h4>{{ cat.CAT_NAME }}</h4>{% endif %}
+
+					{% for item in cat.item %}
+					<span class="flair-item">
+						<div>
+							{% include '@stevotvr_flair/flair_item.html' with item %}
+						</div>
+						<input type="submit" name="remove_flair[{{ item.FLAIR_ID }}]" value="&minus;" class="button2" title="{{ item.REMOVE_TITLE }}" />
+						<input class="inputbox" type="number" name="remove_count[{{ item.FLAIR_ID }}]" width="1" min="1" value="1" />
+						<input type="submit" name="remove_all_flair[{{ item.FLAIR_ID }}]" value="&times;" class="button1" title="{{ item.REMOVE_ALL_TITLE }}" />
+					</span>{% if not loop.last %}&nbsp;| {% endif %}
+					{% endfor %}
+				{% else %}
+					<p>{{ lang('MCP_FLAIR_NO_FLAIR') }}</p>
+				{% endfor %}
+				</div>
+			</fieldset>
+		</div>
+	</div>
+	<div class="panel">
+		<div class="inner">
+			<fieldset>
+				<h3>{{ lang('MCP_FLAIR_AVAILABLE') }}</h3>
+				<div class="flair">
+				{% for c in cat %}
+					<h4>{{ c.CAT_NAME }}</h4>
+
+					{% for item in c.item %}
+					<span class="flair-item">
+						<div>
+							{% include '@stevotvr_flair/flair_item.html' with item %}
+						</div>
+						<input type="submit" name="add_flair[{{ item.FLAIR_ID }}]" value="+" class="button2" title="{{ item.ADD_TITLE }}" />
+						<input class="inputbox" type="number" name="add_count[{{ item.FLAIR_ID }}]" width="1" min="1" value="1" />
+					</span>{% if not loop.last %}&nbsp;| {% endif %}
+					{% endfor %}
+				{% else %}
+					<p>{{ lang('MCP_FLAIR_NO_AVAILABLE') }}</p>
+				{% endfor %}
+				</div>
+			</fieldset>
+		</div>
+	</div>
+
+	{{ S_FORM_TOKEN }}
+</form>
+
+{% endif %}
+
+{% include 'mcp_footer.html' %}

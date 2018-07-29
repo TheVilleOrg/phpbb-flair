@@ -86,6 +86,7 @@ $lang = array_merge($lang, array(
 	'ACP_FLAIR_FORM_ICON'		=> 'Flair icon',
 	'ACP_FLAIR_FORM_ICON_COLOR'	=> 'Flair icon color',
 	'ACP_FLAIR_FORM_IMG'		=> 'Flair image',
+	'ACP_FLAIR_NO_IMGS'			=> 'No image sets found in <b>images/flair</b>.',
 	'ACP_FLAIR_FORM_FONT_COLOR'	=> 'Flair font color',
 	'ACP_FLAIR_FORM_GROUPS'		=> 'Group assignments',
 
@@ -122,17 +123,6 @@ $lang = array_merge($lang, array(
 	'ACP_FLAIR_FORM_IMG_FILE_EXPLAIN'		=> 'Select the source image file. You can upload any GIF, PNG, JPEG, or SVG file. A square image at least 66px in height is recommended.',
 	'ACP_FLAIR_FORM_IMG_OVERWRITE'			=> 'Overwrite existing',
 	'ACP_FLAIR_FORM_IMG_OVERWRITE_EXPLAIN'	=> 'Enable to permanently overwrite any existing images with the same name.',
-
-	'ACP_FLAIR_MANAGE_USERS'			=> 'Manage profile flair',
-	'ACP_FLAIR_MANAGE_USERS_EXPLAIN'	=> 'Here you can manage profile flair assigned to a user’s profile.',
-	'ACP_FLAIR_USER'					=> '%s’s flair',
-	'ACP_FLAIR_AVAILABLE'				=> 'Available flair',
-	'ACP_FLAIR_NO_FLAIR'				=> 'No flair is assigned to this user’s profile.',
-	'ACP_FLAIR_NO_AVAILABLE'			=> 'There are no flair items available.',
-	'ACP_FLAIR_ADD_TITLE'				=> 'Add the specified number of “%1$s” to %2$s’s profile',
-	'ACP_FLAIR_REMOVE_TITLE'			=> 'Remove the specified number of “%1$s” from %2$s’s profile',
-	'ACP_FLAIR_REMOVE_ALL_TITLE'		=> 'Remove all “%1$s” from %2$s’s profile',
-	'ACP_FLAIR_NO_IMGS'					=> 'No image sets found in <b>images/flair</b>.',
 
 	'ACP_FLAIR_NAME'		=> 'Name',
 	'ACP_FLAIR_DISPLAY_ON'	=> 'Display on',

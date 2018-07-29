@@ -18,9 +18,9 @@ use stevotvr\flair\operator\flair_interface;
 use stevotvr\flair\operator\user_interface;
 
 /**
- * Profile Flair user ACP controller.
+ * Profile Flair user MCP controller.
  */
-class acp_user_controller extends acp_base_controller implements acp_user_interface
+class mcp_user_controller extends acp_base_controller implements mcp_user_interface
 {
 	/**
 	 * @var \phpbb\config\config
@@ -137,7 +137,7 @@ class acp_user_controller extends acp_base_controller implements acp_user_interf
 	{
 		$this->template->assign_vars(array(
 			'FLAIR_USER_NAME'	=> $user_name,
-			'USER_FLAIR_TITLE'	=> $this->language->lang('ACP_FLAIR_USER', $user_name),
+			'USER_FLAIR_TITLE'	=> $this->language->lang('MCP_FLAIR_USER', $user_name),
 
 			'U_ACTION'	=> $this->u_action . '&amp;user_id=' . $user_id,
 			'U_BACK'	=> $this->u_action,
@@ -190,7 +190,7 @@ class acp_user_controller extends acp_base_controller implements acp_user_interf
 					'FLAIR_ICON_COLOR'	=> $entity->get_icon_color(),
 					'FLAIR_IMG'			=> $this->img_path . $entity->get_img(2),
 
-					'ADD_TITLE'	=> $this->language->lang('ACP_FLAIR_ADD_TITLE', $entity->get_name(), $user_name),
+					'ADD_TITLE'	=> $this->language->lang('MCP_FLAIR_ADD_TITLE', $entity->get_name(), $user_name),
 				));
 			}
 		}
@@ -225,8 +225,8 @@ class acp_user_controller extends acp_base_controller implements acp_user_interf
 					'FLAIR_FONT_COLOR'	=> $entity->get_font_color(),
 					'FLAIR_COUNT'		=> $item['count'],
 
-					'REMOVE_TITLE'		=> $this->language->lang('ACP_FLAIR_REMOVE_TITLE', $entity->get_name(), $user_name),
-					'REMOVE_ALL_TITLE'	=> $this->language->lang('ACP_FLAIR_REMOVE_ALL_TITLE', $entity->get_name(), $user_name),
+					'REMOVE_TITLE'		=> $this->language->lang('MCP_FLAIR_REMOVE_TITLE', $entity->get_name(), $user_name),
+					'REMOVE_ALL_TITLE'	=> $this->language->lang('MCP_FLAIR_REMOVE_ALL_TITLE', $entity->get_name(), $user_name),
 				));
 			}
 		}

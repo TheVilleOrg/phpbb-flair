@@ -38,5 +38,15 @@ if (empty($lang) || !is_array($lang))
 //
 
 $lang = array_merge($lang, array(
-	'ACL_M_MANAGE_FLAIR'	=> 'Can manage profile flair',
+	'MCP_FLAIR_TITLE'	=> 'Profile Flair',
+
+	'MCP_FLAIR_MANAGE_USERS'			=> 'Manage users’ flair',
+	'MCP_FLAIR_MANAGE_USERS_EXPLAIN'	=> 'Here you can manage profile flair assigned to a user’s profile.',
+	'MCP_FLAIR_USER'					=> '%s’s flair',
+	'MCP_FLAIR_AVAILABLE'				=> 'Available flair',
+	'MCP_FLAIR_NO_FLAIR'				=> 'No flair is assigned to this user’s profile.',
+	'MCP_FLAIR_NO_AVAILABLE'			=> 'There are no flair items available.',
+	'MCP_FLAIR_ADD_TITLE'				=> 'Add the specified number of “%1$s” to %2$s’s profile',
+	'MCP_FLAIR_REMOVE_TITLE'			=> 'Remove the specified number of “%1$s” from %2$s’s profile',
+	'MCP_FLAIR_REMOVE_ALL_TITLE'		=> 'Remove all “%1$s” from %2$s’s profile',
 ));
