@@ -1,17 +1,17 @@
 .flair-count {
-	position: absolute;
-	left: 0;
-	width: 100%;
 	font-family: sans-serif;
 	font-size: 13px;
-	text-align: center;
+	left: 0;
 	line-height: inherit;
+	position: absolute;
+	text-align: center;
+	width: 100%;
 }
 
 .flair-lg .flair-count {
 	font-size: 16px;
-	text-align: right;
 	line-height: 1em;
+	text-align: right;
 }
 
 .flair-icon {
