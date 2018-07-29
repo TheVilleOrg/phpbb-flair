@@ -10,6 +10,7 @@
 
 namespace stevotvr\flair\notification\type;
 
+use phpbb\controller\helper;
 use phpbb\notification\type\base;
 use phpbb\user_loader;
 
@@ -23,6 +24,11 @@ class flair extends base
 	);
 
 	/**
+	 * @var \phpbb\controller\helper
+	 */
+	protected $helper;
+
+	/**
 	 * @var \phpbb\user_loader
 	 */
 	protected $user_loader;
@@ -30,10 +36,12 @@ class flair extends base
 	/**
 	 * Set up the notification type.
 	 *
-	 * @param \phpbb\user_loader $user_loader
+	 * @param \phpbb\controller\helper $helper
+	 * @param \phpbb\user_loader       $user_loader
 	 */
-	public function setup(user_loader $user_loader)
+	public function setup(helper $helper, user_loader $user_loader)
 	{
+		$this->helper = $helper;
 		$this->user_loader = $user_loader;
 	}
 
@@ -91,6 +99,7 @@ class flair extends base
 		return array(
 			'FLAIR_NAME'	=> $this->get_data('flair_name'),
 
+			'U_FLAIR'	=> generate_board_url(true) . $this->helper->route('stevotvr_flair_legend') . '#flair' . $this->get_data('flair_id'),
 			'U_PROFILE'	=> generate_board_url() . '/memberlist.' . $this->php_ext . '?mode=viewprofile&u=' . $this->get_data('user_id'),
 		);
 	}

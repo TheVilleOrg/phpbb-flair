@@ -158,7 +158,10 @@ services:
         shared: false
         parent: notification.type.base
         calls:
-            - [setup, ['@user_loader']]
+            - method: setup
+              arguments:
+                - '@controller.helper'
+                - '@user_loader'
         tags:
             - { name: notification.type }
     stevotvr.flair.cron.task.main:
