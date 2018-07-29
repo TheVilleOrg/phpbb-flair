@@ -93,7 +93,7 @@ class mcp_user_controller extends acp_base_controller implements mcp_user_interf
 		$username = $this->request->variable('username', '', true);
 
 		$where = ($user_id) ? 'user_id = ' . (int) $user_id : "username_clean = '" . $this->db->sql_escape(utf8_clean_string($username)) . "'";
-		$sql = 'SELECT user_id, username
+		$sql = 'SELECT user_id, username, user_colour
 				FROM ' . USERS_TABLE . '
 				WHERE ' . $where;
 		$result = $this->db->sql_query($sql);
@@ -123,36 +123,35 @@ class mcp_user_controller extends acp_base_controller implements mcp_user_interf
 		}
 
 		$user_flair = $this->user_operator->get_flair($user_id);
-		$this->assign_tpl_vars($user_id, $userrow['username'], $user_flair);
+		$this->assign_tpl_vars($user_id, $userrow['username'], $userrow['user_colour'], $user_flair);
 	}
 
 	/**
 	 * Assign the template variables for the page.
 	 *
-	 * @param int    $user_id    The ID of the user being worked on
-	 * @param string $user_name  The name of the user being worked on
-	 * @param array  $user_flair The flair items assigned to the user being worked on
+	 * @param int    $user_id     The ID of the user being worked on
+	 * @param string $username    The name of the user being worked on
+	 * @param string $user_colour The color of the user being worked on
+	 * @param array  $user_flair  The flair items assigned to the user being worked on
 	 */
-	protected function assign_tpl_vars($user_id, $user_name, array $user_flair)
+	protected function assign_tpl_vars($user_id, $username, $user_colour, array $user_flair)
 	{
 		$this->template->assign_vars(array(
-			'FLAIR_USER_NAME'	=> $user_name,
-			'USER_FLAIR_TITLE'	=> $this->language->lang('MCP_FLAIR_USER', $user_name),
+			'USER_FLAIR_TITLE'	=> $this->language->lang('MCP_FLAIR_USER', get_username_string('full', $user_id, $username, $user_colour)),
 
 			'U_ACTION'	=> $this->u_action . '&amp;user_id=' . $user_id,
-			'U_BACK'	=> $this->u_action,
 		));
 
-		$this->assign_flair_tpl_vars($user_name);
-		$this->assign_user_tpl_vars($user_name, $user_flair);
+		$this->assign_flair_tpl_vars($username);
+		$this->assign_user_tpl_vars($username, $user_flair);
 	}
 
 	/**
 	 * Assign template variables for the available flair.
 	 *
-	 * @param string $user_name The name of the user being worked on
+	 * @param string $username The name of the user being worked on
 	 */
-	protected function assign_flair_tpl_vars($user_name)
+	protected function assign_flair_tpl_vars($username)
 	{
 		$available_cats = $this->cat_operator->get_categories();
 		$categories = array(array('category' => $this->language->lang('FLAIR_UNCATEGORIZED')));
@@ -190,7 +189,7 @@ class mcp_user_controller extends acp_base_controller implements mcp_user_interf
 					'FLAIR_ICON_COLOR'	=> $entity->get_icon_color(),
 					'FLAIR_IMG'			=> $this->img_path . $entity->get_img(2),
 
-					'ADD_TITLE'	=> $this->language->lang('MCP_FLAIR_ADD_TITLE', $entity->get_name(), $user_name),
+					'ADD_TITLE'	=> $this->language->lang('MCP_FLAIR_ADD_TITLE', $entity->get_name(), $username),
 				));
 			}
 		}
@@ -199,10 +198,10 @@ class mcp_user_controller extends acp_base_controller implements mcp_user_interf
 	/**
 	 * Assign template variables for the user or group flair.
 	 *
-	 * @param string $user_name  The name of the user being worked on
+	 * @param string $username   The name of the user being worked on
 	 * @param array  $user_flair The flair items assigned to the user being worked on
 	 */
-	protected function assign_user_tpl_vars($user_name, array $user_flair)
+	protected function assign_user_tpl_vars($username, array $user_flair)
 	{
 		foreach ($user_flair as $category)
 		{
@@ -225,8 +224,8 @@ class mcp_user_controller extends acp_base_controller implements mcp_user_interf
 					'FLAIR_FONT_COLOR'	=> $entity->get_font_color(),
 					'FLAIR_COUNT'		=> $item['count'],
 
-					'REMOVE_TITLE'		=> $this->language->lang('MCP_FLAIR_REMOVE_TITLE', $entity->get_name(), $user_name),
-					'REMOVE_ALL_TITLE'	=> $this->language->lang('MCP_FLAIR_REMOVE_ALL_TITLE', $entity->get_name(), $user_name),
+					'REMOVE_TITLE'		=> $this->language->lang('MCP_FLAIR_REMOVE_TITLE', $entity->get_name(), $username),
+					'REMOVE_ALL_TITLE'	=> $this->language->lang('MCP_FLAIR_REMOVE_ALL_TITLE', $entity->get_name(), $username),
 				));
 			}
 		}
