@@ -237,9 +237,8 @@ class acp_user_controller extends acp_base_controller implements acp_user_interf
 	 *
 	 * @param int    $user_id The ID of the user being worked on
 	 * @param string $change  The type of change to make (add|remove|remove_all)
-	 * @param string $username The name of the user being worked on
 	 */
-	protected function change_flair($user_id, $change, $username)
+	protected function change_flair($user_id, $change)
 	{
 		if (!check_form_key('edit_user_flair'))
 		{
