@@ -10,11 +10,37 @@
 
 namespace stevotvr\flair\operator;
 
+use phpbb\config\config;
+
 /**
  * Profile Flair user operator.
  */
 class user extends operator implements user_interface
 {
+	/**
+	 * @var \phpbb\config\config
+	 */
+	protected $config;
+
+	/**
+	 * The name of the flair_notif table.
+	 *
+	 * @var string
+	 */
+	protected $notification_table;
+
+	/**
+	 * Set up the operator.
+	 *
+	 * @param \phpbb\config\config $config
+	 * @param string               $notification_table The name of the flair_notif table
+	 */
+	public function setup(config $config, $notification_table)
+	{
+		$this->config = $config;
+		$this->notification_table = $notification_table;
+	}
+
 	public function add_flair($user_id, $flair_id, $count = 1)
 	{
 		if ($count < 1)
@@ -27,10 +53,12 @@ class user extends operator implements user_interface
 		if ($old_count !== false)
 		{
 			$this->update_count($user_id, $flair_id, $old_count + $count);
+			$this->notify_user($user_id, $flair_id, $old_count, $old_count + $count);
 			return;
 		}
 
 		$this->insert_row($user_id, $flair_id, $count);
+		$this->notify_user($user_id, $flair_id, 0, $count);
 	}
 
 	public function remove_flair($user_id, $flair_id, $count = 1)
@@ -47,10 +75,12 @@ class user extends operator implements user_interface
 			if ($old_count - $count <= 0)
 			{
 				$this->delete_row($user_id, $flair_id);
+				$this->notify_user($user_id, $flair_id, 0, 0);
 				return;
 			}
 
 			$this->update_count($user_id, $flair_id, $old_count - $count);
+			$this->notify_user($user_id, $flair_id, $old_count, $old_count - $count);
 		}
 	}
 
@@ -59,15 +89,21 @@ class user extends operator implements user_interface
 		if ($count < 1)
 		{
 			$this->delete_row($user_id, $flair_id);
+			$this->notify_user($user_id, $flair_id, 0, 0);
 			return;
 		}
 
-		$this->update_count($user_id, $flair_id, $count);
+		$old_count = $this->get_item_count($user_id, $flair_id);
 
-		if ($this->db->sql_affectedrows() === 0)
+		if ($old_count !== false)
 		{
-			$this->insert_row($user_id, $flair_id, $count);
+			$this->update_count($user_id, $flair_id, $count);
+			$this->notify_user($user_id, $flair_id, $old_count, $count);
+			return;
 		}
+
+		$this->insert_row($user_id, $flair_id, $count);
+		$this->notify_user($user_id, $flair_id, 0, $count);
 	}
 
 	public function get_flair($user_id)
@@ -306,6 +342,90 @@ class user extends operator implements user_interface
 				SET flair_count = ' . (int) $count . '
 				WHERE user_id = ' . (int) $user_id . '
 					AND flair_id = ' . (int) $flair_id;
+		$this->db->sql_query($sql);
+	}
+
+	/**
+	 * Notify a recipient of a flair item.
+	 *
+	 * @param int $user_id   The recipient user ID
+	 * @param int $flair_id  The flair ID
+	 * @param int $old_count The flair ID
+	 * @param int $new_count The flair ID
+	 */
+	protected function notify_user($user_id, $flair_id, $old_count, $new_count)
+	{
+		if (!$this->config['stevotvr_flair_notify_users'])
+		{
+			return;
+		}
+
+		$user_id = (int) $user_id;
+		$flair_id = (int) $flair_id;
+		$old_count = (int) $old_count;
+		$new_count = (int) $new_count;
+
+		if ($new_count <= 0)
+		{
+			$sql = 'DELETE FROM ' . $this->notification_table . '
+					WHERE user_id = ' . $user_id . '
+						AND flair_id = ' . $flair_id;
+			$this->db->sql_query($sql);
+			return;
+		}
+
+		$sql = 'SELECT old_count
+				FROM ' . $this->notification_table . '
+				WHERE user_id = ' . $user_id . '
+					AND flair_id = ' . $flair_id;
+		$this->db->sql_query($sql);
+		$row = $this->db->sql_fetchrow();
+		$this->db->sql_freeresult();
+		if ($row)
+		{
+			if ($new_count <= (int) $row['old_count'])
+			{
+				$sql = 'DELETE FROM ' . $this->notification_table . '
+						WHERE user_id = ' . $user_id . '
+							AND flair_id = ' . $flair_id;
+				$this->db->sql_query($sql);
+				return;
+			}
+
+			$data = array(
+				'new_count'	=> $new_count,
+				'updated'	=> time(),
+			);
+			$sql = 'UPDATE ' . $this->notification_table . '
+					SET ' . $this->db->sql_build_array('UPDATE', $data) . '
+					WHERE user_id = ' . $user_id . '
+						AND flair_id = ' . $flair_id;
+			$this->db->sql_query($sql);
+			return;
+		}
+
+		if ($new_count <= $old_count)
+		{
+			return;
+		}
+
+		$sql = 'SELECT flair_name
+				FROM ' . $this->flair_table . '
+				WHERE flair_id = ' . (int) $flair_id;
+		$this->db->sql_query($sql);
+		$flair_name = $this->db->sql_fetchfield('flair_name');
+		$this->db->sql_freeresult();
+
+		$data = array(
+			'user_id'		=> $user_id,
+			'flair_id'		=> $flair_id,
+			'flair_name'	=> $flair_name,
+			'old_count'		=> $old_count,
+			'new_count'		=> $new_count,
+			'updated'		=> time(),
+		);
+		$sql = 'INSERT INTO ' . $this->notification_table . '
+				' . $this->db->sql_build_array('INSERT', $data);
 		$this->db->sql_query($sql);
 	}
 

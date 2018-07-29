@@ -83,7 +83,6 @@ services:
               arguments:
                 - '@config'
                 - '@dbal.conn'
-                - '@notification_manager'
                 - '@user'
                 - '@stevotvr.flair.operator.category'
                 - '@stevotvr.flair.operator.flair'
@@ -134,9 +133,18 @@ services:
     stevotvr.flair.operator.user:
         class: stevotvr\flair\operator\user
         parent: stevotvr.flair.operator
+        calls:
+            - method: setup
+              arguments:
+                - '@config'
+                - '%stevotvr.flair.tables.flair_notif%'
     stevotvr.flair.operator.trigger:
         class: stevotvr\flair\operator\trigger
         parent: stevotvr.flair.operator
+        calls:
+            - method: setup
+              arguments:
+                - '@stevotvr.flair.operator.user'
     stevotvr.flair.operator.image:
         class: stevotvr\flair\operator\image
         parent: stevotvr.flair.operator
@@ -153,3 +161,16 @@ services:
             - [setup, ['@user_loader']]
         tags:
             - { name: notification.type }
+    stevotvr.groupsub.cron.task.main:
+        class: stevotvr\flair\cron\task\main
+        arguments:
+            - '@config'
+            - '@dbal.conn'
+            - '@notification_manager'
+            - '%stevotvr.flair.tables.flair_notif%'
+        calls:
+            - method: set_name
+              arguments:
+                - cron.task.stevotvr.flair
+        tags:
+            - { name: cron.task }

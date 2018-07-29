@@ -2,7 +2,6 @@
 /**
  *
  * Profile Flair. An extension for the phpBB Forum Software package.
- * Notification by Example
  *
  * @copyright (c) 2018, Steve Guidetti, https://github.com/stevotvr
  * @license GNU General Public License, version 2 (GPL-2.0)
@@ -20,7 +19,7 @@ use phpbb\user_loader;
 class flair extends base
 {
 	public static $notification_option = array(
-		'lang'	=> 'NOTIFICATION_TYPE_FLAIR',
+		'lang'	=> 'FLAIR_NOTIFICATION_TYPE',
 	);
 
 	/**
@@ -56,61 +55,51 @@ class flair extends base
 	public function find_users_for_notification($data, $options = array())
 	{
 		$options = array_merge(array(
-			'ignore_users'		=> array(),
+			'ignore_users'	=> array(),
 		), $options);
 
-		$users = array((int) $data['user_ids']);
-
-		return $this->check_user_notification_options($users, $options);
+		return $this->check_user_notification_options((array) $data['user_id'], $options);
 	}
 
 	public function users_to_query()
 	{
-		return array($this->notification_data['user_ids']);
+		return array($this->get_data('user_id'));
 	}
 
 	public function get_title()
 	{
-		if (isset ( $this->notification_data['flair_name']))
-		{
-			$name = $this->notification_data['flair_name'];
-			return $this->language->lang('FLAIR_FLAIR_NOTIFICATION', is_array($name) ? '' : $name);
-		}
-		else
-		{
-			return $this->language->lang('FLAIR_FLAIR_NOTIFICATION', '');
-		}
+		return $this->language->lang('FLAIR_NOTIFICATION_TITLE', $this->get_data('flair_name'));
 	}
 
 	public function get_url()
 	{
-		return append_sid($this->phpbb_root_path . 'memberlist.' . $this->php_ext, 'mode=viewprofile&u=' . $this->notification_data['user_ids']) ;
+		return append_sid($this->phpbb_root_path . 'memberlist.' . $this->php_ext, 'mode=viewprofile&u=' . $this->get_data('user_id')) ;
 	}
 
 	public function get_email_template()
 	{
-		return '@stevotvr_flair/flair_mail';
+		return '@stevotvr_flair/flair';
 	}
 
 	public function get_email_template_variables()
 	{
 		return array(
-			'AUTHOR_NAME'		=> $this->notification_data['username'],
-			'U_LINK_TO_TOPIC'	=> generate_board_url() . '/memberlist.' . $this->php_ext . '?mode=viewprofile&u=' . $this->notification_data['user_ids'],
+			'FLAIR_NAME'	=> $this->get_data('flair_name'),
+
+			'U_PROFILE'	=> generate_board_url() . '/memberlist.' . $this->php_ext . '?mode=viewprofile&u=' . $this->get_data('user_id'),
 		);
 	}
 
 	public function get_avatar()
 	{
-		return $this->user_loader->get_avatar($this->get_data('user_ids'), false, true);
+		return $this->user_loader->get_avatar($this->get_data('user_id'), false, true);
 	}
 
 	public function create_insert_array($data, $pre_create_data = array())
 	{
-		$this->set_data('notification_id', $data['notification_id']);
+		$this->set_data('user_id', $data['user_id']);
+		$this->set_data('flair_id', $data['flair_id']);
 		$this->set_data('flair_name', $data['flair_name']);
-		$this->set_data('username', $data['username']);
-		$this->set_data('user_ids', $data['user_ids']);
 
 		parent::create_insert_array($data, $pre_create_data);
 	}

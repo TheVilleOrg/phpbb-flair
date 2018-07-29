@@ -12,7 +12,6 @@ namespace stevotvr\flair\controller;
 
 use phpbb\config\config;
 use phpbb\db\driver\driver_interface;
-use phpbb\notification\manager;
 use phpbb\user;
 use stevotvr\flair\operator\category_interface;
 use stevotvr\flair\operator\flair_interface;
@@ -32,11 +31,6 @@ class acp_user_controller extends acp_base_controller implements acp_user_interf
 	 * @var \phpbb\db\driver\driver_interface
 	 */
 	protected $db;
-
-	/**
-	 * @var \phpbb\notification\manager
-	 */
-	protected $notification_manager;
 
 	/**
 	 * @var \phpbb\user
@@ -63,17 +57,15 @@ class acp_user_controller extends acp_base_controller implements acp_user_interf
 	 *
 	 * @param \phpbb\config\config                        $config
 	 * @param \phpbb\db\driver\driver_interface           $db
-	 * @param \phpbb\notification\manager 				  $notification_manager
 	 * @param \phpbb\user                                 $user
 	 * @param \stevotvr\flair\operator\category_interface $cat_operator
 	 * @param \stevotvr\flair\operator\flair_interface    $flair_operator
 	 * @param \stevotvr\flair\operator\user_interface     $user_operator
 	 */
-	public function setup(config $config, driver_interface $db, manager $notification_manager, user $user, category_interface $cat_operator, flair_interface $flair_operator, user_interface $user_operator)
+	public function setup(config $config, driver_interface $db, user $user, category_interface $cat_operator, flair_interface $flair_operator, user_interface $user_operator)
 	{
 		$this->config = $config;
 		$this->db = $db;
-		$this->notification_manager = $notification_manager;
 		$this->user = $user;
 		$this->cat_operator = $cat_operator;
 		$this->flair_operator = $flair_operator;
@@ -268,25 +260,6 @@ class acp_user_controller extends acp_base_controller implements acp_user_interf
 				return;
 			}
 
-			if ($change === 'add')
-			{
-				if (isset($this->config['flair_notification_'. $id]))
-				{
-					$this->config->increment('flair_notification_' . $id, 1);
-				}
-				else
-				{
-					$this->config->set('flair_notification_' . $id, 0);
-				}
-				$notification_id = floatval($this->config['flair_notification_' . $notification_id] . '.' . $id);
-				$this->send_notification(array(
-					'username'			=> $username,
-					'user_ids'			=> $user_id,
-					'flair_name'		=> $this->flair_operator->get_flair_name($id),
-					'notification_id'	=> $notification_id,
-				));
-			}
-
 			$counts = $this->request->variable($change . '_count', array('' => ''));
 			$count = (isset($counts[$id])) ? (int) $counts[$id] : 1;
 
@@ -294,24 +267,5 @@ class acp_user_controller extends acp_base_controller implements acp_user_interf
 		}
 
 		redirect($this->u_action . '&amp;user_id=' . $user_id);
-	}
-
-	/**
-	 * Send notification to the user or group being worked on and log the action.
-	 *
-	 * @param array $data The data for the notification
-	 */
-	private function send_notification($data)
-	{
-		$this->notification_manager->add_notifications('stevotvr.flair.notification.type.flair', array(
-				'user_ids'			=> $data['user_ids'],
-				'notification_id'	=> $data['notification_id'],
-				'username'			=> $data['username'],
-				'flair_name'		=> $data['flair_name'],
-			),
-			array(
-				'user_ids'	=> $data['user_ids'],
-			)
-		);
 	}
 }

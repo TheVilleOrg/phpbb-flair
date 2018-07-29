@@ -12,12 +12,28 @@ namespace stevotvr\flair\operator;
 
 use stevotvr\flair\exception\out_of_bounds;
 use stevotvr\flair\exception\unexpected_value;
+use stevotvr\flair\operator\user_interface;
 
 /**
  * Profile Flair flair trigger operator.
  */
 class trigger extends operator implements trigger_interface
 {
+	/**
+	 * @var \stevotvr\flair\operator\user_interface
+	 */
+	protected $user_operator;
+
+	/**
+	 * Set up the operator.
+	 *
+	 * @param \stevotvr\flair\operator\user_interface $user_operator
+	 */
+	public function setup(user_interface $user_operator)
+	{
+		$this->user_operator = $user_operator;
+	}
+
 	public function get_flair_triggers($flair_id)
 	{
 		return $this->get_trigger_rows('flair_id = ' . (int) $flair_id);
@@ -122,13 +138,7 @@ class trigger extends operator implements trigger_interface
 
 		foreach (array_keys($flair_ids) as $flair_id)
 		{
-			$data = array(
-				'user_id'		=> (int) $user_id,
-				'flair_id'		=> $flair_id,
-			);
-			$sql = 'INSERT INTO ' . $this->user_table . '
-					' . $this->db->sql_build_array('INSERT', $data);
-			$this->db->sql_query($sql);
+			$this->user_operator->add_flair($user_id, $flair_id);
 		}
 	}
 }

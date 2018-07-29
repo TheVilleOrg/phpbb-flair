@@ -1,0 +1,11 @@
+Subject: You received new flair
+
+Hello {USERNAME},
+
+You just recievied new "{FLAIR_NAME}" flair at "{SITENAME}".
+
+To view your flair, visit your profile by clicking the following link:
+
+{U_PROFILE}
+
+{EMAIL_SIG}
