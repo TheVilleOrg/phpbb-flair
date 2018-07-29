@@ -360,24 +360,19 @@ class user extends operator implements user_interface
 			return;
 		}
 
-		$user_id = (int) $user_id;
-		$flair_id = (int) $flair_id;
-		$old_count = (int) $old_count;
-		$new_count = (int) $new_count;
-
 		if ($new_count <= 0)
 		{
 			$sql = 'DELETE FROM ' . $this->notification_table . '
-					WHERE user_id = ' . $user_id . '
-						AND flair_id = ' . $flair_id;
+					WHERE user_id = ' . (int) $user_id . '
+						AND flair_id = ' . (int) $flair_id;
 			$this->db->sql_query($sql);
 			return;
 		}
 
 		$sql = 'SELECT old_count
 				FROM ' . $this->notification_table . '
-				WHERE user_id = ' . $user_id . '
-					AND flair_id = ' . $flair_id;
+				WHERE user_id = ' . (int) $user_id . '
+					AND flair_id = ' . (int) $flair_id;
 		$this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow();
 		$this->db->sql_freeresult();
@@ -386,8 +381,8 @@ class user extends operator implements user_interface
 			if ($new_count <= (int) $row['old_count'])
 			{
 				$sql = 'DELETE FROM ' . $this->notification_table . '
-						WHERE user_id = ' . $user_id . '
-							AND flair_id = ' . $flair_id;
+						WHERE user_id = ' . (int) $user_id . '
+							AND flair_id = ' . (int) $flair_id;
 				$this->db->sql_query($sql);
 				return;
 			}
@@ -398,8 +393,8 @@ class user extends operator implements user_interface
 			);
 			$sql = 'UPDATE ' . $this->notification_table . '
 					SET ' . $this->db->sql_build_array('UPDATE', $data) . '
-					WHERE user_id = ' . $user_id . '
-						AND flair_id = ' . $flair_id;
+					WHERE user_id = ' . (int) $user_id . '
+						AND flair_id = ' . (int) $flair_id;
 			$this->db->sql_query($sql);
 			return;
 		}
