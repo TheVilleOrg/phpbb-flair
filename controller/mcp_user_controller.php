@@ -102,7 +102,7 @@ class mcp_user_controller extends acp_base_controller implements mcp_user_interf
 
 		if (!$userrow)
 		{
-			trigger_error($this->language->lang('NO_USER') . adm_back_link($this->u_action), E_USER_WARNING);
+			trigger_error($this->language->lang('NO_USER'), E_USER_WARNING);
 		}
 
 		$user_id = (int) $userrow['user_id'];
