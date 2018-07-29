@@ -68,7 +68,12 @@ class flair extends base
 
 	public function get_title()
 	{
-		return $this->language->lang('FLAIR_NOTIFICATION_TITLE', $this->get_data('flair_name'));
+		return $this->language->lang('FLAIR_NOTIFICATION_TITLE');
+	}
+
+	public function get_reference()
+	{
+		return $this->get_data('flair_name');
 	}
 
 	public function get_url()
