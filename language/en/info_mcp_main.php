@@ -3,7 +3,7 @@
  *
  * Profile Flair. An extension for the phpBB Forum Software package.
  *
- * @copyright (c) 2017, Steve Guidetti, https://github.com/stevotvr
+ * @copyright (c) 2018, Steve Guidetti, https://github.com/stevotvr
  * @license GNU General Public License, version 2 (GPL-2.0)
  *
  */
@@ -40,13 +40,12 @@ if (empty($lang) || !is_array($lang))
 $lang = array_merge($lang, array(
 	'MCP_FLAIR_TITLE'	=> 'Profile Flair',
 
-	'MCP_FLAIR_MANAGE_USERS'			=> 'Manage users’ flair',
-	'MCP_FLAIR_MANAGE_USERS_EXPLAIN'	=> 'Here you can manage profile flair assigned to a user’s profile.',
-	'MCP_FLAIR_USER'					=> '%s’s flair',
-	'MCP_FLAIR_AVAILABLE'				=> 'Available flair',
-	'MCP_FLAIR_NO_FLAIR'				=> 'No flair is assigned to this user’s profile.',
-	'MCP_FLAIR_NO_AVAILABLE'			=> 'There are no flair items available.',
-	'MCP_FLAIR_ADD_TITLE'				=> 'Add the specified number of “%1$s” to %2$s’s profile',
-	'MCP_FLAIR_REMOVE_TITLE'			=> 'Remove the specified number of “%1$s” from %2$s’s profile',
-	'MCP_FLAIR_REMOVE_ALL_TITLE'		=> 'Remove all “%1$s” from %2$s’s profile',
+	'MCP_FLAIR_MANAGE_USERS'		=> 'Manage users’ flair',
+	'MCP_FLAIR_USER'				=> '%s’s flair',
+	'MCP_FLAIR_AVAILABLE'			=> 'Available flair',
+	'MCP_FLAIR_NO_FLAIR'			=> 'No flair is assigned to this user’s profile.',
+	'MCP_FLAIR_NO_AVAILABLE'		=> 'There are no flair items available.',
+	'MCP_FLAIR_ADD_TITLE'			=> 'Add the specified number of “%1$s” to %2$s’s profile',
+	'MCP_FLAIR_REMOVE_TITLE'		=> 'Remove the specified number of “%1$s” from %2$s’s profile',
+	'MCP_FLAIR_REMOVE_ALL_TITLE'	=> 'Remove all “%1$s” from %2$s’s profile',
 ));
