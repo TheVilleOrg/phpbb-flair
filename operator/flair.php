@@ -191,9 +191,9 @@ class flair extends operator implements flair_interface
 		}
 		$this->db->sql_freeresult();
 
-		foreach($flair as &$category)
+		foreach ($flair as &$category)
 		{
-			foreach($category['items'] as &$item)
+			foreach ($category['items'] as &$item)
 			{
 				$item['count'] = (int) in_array($item['flair']->get_id(), $user_flair_ids);
 			}
