@@ -19,11 +19,12 @@ interface user_interface
 	 * Add a flair item to a user. This will add the item or increment the count if it already
 	 * exists.
 	 *
-	 * @param int $user_id  The database ID of the user
-	 * @param int $flair_id The database ID of the flair item
-	 * @param int $count    The number by which to increment
+	 * @param int     $user_id  The database ID of the user
+	 * @param int     $flair_id The database ID of the flair item
+	 * @param int     $count    The number by which to increment
+	 * @param boolean $notify   Notify the user
 	 */
-	public function add_flair($user_id, $flair_id, $count = 1);
+	public function add_flair($user_id, $flair_id, $count = 1, $notify = true);
 
 	/**
 	 * Remove a flair item from a user. This will either decrement the count or delete the item
@@ -38,11 +39,12 @@ interface user_interface
 	/**
 	 * Set the count on a flair item for a user.
 	 *
-	 * @param int $user_id  The database ID of the user
-	 * @param int $flair_id The database ID of the flair item
-	 * @param int $count    The count to set
+	 * @param int     $user_id  The database ID of the user
+	 * @param int     $flair_id The database ID of the flair item
+	 * @param int     $count    The count to set
+	 * @param boolean $notify   Notify the user if the count is increased
 	 */
-	public function set_flair_count($user_id, $flair_id, $count);
+	public function set_flair_count($user_id, $flair_id, $count, $notify = true);
 
 	/**
 	 * Get the flair for a user.

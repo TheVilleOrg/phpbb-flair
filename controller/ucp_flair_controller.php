@@ -124,11 +124,11 @@ class ucp_flair_controller extends acp_base_controller implements ucp_flair_inte
 
 			if ($change === 'add')
 			{
-				$this->user_operator->set_flair_count($user_id, $id, 1);
+				$this->user_operator->set_flair_count($user_id, $id, 1, false);
 			}
 			else if ($change === 'remove')
 			{
-				$this->user_operator->set_flair_count($user_id, $id, 0);
+				$this->user_operator->set_flair_count($user_id, $id, 0, false);
 			}
 		}
 

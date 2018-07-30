@@ -41,7 +41,7 @@ class user extends operator implements user_interface
 		$this->notification_table = $notification_table;
 	}
 
-	public function add_flair($user_id, $flair_id, $count = 1)
+	public function add_flair($user_id, $flair_id, $count = 1, $notify = true)
 	{
 		if ($count < 1)
 		{
@@ -53,12 +53,21 @@ class user extends operator implements user_interface
 		if ($old_count !== false)
 		{
 			$this->update_count($user_id, $flair_id, $old_count + $count);
-			$this->notify_user($user_id, $flair_id, $old_count, $old_count + $count);
+
+			if ($notify)
+			{
+				$this->notify_user($user_id, $flair_id, $old_count, $old_count + $count);
+			}
+
 			return;
 		}
 
 		$this->insert_row($user_id, $flair_id, $count);
-		$this->notify_user($user_id, $flair_id, 0, $count);
+
+		if ($notify)
+		{
+			$this->notify_user($user_id, $flair_id, 0, $count);
+		}
 	}
 
 	public function remove_flair($user_id, $flair_id, $count = 1)
@@ -84,7 +93,7 @@ class user extends operator implements user_interface
 		}
 	}
 
-	public function set_flair_count($user_id, $flair_id, $count)
+	public function set_flair_count($user_id, $flair_id, $count, $notify = true)
 	{
 		if ($count < 1)
 		{
@@ -98,12 +107,21 @@ class user extends operator implements user_interface
 		if ($old_count !== false)
 		{
 			$this->update_count($user_id, $flair_id, $count);
-			$this->notify_user($user_id, $flair_id, $old_count, $count);
+
+			if ($notify)
+			{
+				$this->notify_user($user_id, $flair_id, $old_count, $count);
+			}
+
 			return;
 		}
 
 		$this->insert_row($user_id, $flair_id, $count);
-		$this->notify_user($user_id, $flair_id, 0, $count);
+
+		if ($notify)
+		{
+			$this->notify_user($user_id, $flair_id, 0, $count);
+		}
 	}
 
 	public function get_flair($user_id)
