@@ -23,7 +23,6 @@ class flair_module
 	{
 		global $phpbb_container;
 		$controller = $phpbb_container->get('stevotvr.flair.controller.ucp.flair');
-		$request = $phpbb_container->get('request');
 
 		$this->tpl_name = 'ucp_flair';
 		$this->page_title = 'UCP_FLAIR';
