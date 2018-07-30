@@ -42,6 +42,9 @@ $lang = array_merge($lang, array(
 
 	'ACP_FLAIR_SETTINGS'					=> 'Settings',
 	'ACP_FLAIR_SETTINGS_TITLE'				=> 'Profile Flair settings',
+	'ACP_FLAIR_OPTIONS'						=> 'General options',
+	'ACP_FLAIR_NOTIFY_USERS'				=> 'Enable notifications',
+	'ACP_FLAIR_NOTIFY_USERS_EXPLAIN'		=> 'Enable to allow users to receive notifications when new flair is added to their profile.',
 	'ACP_FLAIR_DISPLAY_OPTIONS'				=> 'Display options',
 	'ACP_FLAIR_SHOW_ON_PROFILE'				=> 'Display on profiles',
 	'ACP_FLAIR_SHOW_ON_PROFILE_EXPLAIN'		=> 'Enable to have flair displayed on profile pages.',

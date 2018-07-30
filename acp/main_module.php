@@ -75,6 +75,12 @@ class main_module
 				trigger_error('FORM_INVALID');
 			}
 
+			$notify_users = $this->request->variable('flair_notify_users', '');
+			if (strlen($notify_users))
+			{
+				$config->set('stevotvr_flair_notify_users', $notify_users ? 1 : 0);
+			}
+
 			$show_on_profile = $this->request->variable('flair_show_on_profile', '');
 			if (strlen($show_on_profile))
 			{
@@ -91,6 +97,7 @@ class main_module
 		}
 
 		$template->assign_vars(array(
+			'FLAIR_NOTIFY_USERS'	=> $config['stevotvr_flair_notify_users'],
 			'FLAIR_SHOW_ON_PROFILE'	=> $config['stevotvr_flair_show_on_profile'],
 			'FLAIR_SHOW_ON_POSTS'	=> $config['stevotvr_flair_show_on_posts'],
 

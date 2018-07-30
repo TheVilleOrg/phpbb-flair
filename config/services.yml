@@ -170,6 +170,7 @@ services:
         calls:
             - method: setup
               arguments:
+                - '@config'
                 - '@controller.helper'
                 - '@user_loader'
         tags:

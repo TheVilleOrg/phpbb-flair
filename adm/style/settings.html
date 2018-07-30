@@ -12,6 +12,13 @@
 {% endif %}
 
 <form id="flair_settings" method="post" action="{{ U_ACTION }}">
+	<fieldset>
+		<legend>{{ lang('ACP_FLAIR_OPTIONS') }}</legend>
+		<dl>
+			<dt><label for="flair_notify_users">{{ lang('ACP_FLAIR_NOTIFY_USERS') ~ lang('COLON') }}</label><br /><span>{{ lang('ACP_FLAIR_NOTIFY_USERS_EXPLAIN') }}</span></dt>
+			<dd><label><input type="radio" id="flair_notify_users" name="flair_notify_users" value="1"{% if FLAIR_NOTIFY_USERS %} checked="checked"{% endif %} class="radio" /> {{ lang('YES') }}</label><label><input type="radio" name="flair_notify_users" value="0"{% if not FLAIR_NOTIFY_USERS %} checked="checked"{% endif %} class="radio" /> {{ lang('NO') }}</label></dd>
+		</dl>
+	</fieldset>
 	{% include '@stevotvr_flair/display_options.html' %}
 	<fieldset>
 		<legend>{{ lang('ACP_SUBMIT_CHANGES') }}</legend>

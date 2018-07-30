@@ -10,6 +10,7 @@
 
 namespace stevotvr\flair\notification\type;
 
+use phpbb\config\config;
 use phpbb\controller\helper;
 use phpbb\notification\type\base;
 use phpbb\user_loader;
@@ -24,6 +25,11 @@ class flair extends base
 	);
 
 	/**
+	 * @var \phpbb\config\config
+	 */
+	protected $config;
+
+	/**
 	 * @var \phpbb\controller\helper
 	 */
 	protected $helper;
@@ -36,11 +42,13 @@ class flair extends base
 	/**
 	 * Set up the notification type.
 	 *
+	 * @param \phpbb\config\config     $config
 	 * @param \phpbb\controller\helper $helper
 	 * @param \phpbb\user_loader       $user_loader
 	 */
-	public function setup(helper $helper, user_loader $user_loader)
+	public function setup(config $config, helper $helper, user_loader $user_loader)
 	{
+		$this->config = $config;
 		$this->helper = $helper;
 		$this->user_loader = $user_loader;
 	}
@@ -58,6 +66,11 @@ class flair extends base
 	public static function get_item_parent_id($data)
 	{
 		return 0;
+	}
+
+	public function is_available()
+	{
+		return (bool) $this->config['stevotvr_flair_notify_users'];
 	}
 
 	public function find_users_for_notification($data, $options = array())
