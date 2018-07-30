@@ -139,22 +139,4 @@ class flair extends operator implements flair_interface
 
 		return $group_ids;
 	}
-
-	public function get_flair_name($flair_id)
-	{
-		$flair_name = '';
-
-		$sql = 'SELECT flair_name
-				FROM ' . $this->flair_table . '
-				WHERE flair_id = ' . (int) $flair_id;
-		$result = $this->db->sql_query($sql);
-		$row = $this->db->sql_fetchrow($result);
-		if ($row )
-		{
-			$flair_name = $row['flair_name'];
-		}
-		$this->db->sql_freeresult($result);
-
-		return $flair_name;
-	}
 }

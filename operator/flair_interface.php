@@ -68,13 +68,4 @@ interface flair_interface
 	 * @return array The list of group database IDs
 	 */
 	public function get_assigned_groups($flair_id);
-
-	/**
-	 * Get the name of a flair item.
-	 *
-	 * @param int $flair_id The database ID of the flair item
-	 *
-	 * @return string The name of the flair item.
-	 */
-	public function get_flair_name($flair_id);
 }
