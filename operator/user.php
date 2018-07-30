@@ -199,7 +199,8 @@ class user extends operator implements user_interface
 			return;
 		}
 
-		$where = $this->db->sql_in_set('g.group_id', array_keys($memberships));
+		$where = 'f.flair_groups_auto = 1 AND ';
+		$where .= $this->db->sql_in_set('g.group_id', array_keys($memberships));
 		if (in_array($filter, array('profile', 'posts')))
 		{
 			$where .= ' AND (c.cat_display_' . $filter . ' <> 0 OR c.cat_id IS NULL)';

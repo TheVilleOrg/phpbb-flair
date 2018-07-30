@@ -47,6 +47,7 @@ class flair extends entity implements flair_interface
 		'flair_icon_color'				=> 'set_icon_color',
 		'flair_font_color'				=> 'set_font_color',
 		'flair_img'						=> 'set_img',
+		'flair_groups_auto'				=> 'boolean',
 	);
 
 	protected $id_column = 'flair_id';
@@ -331,6 +332,18 @@ class flair extends entity implements flair_interface
 		}
 
 		$this->data['flair_img'] = $img_name;
+
+		return $this;
+	}
+
+	public function is_groups_auto()
+	{
+		return isset($this->data['flair_groups_auto']) ? (bool) $this->data['flair_groups_auto'] : true;
+	}
+
+	public function set_groups_auto($enable)
+	{
+		$this->data['flair_groups_auto'] = (bool) $enable;
 
 		return $this;
 	}

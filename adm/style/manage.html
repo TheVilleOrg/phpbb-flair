@@ -254,7 +254,7 @@
 			</dl>
 		</fieldset>
 		<fieldset>
-			<legend>{{ lang('ACP_FLAIR_AUTO_ASSIGN') }}</legend>
+			<legend>{{ lang('ACP_FLAIR_FORM_GROUPS') }}</legend>
 			<dl>
 				<dt><label for="flair_groups">{{ lang('ACP_FLAIR_FORM_GROUPS') ~ lang('COLON')}}</label><br /><span>{{ lang('ACP_FLAIR_GROUPS_EXPLAIN') }}</span></dt>
 				<dd>
@@ -265,6 +265,13 @@
 					</select>
 				</dd>
 			</dl>
+			<dl>
+				<dt><label for="flair_groups_auto">{{ lang('ACP_FLAIR_FORM_GROUPS_AUTO') ~ lang('COLON') }}</label><br /><span>{{ lang('ACP_FLAIR_GROUPS_AUTO_EXPLAIN') }}</span></dt>
+				<dd><label><input type="radio" id="flair_groups_auto" name="flair_groups_auto" value="1"{% if FLAIR_GROUPS_AUTO %} checked="checked"{% endif %} class="radio" /> {{ lang('YES') }}</label><label><input type="radio" name="flair_groups_auto" value="0"{% if not FLAIR_GROUPS_AUTO %} checked="checked"{% endif %} class="radio" /> {{ lang('NO') }}</label></dd>
+			</dl>
+		</fieldset>
+		<fieldset>
+			<legend>{{ lang('ACP_FLAIR_AUTO_ASSIGN') }}</legend>
 			{% for t in trigger %}
 				<dl>
 					<dt><label for="flair_trigger_{{ t.TRIG_KEY }}">{{ t.TRIG_NAME ~ lang('COLON') }}</label>{% if t.TRIG_EXPLAIN %}<br /><span>{{ t.TRIG_EXPLAIN }}</span>{% endif %}</dt>

@@ -202,4 +202,16 @@ interface flair_interface extends entity_interface
 	 * @return flair_interface This object for chaining
 	 */
 	public function set_img($img_path);
+
+	/**
+	 * @return boolean Groups auto-assignment is enabled
+	 */
+	public function is_groups_auto();
+
+	/**
+	 * @param boolean $enable Enable group auto-assignment
+	 *
+	 * @return flair_interface This object for chaining
+	 */
+	public function set_groups_auto($enable);
 }

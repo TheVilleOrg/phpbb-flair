@@ -42,6 +42,11 @@ class version_1_2_0 extends migration
 					),
 				),
 			),
+			'add_columns'	=> array(
+				$this->table_prefix . 'flair' => array(
+					'flair_groups_auto'	=> array('BOOL', 1),
+				),
+			),
 		);
 	}
 
@@ -50,6 +55,11 @@ class version_1_2_0 extends migration
 		return array(
 			'drop_tables'   => array(
 				$this->table_prefix . 'flair_notif',
+			),
+			'drop_columns'	=> array(
+				$this->table_prefix . 'flair' => array(
+					'flair_groups_auto',
+				),
 			),
 		);
 	}

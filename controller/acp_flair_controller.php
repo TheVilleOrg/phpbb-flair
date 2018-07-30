@@ -156,6 +156,7 @@ class acp_flair_controller extends acp_base_controller implements acp_flair_inte
 			'icon_color'	=> $this->request->variable('flair_icon_color', ''),
 			'font_color'	=> $this->request->variable('flair_font_color', ''),
 			'img'			=> $this->request->variable('flair_img', ''),
+			'groups_auto'	=> $this->request->variable('flair_groups_auto', true),
 		);
 
 		$this->set_parse_options($entity, $submit);
@@ -215,6 +216,7 @@ class acp_flair_controller extends acp_base_controller implements acp_flair_inte
 			'FLAIR_IMG'			=> $entity->get_img(1),
 			'FLAIR_IMG_X2'		=> $entity->get_img(2),
 			'FLAIR_FONT_COLOR'	=> $entity->get_font_color(),
+			'FLAIR_GROUPS_AUTO'	=> $entity->is_groups_auto(),
 			'FLAIR_IMG_PATH'	=> $this->img_path,
 
 			'S_PARSE_BBCODE_CHECKED'	=> $entity->is_bbcode_enabled(),
