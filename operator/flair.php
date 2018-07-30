@@ -139,4 +139,82 @@ class flair extends operator implements flair_interface
 
 		return $group_ids;
 	}
+
+	public function get_group_flair($group_ids = array())
+	{
+		$group_ids = (array) $group_ids;
+		$flair = array();
+
+		if (empty($group_ids))
+		{
+			return $flair;
+		}
+
+		$flair_ids = array();
+		$sql = 'SELECT flair_id
+				FROM ' . $this->group_table . '
+				WHERE ' . $this->db->sql_in_set('group_id', $group_ids);
+		$this->db->sql_query($sql);
+		while ($row = $this->db->sql_fetchrow())
+		{
+			$flair_ids[] = (int) $row['flair_id'];
+		}
+		$this->db->sql_freeresult();
+
+		$sql_ary = array(
+			'SELECT'	=> 'f.*, c.*',
+			'FROM'		=> array($this->flair_table => 'f'),
+			'LEFT_JOIN'	=> array(
+				array(
+					'FROM'	=> array($this->cat_table => 'c'),
+					'ON'	=> 'c.cat_id = f.flair_category',
+				),
+			),
+			'WHERE'		=> 'f.flair_groups_auto = 0 AND ' . $this->db->sql_in_set('f.flair_id', $flair_ids),
+		);
+		$sql = $this->db->sql_build_query('SELECT', $sql_ary);
+		$this->db->sql_query($sql);
+		while ($row = $this->db->sql_fetchrow())
+		{
+			$this->import_flair_item($flair, $row);
+		}
+		$this->db->sql_freeresult();
+
+		$user_flair_ids = array();
+		$sql = 'SELECT flair_id
+				FROM ' . $this->user_table . '
+				WHERE ' . $this->db->sql_in_set('flair_id', $flair_ids);
+		$this->db->sql_query($sql);
+		while ($row = $this->db->sql_fetchrow())
+		{
+			$user_flair_ids[] = (int) $row['flair_id'];
+		}
+		$this->db->sql_freeresult();
+
+		foreach($flair as &$category)
+		{
+			foreach($category['items'] as &$item)
+			{
+				$item['count'] = (int) in_array($item['flair']->get_id(), $user_flair_ids);
+			}
+		}
+
+		self::sort_flair($flair);
+
+		return $flair;
+	}
+
+	/**
+	 * Sort a flair array.
+	 *
+	 * @param array &$flair The flair array to sort
+	 */
+	static protected function sort_flair(array &$flair)
+	{
+		usort($flair, array('self', 'cmp_cats'));
+		foreach ($flair as &$category)
+		{
+			usort($category['items'], array('self', 'cmp_items'));
+		}
+	}
 }

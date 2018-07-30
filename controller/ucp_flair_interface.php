@@ -15,4 +15,8 @@ namespace stevotvr\flair\controller;
  */
 interface ucp_flair_interface extends acp_base_interface
 {
+	/**
+	 * Handle self flair editing.
+	 */
+	public function edit_flair();
 }

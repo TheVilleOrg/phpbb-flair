@@ -68,4 +68,16 @@ interface flair_interface
 	 * @return array The list of group database IDs
 	 */
 	public function get_assigned_groups($flair_id);
+
+	/**
+	 * Get the available flair for a list of group IDs.
+	 *
+	 * @param array $group_ids The list of group IDs
+	 *
+	 * @return array An associative array of arrays of flair rows
+	 *                  flair_parent
+	 *                     count int
+	 *                     flair \stevotvr\flair\entity\flair
+	 */
+	public function get_group_flair($group_ids = array());
 }

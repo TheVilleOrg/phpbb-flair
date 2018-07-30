@@ -39,4 +39,11 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge($lang, array(
 	'UCP_FLAIR'	=> 'Manage profile flair',
+
+	'UCP_USER_FLAIR'			=> 'Your flair',
+	'UCP_FLAIR_AVAILABLE'		=> 'Available flair',
+	'UCP_FLAIR_NO_FLAIR'		=> 'You have no flair',
+	'UCP_FLAIR_NO_AVAILABLE'	=> 'No flair is available',
+	'UCP_FLAIR_ADD'				=> 'Add %s',
+	'UCP_FLAIR_REMOVE'			=> 'Remove %s',
 ));

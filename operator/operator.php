@@ -82,4 +82,53 @@ abstract class operator
 		$this->trigger_table = $trigger_table;
 		$this->user_table = $user_table;
 	}
+
+	/**
+	 * Import a flair item from a database query result row.
+	 *
+	 * @param array &$flair The array to which to add the item
+	 * @param array $row    The database result row data
+	 */
+	protected function import_flair_item(array &$flair, array $row)
+	{
+		$entity = $this->container->get('stevotvr.flair.entity.category');
+		if ($row['cat_id'])
+		{
+			$entity->import($row);
+		}
+		$flair[(int) $row['flair_category']]['category'] = $entity;
+
+		$entity = $this->container->get('stevotvr.flair.entity.flair')->import($row);
+		$item = array(
+			'count'	=> isset($row['flair_count']) ? (int) $row['flair_count'] : 1,
+			'flair'	=> $entity,
+		);
+		$flair[(int) $row['flair_category']]['items'][(int) $row['flair_id']] = $item;
+	}
+
+	/**
+	 * Comparison function for sorting flair category arrays.
+	 *
+	 * @param array $a
+	 * @param array $b
+	 *
+	 * @return int
+	 */
+	static protected function cmp_cats($a, $b)
+	{
+		return $a['category']->get_order() - $b['category']->get_order();
+	}
+
+	/**
+	 * Comparison function for sorting flair item arrays.
+	 *
+	 * @param array $a
+	 * @param array $b
+	 *
+	 * @return int
+	 */
+	static protected function cmp_items($a, $b)
+	{
+		return $a['flair']->get_order() - $b['flair']->get_order();
+	}
 }

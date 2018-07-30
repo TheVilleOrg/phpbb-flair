@@ -29,5 +29,6 @@ class flair_module
 		$this->page_title = 'UCP_FLAIR';
 
 		$controller->set_page_url($this->u_action);
+		$controller->edit_flair();
 	}
 }
