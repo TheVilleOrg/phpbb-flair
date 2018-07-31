@@ -58,7 +58,7 @@ class user_module
 		$sql = 'SELECT user_id, username, user_colour
 				FROM ' . USERS_TABLE . '
 				WHERE ' . $where;
-		$result = $db->sql_query($sql);
+		$db->sql_query($sql);
 		$userrow = $db->sql_fetchrow();
 		$db->sql_freeresult();
 
