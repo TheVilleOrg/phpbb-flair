@@ -49,6 +49,9 @@ class version_1_2_0 extends migration
 				$this->table_prefix . 'flair_cats' => array(
 					'cat_display_limit'	=> array('UINT', 0),
 				),
+				$this->table_prefix . 'flair_users' => array(
+					'priority'	=> array('UINT', 0),
+				),
 			),
 		);
 	}
@@ -65,6 +68,9 @@ class version_1_2_0 extends migration
 				),
 				$this->table_prefix . 'flair_cats' => array(
 					'cat_display_limit',
+				),
+				$this->table_prefix . 'flair_users' => array(
+					'priority',
 				),
 			),
 		);

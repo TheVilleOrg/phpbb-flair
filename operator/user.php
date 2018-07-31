@@ -129,7 +129,7 @@ class user extends operator implements user_interface
 		$flair = array();
 
 		$sql_ary = array(
-			'SELECT'	=> 'f.*, c.*, u.flair_count',
+			'SELECT'	=> 'f.*, c.*, u.flair_count, u.priority',
 			'FROM'		=> array($this->user_table => 'u'),
 			'LEFT_JOIN'	=> array(
 				array(
@@ -142,7 +142,7 @@ class user extends operator implements user_interface
 				),
 			),
 			'WHERE'		=> 'u.user_id = ' . (int) $user_id,
-			'ORDER_BY'	=> 'c.cat_order ASC, c.cat_id ASC, f.flair_order ASC, f.flair_id ASC',
+			'ORDER_BY'	=> 'c.cat_order ASC, c.cat_id ASC, u.priority DESC, f.flair_order ASC, f.flair_id ASC',
 		);
 		$sql = $this->db->sql_build_query('SELECT', $sql_ary);
 		$result = $this->db->sql_query($sql);
@@ -170,7 +170,7 @@ class user extends operator implements user_interface
 		}
 
 		$sql_ary = array(
-			'SELECT'	=> 'f.*, c.*, u.user_id, u.flair_count',
+			'SELECT'	=> 'f.*, c.*, u.user_id, u.flair_count, u.priority',
 			'FROM'		=> array($this->user_table => 'u'),
 			'LEFT_JOIN'	=> array(
 				array(
@@ -197,8 +197,9 @@ class user extends operator implements user_interface
 		$this->db->sql_freeresult($result);
 
 		$this->get_group_flair($user_ids, $filter, $flair);
-		self::sort_flair($flair);
+		self::shuffle_flair($flair);
 		$this->trim_user_flair($flair);
+		self::sort_flair($flair);
 
 		return $flair;
 	}
@@ -486,5 +487,30 @@ class user extends operator implements user_interface
 				usort($category['items'], array('self', 'cmp_items'));
 			}
 		}
+	}
+
+	static protected function shuffle_flair(array &$flair)
+	{
+		foreach ($flair as &$user_flair)
+		{
+			foreach ($user_flair as &$category)
+			{
+				shuffle($category['items']);
+				usort($category['items'], array('self', 'cmp_items_priority'));
+			}
+		}
+	}
+
+	/**
+	 * Comparison function for sorting flair item arrays based on priority.
+	 *
+	 * @param array $a
+	 * @param array $b
+	 *
+	 * @return int
+	 */
+	static protected function cmp_items_priority($a, $b)
+	{
+		return $b['priority'] - $a['priority'];
 	}
 }

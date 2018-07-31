@@ -100,8 +100,9 @@ abstract class operator
 
 		$entity = $this->container->get('stevotvr.flair.entity.flair')->import($row);
 		$item = array(
-			'count'	=> isset($row['flair_count']) ? (int) $row['flair_count'] : 1,
-			'flair'	=> $entity,
+			'count'		=> isset($row['flair_count']) ? (int) $row['flair_count'] : 1,
+			'priority'	=> isset($row['priority']) ? (int) $row['priority'] : 0,
+			'flair'		=> $entity,
 		);
 		$flair[(int) $row['flair_category']]['items'][(int) $row['flair_id']] = $item;
 	}
