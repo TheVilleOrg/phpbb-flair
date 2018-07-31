@@ -81,9 +81,6 @@ services:
         calls:
             - method: setup
               arguments:
-                - '@config'
-                - '@dbal.conn'
-                - '@user'
                 - '@stevotvr.flair.operator.category'
                 - '@stevotvr.flair.operator.flair'
                 - '@stevotvr.flair.operator.user'

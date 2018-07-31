@@ -22,6 +22,8 @@ interface mcp_user_interface extends acp_base_interface
 
 	/**
 	 * Handle the user flair edit mode.
+	 *
+	 * @param array $userrow The data for the user being worked on
 	 */
-	public function edit_user_flair();
+	public function edit_user_flair(array $userrow);
 }

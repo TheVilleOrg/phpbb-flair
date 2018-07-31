@@ -10,9 +10,6 @@
 
 namespace stevotvr\flair\controller;
 
-use phpbb\config\config;
-use phpbb\db\driver\driver_interface;
-use phpbb\user;
 use stevotvr\flair\operator\category_interface;
 use stevotvr\flair\operator\flair_interface;
 use stevotvr\flair\operator\user_interface;
@@ -22,21 +19,6 @@ use stevotvr\flair\operator\user_interface;
  */
 class mcp_user_controller extends acp_base_controller implements mcp_user_interface
 {
-	/**
-	 * @var \phpbb\config\config
-	 */
-	protected $config;
-
-	/**
-	 * @var \phpbb\db\driver\driver_interface
-	 */
-	protected $db;
-
-	/**
-	 * @var \phpbb\user
-	 */
-	protected $user;
-
 	/**
 	 * @var \stevotvr\flair\operator\category_interface
 	 */
@@ -55,18 +37,12 @@ class mcp_user_controller extends acp_base_controller implements mcp_user_interf
 	/**
 	 * Set up the controller.
 	 *
-	 * @param \phpbb\config\config                        $config
-	 * @param \phpbb\db\driver\driver_interface           $db
-	 * @param \phpbb\user                                 $user
 	 * @param \stevotvr\flair\operator\category_interface $cat_operator
 	 * @param \stevotvr\flair\operator\flair_interface    $flair_operator
 	 * @param \stevotvr\flair\operator\user_interface     $user_operator
 	 */
-	public function setup(config $config, driver_interface $db, user $user, category_interface $cat_operator, flair_interface $flair_operator, user_interface $user_operator)
+	public function setup(category_interface $cat_operator, flair_interface $flair_operator, user_interface $user_operator)
 	{
-		$this->config = $config;
-		$this->db = $db;
-		$this->user = $user;
 		$this->cat_operator = $cat_operator;
 		$this->flair_operator = $flair_operator;
 		$this->user_operator = $user_operator;
@@ -87,26 +63,8 @@ class mcp_user_controller extends acp_base_controller implements mcp_user_interf
 		));
 	}
 
-	public function edit_user_flair()
+	public function edit_user_flair(array $userrow)
 	{
-		$user_id = $this->request->variable('user_id', 0);
-		$username = $this->request->variable('username', '', true);
-
-		$where = ($user_id) ? 'user_id = ' . (int) $user_id : "username_clean = '" . $this->db->sql_escape(utf8_clean_string($username)) . "'";
-		$sql = 'SELECT user_id, username, user_colour
-				FROM ' . USERS_TABLE . '
-				WHERE ' . $where;
-		$result = $this->db->sql_query($sql);
-		$userrow = $this->db->sql_fetchrow($result);
-		$this->db->sql_freeresult($result);
-
-		if (!$userrow)
-		{
-			trigger_error($this->language->lang('NO_USER'), E_USER_WARNING);
-		}
-
-		$user_id = (int) $userrow['user_id'];
-
 		add_form_key('edit_user_flair');
 
 		if ($this->request->is_set_post('add_flair'))
@@ -122,8 +80,8 @@ class mcp_user_controller extends acp_base_controller implements mcp_user_interf
 			$this->change_flair($user_id, 'remove_all', $userrow['username']);
 		}
 
-		$user_flair = $this->user_operator->get_flair($user_id);
-		$this->assign_tpl_vars($user_id, $userrow['username'], $userrow['user_colour'], $user_flair);
+		$user_flair = $this->user_operator->get_flair($userrow['user_id']);
+		$this->assign_tpl_vars($userrow['user_id'], $userrow['username'], $userrow['user_colour'], $user_flair);
 	}
 
 	/**
