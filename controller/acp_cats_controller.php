@@ -10,6 +10,7 @@
 
 namespace stevotvr\flair\controller;
 
+use phpbb\config\config;
 use stevotvr\flair\entity\category_interface as cat_entity;
 use stevotvr\flair\exception\base;
 use stevotvr\flair\operator\category_interface as cat_operator;
@@ -20,6 +21,11 @@ use stevotvr\flair\operator\category_interface as cat_operator;
 class acp_cats_controller extends acp_base_controller implements acp_cats_interface
 {
 	/**
+	 * @var \phpbb\config\config
+	 */
+	protected $config;
+
+	/**
 	 * @var \stevotvr\flair\operator\category_interface
 	 */
 	protected $cat_operator;
@@ -27,22 +33,28 @@ class acp_cats_controller extends acp_base_controller implements acp_cats_interf
 	/**
 	 * Set up the controller.
 	 *
+	 * @param \phpbb\config\config                        $config
 	 * @param \stevotvr\flair\operator\category_interface $cat_operator
 	 */
-	public function setup(cat_operator $cat_operator)
+	public function setup(config $config, cat_operator $cat_operator)
 	{
+		$this->config = $config;
 		$this->cat_operator = $cat_operator;
 	}
 
 	public function add_cat()
 	{
 		$entity = $this->container->get('stevotvr.flair.entity.category');
+
+		$show_on_profile = $this->config['stevotvr_flair_show_on_profile'];
+		$show_on_posts = $this->config['stevotvr_flair_show_on_posts'];
+
+		$entity->set_show_on_profile($show_on_profile);
+		$entity->set_show_on_posts($show_on_posts);
+
 		$this->add_edit_cat_data($entity);
 		$this->template->assign_vars(array(
 			'S_ADD_CAT'	=> true,
-
-			'FLAIR_SHOW_ON_PROFILE'	=> true,
-			'FLAIR_SHOW_ON_POSTS'	=> true,
 
 			'U_ACTION'	=> $this->u_action . '&amp;action=add_cat',
 		));
@@ -79,10 +91,13 @@ class acp_cats_controller extends acp_base_controller implements acp_cats_interf
 
 		add_form_key('add_edit_cat');
 
+		$show_on_profile = $this->config['stevotvr_flair_show_on_profile'];
+		$show_on_posts = $this->config['stevotvr_flair_show_on_posts'];
+
 		$data = array(
 			'name'				=> $this->request->variable('cat_name', '', true),
-			'show_on_profile'	=> $this->request->variable('flair_show_on_profile', 1),
-			'show_on_posts'		=> $this->request->variable('flair_show_on_posts', 1),
+			'show_on_profile'	=> $this->request->variable('flair_show_on_profile', $show_on_profile),
+			'show_on_posts'		=> $this->request->variable('flair_show_on_posts', $show_on_posts),
 		);
 
 		if ($submit)

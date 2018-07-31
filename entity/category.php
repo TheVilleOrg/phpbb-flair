@@ -81,7 +81,7 @@ class category extends entity implements category_interface
 	{
 		$show_on_profile = (bool) $show_on_profile;
 
-		$this->data['cat_display_profile'] = (int) $show_on_profile;
+		$this->data['cat_display_profile'] = $show_on_profile;
 
 		return $this;
 	}
@@ -95,7 +95,7 @@ class category extends entity implements category_interface
 	{
 		$show_on_posts = (bool) $show_on_posts;
 
-		$this->data['cat_display_posts'] = (int) $show_on_posts;
+		$this->data['cat_display_posts'] = $show_on_posts;
 
 		return $this;
 	}

@@ -50,6 +50,7 @@ services:
         calls:
             - method: setup
               arguments:
+                - '@config'
                 - '@stevotvr.flair.operator.category'
     stevotvr.flair.controller.acp.flair:
         class: stevotvr\flair\controller\acp_flair_controller
