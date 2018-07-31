@@ -50,6 +50,8 @@ $lang = array_merge($lang, array(
 	'ACP_FLAIR_SHOW_ON_PROFILE_EXPLAIN'		=> 'Enable to have flair displayed on profile pages.',
 	'ACP_FLAIR_SHOW_ON_POSTS'				=> 'Display on posts',
 	'ACP_FLAIR_SHOW_ON_POSTS_EXPLAIN'		=> 'Enable to have flair displayed in the user info section of each post.',
+	'ACP_FLAIR_DISPLAY_LIMIT'				=> 'Display limit',
+	'ACP_FLAIR_DISPLAY_LIMIT_EXPLAIN'		=> 'Limit the number of flair items to display on posts. Enter 0 for no limit.',
 	'ACP_FLAIR_SETTINGS_SAVED'				=> 'Profile Flair options saved successfully',
 
 	'ACP_FLAIR_MANAGE_CATS'				=> 'Manage categories',

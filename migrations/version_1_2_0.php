@@ -46,6 +46,9 @@ class version_1_2_0 extends migration
 				$this->table_prefix . 'flair' => array(
 					'flair_groups_auto'	=> array('BOOL', 1),
 				),
+				$this->table_prefix . 'flair_cats' => array(
+					'cat_display_limit'	=> array('UINT', 0),
+				),
 			),
 		);
 	}
@@ -60,6 +63,9 @@ class version_1_2_0 extends migration
 				$this->table_prefix . 'flair' => array(
 					'flair_groups_auto',
 				),
+				$this->table_prefix . 'flair_cats' => array(
+					'cat_display_limit',
+				),
 			),
 		);
 	}
@@ -67,6 +73,7 @@ class version_1_2_0 extends migration
 	public function update_data()
 	{
 		return array(
+			array('config.add', array('stevotvr_flair_display_limit', 0)),
 			array('config.add', array('stevotvr_flair_notify_users', 1)),
 			array('config.add', array('stevotvr_flair_cron_last_run', 0)),
 

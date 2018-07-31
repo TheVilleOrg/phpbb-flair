@@ -48,9 +48,11 @@ class acp_cats_controller extends acp_base_controller implements acp_cats_interf
 
 		$show_on_profile = $this->config['stevotvr_flair_show_on_profile'];
 		$show_on_posts = $this->config['stevotvr_flair_show_on_posts'];
+		$display_limit = $this->config['stevotvr_flair_display_limit'];
 
 		$entity->set_show_on_profile($show_on_profile);
 		$entity->set_show_on_posts($show_on_posts);
+		$entity->set_display_limit($display_limit);
 
 		$this->add_edit_cat_data($entity);
 		$this->template->assign_vars(array(
@@ -93,11 +95,13 @@ class acp_cats_controller extends acp_base_controller implements acp_cats_interf
 
 		$show_on_profile = $this->config['stevotvr_flair_show_on_profile'];
 		$show_on_posts = $this->config['stevotvr_flair_show_on_posts'];
+		$display_limit = $this->config['stevotvr_flair_display_limit'];
 
 		$data = array(
 			'name'				=> $this->request->variable('cat_name', '', true),
 			'show_on_profile'	=> $this->request->variable('flair_show_on_profile', $show_on_profile),
 			'show_on_posts'		=> $this->request->variable('flair_show_on_posts', $show_on_posts),
+			'display_limit'		=> $this->request->variable('flair_display_limit', $display_limit),
 		);
 
 		if ($submit)
@@ -145,6 +149,7 @@ class acp_cats_controller extends acp_base_controller implements acp_cats_interf
 			'CAT_NAME'				=> $entity->get_name(),
 			'FLAIR_SHOW_ON_PROFILE'	=> $entity->show_on_profile(),
 			'FLAIR_SHOW_ON_POSTS'	=> $entity->show_on_posts(),
+			'FLAIR_DISPLAY_LIMIT'	=> $entity->get_display_limit(),
 
 			'U_BACK'	=> $this->u_action . '&amp;cat_id=' . $entity->get_id(),
 		));

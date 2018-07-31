@@ -25,6 +25,7 @@ class category extends entity implements category_interface
 		'cat_order'				=> 'set_order',
 		'cat_display_profile'	=> 'set_show_on_profile',
 		'cat_display_posts'		=> 'set_show_on_posts',
+		'cat_display_limit'		=> 'integer',
 	);
 
 	protected $id_column = 'cat_id';
@@ -96,6 +97,20 @@ class category extends entity implements category_interface
 		$show_on_posts = (bool) $show_on_posts;
 
 		$this->data['cat_display_posts'] = $show_on_posts;
+
+		return $this;
+	}
+
+	public function get_display_limit()
+	{
+		return isset($this->data['cat_display_limit']) ? (int) $this->data['cat_display_limit'] : 0;
+	}
+
+	public function set_display_limit($display_limit)
+	{
+		$display_limit = (int) $display_limit;
+
+		$this->data['cat_display_limit'] = max(0, min(16777215, $display_limit));
 
 		return $this;
 	}

@@ -67,4 +67,16 @@ interface category_interface extends entity_interface
 	 * @return flair_interface This object for chaining
 	 */
 	public function set_show_on_posts($show_on_posts);
+
+	/**
+	 * @return int The limit of items to display on posts from this category
+	 */
+	public function get_display_limit();
+
+	/**
+	 * @param int The limit of items to display on posts from this category
+	 *
+	 * @return flair_interface This object for chaining
+	 */
+	public function set_display_limit($display_limit);
 }

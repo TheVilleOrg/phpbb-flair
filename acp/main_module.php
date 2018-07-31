@@ -100,6 +100,12 @@ class main_module
 				$config->set('stevotvr_flair_show_on_posts', $show_on_posts ? 1 : 0);
 			}
 
+			$display_limit = $this->request->variable('flair_display_limit', '');
+			if (strlen($display_limit))
+			{
+				$config->set('stevotvr_flair_display_limit', (int) $display_limit);
+			}
+
 			trigger_error($this->language->lang('ACP_FLAIR_SETTINGS_SAVED') . adm_back_link($this->u_action));
 		}
 
@@ -107,6 +113,7 @@ class main_module
 			'FLAIR_NOTIFY_USERS'	=> $config['stevotvr_flair_notify_users'],
 			'FLAIR_SHOW_ON_PROFILE'	=> $config['stevotvr_flair_show_on_profile'],
 			'FLAIR_SHOW_ON_POSTS'	=> $config['stevotvr_flair_show_on_posts'],
+			'FLAIR_DISPLAY_LIMIT'	=> $config['stevotvr_flair_display_limit'],
 
 			'U_ACTION'	=> $this->u_action,
 		));
