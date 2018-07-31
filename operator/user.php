@@ -198,6 +198,7 @@ class user extends operator implements user_interface
 
 		$this->get_group_flair($user_ids, $filter, $flair);
 		self::sort_flair($flair);
+		$this->trim_user_flair($flair);
 
 		return $flair;
 	}
@@ -441,6 +442,33 @@ class user extends operator implements user_interface
 		$sql = 'INSERT INTO ' . $this->notification_table . '
 				' . $this->db->sql_build_array('INSERT', $data);
 		$this->db->sql_query($sql);
+	}
+
+	/**
+	 * Trim the user flair based on the display limit of each category.
+	 *
+	 * @param array &$flair The flair array to trim
+	 */
+	protected function trim_user_flair(array &$flair)
+	{
+		if (empty($flair))
+		{
+			return;
+		}
+
+		$default_limit = (int) $this->config['stevotvr_flair_display_limit'];
+
+		foreach ($flair as &$user_flair)
+		{
+			foreach ($user_flair as $id => &$category)
+			{
+				$limit = $id > 0 ? $category['category']->get_display_limit() : $default_limit;
+				if ($limit > 0)
+				{
+					$category['items'] = array_slice($category['items'], 0, $limit);
+				}
+			}
+		}
 	}
 
 	/**
