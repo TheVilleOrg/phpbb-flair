@@ -69,15 +69,15 @@ class mcp_user_controller extends acp_base_controller implements mcp_user_interf
 
 		if ($this->request->is_set_post('add_flair'))
 		{
-			$this->change_flair($user_id, 'add', $userrow['username']);
+			$this->change_flair($userrow['user_id'], 'add', $userrow['username']);
 		}
 		else if ($this->request->is_set_post('remove_flair'))
 		{
-			$this->change_flair($user_id, 'remove', $userrow['username']);
+			$this->change_flair($userrow['user_id'], 'remove', $userrow['username']);
 		}
 		else if ($this->request->is_set_post('remove_all_flair'))
 		{
-			$this->change_flair($user_id, 'remove_all', $userrow['username']);
+			$this->change_flair($userrow['user_id'], 'remove_all', $userrow['username']);
 		}
 
 		$user_flair = $this->user_operator->get_flair($userrow['user_id']);
@@ -97,7 +97,7 @@ class mcp_user_controller extends acp_base_controller implements mcp_user_interf
 		$this->template->assign_vars(array(
 			'USER_FLAIR_TITLE'	=> $this->language->lang('MCP_FLAIR_USER_FLAIR', get_username_string('full', $user_id, $username, $user_colour)),
 
-			'U_ACTION'	=> $this->u_action . '&amp;user_id=' . $user_id,
+			'U_ACTION'	=> $this->u_action . '&amp;u=' . $user_id,
 		));
 
 		$this->assign_flair_tpl_vars($username);
@@ -222,6 +222,6 @@ class mcp_user_controller extends acp_base_controller implements mcp_user_interf
 			$this->user_operator->{$change . '_flair'}($user_id, $id, $count);
 		}
 
-		redirect($this->u_action . '&amp;user_id=' . $user_id);
+		redirect($this->u_action . '&amp;u=' . $user_id);
 	}
 }

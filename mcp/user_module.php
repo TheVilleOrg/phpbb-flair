@@ -37,12 +37,6 @@ class user_module
 
 		$controller->set_page_url($this->u_action);
 
-		if ($mode === 'front')
-		{
-			$controller->find_user();
-			return;
-		}
-
 		$user_id = $request->variable('u', 0);
 		$username = $request->variable('username', '', true);
 
@@ -74,6 +68,12 @@ class user_module
 		{
 			$this->p_master->adjust_url('&amp;u=' . $user_id);
 			$this->u_action .= '&amp;u=' . $user_id;
+		}
+
+		if (!$user_id)
+		{
+			$controller->find_user();
+			return;
 		}
 
 		$controller->edit_user_flair($userrow);
