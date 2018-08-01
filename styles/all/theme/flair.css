@@ -54,26 +54,33 @@
 }
 
 .flair-tile {
+	border: 1px solid #aaa;
 	float: left;
-	width: 150px;
-	position: relative;
 	margin: 4px;
 	padding: 4px 6px;
-	border: 1px solid #aaa;
+	position: relative;
+	width: 150px;
 }
 
 .flair-tile .flair-item {
 	float: left;
 }
 
-.flair-tile .flair-controls {
+.flair-tile h5 {
 	float: left;
-	overflow: hidden;
+	margin-left: 2px;
+	margin-bottom: 2px;
+	white-space: nowrap;
 }
 
-.flair-tile .flair-remove {
+.flair-tile .flair-buttons {
+	bottom: 4px;
 	position: absolute;
 	right: 4px;
+}
+
+.flair-tile .flair-fav {
+	font-family: FontAwesome;
 }
 
 .flair-tile .inputbox {

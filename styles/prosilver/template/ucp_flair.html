@@ -15,16 +15,16 @@
 					{% if c.CAT_NAME %}<h4>{{ c.CAT_NAME }}</h4>{% endif %}
 
 					{% for item in c.items %}
-					<span class="flair-tile">
+					<div class="flair-tile">
 						<div class="flair-item">
 							{% include '@stevotvr_flair/flair_item.html' with item %}
 						</div>
-						<div class="flair-controls">
+						<h5 title="{{ item.FLAIR_NAME }}">{{ item.FLAIR_NAME_SHORT }}</h5>
+						<span class="flair-buttons">
+							<input type="submit" name="{% if item.FLAIR_FAV %}unfav{% else %}fav{% endif %}_flair[{{ item.FLAIR_ID }}]" value="{% if item.FLAIR_FAV %}&#xf005;{% else %}&#xf006;{% endif %}" class="button1 flair-fav" title="{{ item.FAV_TITLE }}" />
 							{% if item.S_IS_FREE %}<input type="submit" name="remove_flair[{{ item.FLAIR_ID }}]" value="&times;" class="button1 flair-remove" title="{{ item.REMOVE_TITLE }}" />{% endif %}
-							<h5>{{ item.FLAIR_NAME }}</h5>
-							<input type="submit" style="font-family: FontAwesome" name="{% if item.FLAIR_FAV %}unfav{% else %}fav{% endif %}_flair[{{ item.FLAIR_ID }}]" value="{% if item.FLAIR_FAV %}&#xf005;{% else %}&#xf006;{% endif %}" class="button1" title="{{ item.FAV_TITLE }}" />
-						</div>
-					</span>
+						</span>
+					</div>
 					{% endfor %}{% if not loop.last %}<hr>{% endif %}
 				{% else %}
 					<p>{{ lang('UCP_FLAIR_NO_FLAIR') }}</p>
@@ -42,15 +42,15 @@
 					<h4>{{ c.CAT_NAME }}</h4>
 
 					{% for item in c.items %}
-					<span class="flair-tile">
+					<div class="flair-tile">
 						<div class="flair-item">
 							{% include '@stevotvr_flair/flair_item.html' with item %}
 						</div>
-						<div class="flair-controls">
-							<h5>{{ item.FLAIR_NAME }}</h5>
+						<h5 title="{{ item.FLAIR_NAME }}">{{ item.FLAIR_NAME_SHORT }}</h5>
+						<span class="flair-buttons">
 							<input type="submit" name="add_flair[{{ item.FLAIR_ID }}]" value="{{ lang('UCP_FLAIR_ADD') }}" class="button2" title="{{ item.ADD_TITLE }}" />
-						</div>
-					</span>
+						</span>
+					</div>
 					{% endfor %}{% if not loop.last %}<hr>{% endif %}
 				{% else %}
 					<p>{{ lang('UCP_FLAIR_NO_AVAILABLE') }}</p>

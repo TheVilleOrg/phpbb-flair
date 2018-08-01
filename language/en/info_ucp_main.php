@@ -49,5 +49,5 @@ $lang = array_merge($lang, array(
 	'UCP_FLAIR_FAV'				=> 'Add %s to favorites',
 	'UCP_FLAIR_UNFAV'			=> 'Remove %s from favorites',
 
-	'UCP_FLAIR_ADD'	=> 'Add',
+	'UCP_FLAIR_ADD'	=> 'Add to profile',
 ));
