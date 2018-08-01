@@ -213,8 +213,13 @@ class user extends operator implements user_interface
 		$this->db->sql_freeresult($result);
 
 		$this->get_group_flair($user_ids, $filter, $flair, $favorites);
-		self::shuffle_flair($flair);
-		$this->trim_user_flair($flair);
+
+		if ($filter !== 'profile')
+		{
+			self::shuffle_flair($flair);
+			$this->trim_user_flair($flair);
+		}
+
 		self::sort_user_flair($flair);
 
 		return $flair;
