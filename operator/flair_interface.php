@@ -80,4 +80,11 @@ interface flair_interface
 	 *                     flair \stevotvr\flair\entity\flair
 	 */
 	public function get_group_flair($group_ids = array());
+
+	/**
+	 * Delete all references to a specified group.
+	 *
+	 * @param int $group_id The group ID
+	 */
+	public function delete_group($group_id);
 }

@@ -46,7 +46,7 @@ class flair extends operator implements flair_interface
 
 	public function delete_flair($flair_id)
 	{
-		$sql = 'DELETE FROM ' . $this->user_table . '
+		$sql = 'DELETE FROM ' . $this->fav_table . '
 				WHERE flair_id = ' . (int) $flair_id;
 		$this->db->sql_query($sql);
 
@@ -54,7 +54,15 @@ class flair extends operator implements flair_interface
 				WHERE flair_id = ' . (int) $flair_id;
 		$this->db->sql_query($sql);
 
+		$sql = 'DELETE FROM ' . $this->notif_table . '
+				WHERE flair_id = ' . (int) $flair_id;
+		$this->db->sql_query($sql);
+
 		$sql = 'DELETE FROM ' . $this->trigger_table . '
+				WHERE flair_id = ' . (int) $flair_id;
+		$this->db->sql_query($sql);
+
+		$sql = 'DELETE FROM ' . $this->user_table . '
 				WHERE flair_id = ' . (int) $flair_id;
 		$this->db->sql_query($sql);
 
@@ -202,5 +210,12 @@ class flair extends operator implements flair_interface
 		self::sort_flair($flair);
 
 		return $flair;
+	}
+
+	public function delete_group($group_id)
+	{
+		$sql = 'DELETE FROM ' . $this->group_table . '
+				WHERE group_id = ' . (int) $group_id;
+		$this->db->sql_query($sql);
 	}
 }

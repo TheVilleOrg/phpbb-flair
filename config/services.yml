@@ -17,6 +17,7 @@ services:
             - '@request'
             - '@template'
             - '@user'
+            - '@stevotvr.flair.operator.flair'
             - '@stevotvr.flair.operator.trigger'
             - '@stevotvr.flair.operator.user'
             - '%stevotvr.flair.img_path%'
@@ -129,7 +130,9 @@ services:
             - '@dbal.conn'
             - '%stevotvr.flair.tables.flair%'
             - '%stevotvr.flair.tables.flair_categories%'
+            - '%stevotvr.flair.tables.flair_favorites%'
             - '%stevotvr.flair.tables.flair_groups%'
+            - '%stevotvr.flair.tables.flair_notifications%'
             - '%stevotvr.flair.tables.flair_triggers%'
             - '%stevotvr.flair.tables.flair_users%'
     stevotvr.flair.operator.flair:
@@ -145,8 +148,6 @@ services:
             - method: setup
               arguments:
                 - '@config'
-                - '%stevotvr.flair.tables.flair_favs%'
-                - '%stevotvr.flair.tables.flair_notif%'
     stevotvr.flair.operator.trigger:
         class: stevotvr\flair\operator\trigger
         parent: stevotvr.flair.operator
@@ -180,7 +181,7 @@ services:
             - '@config'
             - '@dbal.conn'
             - '@notification_manager'
-            - '%stevotvr.flair.tables.flair_notif%'
+            - '%stevotvr.flair.tables.flair_notifications%'
         calls:
             - method: set_name
               arguments:

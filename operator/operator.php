@@ -43,11 +43,25 @@ abstract class operator
 	protected $cat_table;
 
 	/**
+	 * The name of the flair_favs table.
+	 *
+	 * @var string
+	 */
+	protected $fav_table;
+
+	/**
 	 * The name of the flair_groups table.
 	 *
 	 * @var string
 	 */
 	protected $group_table;
+
+	/**
+	 * The name of the flair_notif table.
+	 *
+	 * @var string
+	 */
+	protected $notif_table;
 
 	/**
 	 * The name of the flair_triggers table.
@@ -67,18 +81,22 @@ abstract class operator
 	 * @param ContainerInterface                $container
 	 * @param \phpbb\db\driver\driver_interface $db
 	 * @param string                            $flair_table   The name of the flair table
-	 * @param string                            $cat_table     The name of the flair_categories table
+	 * @param string                            $cat_table     The name of the flair_cats table
+	 * @param string                            $fav_table     The name of the flair_favs table
 	 * @param string                            $group_table   The name of the flair_groups table
+	 * @param string                            $notif_table   The name of the flair_notif table
 	 * @param string                            $trigger_table The name of the flair_triggers table
 	 * @param string                            $user_table    The name of the flair_users table
 	 */
-	public function __construct(ContainerInterface $container, driver_interface $db, $flair_table, $cat_table, $group_table, $trigger_table, $user_table)
+	public function __construct(ContainerInterface $container, driver_interface $db, $flair_table, $cat_table, $fav_table, $group_table, $notif_table, $trigger_table, $user_table)
 	{
 		$this->container = $container;
 		$this->db = $db;
 		$this->flair_table = $flair_table;
 		$this->cat_table = $cat_table;
+		$this->fav_table = $fav_table;
 		$this->group_table = $group_table;
+		$this->notif_table = $notif_table;
 		$this->trigger_table = $trigger_table;
 		$this->user_table = $user_table;
 	}

@@ -23,31 +23,13 @@ class user extends operator implements user_interface
 	protected $config;
 
 	/**
-	 * The name of the flair_favs table.
-	 *
-	 * @var string
-	 */
-	protected $favorites_table;
-
-	/**
-	 * The name of the flair_notif table.
-	 *
-	 * @var string
-	 */
-	protected $notification_table;
-
-	/**
 	 * Set up the operator.
 	 *
 	 * @param \phpbb\config\config $config
-	 * @param string               $favorites_table    The name of the flair_favs table
-	 * @param string               $notification_table The name of the flair_notif table
 	 */
-	public function setup(config $config, $favorites_table, $notification_table)
+	public function setup(config $config)
 	{
 		$this->config = $config;
-		$this->favorites_table = $favorites_table;
-		$this->notification_table = $notification_table;
 	}
 
 	public function add_flair($user_id, $flair_id, $count = 1, $notify = true)
@@ -138,7 +120,7 @@ class user extends operator implements user_interface
 		$flair = array();
 
 		$sql = 'SELECT flair_id
-				FROM ' . $this->favorites_table . '
+				FROM ' . $this->fav_table . '
 				WHERE user_id = ' . (int) $user_id;
 		$this->db->sql_query($sql);
 		$favorites = array_column($this->db->sql_fetchrowset(), 'flair_id');
@@ -187,7 +169,7 @@ class user extends operator implements user_interface
 
 		$favorites = array();
 		$sql = 'SELECT user_id, flair_id
-				FROM ' . $this->favorites_table . '
+				FROM ' . $this->fav_table . '
 				WHERE ' . $this->db->sql_in_set('user_id', $user_ids);
 		$this->db->sql_query($sql);
 		while ($row = $this->db->sql_fetchrow())
@@ -236,6 +218,26 @@ class user extends operator implements user_interface
 		self::sort_user_flair($flair);
 
 		return $flair;
+	}
+
+	public function delete_users(array $user_ids)
+	{
+		if (empty($user_ids))
+		{
+			return;
+		}
+
+		$sql = 'DELETE FROM ' . $this->fav_table . '
+				WHERE ' . $this->db->sql_in_set('user_id', $user_ids);
+		$this->db->sql_query($sql);
+
+		$sql = 'DELETE FROM ' . $this->notif_table . '
+				WHERE ' . $this->db->sql_in_set('user_id', $user_ids);
+		$this->db->sql_query($sql);
+
+		$sql = 'DELETE FROM ' . $this->user_table . '
+				WHERE ' . $this->db->sql_in_set('user_id', $user_ids);
+		$this->db->sql_query($sql);
 	}
 
 	/**
@@ -418,7 +420,7 @@ class user extends operator implements user_interface
 
 		if ($new_count <= 0)
 		{
-			$sql = 'DELETE FROM ' . $this->notification_table . '
+			$sql = 'DELETE FROM ' . $this->notif_table . '
 					WHERE user_id = ' . (int) $user_id . '
 						AND flair_id = ' . (int) $flair_id;
 			$this->db->sql_query($sql);
@@ -426,7 +428,7 @@ class user extends operator implements user_interface
 		}
 
 		$sql = 'SELECT old_count
-				FROM ' . $this->notification_table . '
+				FROM ' . $this->notif_table . '
 				WHERE user_id = ' . (int) $user_id . '
 					AND flair_id = ' . (int) $flair_id;
 		$this->db->sql_query($sql);
@@ -436,7 +438,7 @@ class user extends operator implements user_interface
 		{
 			if ($new_count <= (int) $row['old_count'])
 			{
-				$sql = 'DELETE FROM ' . $this->notification_table . '
+				$sql = 'DELETE FROM ' . $this->notif_table . '
 						WHERE user_id = ' . (int) $user_id . '
 							AND flair_id = ' . (int) $flair_id;
 				$this->db->sql_query($sql);
@@ -447,7 +449,7 @@ class user extends operator implements user_interface
 				'new_count'	=> $new_count,
 				'updated'	=> time(),
 			);
-			$sql = 'UPDATE ' . $this->notification_table . '
+			$sql = 'UPDATE ' . $this->notif_table . '
 					SET ' . $this->db->sql_build_array('UPDATE', $data) . '
 					WHERE user_id = ' . (int) $user_id . '
 						AND flair_id = ' . (int) $flair_id;
@@ -475,7 +477,7 @@ class user extends operator implements user_interface
 			'new_count'		=> $new_count,
 			'updated'		=> time(),
 		);
-		$sql = 'INSERT INTO ' . $this->notification_table . '
+		$sql = 'INSERT INTO ' . $this->notif_table . '
 				' . $this->db->sql_build_array('INSERT', $data);
 		$this->db->sql_query($sql);
 	}

@@ -98,7 +98,15 @@ class category extends operator implements category_interface
 					WHERE ' . $this->db->sql_in_set('flair_id', $ids);
 			$this->db->sql_query($sql);
 
+			$sql = 'DELETE FROM ' . $this->fav_table . '
+					WHERE ' . $this->db->sql_in_set('flair_id', $ids);
+			$this->db->sql_query($sql);
+
 			$sql = 'DELETE FROM ' . $this->group_table . '
+					WHERE ' . $this->db->sql_in_set('flair_id', $ids);
+			$this->db->sql_query($sql);
+
+			$sql = 'DELETE FROM ' . $this->notif_table . '
 					WHERE ' . $this->db->sql_in_set('flair_id', $ids);
 			$this->db->sql_query($sql);
 

@@ -18,6 +18,7 @@ use phpbb\language\language;
 use phpbb\request\request_interface;
 use phpbb\template\template;
 use phpbb\user;
+use stevotvr\flair\operator\flair_interface;
 use stevotvr\flair\operator\trigger_interface;
 use stevotvr\flair\operator\user_interface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -36,6 +37,11 @@ class main_listener implements EventSubscriberInterface
 	 * @var \phpbb\db\driver\driver_interface
 	 */
 	protected $db;
+
+	/**
+	 * @var \stevotvr\flair\operator\flair_interface
+	 */
+	protected $flair_operator;
 
 	/**
 	 * @var \phpbb\controller\helper
@@ -87,11 +93,12 @@ class main_listener implements EventSubscriberInterface
 	 * @param \phpbb\request\request_interface           $request
 	 * @param \phpbb\template\template                   $template
 	 * @param \phpbb\user                                $user
+	 * @param \stevotvr\flair\operator\flair_interface   $flair_operator
 	 * @param \stevotvr\flair\operator\trigger_interface $trigger_operator
 	 * @param \stevotvr\flair\operator\user_interface    $user_operator
 	 * @param string                                     $img_path The path to the custom images
 	 */
-	public function __construct(config $config, driver_interface $db, helper $helper, language $language, request_interface $request, template $template, user $user, trigger_interface $trigger_operator, user_interface $user_operator, $img_path)
+	public function __construct(config $config, driver_interface $db, helper $helper, language $language, request_interface $request, template $template, user $user, flair_interface $flair_operator, trigger_interface $trigger_operator, user_interface $user_operator, $img_path)
 	{
 		$this->config = $config;
 		$this->db = $db;
@@ -100,6 +107,7 @@ class main_listener implements EventSubscriberInterface
 		$this->request = $request;
 		$this->template = $template;
 		$this->user = $user;
+		$this->flair_operator = $flair_operator;
 		$this->trigger_operator = $trigger_operator;
 		$this->user_operator = $user_operator;
 		$this->img_path = $img_path;
@@ -115,6 +123,8 @@ class main_listener implements EventSubscriberInterface
 			'core.submit_post_end'				=> 'submit_post_end',
 			'core.viewtopic_modify_post_data'	=> 'viewtopic_modify_post_data',
 			'core.viewtopic_post_row_after'		=> 'viewtopic_post_row_after',
+			'core.delete_group_after'			=> 'delete_group_after',
+			'core.delete_user_after'			=> 'delete_user_after',
 		);
 	}
 
@@ -335,5 +345,25 @@ class main_listener implements EventSubscriberInterface
 				));
 			}
 		}
+	}
+
+	/**
+	 * Remove references to a group after it is deleted.
+	 *
+	 * @param \phpbb\event\data	$event The event data
+	 */
+	public function delete_group_after(data $event)
+	{
+		$this->flair_operator->delete_group($event['group_id']);
+	}
+
+	/**
+	 * Remove references to users after they are deleted.
+	 *
+	 * @param \phpbb\event\data	$event The event data
+	 */
+	public function delete_user_after(data $event)
+	{
+		$this->user_operator->delete_users($event['user_ids']);
 	}
 }

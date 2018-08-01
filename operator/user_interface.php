@@ -71,4 +71,11 @@ interface user_interface
 	 *                        flair \stevotvr\flair\entity\flair
 	 */
 	public function get_user_flair(array $user_ids, $filter = '');
+
+	/**
+	 * Delete all references to the specified users.
+	 *
+	 * @param array $user_ids The list of user IDs
+	 */
+	public function delete_users(array $user_ids);
 }
