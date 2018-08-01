@@ -41,6 +41,13 @@ class version_1_2_0 extends migration
 						'u_f'	=> array('UNIQUE', array('user_id', 'flair_id')),
 					),
 				),
+				$this->table_prefix . 'flair_favs' => array(
+					'COLUMNS' => array(
+						'user_id'		=> array('UINT', 0),
+						'flair_id'		=> array('UINT', 0),
+					),
+					'PRIMARY_KEY' => array('flair_id', 'user_id'),
+				),
 			),
 			'add_columns'	=> array(
 				$this->table_prefix . 'flair' => array(
@@ -48,9 +55,6 @@ class version_1_2_0 extends migration
 				),
 				$this->table_prefix . 'flair_cats' => array(
 					'cat_display_limit'	=> array('UINT', 0),
-				),
-				$this->table_prefix . 'flair_users' => array(
-					'priority'	=> array('UINT', 0),
 				),
 			),
 		);
@@ -61,6 +65,7 @@ class version_1_2_0 extends migration
 		return array(
 			'drop_tables'   => array(
 				$this->table_prefix . 'flair_notif',
+				$this->table_prefix . 'flair_favs',
 			),
 			'drop_columns'	=> array(
 				$this->table_prefix . 'flair' => array(
@@ -68,9 +73,6 @@ class version_1_2_0 extends migration
 				),
 				$this->table_prefix . 'flair_cats' => array(
 					'cat_display_limit',
-				),
-				$this->table_prefix . 'flair_users' => array(
-					'priority',
 				),
 			),
 		);

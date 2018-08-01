@@ -203,18 +203,4 @@ class flair extends operator implements flair_interface
 
 		return $flair;
 	}
-
-	/**
-	 * Sort a flair array.
-	 *
-	 * @param array &$flair The flair array to sort
-	 */
-	static protected function sort_flair(array &$flair)
-	{
-		usort($flair, array('self', 'cmp_cats'));
-		foreach ($flair as &$category)
-		{
-			usort($category['items'], array('self', 'cmp_items'));
-		}
-	}
 }

@@ -89,7 +89,7 @@ abstract class operator
 	 * @param array &$flair The array to which to add the item
 	 * @param array $row    The database result row data
 	 */
-	protected function import_flair_item(array &$flair, array $row)
+	protected function import_flair_item(array &$flair, array $row, array $favorites = array())
 	{
 		$entity = $this->container->get('stevotvr.flair.entity.category');
 		if ($row['cat_id'])
@@ -101,10 +101,25 @@ abstract class operator
 		$entity = $this->container->get('stevotvr.flair.entity.flair')->import($row);
 		$item = array(
 			'count'		=> isset($row['flair_count']) ? (int) $row['flair_count'] : 1,
-			'priority'	=> isset($row['priority']) ? (int) $row['priority'] : 0,
+			'priority'	=> in_array($entity->get_id(), $favorites) ? 1 : 0,
 			'flair'		=> $entity,
 		);
 		$flair[(int) $row['flair_category']]['items'][(int) $row['flair_id']] = $item;
+	}
+
+	/**
+	 * Sort a flair array.
+	 *
+	 * @param array &$flair The flair array to sort
+	 */
+	static protected function sort_flair(array &$flair)
+	{
+		usort($flair, array('self', 'cmp_cats'));
+		foreach ($flair as &$category)
+		{
+			usort($category['items'], array('self', 'cmp_items'));
+			usort($category['items'], array('self', 'cmp_items_priority'));
+		}
 	}
 
 	/**
@@ -131,5 +146,18 @@ abstract class operator
 	static protected function cmp_items($a, $b)
 	{
 		return $a['flair']->get_order() - $b['flair']->get_order();
+	}
+
+	/**
+	 * Comparison function for sorting flair item arrays based on priority.
+	 *
+	 * @param array $a
+	 * @param array $b
+	 *
+	 * @return int
+	 */
+	static protected function cmp_items_priority($a, $b)
+	{
+		return $b['priority'] - $a['priority'];
 	}
 }

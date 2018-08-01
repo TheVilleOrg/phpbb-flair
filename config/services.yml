@@ -145,6 +145,7 @@ services:
             - method: setup
               arguments:
                 - '@config'
+                - '%stevotvr.flair.tables.flair_favs%'
                 - '%stevotvr.flair.tables.flair_notif%'
     stevotvr.flair.operator.trigger:
         class: stevotvr\flair\operator\trigger

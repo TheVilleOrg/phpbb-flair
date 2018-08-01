@@ -23,6 +23,13 @@ class user extends operator implements user_interface
 	protected $config;
 
 	/**
+	 * The name of the flair_favs table.
+	 *
+	 * @var string
+	 */
+	protected $favorites_table;
+
+	/**
 	 * The name of the flair_notif table.
 	 *
 	 * @var string
@@ -33,11 +40,13 @@ class user extends operator implements user_interface
 	 * Set up the operator.
 	 *
 	 * @param \phpbb\config\config $config
+	 * @param string               $favorites_table    The name of the flair_favs table
 	 * @param string               $notification_table The name of the flair_notif table
 	 */
-	public function setup(config $config, $notification_table)
+	public function setup(config $config, $favorites_table, $notification_table)
 	{
 		$this->config = $config;
+		$this->favorites_table = $favorites_table;
 		$this->notification_table = $notification_table;
 	}
 
@@ -128,8 +137,15 @@ class user extends operator implements user_interface
 	{
 		$flair = array();
 
+		$sql = 'SELECT flair_id
+				FROM ' . $this->favorites_table . '
+				WHERE user_id = ' . (int) $user_id;
+		$this->db->sql_query($sql);
+		$favorites = array_column($this->db->sql_fetchrowset(), 'flair_id');
+		$this->db->sql_freeresult();
+
 		$sql_ary = array(
-			'SELECT'	=> 'f.*, c.*, u.flair_count, u.priority',
+			'SELECT'	=> 'f.*, c.*, u.flair_count',
 			'FROM'		=> array($this->user_table => 'u'),
 			'LEFT_JOIN'	=> array(
 				array(
@@ -142,15 +158,21 @@ class user extends operator implements user_interface
 				),
 			),
 			'WHERE'		=> 'u.user_id = ' . (int) $user_id,
-			'ORDER_BY'	=> 'c.cat_order ASC, c.cat_id ASC, u.priority DESC, f.flair_order ASC, f.flair_id ASC',
 		);
 		$sql = $this->db->sql_build_query('SELECT', $sql_ary);
 		$result = $this->db->sql_query($sql);
 		while ($row = $this->db->sql_fetchrow($result))
 		{
-			$this->import_flair_item($flair, $row);
+			$this->import_flair_item($flair, $row, $favorites);
 		}
 		$this->db->sql_freeresult($result);
+
+		self::sort_flair($flair);
+
+		foreach ($flair as &$category)
+		{
+			usort($category['items'], array('self', 'cmp_items_priority'));
+		}
 
 		return $flair;
 	}
@@ -163,6 +185,17 @@ class user extends operator implements user_interface
 			return $flair;
 		}
 
+		$favorites = array();
+		$sql = 'SELECT user_id, flair_id
+				FROM ' . $this->favorites_table . '
+				WHERE ' . $this->db->sql_in_set('user_id', $user_ids);
+		$this->db->sql_query($sql);
+		while ($row = $this->db->sql_fetchrow())
+		{
+			$favorites[$row['user_id']][] = $row['flair_id'];
+		}
+		$this->db->sql_freeresult();
+
 		$where = $this->db->sql_in_set('u.user_id', $user_ids);
 		if (in_array($filter, array('profile', 'posts')))
 		{
@@ -170,7 +203,7 @@ class user extends operator implements user_interface
 		}
 
 		$sql_ary = array(
-			'SELECT'	=> 'f.*, c.*, u.user_id, u.flair_count, u.priority',
+			'SELECT'	=> 'f.*, c.*, u.user_id, u.flair_count',
 			'FROM'		=> array($this->user_table => 'u'),
 			'LEFT_JOIN'	=> array(
 				array(
@@ -192,14 +225,15 @@ class user extends operator implements user_interface
 			{
 				$flair[(int) $row['user_id']] = array();
 			}
-			$this->import_flair_item($flair[(int) $row['user_id']], $row);
+			$user_favs = isset($favorites[$row['user_id']]) ? $favorites[$row['user_id']] : array();
+			$this->import_flair_item($flair[(int) $row['user_id']], $row, $user_favs);
 		}
 		$this->db->sql_freeresult($result);
 
-		$this->get_group_flair($user_ids, $filter, $flair);
+		$this->get_group_flair($user_ids, $filter, $flair, $favorites);
 		self::shuffle_flair($flair);
 		$this->trim_user_flair($flair);
-		self::sort_flair($flair);
+		self::sort_user_flair($flair);
 
 		return $flair;
 	}
@@ -211,7 +245,7 @@ class user extends operator implements user_interface
 	 * @param string $filter   Set to profile or posts to only get items shown in that area
 	 * @param array  &$flair   The user flair to which to add group flair
 	 */
-	protected function get_group_flair(array $user_ids, $filter, array &$flair)
+	protected function get_group_flair(array $user_ids, $filter, array &$flair, array $favorites)
 	{
 		$memberships = $this->get_group_memberships($user_ids);
 		if (empty($memberships))
@@ -259,7 +293,8 @@ class user extends operator implements user_interface
 				{
 					$flair[$user_id] = array();
 				}
-				$this->import_flair_item($flair[$user_id], $row);
+				$user_favs = isset($favorites[$user_id]) ? $favorites[$user_id] : array();
+				$this->import_flair_item($flair[$user_id], $row, $user_favs);
 			}
 		}
 		$this->db->sql_freeresult($result);
@@ -477,18 +512,19 @@ class user extends operator implements user_interface
 	 *
 	 * @param array &$flair The flair array to sort
 	 */
-	static protected function sort_flair(array &$flair)
+	static protected function sort_user_flair(array &$flair)
 	{
 		foreach ($flair as &$user_flair)
 		{
-			usort($user_flair, array('self', 'cmp_cats'));
-			foreach ($user_flair as &$category)
-			{
-				usort($category['items'], array('self', 'cmp_items'));
-			}
+			self::sort_flair($user_flair);
 		}
 	}
 
+	/**
+	 * Shuffle flair items, keeping priority items at the top.
+	 *
+	 * @param array &$flair The flair array to shuffle
+	 */
 	static protected function shuffle_flair(array &$flair)
 	{
 		foreach ($flair as &$user_flair)
@@ -499,18 +535,5 @@ class user extends operator implements user_interface
 				usort($category['items'], array('self', 'cmp_items_priority'));
 			}
 		}
-	}
-
-	/**
-	 * Comparison function for sorting flair item arrays based on priority.
-	 *
-	 * @param array $a
-	 * @param array $b
-	 *
-	 * @return int
-	 */
-	static protected function cmp_items_priority($a, $b)
-	{
-		return $b['priority'] - $a['priority'];
 	}
 }
