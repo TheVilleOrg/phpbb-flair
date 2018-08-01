@@ -47,6 +47,15 @@ interface user_interface
 	public function set_flair_count($user_id, $flair_id, $count, $notify = true);
 
 	/**
+	 * Set the favorite status of a flair item for a user.
+	 *
+	 * @param int     $user_id  The database ID of the user
+	 * @param int     $flair_id The database ID of the flair item
+	 * @param boolean $favorite Set the item as a favorite
+	 */
+	public function set_flair_favorite($user_id, $flair_id, $favorite);
+
+	/**
 	 * Get the flair for a list of users.
 	 *
 	 * @param array  $user_ids An array of user database IDs

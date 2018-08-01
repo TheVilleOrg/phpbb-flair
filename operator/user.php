@@ -115,6 +115,38 @@ class user extends operator implements user_interface
 		}
 	}
 
+	public function set_flair_favorite($user_id, $flair_id, $favorite)
+	{
+		if (!$favorite)
+		{
+			$sql = 'DELETE FROM ' . $this->fav_table . '
+					WHERE user_id = ' . (int) $user_id . '
+						AND flair_id = ' . (int) $flair_id;
+			$this->db->sql_query($sql);
+
+			return;
+		}
+
+		$sql = 'SELECT 1
+				FROM ' . $this->fav_table . '
+				WHERE user_id = ' . (int) $user_id . '
+					AND flair_id = ' . (int) $flair_id;
+		$this->db->sql_query($sql);
+		$row = $this->db->sql_fetchrow();
+		$this->db->sql_freeresult();
+
+		if (!$row)
+		{
+			$data = array(
+				'user_id'	=> (int) $user_id,
+				'flair_id'	=> (int) $flair_id,
+			);
+			$sql = 'INSERT INTO ' . $this->fav_table . '
+					' . $this->db->sql_build_array('INSERT', $data);
+			$this->db->sql_query($sql);
+		}
+	}
+
 	public function get_user_flair(array $user_ids, $filter = '')
 	{
 		$flair = array();
