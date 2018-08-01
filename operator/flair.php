@@ -39,6 +39,20 @@ class flair extends operator implements flair_interface
 
 	public function add_flair($flair)
 	{
+		$sql = 'SELECT flair_order
+				FROM ' . $this->flair_table . '
+				WHERE flair_category = ' . $flair->get_category() . '
+				ORDER BY flair_order DESC
+				LIMIT 1';
+		$this->db->sql_query($sql);
+		$order = $this->db->sql_fetchfield('flair_order');
+		$this->db->sql_freeresult();
+
+		if ($order !== false)
+		{
+			$flair->set_order(++$order);
+		}
+
 		$flair->insert();
 		$flair_id = $flair->get_id();
 		return $flair->load($flair_id);
