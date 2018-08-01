@@ -70,15 +70,15 @@ class mcp_user_controller extends acp_base_controller implements mcp_user_interf
 
 		if ($this->request->is_set_post('add_flair'))
 		{
-			$this->change_flair($user_id, 'add', $userrow['username']);
+			$this->change_flair($user_id, 'add');
 		}
 		else if ($this->request->is_set_post('remove_flair'))
 		{
-			$this->change_flair($user_id, 'remove', $userrow['username']);
+			$this->change_flair($user_id, 'remove');
 		}
-		else if ($this->request->is_set_post('remove_all_flair'))
+		else if ($this->request->is_set_post('set_flair'))
 		{
-			$this->change_flair($user_id, 'remove_all', $userrow['username']);
+			$this->change_flair($user_id, 'set');
 		}
 
 		$user_flair = $this->user_operator->get_user_flair((array) $user_id);
@@ -186,8 +186,8 @@ class mcp_user_controller extends acp_base_controller implements mcp_user_interf
 					'FLAIR_FONT_COLOR'	=> $entity->get_font_color(),
 					'FLAIR_COUNT'		=> $item['count'],
 
+					'SET_COUNT_TITLE'	=> $this->language->lang('MCP_FLAIR_SET_COUNT_TITLE', $entity->get_name(), $username),
 					'REMOVE_TITLE'		=> $this->language->lang('MCP_FLAIR_REMOVE_TITLE', $entity->get_name(), $username),
-					'REMOVE_ALL_TITLE'	=> $this->language->lang('MCP_FLAIR_REMOVE_ALL_TITLE', $entity->get_name(), $username),
 				));
 			}
 		}
@@ -197,7 +197,7 @@ class mcp_user_controller extends acp_base_controller implements mcp_user_interf
 	 * Make a change to the flair assigned to the user or group being worked on.
 	 *
 	 * @param int    $user_id The ID of the user being worked on
-	 * @param string $change  The type of change to make (add|remove|remove_all)
+	 * @param string $change  The type of change to make (add|remove|set)
 	 */
 	protected function change_flair($user_id, $change)
 	{
@@ -214,7 +214,7 @@ class mcp_user_controller extends acp_base_controller implements mcp_user_interf
 
 		if ($id)
 		{
-			if ($change === 'remove_all')
+			if ($change === 'remove')
 			{
 				$this->user_operator->set_flair_count($user_id, $id, 0);
 				return;
@@ -223,7 +223,14 @@ class mcp_user_controller extends acp_base_controller implements mcp_user_interf
 			$counts = $this->request->variable($change . '_count', array('' => ''));
 			$count = (isset($counts[$id])) ? (int) $counts[$id] : 1;
 
-			$this->user_operator->{$change . '_flair'}($user_id, $id, $count);
+			if ($change === 'add')
+			{
+				$this->user_operator->add_flair($user_id, $id, $count);
+			}
+			else if ($change === 'set')
+			{
+				$this->user_operator->set_flair_count($user_id, $id, $count);
+			}
 		}
 
 		redirect($this->u_action . '&amp;u=' . $user_id);

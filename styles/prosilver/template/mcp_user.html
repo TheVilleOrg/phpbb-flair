@@ -39,17 +39,18 @@
 					{% if cat.CAT_NAME %}<h4>{{ cat.CAT_NAME }}</h4>{% endif %}
 
 					{% for item in cat.item %}
-					<span class="flair-item">
-						<div>
+					<span class="flair-tile">
+						<div class="flair-item">
 							{% include '@stevotvr_flair/flair_item.html' with item %}
 						</div>
-						{% if not item.S_FROM_GROUP %}
-							<input type="submit" name="remove_flair[{{ item.FLAIR_ID }}]" value="&minus;" class="button2" title="{{ item.REMOVE_TITLE }}" />
-							<input class="inputbox" type="number" name="remove_count[{{ item.FLAIR_ID }}]" width="1" min="1" value="1" />
-							<input type="submit" name="remove_all_flair[{{ item.FLAIR_ID }}]" value="&times;" class="button1" title="{{ item.REMOVE_ALL_TITLE }}" />
-						{% endif %}
-					</span>{% if not loop.last %}&nbsp;| {% endif %}
-					{% endfor %}
+						<div class="flair-controls">
+							{% if not item.S_FROM_GROUP %}<input type="submit" name="remove_flair[{{ item.FLAIR_ID }}]" value="&times;" class="button1 flair-remove" title="{{ item.REMOVE_TITLE }}" />{% endif %}
+							<h5>{{ item.FLAIR_NAME }}</h5>
+							<input class="inputbox" type="number" name="set_count[{{ item.FLAIR_ID }}]" width="1" min="1" value="{{ item.FLAIR_COUNT }}" />
+							<input type="submit" name="set_flair[{{ item.FLAIR_ID }}]" value="{{ lang('MCP_FLAIR_SET') }}" class="button2" title="{{ item.SET_COUNT_TITLE }}" />
+						</div>
+					</span>
+					{% endfor %}{% if not loop.last %}<hr>{% endif %}
 				{% else %}
 					<p>{{ lang('MCP_FLAIR_NO_FLAIR') }}</p>
 				{% endfor %}
@@ -66,14 +67,17 @@
 					<h4>{{ c.CAT_NAME }}</h4>
 
 					{% for item in c.item %}
-					<span class="flair-item">
-						<div>
+					<span class="flair-tile">
+						<div class="flair-item">
 							{% include '@stevotvr_flair/flair_item.html' with item %}
 						</div>
-						<input type="submit" name="add_flair[{{ item.FLAIR_ID }}]" value="+" class="button2" title="{{ item.ADD_TITLE }}" />
-						<input class="inputbox" type="number" name="add_count[{{ item.FLAIR_ID }}]" width="1" min="1" value="1" />
-					</span>{% if not loop.last %}&nbsp;| {% endif %}
-					{% endfor %}
+						<div class="flair-controls">
+							<h5>{{ item.FLAIR_NAME }}</h5>
+							<input class="inputbox" type="number" name="add_count[{{ item.FLAIR_ID }}]" width="1" min="1" value="1" />
+							<input type="submit" name="add_flair[{{ item.FLAIR_ID }}]" value="+" class="button2" title="{{ item.ADD_TITLE }}" />
+						</div>
+					</span>
+					{% endfor %}{% if not loop.last %}<hr>{% endif %}
 				{% else %}
 					<p>{{ lang('MCP_FLAIR_NO_AVAILABLE') }}</p>
 				{% endfor %}

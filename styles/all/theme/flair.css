@@ -53,11 +53,29 @@
 	padding-right: 20px;
 }
 
-.flair-item {
-	display: inline-block;
-	text-align: center;
+.flair-tile {
+	float: left;
+	width: 150px;
+	position: relative;
+	margin: 4px;
+	padding: 4px 6px;
+	border: 1px solid #aaa;
 }
 
-.flair-item .inputbox {
+.flair-tile .flair-item {
+	float: left;
+}
+
+.flair-tile .flair-controls {
+	float: left;
+	overflow: hidden;
+}
+
+.flair-tile .flair-remove {
+	position: absolute;
+	right: 4px;
+}
+
+.flair-tile .inputbox {
 	width: 3em;
 }

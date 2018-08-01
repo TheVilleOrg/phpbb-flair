@@ -43,11 +43,12 @@ $lang = array_merge($lang, array(
 	'MCP_FLAIR_USER'	=> 'Manage user’s flair',
 	'MCP_FLAIR_FRONT'	=> 'Front page',
 
-	'MCP_FLAIR_USER_FLAIR'			=> '%s’s flair',
-	'MCP_FLAIR_AVAILABLE'			=> 'Available flair',
-	'MCP_FLAIR_NO_FLAIR'			=> 'No flair is assigned to this user’s profile.',
-	'MCP_FLAIR_NO_AVAILABLE'		=> 'There are no flair items available.',
-	'MCP_FLAIR_ADD_TITLE'			=> 'Add the specified number of “%1$s” to %2$s’s profile',
-	'MCP_FLAIR_REMOVE_TITLE'		=> 'Remove the specified number of “%1$s” from %2$s’s profile',
-	'MCP_FLAIR_REMOVE_ALL_TITLE'	=> 'Remove all “%1$s” from %2$s’s profile',
+	'MCP_FLAIR_USER_FLAIR'		=> '%s’s flair',
+	'MCP_FLAIR_AVAILABLE'		=> 'Available flair',
+	'MCP_FLAIR_NO_FLAIR'		=> 'No flair is assigned to this user’s profile.',
+	'MCP_FLAIR_NO_AVAILABLE'	=> 'There are no flair items available.',
+	'MCP_FLAIR_SET_COUNT_TITLE'	=> 'Set the number of “%1$s” on %2$s’s profile',
+	'MCP_FLAIR_REMOVE_TITLE'	=> 'Remove “%1$s” from %2$s’s profile',
+
+	'MCP_FLAIR_SET'	=> 'Set',
 ));
