@@ -115,50 +115,6 @@ class user extends operator implements user_interface
 		}
 	}
 
-	public function get_flair($user_id)
-	{
-		$flair = array();
-
-		$sql = 'SELECT flair_id
-				FROM ' . $this->fav_table . '
-				WHERE user_id = ' . (int) $user_id;
-		$this->db->sql_query($sql);
-		$favorites = array_column($this->db->sql_fetchrowset(), 'flair_id');
-		$this->db->sql_freeresult();
-
-		$sql_ary = array(
-			'SELECT'	=> 'f.*, c.*, u.flair_count',
-			'FROM'		=> array($this->user_table => 'u'),
-			'LEFT_JOIN'	=> array(
-				array(
-					'FROM'	=> array($this->flair_table	=> 'f'),
-					'ON'	=> 'f.flair_id = u.flair_id',
-				),
-				array(
-					'FROM'	=> array($this->cat_table	=> 'c'),
-					'ON'	=> 'c.cat_id = f.flair_category',
-				),
-			),
-			'WHERE'		=> 'u.user_id = ' . (int) $user_id,
-		);
-		$sql = $this->db->sql_build_query('SELECT', $sql_ary);
-		$result = $this->db->sql_query($sql);
-		while ($row = $this->db->sql_fetchrow($result))
-		{
-			$this->import_flair_item($flair, $row, $favorites);
-		}
-		$this->db->sql_freeresult($result);
-
-		self::sort_flair($flair);
-
-		foreach ($flair as &$category)
-		{
-			usort($category['items'], array('self', 'cmp_items_priority'));
-		}
-
-		return $flair;
-	}
-
 	public function get_user_flair(array $user_ids, $filter = '')
 	{
 		$flair = array();
@@ -214,7 +170,7 @@ class user extends operator implements user_interface
 
 		$this->get_group_flair($user_ids, $filter, $flair, $favorites);
 
-		if ($filter !== 'profile')
+		if ($filter === 'posts')
 		{
 			self::shuffle_flair($flair);
 			$this->trim_user_flair($flair);

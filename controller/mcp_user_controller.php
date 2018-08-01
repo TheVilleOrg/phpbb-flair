@@ -65,23 +65,25 @@ class mcp_user_controller extends acp_base_controller implements mcp_user_interf
 
 	public function edit_user_flair(array $userrow)
 	{
+		$user_id = (int) $userrow['user_id'];
 		add_form_key('edit_user_flair');
 
 		if ($this->request->is_set_post('add_flair'))
 		{
-			$this->change_flair($userrow['user_id'], 'add', $userrow['username']);
+			$this->change_flair($user_id, 'add', $userrow['username']);
 		}
 		else if ($this->request->is_set_post('remove_flair'))
 		{
-			$this->change_flair($userrow['user_id'], 'remove', $userrow['username']);
+			$this->change_flair($user_id, 'remove', $userrow['username']);
 		}
 		else if ($this->request->is_set_post('remove_all_flair'))
 		{
-			$this->change_flair($userrow['user_id'], 'remove_all', $userrow['username']);
+			$this->change_flair($user_id, 'remove_all', $userrow['username']);
 		}
 
-		$user_flair = $this->user_operator->get_flair($userrow['user_id']);
-		$this->assign_tpl_vars($userrow['user_id'], $userrow['username'], $userrow['user_colour'], $user_flair);
+		$user_flair = $this->user_operator->get_user_flair((array) $user_id);
+		$user_flair = isset($user_flair[$user_id]) ? $user_flair[$user_id] : array();
+		$this->assign_tpl_vars($user_id, $userrow['username'], $userrow['user_colour'], $user_flair);
 	}
 
 	/**

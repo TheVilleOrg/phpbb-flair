@@ -47,18 +47,6 @@ interface user_interface
 	public function set_flair_count($user_id, $flair_id, $count, $notify = true);
 
 	/**
-	 * Get the flair for a user.
-	 *
-	 * @param int $user_id The database ID of the user
-	 *
-	 * @return array An associative array of arrays of flair rows
-	 *                  flair_parent
-	 *                     count int
-	 *                     flair \stevotvr\flair\entity\flair
-	 */
-	public function get_flair($user_id);
-
-	/**
 	 * Get the flair for a list of users.
 	 *
 	 * @param array  $user_ids An array of user database IDs
