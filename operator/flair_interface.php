@@ -79,7 +79,7 @@ interface flair_interface
 	 *                     count int
 	 *                     flair \stevotvr\flair\entity\flair
 	 */
-	public function get_group_flair($group_ids = array());
+	public function get_group_flair(array $group_ids);
 
 	/**
 	 * Delete all references to a specified group.

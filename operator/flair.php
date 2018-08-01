@@ -41,7 +41,7 @@ class flair extends operator implements flair_interface
 	{
 		$sql = 'SELECT flair_order
 				FROM ' . $this->flair_table . '
-				WHERE flair_category = ' . $flair->get_category() . '
+				WHERE flair_category = ' . (int) $flair->get_category() . '
 				ORDER BY flair_order DESC
 				LIMIT 1';
 		$this->db->sql_query($sql);
@@ -162,7 +162,7 @@ class flair extends operator implements flair_interface
 		return $group_ids;
 	}
 
-	public function get_group_flair($group_ids = array())
+	public function get_group_flair(array $group_ids)
 	{
 		$group_ids = (array) $group_ids;
 		$flair = array();
@@ -182,6 +182,11 @@ class flair extends operator implements flair_interface
 			$flair_ids[] = (int) $row['flair_id'];
 		}
 		$this->db->sql_freeresult();
+
+		if (empty($flair_ids))
+		{
+			return $flair;
+		}
 
 		$sql_ary = array(
 			'SELECT'	=> 'f.*, c.*',

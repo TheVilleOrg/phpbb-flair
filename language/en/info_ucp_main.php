@@ -46,4 +46,6 @@ $lang = array_merge($lang, array(
 	'UCP_FLAIR_NO_AVAILABLE'	=> 'No flair is available',
 	'UCP_FLAIR_ADD'				=> 'Add %s',
 	'UCP_FLAIR_REMOVE'			=> 'Remove %s',
+
+	'UCP_FLAIR_ADD'	=> 'Add',
 ));
