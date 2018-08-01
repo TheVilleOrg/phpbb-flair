@@ -141,7 +141,7 @@ class user extends operator implements user_interface
 		}
 
 		$sql_ary = array(
-			'SELECT'	=> 'f.*, c.*, u.user_id, u.flair_count',
+			'SELECT'	=> 'f.*, c.*, u.user_id, u.flair_count, 0 AS from_group',
 			'FROM'		=> array($this->user_table => 'u'),
 			'LEFT_JOIN'	=> array(
 				array(
@@ -224,7 +224,7 @@ class user extends operator implements user_interface
 		}
 
 		$sql_ary = array(
-			'SELECT'	=> 'f.*, c.*, g.group_id',
+			'SELECT'	=> 'f.*, c.*, g.group_id, 1 AS from_group',
 			'FROM'		=> array($this->group_table => 'g'),
 			'LEFT_JOIN'	=> array(
 				array(

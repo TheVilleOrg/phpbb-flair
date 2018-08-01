@@ -43,9 +43,11 @@
 						<div>
 							{% include '@stevotvr_flair/flair_item.html' with item %}
 						</div>
-						<input type="submit" name="remove_flair[{{ item.FLAIR_ID }}]" value="&minus;" class="button2" title="{{ item.REMOVE_TITLE }}" />
-						<input class="inputbox" type="number" name="remove_count[{{ item.FLAIR_ID }}]" width="1" min="1" value="1" />
-						<input type="submit" name="remove_all_flair[{{ item.FLAIR_ID }}]" value="&times;" class="button1" title="{{ item.REMOVE_ALL_TITLE }}" />
+						{% if not item.S_FROM_GROUP %}
+							<input type="submit" name="remove_flair[{{ item.FLAIR_ID }}]" value="&minus;" class="button2" title="{{ item.REMOVE_TITLE }}" />
+							<input class="inputbox" type="number" name="remove_count[{{ item.FLAIR_ID }}]" width="1" min="1" value="1" />
+							<input type="submit" name="remove_all_flair[{{ item.FLAIR_ID }}]" value="&times;" class="button1" title="{{ item.REMOVE_ALL_TITLE }}" />
+						{% endif %}
 					</span>{% if not loop.last %}&nbsp;| {% endif %}
 					{% endfor %}
 				{% else %}

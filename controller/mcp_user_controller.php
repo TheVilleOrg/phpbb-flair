@@ -156,7 +156,7 @@ class mcp_user_controller extends acp_base_controller implements mcp_user_interf
 	}
 
 	/**
-	 * Assign template variables for the user or group flair.
+	 * Assign template variables for the user flair.
 	 *
 	 * @param string $username   The name of the user being worked on
 	 * @param array  $user_flair The flair items assigned to the user being worked on
@@ -173,6 +173,8 @@ class mcp_user_controller extends acp_base_controller implements mcp_user_interf
 			{
 				$entity = $item['flair'];
 				$this->template->assign_block_vars('flair.item', array(
+					'S_FROM_GROUP'	=> $item['from_group'],
+
 					'FLAIR_TYPE'		=> $entity->get_type(),
 					'FLAIR_SIZE'		=> 2,
 					'FLAIR_ID'			=> $entity->get_id(),
