@@ -93,6 +93,16 @@ class ucp_flair_controller extends acp_base_controller implements ucp_flair_inte
 			$this->change_flair('remove', $available_flair_ids);
 			return;
 		}
+		else if ($this->request->is_set_post('fav_flair'))
+		{
+			$this->change_flair('fav', $user_flair_ids);
+			return;
+		}
+		else if ($this->request->is_set_post('unfav_flair'))
+		{
+			$this->change_flair('unfav', $user_flair_ids);
+			return;
+		}
 
 		foreach ($user_flair as $category)
 		{
@@ -119,8 +129,10 @@ class ucp_flair_controller extends acp_base_controller implements ucp_flair_inte
 					'FLAIR_ICON'		=> $entity->get_icon(),
 					'FLAIR_ICON_COLOR'	=> $entity->get_icon_color(),
 					'FLAIR_IMG'			=> $this->img_path . $entity->get_img(2),
+					'FLAIR_FAV'			=> (bool) $item['priority'],
 
 					'REMOVE_TITLE'	=> $this->language->lang('UCP_FLAIR_REMOVE', $entity->get_name()),
+					'FAV_TITLE'		=> $this->language->lang('UCP_FLAIR_' . ($item['priority'] ? 'UNFAV' : 'FAV'), $entity->get_name()),
 				));
 			}
 		}
@@ -158,7 +170,7 @@ class ucp_flair_controller extends acp_base_controller implements ucp_flair_inte
 	/**
 	 * Make a change to the flair assigned to the user.
 	 *
-	 * @param string $change          The type of change to make (add|remove)
+	 * @param string $change          The type of change to make (add|remove|fav|unfav)
 	 * @param array  $available_flair The array of available flair IDs
 	 */
 	protected function change_flair($change, array $available_flair)
@@ -185,6 +197,15 @@ class ucp_flair_controller extends acp_base_controller implements ucp_flair_inte
 			else if ($change === 'remove')
 			{
 				$this->user_operator->set_flair_count($user_id, $id, 0, false);
+				$this->user_operator->set_flair_favorite($user_id, $id, false);
+			}
+			else if ($change === 'fav')
+			{
+				$this->user_operator->set_flair_favorite($user_id, $id, true);
+			}
+			else if ($change === 'unfav')
+			{
+				$this->user_operator->set_flair_favorite($user_id, $id, false);
 			}
 		}
 

@@ -22,6 +22,7 @@
 						<div class="flair-controls">
 							{% if item.S_IS_FREE %}<input type="submit" name="remove_flair[{{ item.FLAIR_ID }}]" value="&times;" class="button1 flair-remove" title="{{ item.REMOVE_TITLE }}" />{% endif %}
 							<h5>{{ item.FLAIR_NAME }}</h5>
+							<input type="submit" style="font-family: FontAwesome" name="{% if item.FLAIR_FAV %}unfav{% else %}fav{% endif %}_flair[{{ item.FLAIR_ID }}]" value="{% if item.FLAIR_FAV %}&#xf005;{% else %}&#xf006;{% endif %}" class="button1" title="{{ item.FAV_TITLE }}" />
 						</div>
 					</span>
 					{% endfor %}{% if not loop.last %}<hr>{% endif %}
