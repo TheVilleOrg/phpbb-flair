@@ -526,9 +526,22 @@ class user extends operator implements user_interface
 		{
 			foreach ($user_flair as &$category)
 			{
-				shuffle($category['items']);
+				uasort($category['items'], array('self', 'cmp_items_rand'));
 				uasort($category['items'], array('self', 'cmp_items_priority'));
 			}
 		}
+	}
+
+	/**
+	 * Comparison function for sorting flair item arrays randomly.
+	 *
+	 * @param array $a
+	 * @param array $b
+	 *
+	 * @return int
+	 */
+	static protected function cmp_items_rand($a, $b)
+	{
+		return rand(-1, 1);
 	}
 }
