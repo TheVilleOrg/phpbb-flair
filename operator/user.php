@@ -527,7 +527,7 @@ class user extends operator implements user_interface
 			foreach ($user_flair as &$category)
 			{
 				shuffle($category['items']);
-				usort($category['items'], array('self', 'cmp_items_priority'));
+				uasort($category['items'], array('self', 'cmp_items_priority'));
 			}
 		}
 	}

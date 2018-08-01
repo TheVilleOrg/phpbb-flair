@@ -133,11 +133,11 @@ abstract class operator
 	 */
 	static protected function sort_flair(array &$flair)
 	{
-		usort($flair, array('self', 'cmp_cats'));
+		uasort($flair, array('self', 'cmp_cats'));
 		foreach ($flair as &$category)
 		{
-			usort($category['items'], array('self', 'cmp_items'));
-			usort($category['items'], array('self', 'cmp_items_priority'));
+			uasort($category['items'], array('self', 'cmp_items'));
+			uasort($category['items'], array('self', 'cmp_items_priority'));
 		}
 	}
 
