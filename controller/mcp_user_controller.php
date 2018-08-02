@@ -10,6 +10,7 @@
 
 namespace stevotvr\flair\controller;
 
+use phpbb\db\driver\driver_interface;
 use phpbb\json_response;
 use stevotvr\flair\operator\category_interface;
 use stevotvr\flair\operator\flair_interface;
@@ -20,6 +21,11 @@ use stevotvr\flair\operator\user_interface;
  */
 class mcp_user_controller extends acp_base_controller implements mcp_user_interface
 {
+	/**
+	 * @var \phpbb\db\driver\driver_interface
+	 */
+	protected $db;
+
 	/**
 	 * @var \stevotvr\flair\operator\category_interface
 	 */
@@ -36,17 +42,29 @@ class mcp_user_controller extends acp_base_controller implements mcp_user_interf
 	protected $user_operator;
 
 	/**
+	 * @var p_master
+	 */
+	protected $p_master;
+
+	/**
 	 * Set up the controller.
 	 *
+	 * @param \phpbb\db\driver\driver_interface           $db
 	 * @param \stevotvr\flair\operator\category_interface $cat_operator
 	 * @param \stevotvr\flair\operator\flair_interface    $flair_operator
 	 * @param \stevotvr\flair\operator\user_interface     $user_operator
 	 */
-	public function setup(category_interface $cat_operator, flair_interface $flair_operator, user_interface $user_operator)
+	public function setup(driver_interface $db, category_interface $cat_operator, flair_interface $flair_operator, user_interface $user_operator)
 	{
+		$this->db = $db;
 		$this->cat_operator = $cat_operator;
 		$this->flair_operator = $flair_operator;
 		$this->user_operator = $user_operator;
+	}
+
+	public function set_p_master($p_master)
+	{
+		$this->p_master = $p_master;
 	}
 
 	public function find_user()
@@ -64,9 +82,31 @@ class mcp_user_controller extends acp_base_controller implements mcp_user_interf
 		));
 	}
 
-	public function edit_user_flair(array $userrow)
+	public function edit_user_flair()
 	{
+		$user_id = $this->request->variable('u', 0);
+		$username = $this->request->variable('username', '', true);
+
+		$where = ($user_id) ? 'user_id = ' . (int) $user_id : "username_clean = '" . $this->db->sql_escape(utf8_clean_string($username)) . "'";
+		$sql = 'SELECT user_id, username, user_colour
+				FROM ' . USERS_TABLE . '
+				WHERE ' . $where;
+		$this->db->sql_query($sql);
+		$userrow = $this->db->sql_fetchrow();
+		$this->db->sql_freeresult();
+
+		if (!$userrow)
+		{
+			trigger_error($this->language->lang('NO_USER'), E_USER_WARNING);
+		}
+
 		$user_id = (int) $userrow['user_id'];
+
+		if (strpos($this->u_action, '&amp;u=' . $user_id) === false)
+		{
+			$this->p_master->adjust_url('&amp;u=' . $user_id);
+			$this->u_action .= '&amp;u=' . $user_id;
+		}
 
 		if ($this->request->is_set_post('add_flair'))
 		{

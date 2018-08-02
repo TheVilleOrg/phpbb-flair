@@ -40,42 +40,15 @@ class user_module
 		$user_id = $request->variable('u', 0);
 		$username = $request->variable('username', '', true);
 
-		if (!$user_id && !$username)
+		if ($mode === 'front')
 		{
-			$controller->find_user();
 			$this->p_master->set_display($id, 'user_flair', false);
-			return;
-		}
-
-		$db = $phpbb_container->get('dbal.conn');
-		$where = ($user_id) ? 'user_id = ' . (int) $user_id : "username_clean = '" . $db->sql_escape(utf8_clean_string($username)) . "'";
-		$sql = 'SELECT user_id, username, user_colour
-				FROM ' . USERS_TABLE . '
-				WHERE ' . $where;
-		$db->sql_query($sql);
-		$userrow = $db->sql_fetchrow();
-		$db->sql_freeresult();
-
-		if (!$userrow)
-		{
-			$language = $phpbb_container->get('language');
-			trigger_error($language->lang('NO_USER'), E_USER_WARNING);
-		}
-
-		$user_id = (int) $userrow['user_id'];
-
-		if (strpos($this->u_action, '&amp;u=' . $user_id) === false)
-		{
-			$this->p_master->adjust_url('&amp;u=' . $user_id);
-			$this->u_action .= '&amp;u=' . $user_id;
-		}
-
-		if (!$user_id)
-		{
 			$controller->find_user();
-			return;
 		}
-
-		$controller->edit_user_flair($userrow);
+		else if ($mode === 'user_flair')
+		{
+			$controller->set_p_master($this->p_master);
+			$controller->edit_user_flair();
+		}
 	}
 }

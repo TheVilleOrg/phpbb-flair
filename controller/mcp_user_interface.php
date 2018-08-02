@@ -16,14 +16,17 @@ namespace stevotvr\flair\controller;
 interface mcp_user_interface extends acp_base_interface
 {
 	/**
+	 * @param p_master $p_master
+	 */
+	public function set_p_master($p_master);
+
+	/**
 	 * Show the user search page.
 	 */
 	public function find_user();
 
 	/**
 	 * Handle the user flair edit mode.
-	 *
-	 * @param array $userrow The data for the user being worked on
 	 */
-	public function edit_user_flair(array $userrow);
+	public function edit_user_flair();
 }
