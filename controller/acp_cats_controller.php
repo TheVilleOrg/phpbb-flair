@@ -136,7 +136,7 @@ class acp_cats_controller extends acp_base_controller implements acp_cats_interf
 					$message = 'ACP_FLAIR_CATS_ADD_SUCCESS';
 				}
 
-				trigger_error($this->language->lang($message) . adm_back_link($this->u_action . '&amp;cat_id=' . $entity->get_id()));
+				trigger_error($this->language->lang($message) . adm_back_link($this->u_action));
 			}
 		}
 
