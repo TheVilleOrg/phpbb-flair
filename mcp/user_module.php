@@ -30,7 +30,6 @@ class user_module
 	{
 		global $phpbb_container;
 		$controller = $phpbb_container->get('stevotvr.flair.controller.mcp.user');
-		$request = $phpbb_container->get('request');
 
 		$this->tpl_name = 'mcp_user';
 		$this->page_title = 'MCP_FLAIR';
