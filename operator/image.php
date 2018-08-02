@@ -79,9 +79,9 @@ class image extends operator implements image_interface
 				FROM ' . $this->flair_table . "
 				WHERE flair_type = 1
 					AND flair_img = '" . $this->db->sql_escape($image) . "'";
-		$result = $this->db->sql_query($sql);
+		$this->db->sql_query($sql);
 		$count = (int) $this->db->sql_fetchfield('count');
-		$this->db->sql_freeresult($result);
+		$this->db->sql_freeresult();
 
 		return $count;
 	}
@@ -120,12 +120,12 @@ class image extends operator implements image_interface
 		$sql = 'SELECT flair_img
 				FROM ' . $this->flair_table . '
 				WHERE flair_type = 1';
-		$result = $this->db->sql_query($sql);
-		while ($row = $this->db->sql_fetchrow($result))
+		$this->db->sql_query($sql);
+		while ($row = $this->db->sql_fetchrow())
 		{
 			$images[$row['flair_img']] = true;
 		}
-		$this->db->sql_freeresult($result);
+		$this->db->sql_freeresult();
 
 		return array_keys($images);
 	}

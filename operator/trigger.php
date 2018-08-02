@@ -53,12 +53,12 @@ class trigger extends operator implements trigger_interface
 		$sql = 'SELECT *
 				FROM ' . $this->trigger_table . '
 				WHERE ' . $where;
-		$result = $this->db->sql_query($sql);
-		while ($row = $this->db->sql_fetchrow($result))
+		$this->db->sql_query($sql);
+		while ($row = $this->db->sql_fetchrow())
 		{
 			$triggers[$row['trig_name']] = (int) $row['trig_value'];
 		}
-		$this->db->sql_freeresult($result);
+		$this->db->sql_freeresult();
 
 		return $triggers;
 	}
@@ -113,12 +113,12 @@ class trigger extends operator implements trigger_interface
 				FROM ' . $this->trigger_table . "
 				WHERE trig_name = '" . $this->db->sql_escape($trigger_name) . "'
 					AND trig_value <= " . (int) $trigger_value;
-		$result = $this->db->sql_query($sql);
-		while ($row = $this->db->sql_fetchrow($result))
+		$this->db->sql_query($sql);
+		while ($row = $this->db->sql_fetchrow())
 		{
 			$flair_ids[(int) $row['flair_id']] = true;
 		}
-		$this->db->sql_freeresult($result);
+		$this->db->sql_freeresult();
 
 		if (empty($flair_ids))
 		{
@@ -129,12 +129,12 @@ class trigger extends operator implements trigger_interface
 				FROM ' . $this->user_table . '
 				WHERE user_id = ' . (int) $user_id . '
 					AND ' . $this->db->sql_in_set('flair_id', array_keys($flair_ids));
-		$result = $this->db->sql_query($sql);
-		while ($row = $this->db->sql_fetchrow($result))
+		$this->db->sql_query($sql);
+		while ($row = $this->db->sql_fetchrow())
 		{
 			unset($flair_ids[(int) $row['flair_id']]);
 		}
-		$this->db->sql_freeresult($result);
+		$this->db->sql_freeresult();
 
 		foreach (array_keys($flair_ids) as $flair_id)
 		{

@@ -219,9 +219,9 @@ class main_listener implements EventSubscriberInterface
 				FROM ' . USERS_TABLE . '
 				WHERE user_id = ' . (int) $user_id . '
 					AND user_type <> ' . USER_IGNORE;
-		$result = $this->db->sql_query($sql);
-		$row = $this->db->sql_fetchrow($result);
-		$this->db->sql_freeresult($result);
+		$this->db->sql_query($sql);
+		$row = $this->db->sql_fetchrow();
+		$this->db->sql_freeresult();
 
 		if (!$row)
 		{

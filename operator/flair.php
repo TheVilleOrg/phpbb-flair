@@ -26,13 +26,12 @@ class flair extends operator implements flair_interface
 				FROM ' . $this->flair_table . '
 				' . $where . '
 				ORDER BY flair_order ASC, flair_id ASC';
-		$result = $this->db->sql_query($sql);
-
-		while ($row = $this->db->sql_fetchrow($result))
+		$this->db->sql_query($sql);
+		while ($row = $this->db->sql_fetchrow())
 		{
 			$entities[] = $this->container->get('stevotvr.flair.entity.flair')->import($row);
 		}
-		$this->db->sql_freeresult($result);
+		$this->db->sql_freeresult();
 
 		return $entities;
 	}
@@ -92,9 +91,9 @@ class flair extends operator implements flair_interface
 		$sql = 'SELECT flair_category
 				FROM ' . $this->flair_table . '
 				WHERE flair_id = ' . (int) $flair_id;
-		$result = $this->db->sql_query($sql);
-		$row = $this->db->sql_fetchrow($result);
-		$this->db->sql_freeresult($result);
+		$this->db->sql_query($sql);
+		$row = $this->db->sql_fetchrow();
+		$this->db->sql_freeresult();
 
 		if ($row === false)
 		{
@@ -105,14 +104,9 @@ class flair extends operator implements flair_interface
 				FROM ' . $this->flair_table . '
 				WHERE flair_category = ' . (int) $row['flair_category'] . '
 				ORDER BY flair_order ASC, flair_id ASC';
-		$result = $this->db->sql_query($sql);
-
-		$ids = array();
-		while ($row = $this->db->sql_fetchrow($result))
-		{
-			$ids[] = $row['flair_id'];
-		}
-		$this->db->sql_freeresult($result);
+		$this->db->sql_query($sql);
+		$ids = array_column($this->db->sql_fetchrowset(), 'flair_id');
+		$this->db->sql_freeresult();
 
 		$position = array_search($flair_id, $ids);
 		array_splice($ids, $position, 1);
@@ -147,17 +141,12 @@ class flair extends operator implements flair_interface
 
 	public function get_assigned_groups($flair_id)
 	{
-		$group_ids = array();
-
 		$sql = 'SELECT group_id
 				FROM ' . $this->group_table . '
 				WHERE flair_id = ' . (int) $flair_id;
-		$result = $this->db->sql_query($sql);
-		while ($row = $this->db->sql_fetchrow($result))
-		{
-			$group_ids[] = (int) $row['group_id'];
-		}
-		$this->db->sql_freeresult($result);
+		$this->db->sql_query($sql);
+		$group_ids = array_column($this->db->sql_fetchrowset(), 'group_id');
+		$this->db->sql_freeresult();
 
 		return $group_ids;
 	}
@@ -172,15 +161,11 @@ class flair extends operator implements flair_interface
 			return $flair;
 		}
 
-		$flair_ids = array();
 		$sql = 'SELECT flair_id
 				FROM ' . $this->group_table . '
 				WHERE ' . $this->db->sql_in_set('group_id', $group_ids);
 		$this->db->sql_query($sql);
-		while ($row = $this->db->sql_fetchrow())
-		{
-			$flair_ids[] = (int) $row['flair_id'];
-		}
+		$flair_ids = array_column($this->db->sql_fetchrowset(), 'flair_id');
 		$this->db->sql_freeresult();
 
 		if (empty($flair_ids))
@@ -207,15 +192,11 @@ class flair extends operator implements flair_interface
 		}
 		$this->db->sql_freeresult();
 
-		$user_flair_ids = array();
 		$sql = 'SELECT flair_id
 				FROM ' . $this->user_table . '
 				WHERE ' . $this->db->sql_in_set('flair_id', $flair_ids);
 		$this->db->sql_query($sql);
-		while ($row = $this->db->sql_fetchrow())
-		{
-			$user_flair_ids[] = (int) $row['flair_id'];
-		}
+		$user_flair_ids = array_column($this->db->sql_fetchrowset(), 'flair_id');
 		$this->db->sql_freeresult();
 
 		foreach ($flair as &$category)

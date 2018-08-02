@@ -296,8 +296,8 @@ class acp_flair_controller extends acp_base_controller implements acp_flair_inte
 
 		$sql = 'SELECT group_id, group_name
 				FROM ' . GROUPS_TABLE;
-		$result = $this->db->sql_query($sql);
-		while ($row = $this->db->sql_fetchrow($result))
+		$this->db->sql_query($sql);
+		while ($row = $this->db->sql_fetchrow())
 		{
 			$groups[] = array(
 				'GROUP_ID'		=> (int) $row['group_id'],
@@ -306,7 +306,7 @@ class acp_flair_controller extends acp_base_controller implements acp_flair_inte
 				'S_SELECTED'	=> in_array((int) $row['group_id'], $selected),
 			);
 		}
-		$this->db->sql_freeresult($result);
+		$this->db->sql_freeresult();
 
 		$names = array_map('strtolower', array_column($groups, 'GROUP_NAME'));
 		array_multisort($names, SORT_ASC, SORT_STRING, $groups);

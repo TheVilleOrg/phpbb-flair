@@ -22,13 +22,12 @@ class category extends operator implements category_interface
 		$sql = 'SELECT *
 				FROM ' . $this->cat_table . '
 				ORDER BY cat_order ASC, cat_id ASC';
-		$result = $this->db->sql_query($sql);
-
-		while ($row = $this->db->sql_fetchrow($result))
+		$this->db->sql_query($sql);
+		while ($row = $this->db->sql_fetchrow())
 		{
 			$entities[] = $this->container->get('stevotvr.flair.entity.category')->import($row);
 		}
-		$this->db->sql_freeresult($result);
+		$this->db->sql_freeresult();
 
 		return $entities;
 	}
@@ -56,14 +55,9 @@ class category extends operator implements category_interface
 		$sql = 'SELECT cat_id
 				FROM ' . $this->cat_table . '
 				ORDER BY cat_order ASC, cat_id ASC';
-		$result = $this->db->sql_query($sql);
-
-		$ids = array();
-		while ($row = $this->db->sql_fetchrow($result))
-		{
-			$ids[] = $row['cat_id'];
-		}
-		$this->db->sql_freeresult($result);
+		$this->db->sql_query($sql);
+		$ids = array_column($this->db->sql_fetchrowset(), 'cat_id');
+		$this->db->sql_freeresult();
 
 		$position = array_search($cat_id, $ids);
 		array_splice($ids, $position, 1);
@@ -84,13 +78,9 @@ class category extends operator implements category_interface
 		$sql = 'SELECT flair_id
 				FROM ' . $this->flair_table . '
 				WHERE flair_category = ' . (int) $cat_id;
-		$result = $this->db->sql_query($sql);
-		$ids = array();
-		while ($row = $this->db->sql_fetchrow($result))
-		{
-			$ids[] = $row['flair_id'];
-		}
-		$this->db->sql_freeresult($result);
+		$this->db->sql_query($sql);
+		$ids = array_column($this->db->sql_fetchrowset(), 'flair_id');
+		$this->db->sql_freeresult();
 
 		if (!empty($ids))
 		{

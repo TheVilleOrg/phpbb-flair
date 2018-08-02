@@ -188,8 +188,8 @@ class user extends operator implements user_interface
 			'WHERE'		=> $where,
 		);
 		$sql = $this->db->sql_build_query('SELECT', $sql_ary);
-		$result = $this->db->sql_query($sql);
-		while ($row = $this->db->sql_fetchrow($result))
+		$this->db->sql_query($sql);
+		while ($row = $this->db->sql_fetchrow())
 		{
 			if (!isset($flair[(int) $row['user_id']]))
 			{
@@ -198,7 +198,7 @@ class user extends operator implements user_interface
 			$user_favs = isset($favorites[$row['user_id']]) ? $favorites[$row['user_id']] : array();
 			$this->import_flair_item($flair[(int) $row['user_id']], $row, $user_favs);
 		}
-		$this->db->sql_freeresult($result);
+		$this->db->sql_freeresult();
 
 		$this->get_group_flair($user_ids, $filter, $flair, $favorites);
 
@@ -271,8 +271,8 @@ class user extends operator implements user_interface
 			'WHERE'		=> $where,
 		);
 		$sql = $this->db->sql_build_query('SELECT', $sql_ary);
-		$result = $this->db->sql_query($sql);
-		while ($row = $this->db->sql_fetchrow($result))
+		$this->db->sql_query($sql);
+		while ($row = $this->db->sql_fetchrow())
 		{
 			$flair_id = (int) $row['flair_id'];
 			$flair_category = (int) $row['flair_category'];
@@ -292,7 +292,7 @@ class user extends operator implements user_interface
 				$this->import_flair_item($flair[$user_id], $row, $user_favs);
 			}
 		}
-		$this->db->sql_freeresult($result);
+		$this->db->sql_freeresult();
 	}
 
 	/**
@@ -310,12 +310,12 @@ class user extends operator implements user_interface
 				FROM ' . USER_GROUP_TABLE . '
 				WHERE ' . $this->db->sql_in_set('user_id', $user_ids) . '
 					AND user_pending = 0';
-		$result = $this->db->sql_query($sql);
-		while ($row = $this->db->sql_fetchrow($result))
+		$this->db->sql_query($sql);
+		while ($row = $this->db->sql_fetchrow())
 		{
 			$memberships[(int) $row['group_id']][] = (int) $row['user_id'];
 		}
-		$this->db->sql_freeresult($result);
+		$this->db->sql_freeresult();
 
 		return $memberships;
 	}
@@ -335,9 +335,9 @@ class user extends operator implements user_interface
 				FROM ' . $this->user_table . '
 				WHERE user_id = ' . (int) $user_id . '
 					AND flair_id = ' . (int) $flair_id;
-		$result = $this->db->sql_query($sql);
-		$row = $this->db->sql_fetchrow($result);
-		$this->db->sql_freeresult($result);
+		$this->db->sql_query($sql);
+		$row = $this->db->sql_fetchrow();
+		$this->db->sql_freeresult();
 
 		if ($row !== false)
 		{
