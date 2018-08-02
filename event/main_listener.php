@@ -116,7 +116,6 @@ class main_listener implements EventSubscriberInterface
 	static public function getSubscribedEvents()
 	{
 		return array(
-			'core.add_form_key'					=> 'add_form_key',
 			'core.permissions'					=> 'permissions',
 			'core.user_setup'					=> 'user_setup',
 			'core.memberlist_view_profile'		=> 'memberlist_view_profile',
@@ -126,27 +125,6 @@ class main_listener implements EventSubscriberInterface
 			'core.delete_group_after'			=> 'delete_group_after',
 			'core.delete_user_after'			=> 'delete_user_after',
 		);
-	}
-
-	/**
-	 * Modifies the creation time in the form token for the user flair ACP form to avoid 0 second
-	 * timespans.
-	 *
-	 * @param \phpbb\event\data $event The event data
-	 */
-	public function add_form_key(data $event)
-	{
-		if ($event['form_name'] === 'edit_user_flair')
-		{
-			$now = $event['now'] - 1;
-			$form_name = $event['form_name'];
-			$token_sid = $event['token_sid'];
-			$s_fields = build_hidden_fields(array(
-				'creation_time'	=> $now,
-				'form_token'	=> sha1($now . $this->user->data['user_form_salt'] . $form_name . $token_sid),
-			));
-			$event['s_fields'] = $s_fields;
-		}
 	}
 
 	/**

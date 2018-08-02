@@ -48,6 +48,7 @@ $lang = array_merge($lang, array(
 	'UCP_FLAIR_REMOVE'			=> 'Remove %s',
 	'UCP_FLAIR_FAV'				=> 'Add %s to favorites',
 	'UCP_FLAIR_UNFAV'			=> 'Remove %s from favorites',
+	'UCP_FLAIR_REMOVE_CONFIRM'	=> 'Are you sure you wish to remove this item?',
 
 	'UCP_FLAIR_ADD'	=> 'Add to profile',
 ));

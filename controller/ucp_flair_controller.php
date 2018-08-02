@@ -10,6 +10,7 @@
 
 namespace stevotvr\flair\controller;
 
+use phpbb\json_response;
 use phpbb\user;
 use stevotvr\flair\operator\flair_interface;
 use stevotvr\flair\operator\user_interface;
@@ -80,8 +81,6 @@ class ucp_flair_controller extends acp_base_controller implements ucp_flair_inte
 				unset($available_flair[$cat_id]);
 			}
 		}
-
-		add_form_key('edit_user_flair');
 
 		if ($this->request->is_set_post('add_flair'))
 		{
@@ -177,11 +176,6 @@ class ucp_flair_controller extends acp_base_controller implements ucp_flair_inte
 	 */
 	protected function change_flair($change, array $available_flair)
 	{
-		if (!check_form_key('edit_user_flair'))
-		{
-			trigger_error('FORM_INVALID');
-		}
-
 		$action = $this->request->variable($change . '_flair', array('' => ''));
 		if (is_array($action))
 		{
@@ -198,6 +192,15 @@ class ucp_flair_controller extends acp_base_controller implements ucp_flair_inte
 			}
 			else if ($change === 'remove')
 			{
+				if (!confirm_box(true))
+				{
+					$hidden_fields = build_hidden_fields(array(
+						'remove_flair[' . $id . ']'	=> true,
+					));
+					confirm_box(false, $this->language->lang('UCP_FLAIR_REMOVE_CONFIRM'), $hidden_fields);
+					return;
+				}
+
 				$this->user_operator->set_flair_count($user_id, $id, 0, false);
 				$this->user_operator->set_flair_favorite($user_id, $id, false);
 			}
@@ -208,6 +211,16 @@ class ucp_flair_controller extends acp_base_controller implements ucp_flair_inte
 			else if ($change === 'unfav')
 			{
 				$this->user_operator->set_flair_favorite($user_id, $id, false);
+			}
+
+			if ($this->request->is_ajax())
+			{
+				$json_response = new json_response();
+				$json_response->send(array(
+					'REFRESH_DATA'	=> array(
+						'url'	=> html_entity_decode($this->u_action),
+					),
+				));
 			}
 		}
 

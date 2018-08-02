@@ -10,6 +10,7 @@
 
 namespace stevotvr\flair\controller;
 
+use phpbb\json_response;
 use stevotvr\flair\operator\category_interface;
 use stevotvr\flair\operator\flair_interface;
 use stevotvr\flair\operator\user_interface;
@@ -66,7 +67,6 @@ class mcp_user_controller extends acp_base_controller implements mcp_user_interf
 	public function edit_user_flair(array $userrow)
 	{
 		$user_id = (int) $userrow['user_id'];
-		add_form_key('edit_user_flair');
 
 		if ($this->request->is_set_post('add_flair'))
 		{
@@ -203,11 +203,6 @@ class mcp_user_controller extends acp_base_controller implements mcp_user_interf
 	 */
 	protected function change_flair($user_id, $change)
 	{
-		if (!check_form_key('edit_user_flair'))
-		{
-			trigger_error('FORM_INVALID');
-		}
-
 		$action = $this->request->variable($change . '_flair', array('' => ''));
 		if (is_array($action))
 		{
@@ -218,20 +213,40 @@ class mcp_user_controller extends acp_base_controller implements mcp_user_interf
 		{
 			if ($change === 'remove')
 			{
+				if (!confirm_box(true))
+				{
+					$hidden_fields = build_hidden_fields(array(
+						'remove_flair[' . $id . ']'	=> true,
+					));
+					confirm_box(false, $this->language->lang('MCP_FLAIR_REMOVE_CONFIRM'), $hidden_fields);
+					return;
+				}
+
 				$this->user_operator->set_flair_count($user_id, $id, 0);
-				return;
+			}
+			else
+			{
+				$counts = $this->request->variable($change . '_count', array('' => ''));
+				$count = (isset($counts[$id])) ? (int) $counts[$id] : 1;
+
+				if ($change === 'add')
+				{
+					$this->user_operator->add_flair($user_id, $id, $count);
+				}
+				else if ($change === 'set')
+				{
+					$this->user_operator->set_flair_count($user_id, $id, $count);
+				}
 			}
 
-			$counts = $this->request->variable($change . '_count', array('' => ''));
-			$count = (isset($counts[$id])) ? (int) $counts[$id] : 1;
-
-			if ($change === 'add')
+			if ($this->request->is_ajax())
 			{
-				$this->user_operator->add_flair($user_id, $id, $count);
-			}
-			else if ($change === 'set')
-			{
-				$this->user_operator->set_flair_count($user_id, $id, $count);
+				$json_response = new json_response();
+				$json_response->send(array(
+					'REFRESH_DATA'	=> array(
+						'url'	=> html_entity_decode($this->u_action) . '&u=' . $user_id,
+					),
+				));
 			}
 		}
 

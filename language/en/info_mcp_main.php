@@ -49,6 +49,7 @@ $lang = array_merge($lang, array(
 	'MCP_FLAIR_NO_AVAILABLE'	=> 'There are no flair items available.',
 	'MCP_FLAIR_SET_COUNT_TITLE'	=> 'Set the number of “%1$s” on %2$s’s profile',
 	'MCP_FLAIR_REMOVE_TITLE'	=> 'Remove “%1$s” from %2$s’s profile',
+	'MCP_FLAIR_REMOVE_CONFIRM'	=> 'Are you sure you wish to remove this item?',
 
 	'MCP_FLAIR_SET'	=> 'Set',
 ));
