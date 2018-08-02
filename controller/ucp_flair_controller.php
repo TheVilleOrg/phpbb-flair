@@ -85,22 +85,18 @@ class ucp_flair_controller extends acp_base_controller implements ucp_flair_inte
 		if ($this->request->is_set_post('add_flair'))
 		{
 			$this->change_flair('add', $available_flair_ids);
-			return;
 		}
 		else if ($this->request->is_set_post('remove_flair'))
 		{
 			$this->change_flair('remove', $available_flair_ids);
-			return;
 		}
 		else if ($this->request->is_set_post('fav_flair'))
 		{
 			$this->change_flair('fav', $user_flair_ids);
-			return;
 		}
 		else if ($this->request->is_set_post('unfav_flair'))
 		{
 			$this->change_flair('unfav', $user_flair_ids);
-			return;
 		}
 
 		foreach ($user_flair as $category)
