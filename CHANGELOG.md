@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.2.0-beta1 (8/2/18)
+
+* Moved the ACP user flair module to the MCP
+* Added option to send notifications when users receive flair
+* Added option to limit the number of items shown per category on posts
+* Added option to control whether group assignments are automatic
+* Added UCP module to allow users to self-assign non-automatic group flair
+* Added user permission to control access to the UCP module (defaults to signature access)
+* Added favorites system to allow users to select flair items to be shown first
+* Fixed display option defaults being ignored
+
 ## 1.1.1 (7/10/18)
 
 * Fixed error when multiple triggers have the same value
