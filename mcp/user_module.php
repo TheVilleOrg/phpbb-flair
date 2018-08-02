@@ -37,9 +37,6 @@ class user_module
 
 		$controller->set_page_url($this->u_action);
 
-		$user_id = $request->variable('u', 0);
-		$username = $request->variable('username', '', true);
-
 		if ($mode === 'front')
 		{
 			$this->p_master->set_display($id, 'user_flair', false);
