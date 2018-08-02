@@ -93,6 +93,7 @@ class main extends base
 
 		$this->config->set('stevotvr_flair_cron_last_run', time());
 	}
+
 	public function should_run()
 	{
 		if (!$this->config['stevotvr_flair_notify_users'])
