@@ -11,6 +11,7 @@
 namespace stevotvr\flair\controller;
 
 use phpbb\config\config;
+use phpbb\json_response;
 use stevotvr\flair\entity\category_interface as cat_entity;
 use stevotvr\flair\exception\base;
 use stevotvr\flair\operator\category_interface as cat_operator;
