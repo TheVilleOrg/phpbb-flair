@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.2.0 (8/23/18)
+
+* Fixed errors when reordering categories
+* Changed tile layout to accommodate longer item names
+
 ## 1.2.0-beta1 (8/2/18)
 
 * Moved the ACP user flair module to the MCP
