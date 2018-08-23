@@ -57,20 +57,13 @@
 	border: 1px solid #aaa;
 	float: left;
 	margin: 4px;
-	padding: 4px 6px;
-	position: relative;
 	width: 150px;
 }
 
-.flair-tile .flair-item {
-	float: left;
-}
-
-.flair-tile h5 {
-	float: left;
-	margin-bottom: 2px;
-	margin-left: 2px;
-	white-space: nowrap;
+.flair-tile td {
+	padding: 4px;
+	position: relative;
+	vertical-align: top;
 }
 
 .flair-tile .flair-buttons {
