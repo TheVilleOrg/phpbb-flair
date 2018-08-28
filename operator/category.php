@@ -52,11 +52,16 @@ class category extends operator implements category_interface
 
 	public function move_category($cat_id, $offset)
 	{
+		$ids = array();
+
 		$sql = 'SELECT cat_id
 				FROM ' . $this->cat_table . '
 				ORDER BY cat_order ASC, cat_id ASC';
 		$this->db->sql_query($sql);
-		$ids = array_column($this->db->sql_fetchrowset(), 'cat_id');
+		while ($row = $this->db->sql_fetchrow())
+		{
+			$ids[] = (int) $row['cat_id'];
+		}
 		$this->db->sql_freeresult();
 
 		$position = array_search($cat_id, $ids);
@@ -75,11 +80,16 @@ class category extends operator implements category_interface
 
 	public function delete_flair($cat_id)
 	{
+		$ids = array();
+
 		$sql = 'SELECT flair_id
 				FROM ' . $this->flair_table . '
 				WHERE flair_category = ' . (int) $cat_id;
 		$this->db->sql_query($sql);
-		$ids = array_column($this->db->sql_fetchrowset(), 'flair_id');
+		while ($row = $this->db->sql_fetchrow())
+		{
+			$ids[] = (int) $row['flair_id'];
+		}
 		$this->db->sql_freeresult();
 
 		if (!empty($ids))

@@ -308,8 +308,12 @@ class acp_flair_controller extends acp_base_controller implements acp_flair_inte
 		}
 		$this->db->sql_freeresult();
 
-		$names = array_map('strtolower', array_column($groups, 'GROUP_NAME'));
-		array_multisort($names, SORT_ASC, SORT_STRING, $groups);
+		$names = array();
+		foreach ($groups as $group)
+		{
+			$names[] = $group['GROUP_NAME'];
+		}
+		array_multisort($names, SORT_ASC, SORT_NATURAL | SORT_FLAG_CASE, $groups);
 		foreach ($groups as $group)
 		{
 			$this->template->assign_block_vars('group', $group);

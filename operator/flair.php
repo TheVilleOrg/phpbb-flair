@@ -100,12 +100,16 @@ class flair extends operator implements flair_interface
 			throw new out_of_bounds('flair_id');
 		}
 
+		$ids = array();
 		$sql = 'SELECT flair_id
 				FROM ' . $this->flair_table . '
 				WHERE flair_category = ' . (int) $row['flair_category'] . '
 				ORDER BY flair_order ASC, flair_id ASC';
 		$this->db->sql_query($sql);
-		$ids = array_column($this->db->sql_fetchrowset(), 'flair_id');
+		while ($row = $this->db->sql_fetchrow())
+		{
+			$ids[] = (int) $row['flair_id'];
+		}
 		$this->db->sql_freeresult();
 
 		$position = array_search($flair_id, $ids);
@@ -141,11 +145,16 @@ class flair extends operator implements flair_interface
 
 	public function get_assigned_groups($flair_id)
 	{
+		$group_ids = array();
+
 		$sql = 'SELECT group_id
 				FROM ' . $this->group_table . '
 				WHERE flair_id = ' . (int) $flair_id;
 		$this->db->sql_query($sql);
-		$group_ids = array_column($this->db->sql_fetchrowset(), 'group_id');
+		while ($row = $this->db->sql_fetchrow())
+		{
+			$group_ids[] = (int) $row['group_id'];
+		}
 		$this->db->sql_freeresult();
 
 		return $group_ids;
@@ -153,7 +162,7 @@ class flair extends operator implements flair_interface
 
 	public function get_group_flair(array $group_ids)
 	{
-		$group_ids = (array) $group_ids;
+		$group_ids = $group_ids;
 		$flair = array();
 
 		if (empty($group_ids))
@@ -161,11 +170,15 @@ class flair extends operator implements flair_interface
 			return $flair;
 		}
 
+		$flair_ids = array();
 		$sql = 'SELECT flair_id
 				FROM ' . $this->group_table . '
 				WHERE ' . $this->db->sql_in_set('group_id', $group_ids);
 		$this->db->sql_query($sql);
-		$flair_ids = array_column($this->db->sql_fetchrowset(), 'flair_id');
+		while ($row = $this->db->sql_fetchrow())
+		{
+			$flair_ids[] = (int) $row['flair_id'];
+		}
 		$this->db->sql_freeresult();
 
 		if (empty($flair_ids))
@@ -192,11 +205,15 @@ class flair extends operator implements flair_interface
 		}
 		$this->db->sql_freeresult();
 
+		$user_flair_ids = array();
 		$sql = 'SELECT flair_id
 				FROM ' . $this->user_table . '
 				WHERE ' . $this->db->sql_in_set('flair_id', $flair_ids);
 		$this->db->sql_query($sql);
-		$user_flair_ids = array_column($this->db->sql_fetchrowset(), 'flair_id');
+		while ($row = $this->db->sql_fetchrow())
+		{
+			$user_flair_ids[] = (int) $row['flair_id'];
+		}
 		$this->db->sql_freeresult();
 
 		foreach ($flair as &$category)

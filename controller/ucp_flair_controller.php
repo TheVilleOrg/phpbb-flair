@@ -56,12 +56,16 @@ class ucp_flair_controller extends acp_base_controller implements ucp_flair_inte
 		$user_flair = $this->user_operator->get_user_flair((array) $user_id);
 		$user_flair = isset($user_flair[$user_id]) ? $user_flair[$user_id] : array();
 		$user_flair_ids = array();
-		foreach (array_column($user_flair, 'items') as $items)
+		foreach ($user_flair as $flair)
 		{
-			$user_flair_ids = array_merge($user_flair_ids, array_keys($items));
+			$user_flair_ids = array_merge($user_flair_ids, array_keys($flair['items']));
 		}
 
-		$group_memberships = array_column(group_memberships(false, $user_id), 'group_id');
+		$group_memberships = group_memberships(false, $user_id);
+		foreach ($group_memberships as $k => $group_membership)
+		{
+			$group_memberships[$k] = (int) $group_membership['group_id'];
+		}
 		$available_flair = $this->flair_operator->get_group_flair($group_memberships);
 		$available_flair_ids = array();
 		foreach ($available_flair as $cat_id => $category)
