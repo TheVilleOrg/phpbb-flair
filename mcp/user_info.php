@@ -23,12 +23,12 @@ class user_info
 			'modes'		=> array(
 				'front'			=> array(
 					'title'	=> 'MCP_FLAIR_FRONT',
-					'auth'	=> 'ext_stevotvr/flair && acl_m_userflair',
+					'auth'	=> 'ext_stevotvr/flair && (acl_m_userflair || acl_a_board)',
 					'cat'	=> array('MCP_FLAIR'),
 				),
 				'user_flair'	=> array(
 					'title'	=> 'MCP_FLAIR_USER',
-					'auth'	=> 'ext_stevotvr/flair && acl_m_userflair',
+					'auth'	=> 'ext_stevotvr/flair && (acl_m_userflair || acl_a_board)',
 					'cat'	=> array('MCP_FLAIR'),
 				),
 			),
