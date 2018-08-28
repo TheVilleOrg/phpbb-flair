@@ -64,6 +64,7 @@
 	padding: 4px;
 	position: relative;
 	vertical-align: top;
+	width: 100%;
 }
 
 .flair-tile .flair-buttons {

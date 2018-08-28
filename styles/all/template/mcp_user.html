@@ -41,9 +41,9 @@
 					{% for item in cat.item %}
 					<table class="flair-tile">
 						<tr>
-							<td class="flair_item">
+							<th>
 								{% include '@stevotvr_flair/flair_item.html' with item %}
-							</td>
+							</th>
 							<td>
 								<h5 title="{{ item.FLAIR_NAME }}">{{ item.FLAIR_NAME_SHORT }}</h5>
 								<span class="flair-buttons">
@@ -73,9 +73,9 @@
 					{% for item in c.item %}
 					<table class="flair-tile">
 						<tr>
-							<td class="flair_item">
+							<th>
 								{% include '@stevotvr_flair/flair_item.html' with item %}
-							</td>
+							</th>
 							<td>
 								<h5 title="{{ item.FLAIR_NAME }}">{{ item.FLAIR_NAME_SHORT }}</h5>
 								<div class="flair-buttons">
