@@ -55,13 +55,21 @@
 
 .flair-tile {
 	border: 1px solid #aaa;
+	display: block;
 	float: left;
 	margin: 4px;
+	overflow: hidden;
+	padding: 1px 4px 0;
 	width: 150px;
 }
 
+.flair-tile td, .flair-tile th {
+	vertical-align: top;
+}
+
 .flair-tile td {
-	padding: 4px;
+	height: 50px;
+	padding: 2px 0 0 4px;
 	position: relative;
 	vertical-align: top;
 	width: 100%;
