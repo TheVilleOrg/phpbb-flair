@@ -12,6 +12,7 @@ namespace stevotvr\flair\operator;
 
 use phpbb\filesystem\filesystem_interface;
 use stevotvr\flair\exception\base;
+use Zend\Stdlib\Glob;
 
 /**
  * Profile Flair image operator.
@@ -90,7 +91,7 @@ class image extends operator implements image_interface
 	{
 		$images = array();
 
-		foreach (glob($this->img_path . '*{-x1.{gif,png,jpg,jpeg,GIF,PNG,JPG,JPEG},.{svg,SVG}}', GLOB_BRACE) as $file)
+		foreach (Glob::glob($this->img_path . '*{-x1.{gif,png,jpg,jpeg,GIF,PNG,JPG,JPEG},.{svg,SVG}}', Glob::GLOB_BRACE) as $file)
 		{
 			$ext = substr($file, strrpos($file, '.'));
 			if (strtolower($ext) === '.svg')
@@ -151,7 +152,7 @@ class image extends operator implements image_interface
 		}
 		else
 		{
-			if (count(glob($this->img_path . $name . '-x[123]' . $ext)) > 0)
+			if (count(Glob::glob($this->img_path . $name . '-x[123]' . $ext)) > 0)
 			{
 				throw new base('EXCEPTION_IMG_CONFLICT');
 			}
@@ -178,7 +179,7 @@ class image extends operator implements image_interface
 		else
 		{
 			$name = substr($name, 0, strrpos($name, '.'));
-			$this->filesystem->remove(glob($this->img_path . $name . '-x[123]' . $ext));
+			$this->filesystem->remove(Glob::glob($this->img_path . $name . '-x[123]' . $ext));
 		}
 	}
 
