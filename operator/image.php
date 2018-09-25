@@ -12,7 +12,6 @@ namespace stevotvr\flair\operator;
 
 use phpbb\filesystem\filesystem_interface;
 use stevotvr\flair\exception\base;
-use Zend\Stdlib\Glob;
 
 /**
  * Profile Flair image operator.
@@ -42,7 +41,7 @@ class image extends operator implements image_interface
 	 * Set up the operator.
 	 *
 	 * @param \phpbb\filesystem\filesystem_interface $filesystem
-	 * @param string                                 $img_path      The path to the custom images
+	 * @param string								 $img_path		The path to the custom images
 	 */
 	public function setup(filesystem_interface $filesystem, $img_path)
 	{
@@ -90,27 +89,37 @@ class image extends operator implements image_interface
 	public function get_images()
 	{
 		$images = array();
-
-		foreach (Glob::glob($this->img_path . '*{-x1.{gif,png,jpg,jpeg,GIF,PNG,JPG,JPEG},.{svg,SVG}}', Glob::GLOB_BRACE) as $file)
+		$handle = opendir($this->img_path);
+		if ($handle === false) 
 		{
-			$ext = substr($file, strrpos($file, '.'));
-			if (strtolower($ext) === '.svg')
+			trigger_error("Could not open: '$this->img_path'", E_USER_ERROR);
+		} 
+		else
+		{
+			while (false !== ($file = readdir($handle)))
 			{
-				$images[] = basename($file);
-			}
-			else
-			{
-				$name = substr($file, 0, strrpos($file, '-x1.'));
-
-				if (!$this->filesystem->exists(array($name . '-x2' . $ext, $name . '-x3' . $ext)))
+				$file = $this->img_path . $file;
+				$ext = substr($file, strrpos($file, '.'));
+				switch(strtolower($ext))
 				{
-					continue;
+					case '.svg':
+						$images[] = basename($file);
+						break;
+					case '.gif':
+					case '.png':
+					case '.jpg': case '.jpeg':
+						$name = substr($file, 0, strrpos($file, '-x1.'));
+						if (!$this->filesystem->exists(array($name . '-x2' . $ext, $name . '-x3' . $ext)))
+						{
+							continue;
+						}
+						$images[] = basename($name) . $ext;
+						break;
+					default:
+						break; // Unknown extension
 				}
-
-				$images[] = basename($name) . $ext;
 			}
 		}
-
 		return $images;
 	}
 
@@ -152,7 +161,7 @@ class image extends operator implements image_interface
 		}
 		else
 		{
-			if (count(Glob::glob($this->img_path . $name . '-x[123]' . $ext)) > 0)
+			if (count(glob($this->img_path . $name . '-x[123]' . $ext)) > 0)
 			{
 				throw new base('EXCEPTION_IMG_CONFLICT');
 			}
@@ -179,7 +188,7 @@ class image extends operator implements image_interface
 		else
 		{
 			$name = substr($name, 0, strrpos($name, '.'));
-			$this->filesystem->remove(Glob::glob($this->img_path . $name . '-x[123]' . $ext));
+			$this->filesystem->remove(glob($this->img_path . $name . '-x[123]' . $ext));
 		}
 	}
 
