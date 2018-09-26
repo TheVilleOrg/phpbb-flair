@@ -41,7 +41,7 @@ class image extends operator implements image_interface
 	 * Set up the operator.
 	 *
 	 * @param \phpbb\filesystem\filesystem_interface $filesystem
-	 * @param string								 $img_path		The path to the custom images
+	 * @param string                                 $img_path      The path to the custom images
 	 */
 	public function setup(filesystem_interface $filesystem, $img_path)
 	{
@@ -89,18 +89,19 @@ class image extends operator implements image_interface
 	public function get_images()
 	{
 		$images = array();
+
 		$handle = opendir($this->img_path);
-		if ($handle === false) 
+		if ($handle === false)
 		{
 			trigger_error("Could not open: '$this->img_path'", E_USER_ERROR);
-		} 
+		}
 		else
 		{
 			while (false !== ($file = readdir($handle)))
 			{
 				$file = $this->img_path . $file;
 				$ext = substr($file, strrpos($file, '.'));
-				switch(strtolower($ext))
+				switch (strtolower($ext))
 				{
 					case '.svg':
 						$images[] = basename($file);
@@ -119,7 +120,9 @@ class image extends operator implements image_interface
 						break; // Unknown extension
 				}
 			}
+			closedir($handle);
 		}
+
 		return $images;
 	}
 
