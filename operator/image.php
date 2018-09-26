@@ -90,24 +90,37 @@ class image extends operator implements image_interface
 	{
 		$images = array();
 
-		foreach (glob($this->img_path . '*{-x1.{gif,png,jpg,jpeg,GIF,PNG,JPG,JPEG},.{svg,SVG}}', GLOB_BRACE) as $file)
+		$handle = opendir($this->img_path);
+		if ($handle === false)
 		{
-			$ext = substr($file, strrpos($file, '.'));
-			if (strtolower($ext) === '.svg')
+			trigger_error("Could not open: '$this->img_path'", E_USER_ERROR);
+		}
+		else
+		{
+			while (false !== ($file = readdir($handle)))
 			{
-				$images[] = basename($file);
-			}
-			else
-			{
-				$name = substr($file, 0, strrpos($file, '-x1.'));
-
-				if (!$this->filesystem->exists(array($name . '-x2' . $ext, $name . '-x3' . $ext)))
+				$file = $this->img_path . $file;
+				$ext = substr($file, strrpos($file, '.'));
+				switch (strtolower($ext))
 				{
-					continue;
+					case '.svg':
+						$images[] = basename($file);
+						break;
+					case '.gif':
+					case '.png':
+					case '.jpg': case '.jpeg':
+						$name = substr($file, 0, strrpos($file, '-x1.'));
+						if (!$this->filesystem->exists(array($name . '-x2' . $ext, $name . '-x3' . $ext)))
+						{
+							continue;
+						}
+						$images[] = basename($name) . $ext;
+						break;
+					default:
+						break; // Unknown extension
 				}
-
-				$images[] = basename($name) . $ext;
 			}
+			closedir($handle);
 		}
 
 		return $images;
