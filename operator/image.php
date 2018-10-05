@@ -210,7 +210,7 @@ class image extends operator implements image_interface
 
 				$scaled = $image->clone();
 				$scaled->resizeImage($width, $height, \Imagick::FILTER_LANCZOS, 1);
-				$this->filesystem->dump_file($dest_path . $name . '-x' . $size . $ext, $scaled);
+				file_put_contents($dest_path . $name . '-x' . $size . $ext, $scaled);
 
 				$scaled->clear();
 			}
