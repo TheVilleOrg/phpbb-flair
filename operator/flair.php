@@ -41,8 +41,7 @@ class flair extends operator implements flair_interface
 		$sql = 'SELECT flair_order
 				FROM ' . $this->flair_table . '
 				WHERE flair_category = ' . (int) $flair->get_category() . '
-				ORDER BY flair_order DESC
-				LIMIT 1';
+				ORDER BY flair_order DESC';
 		$this->db->sql_query($sql);
 		$order = $this->db->sql_fetchfield('flair_order');
 		$this->db->sql_freeresult();
