@@ -85,9 +85,9 @@ class version_1_2_0 extends migration
 			array('config.add', array('stevotvr_flair_notify_users', 1)),
 			array('config.add', array('stevotvr_flair_cron_last_run', 0)),
 
-			array('permission.add', array('m_userflair', true, 'a_manage_flair')),
-			array('permission.add', array('u_flair', true, 'u_sig')),
 			array('permission.remove', array('a_manage_flair')),
+			array('permission.add', array('m_userflair', true, 'm_ban')),
+			array('permission.add', array('u_flair', true, 'u_sig')),
 
 			array('module.remove', array(
 				'acp',
