@@ -63,22 +63,20 @@
 	width: 150px;
 }
 
-.flair-tile td, .flair-tile th {
+.flair-tile th {
+	height: 50px;
 	vertical-align: top;
 }
 
-.flair-tile td {
-	height: 50px;
-	padding: 2px 0 0 4px;
-	position: relative;
-	vertical-align: top;
-	width: 100%;
+.flair-tile h5 {
+	margin: 2px 0 0 4px;
 }
 
 .flair-tile .flair-buttons {
-	bottom: 4px;
-	position: absolute;
-	right: 4px;
+	padding-bottom: 4px;
+	text-align: right;
+	vertical-align: bottom;
+	width: 100%;
 }
 
 .flair-tile .flair-fav {

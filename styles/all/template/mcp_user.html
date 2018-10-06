@@ -41,16 +41,18 @@
 					{% for item in cat.item %}
 					<table class="flair-tile">
 						<tr>
-							<th>
+							<th rowspan="2">
 								{% include '@stevotvr_flair/flair_item.html' with item %}
 							</th>
 							<td>
 								<h5 title="{{ item.FLAIR_NAME }}">{{ item.FLAIR_NAME_SHORT }}</h5>
-								<span class="flair-buttons">
-									<input class="inputbox" type="number" name="set_count[{{ item.FLAIR_ID }}]" width="1" min="1" value="{{ item.FLAIR_COUNT }}" />
-									<input type="submit" name="set_flair[{{ item.FLAIR_ID }}]" value="{{ lang('MCP_FLAIR_SET') }}" class="button2" title="{{ item.SET_COUNT_TITLE }}" />
-									{% if not item.S_FROM_GROUP %}<input type="submit" name="remove_flair[{{ item.FLAIR_ID }}]" value="&times;" class="button1 flair-remove" title="{{ item.REMOVE_TITLE }}" />{% endif %}
-								</span>
+							</td>
+						</tr>
+						<tr>
+							<td class="flair-buttons">
+								<input class="inputbox" type="number" name="set_count[{{ item.FLAIR_ID }}]" width="1" min="1" value="{{ item.FLAIR_COUNT }}" />
+								<input type="submit" name="set_flair[{{ item.FLAIR_ID }}]" value="{{ lang('MCP_FLAIR_SET') }}" class="button2" title="{{ item.SET_COUNT_TITLE }}" />
+								{% if not item.S_FROM_GROUP %}<input type="submit" name="remove_flair[{{ item.FLAIR_ID }}]" value="&times;" class="button1 flair-remove" title="{{ item.REMOVE_TITLE }}" />{% endif %}
 							</td>
 						</tr>
 					</table>
@@ -73,15 +75,17 @@
 					{% for item in c.item %}
 					<table class="flair-tile">
 						<tr>
-							<th>
+							<th rowspan="2">
 								{% include '@stevotvr_flair/flair_item.html' with item %}
 							</th>
 							<td>
 								<h5 title="{{ item.FLAIR_NAME }}">{{ item.FLAIR_NAME_SHORT }}</h5>
-								<div class="flair-buttons">
-									<input class="inputbox" type="number" name="add_count[{{ item.FLAIR_ID }}]" width="1" min="1" value="1" />
-									<input type="submit" name="add_flair[{{ item.FLAIR_ID }}]" value="+" class="button2" title="{{ item.ADD_TITLE }}" />
-								</div>
+							</td>
+						</tr>
+						<tr>
+							<td class="flair-buttons">
+								<input class="inputbox" type="number" name="add_count[{{ item.FLAIR_ID }}]" width="1" min="1" value="1" />
+								<input type="submit" name="add_flair[{{ item.FLAIR_ID }}]" value="+" class="button2" title="{{ item.ADD_TITLE }}" />
 							</td>
 						</tr>
 					</table>

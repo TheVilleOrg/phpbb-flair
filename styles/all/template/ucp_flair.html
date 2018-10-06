@@ -17,15 +17,17 @@
 					{% for item in c.items %}
 					<table class="flair-tile">
 						<tr>
-							<th>
+							<th rowspan="2">
 								{% include '@stevotvr_flair/flair_item.html' with item %}
 							</th>
 							<td>
 								<h5 title="{{ item.FLAIR_NAME }}">{{ item.FLAIR_NAME_SHORT }}</h5>
-								<span class="flair-buttons">
-									<input type="submit" name="{% if item.FLAIR_FAV %}unfav{% else %}fav{% endif %}_flair[{{ item.FLAIR_ID }}]" value="{% if item.FLAIR_FAV %}&#xf005;{% else %}&#xf006;{% endif %}" class="button1 flair-fav" title="{{ item.FAV_TITLE }}" />
-									{% if item.S_IS_FREE %}<input type="submit" name="remove_flair[{{ item.FLAIR_ID }}]" value="&times;" class="button1 flair-remove" title="{{ item.REMOVE_TITLE }}" />{% endif %}
-								</span>
+							</td>
+						</tr>
+						<tr>
+							<td class="flair-buttons">
+								<input type="submit" name="{% if item.FLAIR_FAV %}unfav{% else %}fav{% endif %}_flair[{{ item.FLAIR_ID }}]" value="{% if item.FLAIR_FAV %}&#xf005;{% else %}&#xf006;{% endif %}" class="button1 flair-fav" title="{{ item.FAV_TITLE }}" />
+								{% if item.S_IS_FREE %}<input type="submit" name="remove_flair[{{ item.FLAIR_ID }}]" value="&times;" class="button1 flair-remove" title="{{ item.REMOVE_TITLE }}" />{% endif %}
 							</td>
 						</tr>
 					</table>
@@ -48,14 +50,16 @@
 					{% for item in c.items %}
 					<table class="flair-tile">
 						<tr>
-							<th>
+							<th rowspan="2">
 								{% include '@stevotvr_flair/flair_item.html' with item %}
 							</th>
 							<td>
 								<h5 title="{{ item.FLAIR_NAME }}">{{ item.FLAIR_NAME_SHORT }}</h5>
-								<span class="flair-buttons">
-									<input type="submit" name="add_flair[{{ item.FLAIR_ID }}]" value="{{ lang('UCP_FLAIR_ADD_BUTTON') }}" class="button2" title="{{ item.ADD_TITLE }}" />
-								</span>
+							</td>
+						</tr>
+						<tr>
+							<td class="flair-buttons">
+								<input type="submit" name="add_flair[{{ item.FLAIR_ID }}]" value="{{ lang('UCP_FLAIR_ADD_BUTTON') }}" class="button2" title="{{ item.ADD_TITLE }}" />
 							</td>
 						</tr>
 					</table>
