@@ -111,7 +111,7 @@ $lang = array_merge($lang, array(
 	'ACP_FLAIR_TRIGGER_MEMBERSHIP_DAYS_EXPLAIN'	=> 'Set the minimum number of days a user must be registered before automatically receiving this item. Leave blank to disable.',
 
 	'ACP_FLAIR_IMAGES'						=> 'Manage images',
-	'ACP_FLAIR_IMAGES_EXPLAIN'				=> 'Here you can view, upload, or delete custom image icons.',
+	'ACP_FLAIR_IMAGES_EXPLAIN'				=> 'Here you can view, upload, or delete custom image icons. You cannot delete images that are currently in use by one or more flair items.',
 	'ACP_FLAIR_IMGS_EMPTY'					=> 'No custom image sets were found.',
 	'ACP_FLAIR_ADD_IMG'						=> 'Add image',
 	'ACP_FLAIR_ADD_IMGS'					=> 'Add images',
