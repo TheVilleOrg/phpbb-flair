@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.2.1 (10/7/18)
+
+* Added more instructions to the flair control panels
+* Fixed board administrators not having access to the MCP panel
+* Fixed layout issues in the flair XCP tiles
+* Fixed a typo in the email template
+* Added missing language keys for button titles
+* Fixed image listing failing on some system
+* Fixed PHP 5.4 support
+
 ## 1.2.0 (8/23/18)
 
 * Fixed errors when reordering categories
