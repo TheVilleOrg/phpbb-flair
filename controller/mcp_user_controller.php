@@ -143,16 +143,14 @@ class mcp_user_controller extends acp_base_controller implements mcp_user_interf
 			'U_ACTION'	=> $this->u_action . '&amp;u=' . $user_id,
 		));
 
-		$this->assign_flair_tpl_vars($username);
-		$this->assign_user_tpl_vars($username, $user_flair);
+		$this->assign_flair_tpl_vars();
+		$this->assign_user_tpl_vars($user_flair);
 	}
 
 	/**
 	 * Assign template variables for the available flair.
-	 *
-	 * @param string $username The name of the user being worked on
 	 */
-	protected function assign_flair_tpl_vars($username)
+	protected function assign_flair_tpl_vars()
 	{
 		$available_cats = $this->cat_operator->get_categories();
 		$categories = array(array('category' => $this->language->lang('FLAIR_UNCATEGORIZED')));
@@ -198,10 +196,9 @@ class mcp_user_controller extends acp_base_controller implements mcp_user_interf
 	/**
 	 * Assign template variables for the user flair.
 	 *
-	 * @param string $username   The name of the user being worked on
 	 * @param array  $user_flair The flair items assigned to the user being worked on
 	 */
-	protected function assign_user_tpl_vars($username, array $user_flair)
+	protected function assign_user_tpl_vars(array $user_flair)
 	{
 		foreach ($user_flair as $category)
 		{
