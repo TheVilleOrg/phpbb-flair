@@ -39,8 +39,12 @@
 						</tr>
 						<tr>
 							<td class="flair-buttons">
-								<input type="submit" name="{% if item.FLAIR_FAV %}unfav{% else %}fav{% endif %}_flair[{{ item.FLAIR_ID }}]" value="{% if item.FLAIR_FAV %}&#xf005;{% else %}&#xf006;{% endif %}" class="button1 flair-fav" title="{{ item.FAV_TITLE }}" />
-								{% if item.S_IS_FREE %}<input type="submit" name="remove_flair[{{ item.FLAIR_ID }}]" value="&times;" class="button1 flair-remove" title="{{ item.REMOVE_TITLE }}" />{% endif %}
+							{% if item.FLAIR_FAV %}
+								<input type="submit" name="unfav_flair[{{ item.FLAIR_ID }}]" value="&#xf005;" class="button1 flair-fav" title="{{ lang('UCP_FLAIR_UNFAV', item.FLAIR_NAME) }}" />
+							{% else %}
+								<input type="submit" name="fav_flair[{{ item.FLAIR_ID }}]" value="&#xf006;" class="button1 flair-fav" title="{{ lang('UCP_FLAIR_FAV', item.FLAIR_NAME) }}" />
+							{% endif %}
+								{% if item.S_IS_FREE %}<input type="submit" name="remove_flair[{{ item.FLAIR_ID }}]" value="&times;" class="button1 flair-remove" title="{{ lang('UCP_FLAIR_REMOVE', item.FLAIR_NAME) }}" />{% endif %}
 							</td>
 						</tr>
 					</table>
@@ -72,7 +76,7 @@
 						</tr>
 						<tr>
 							<td class="flair-buttons">
-								<input type="submit" name="add_flair[{{ item.FLAIR_ID }}]" value="{{ lang('UCP_FLAIR_ADD_BUTTON') }}" class="button2" title="{{ item.ADD_TITLE }}" />
+								<input type="submit" name="add_flair[{{ item.FLAIR_ID }}]" value="{{ lang('UCP_FLAIR_ADD_BUTTON') }}" class="button2" title="{{ lang('UCP_FLAIR_ADD', item.FLAIR_NAME) }}" />
 							</td>
 						</tr>
 					</table>

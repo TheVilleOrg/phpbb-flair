@@ -137,7 +137,8 @@ class mcp_user_controller extends acp_base_controller implements mcp_user_interf
 	protected function assign_tpl_vars($user_id, $username, $user_colour, array $user_flair)
 	{
 		$this->template->assign_vars(array(
-			'USER_FLAIR_TITLE'	=> $this->language->lang('MCP_FLAIR_USER_FLAIR', get_username_string('full', $user_id, $username, $user_colour)),
+			'FLAIR_USER'		=> $username,
+			'FLAIR_USER_FULL'	=> get_username_string('full', $user_id, $username, $user_colour),
 
 			'U_ACTION'	=> $this->u_action . '&amp;u=' . $user_id,
 		));
@@ -189,8 +190,6 @@ class mcp_user_controller extends acp_base_controller implements mcp_user_interf
 					'FLAIR_ICON'		=> $entity->get_icon(),
 					'FLAIR_ICON_COLOR'	=> $entity->get_icon_color(),
 					'FLAIR_IMG'			=> $this->img_path . $entity->get_img(2),
-
-					'ADD_TITLE'	=> $this->language->lang('MCP_FLAIR_ADD_TITLE', $entity->get_name(), $username),
 				));
 			}
 		}
@@ -227,9 +226,6 @@ class mcp_user_controller extends acp_base_controller implements mcp_user_interf
 					'FLAIR_IMG'			=> $this->img_path . $entity->get_img(2),
 					'FLAIR_FONT_COLOR'	=> $entity->get_font_color(),
 					'FLAIR_COUNT'		=> $item['count'],
-
-					'SET_COUNT_TITLE'	=> $this->language->lang('MCP_FLAIR_SET_COUNT_TITLE', $entity->get_name(), $username),
-					'REMOVE_TITLE'		=> $this->language->lang('MCP_FLAIR_REMOVE_TITLE', $entity->get_name(), $username),
 				));
 			}
 		}

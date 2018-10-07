@@ -36,7 +36,7 @@
 			<div class="postbody">
 
 			<div class="content">
-				{{ lang('MCP_FLAIR_EXPLAIN') }}
+				{{ lang('MCP_FLAIR_EXPLAIN', FLAIR_USER) }}
 			</div>
 
 			</div>
@@ -46,7 +46,7 @@
 	<div class="panel">
 		<div class="inner">
 			<fieldset>
-				<h3>{{ USER_FLAIR_TITLE }}</h3>
+				<h3>{{ lang('MCP_FLAIR_USER_FLAIR', FLAIR_USER_FULL) }}</h3>
 				<div class="flair">
 				{% for cat in flair %}
 					{% if cat.CAT_NAME %}<h4>{{ cat.CAT_NAME }}</h4>{% endif %}
@@ -64,8 +64,8 @@
 						<tr>
 							<td class="flair-buttons">
 								<input class="inputbox" type="number" name="set_count[{{ item.FLAIR_ID }}]" width="1" min="1" value="{{ item.FLAIR_COUNT }}" />
-								<input type="submit" name="set_flair[{{ item.FLAIR_ID }}]" value="{{ lang('MCP_FLAIR_SET') }}" class="button2" title="{{ item.SET_COUNT_TITLE }}" />
-								{% if not item.S_FROM_GROUP %}<input type="submit" name="remove_flair[{{ item.FLAIR_ID }}]" value="&times;" class="button1 flair-remove" title="{{ item.REMOVE_TITLE }}" />{% endif %}
+								<input type="submit" name="set_flair[{{ item.FLAIR_ID }}]" value="{{ lang('MCP_FLAIR_SET') }}" class="button2" title="{{ lang('MCP_FLAIR_SET_COUNT_TITLE', item.FLAIR_NAME, FLAIR_USER) }}" />
+								{% if not item.S_FROM_GROUP %}<input type="submit" name="remove_flair[{{ item.FLAIR_ID }}]" value="&times;" class="button1 flair-remove" title="{{ lang('MCP_FLAIR_REMOVE_TITLE', item.FLAIR_NAME, FLAIR_USER) }}" />{% endif %}
 							</td>
 						</tr>
 					</table>
@@ -98,7 +98,7 @@
 						<tr>
 							<td class="flair-buttons">
 								<input class="inputbox" type="number" name="add_count[{{ item.FLAIR_ID }}]" width="1" min="1" value="1" />
-								<input type="submit" name="add_flair[{{ item.FLAIR_ID }}]" value="+" class="button2" title="{{ item.ADD_TITLE }}" />
+								<input type="submit" name="add_flair[{{ item.FLAIR_ID }}]" value="+" class="button2" title="{{ lang('MCP_FLAIR_ADD_TITLE', item.FLAIR_NAME, FLAIR_USER) }}" />
 							</td>
 						</tr>
 					</table>

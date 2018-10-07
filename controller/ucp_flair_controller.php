@@ -130,9 +130,6 @@ class ucp_flair_controller extends acp_base_controller implements ucp_flair_inte
 					'FLAIR_ICON_COLOR'	=> $entity->get_icon_color(),
 					'FLAIR_IMG'			=> $this->img_path . $entity->get_img(2),
 					'FLAIR_FAV'			=> (bool) $item['priority'],
-
-					'REMOVE_TITLE'	=> $this->language->lang('UCP_FLAIR_REMOVE', $entity->get_name()),
-					'FAV_TITLE'		=> $this->language->lang('UCP_FLAIR_' . ($item['priority'] ? 'UNFAV' : 'FAV'), $entity->get_name()),
 				));
 			}
 		}
@@ -161,8 +158,6 @@ class ucp_flair_controller extends acp_base_controller implements ucp_flair_inte
 					'FLAIR_ICON'		=> $entity->get_icon(),
 					'FLAIR_ICON_COLOR'	=> $entity->get_icon_color(),
 					'FLAIR_IMG'			=> $this->img_path . $entity->get_img(2),
-
-					'ADD_TITLE'		=> $this->language->lang('UCP_FLAIR_ADD', $entity->get_name()),
 				));
 			}
 		}
