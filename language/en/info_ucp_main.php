@@ -38,7 +38,8 @@ if (empty($lang) || !is_array($lang))
 //
 
 $lang = array_merge($lang, array(
-	'UCP_FLAIR'	=> 'Manage profile flair',
+	'UCP_FLAIR'			=> 'Manage profile flair',
+	'UCP_FLAIR_EXPLAIN'	=> 'Here you can manage your profile flair.<ul><li>Click the <i class="fa fa-star"></i>/<i class="fa fa-star-o"></i> button to favorite/unfavorite an item. Favorites are shown first on your profile.</li><li>Click the <b>&times;</b> button to remove an item. This option may not be available for all items.</li><li>The <b>Available Flair</b> panel lists items that you can add to your own profile.</li></ul>',
 
 	'UCP_USER_FLAIR'			=> 'Your flair',
 	'UCP_FLAIR_AVAILABLE'		=> 'Available flair',

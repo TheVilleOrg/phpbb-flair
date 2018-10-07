@@ -38,7 +38,8 @@ if (empty($lang) || !is_array($lang))
 //
 
 $lang = array_merge($lang, array(
-	'MCP_FLAIR'	=> 'Profile Flair',
+	'MCP_FLAIR'			=> 'Profile Flair',
+	'MCP_FLAIR_EXPLAIN'	=> 'Here you can manage a user’s profile flair.<ul><li>Click the <b>Set</b> button to set the count to the specified value.</li><li>Click the <b>&times;</b> button to remove an item.</li><li>Click the <b>+</b> button to add an item with the specified count.</li></ul>',
 
 	'MCP_FLAIR_USER'	=> 'Manage user’s flair',
 	'MCP_FLAIR_FRONT'	=> 'Front page',
