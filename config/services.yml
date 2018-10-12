@@ -91,7 +91,6 @@ services:
         class: stevotvr\flair\controller\ucp_flair_controller
         parent: stevotvr.flair.controller.acp
         calls:
-        calls:
             - method: setup
               arguments:
                 - '@user'
