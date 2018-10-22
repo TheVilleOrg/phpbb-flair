@@ -10,15 +10,19 @@ This is a extension for phpBB 3.2 that allows you to add flair to user profiles.
 * Adds the ability to assign icons to users, which are displayed on their posts and profile pages
 * Flair item features:
     * Name and description
-    * Background color and/or Font Awesome icon
+    * Background color and/or Font Awesome icon, or custom image
     * Font color for the optional count
-    * Auto-assignment to groups
+    * Assignment to groups either automatic or optionally
     * Auto-assignment based on post count or days registered
     * Custom auto-assignments can be added by extensions ([see wiki](https://github.com/stevotvr/phpbb-flair/wiki/Custom-triggers))
 * Flair categories allow you to group items and control where they are displayed
 * Settings to control where flair is displayed (overrides category settings)
-* Administrative permission to allow administrators to assign flair items to users
 * Legend page showing a categorized list of flair items with names and descriptions (accessible by clicking on a flair item)
+* MCP panel for managing users' profile flair
+    * Global moderator permission to allow moderators to assign flair items to users
+* UCP panel to allow user to add/remove optional items assigned to their group and to set favorites
+    * User permission for managing their own profile flair
+* Support for custom images and ACP panel for uploading custom images
 
 ## Install
 
