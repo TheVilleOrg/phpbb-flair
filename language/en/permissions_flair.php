@@ -39,5 +39,5 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge($lang, array(
 	'ACL_M_MANAGE_FLAIR'	=> 'Can manage profile flair<br /><em>This setting is only assigned globally. It is not forum based.</em>',
-	'ACL_U_FLAIR'			=> 'Can self-assign profile flair',
+	'ACL_U_FLAIR'			=> 'Can self-assign and set favorite profile flair',
 ));
