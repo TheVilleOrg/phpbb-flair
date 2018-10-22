@@ -44,5 +44,11 @@ This is a extension for phpBB 3.2 that allows you to add flair to user profiles.
 
 * Translations should be posted to the [Profile Flair topic at phpBB.com](https://www.phpbb.com/customise/db/extension/profile_flair/support/topic/184956).
 
+## Donate
+
+If you find this extension useful, please consider supporting the project by donating.
+
+[![Donate via PayPal](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=2RWPKYQ98QT28)
+
 ## License
 [GNU General Public License v2](http://opensource.org/licenses/GPL-2.0)
