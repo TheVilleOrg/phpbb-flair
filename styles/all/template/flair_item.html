@@ -17,6 +17,6 @@
 	{% if FLAIR_COUNT > 1 and FLAIR_FONT_COLOR %}
 		<b class="flair-count" style="color: #{{ FLAIR_FONT_COLOR }}" aria-hidden="true">{{ FLAIR_COUNT }}</b>
 	{% endif %}
-	<img src="{{ FLAIR_IMG }}" height="{% if not FLAIR_SIZE or FLAIR_SIZE == 1 %}22{% elseif FLAIR_SIZE == 2 %}44{% elseif FLAIR_SIZE > 2 %}66{% endif %}" aria-hidden="true" />
+	<img src="{{ FLAIR_IMG }}" height="{% if not FLAIR_SIZE or FLAIR_SIZE == 1 %}22{% elseif FLAIR_SIZE == 2 %}44{% elseif FLAIR_SIZE > 2 %}66{% endif %}" aria-hidden="true" alt="{{ FLAIR_NAME }}{% if FLAIR_COUNT > 1 %} ({{ FLAIR_COUNT }}x){% endif %}" />
 </span>
 {% endif %}
