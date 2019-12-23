@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2.2 (12/23/19)
+
+* Fix fatal error when disabling notifications in the ACP
+* Fix invalid HTML
+* Update description of the user permission
+
 ## 1.2.1 (10/7/18)
 
 * Added more instructions to the flair control panels
