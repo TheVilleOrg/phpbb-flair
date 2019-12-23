@@ -81,7 +81,7 @@ class main_module
 				if (!$notify_users && $config['stevotvr_flair_notify_users'])
 				{
 					$db = $this->container->get('dbal.conn');
-					$notif_table = $this->container->getParameter('stevotvr.flair.tables.flair_notif');
+					$notif_table = $this->container->getParameter('stevotvr.flair.tables.flair_notifications');
 					$db->sql_query('DELETE FROM ' . $notif_table);
 				}
 
