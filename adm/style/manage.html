@@ -272,6 +272,7 @@
 		</fieldset>
 		<fieldset>
 			<legend>{{ lang('ACP_FLAIR_AUTO_ASSIGN') }}</legend>
+			<p>{{ lang('ACP_FLAIR_AUTO_ASSIGN_EXPLAIN') }}</p>
 			{% for t in trigger %}
 				<dl>
 					<dt><label for="flair_trigger_{{ t.TRIG_KEY }}">{{ t.TRIG_NAME ~ lang('COLON') }}</label>{% if t.TRIG_EXPLAIN %}<br /><span>{{ t.TRIG_EXPLAIN }}</span>{% endif %}</dt>

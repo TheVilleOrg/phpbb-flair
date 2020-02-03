@@ -46,6 +46,7 @@ $lang = array_merge($lang, array(
 	'ACP_FLAIR_NOTIFY_USERS'				=> 'Enable notifications',
 	'ACP_FLAIR_NOTIFY_USERS_EXPLAIN'		=> 'Enable to allow users to receive notifications when new flair is added to their profile.',
 	'ACP_FLAIR_DISPLAY_OPTIONS'				=> 'Display options',
+	'ACP_FLAIR_DISPLAY_OPTIONS_EXPLAIN'		=> 'These display options apply to <strong>uncategorized</strong> flair items.',
 	'ACP_FLAIR_SHOW_ON_PROFILE'				=> 'Display on profiles',
 	'ACP_FLAIR_SHOW_ON_PROFILE_EXPLAIN'		=> 'Enable to have flair displayed on profile pages.',
 	'ACP_FLAIR_SHOW_ON_POSTS'				=> 'Display on posts',
@@ -80,6 +81,7 @@ $lang = array_merge($lang, array(
 	'ACP_FLAIR_DETAILS'				=> 'Flair details',
 	'ACP_FLAIR_APPEARANCE'			=> 'Flair appearance',
 	'ACP_FLAIR_AUTO_ASSIGN'			=> 'Flair auto-assignments',
+	'ACP_FLAIR_AUTO_ASSIGN_EXPLAIN'	=> 'Set options below to have flair automatically assigned to users who meet certain criteria. Items added will remain until manually removed by a moderator.<br><strong>Post count</strong> and <strong>days registered</strong> are independent of each other and will be triggered when either requirement is met.',
 	'ACP_FLAIR_DELETE_SUCCESS'		=> 'Flair item deleted successfully',
 	'ACP_FLAIR_DELETE_ERRORED'		=> 'An error occurred while attempting to delete the flair item',
 	'ACP_FLAIR_TYPE'				=> 'Flair type',
@@ -106,9 +108,9 @@ $lang = array_merge($lang, array(
 	'ACP_FLAIR_GROUPS_AUTO_EXPLAIN'	=> 'If this option is enabled, members of the groups selected above will automatically have this item assigned to their profile. Otherwise, group members will have access to assign this item to their own profile in the UCP.',
 
 	'ACP_FLAIR_TRIGGER_POST_COUNT'				=> 'Post count',
-	'ACP_FLAIR_TRIGGER_POST_COUNT_EXPLAIN'		=> 'Set the minimum number of posts a user must have to automatically receive this item. Leave blank to disable.',
+	'ACP_FLAIR_TRIGGER_POST_COUNT_EXPLAIN'		=> 'Set the minimum number of posts a user must have to automatically receive this item. Users who currently meet this requirement will receive the flair when they make a new post. Leave blank to disable.',
 	'ACP_FLAIR_TRIGGER_MEMBERSHIP_DAYS'			=> 'Days registered',
-	'ACP_FLAIR_TRIGGER_MEMBERSHIP_DAYS_EXPLAIN'	=> 'Set the minimum number of days a user must be registered before automatically receiving this item. Leave blank to disable.',
+	'ACP_FLAIR_TRIGGER_MEMBERSHIP_DAYS_EXPLAIN'	=> 'Set the minimum number of days a user must be registered before automatically receiving this item. Users who currently meet this requirement will receive the flair when they make a new post. Leave blank to disable.',
 
 	'ACP_FLAIR_IMAGES'						=> 'Manage images',
 	'ACP_FLAIR_IMAGES_EXPLAIN'				=> 'Here you can view, upload, or delete custom image icons. You cannot delete images that are currently in use by one or more flair items.',

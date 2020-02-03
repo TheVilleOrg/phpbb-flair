@@ -110,6 +110,8 @@ class main_module
 		}
 
 		$template->assign_vars(array(
+			'S_SETTINGS_MODE'		=> true,
+
 			'FLAIR_NOTIFY_USERS'	=> $config['stevotvr_flair_notify_users'],
 			'FLAIR_SHOW_ON_PROFILE'	=> $config['stevotvr_flair_show_on_profile'],
 			'FLAIR_SHOW_ON_POSTS'	=> $config['stevotvr_flair_show_on_posts'],
