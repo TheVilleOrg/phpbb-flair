@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.2.3 (2/3/19)
+
+* Added more explanatory text in the ACP
+* Fixed a PHP warning on some ACP pages
+
 ## 1.2.2 (12/23/19)
 
 * Fix fatal error when disabling notifications in the ACP
