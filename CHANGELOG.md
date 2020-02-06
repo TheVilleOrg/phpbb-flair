@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.2.3 (2/3/19)
+## 1.2.3 (2/3/20)
 
 * Added more explanatory text in the ACP
 * Fixed a PHP warning on some ACP pages
