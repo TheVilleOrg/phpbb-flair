@@ -51,7 +51,7 @@ class image extends operator implements image_interface
 
 	public function is_writable()
 	{
-		if ($this->filesystem->is_writable($this->img_path))
+		if ($this->filesystem->exists($this->img_path) && $this->filesystem->is_writable($this->img_path))
 		{
 			return true;
 		}
