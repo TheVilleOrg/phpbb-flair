@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.4 (6/8/20)
+
+* Fixed image uploads failing on Windows servers
+
 ## 1.2.3 (2/3/20)
 
 * Added more explanatory text in the ACP
