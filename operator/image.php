@@ -105,7 +105,7 @@ class image extends operator implements image_interface
 					$name = substr($file, 0, strrpos($file, '-x1.'));
 					if (!$this->filesystem->exists(array($name . '-x2' . $ext, $name . '-x3' . $ext)))
 					{
-						continue 2;
+						break;
 					}
 					$images[] = basename($name) . $ext;
 			}
