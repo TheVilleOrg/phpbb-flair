@@ -10,7 +10,7 @@
 
 namespace stevotvr\flair\operator;
 
-use \stevotvr\flair\entity\flair_interface as flair_entity;
+use stevotvr\flair\entity\flair_interface as flair_entity;
 
 /**
  * Profile Flair flair operators interface.
