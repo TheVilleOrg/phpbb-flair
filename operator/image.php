@@ -211,7 +211,7 @@ class image extends operator implements image_interface
 	 * @param string $ext  The extension of the output files
 	 * @param string $file The path to the source file
 	 *
-	 * @throws \stevotvr\flair\exception\base
+	 * @throws base
 	 */
 	protected function create_images_imagick($name, $ext, $file)
 	{
@@ -251,7 +251,7 @@ class image extends operator implements image_interface
 	 * @param string $ext  The extension of the output files
 	 * @param string $file The path to the source file
 	 *
-	 * @throws \stevotvr\flair\exception\base
+	 * @throws base
 	 */
 	protected function create_images_gd($name, $ext, $file)
 	{
