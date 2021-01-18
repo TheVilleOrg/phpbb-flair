@@ -19,12 +19,12 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 abstract class operator
 {
 	/**
-	 * @var \Symfony\Component\DependencyInjection\ContainerInterface
+	 * @var ContainerInterface
 	 */
 	protected $container;
 
 	/**
-	 * @var \phpbb\db\driver\driver_interface
+	 * @var driver_interface
 	 */
 	protected $db;
 
@@ -78,15 +78,15 @@ abstract class operator
 	protected $user_table;
 
 	/**
-	 * @param ContainerInterface                $container
-	 * @param \phpbb\db\driver\driver_interface $db
-	 * @param string                            $flair_table   The name of the flair table
-	 * @param string                            $cat_table     The name of the flair_cats table
-	 * @param string                            $fav_table     The name of the flair_favs table
-	 * @param string                            $group_table   The name of the flair_groups table
-	 * @param string                            $notif_table   The name of the flair_notif table
-	 * @param string                            $trigger_table The name of the flair_triggers table
-	 * @param string                            $user_table    The name of the flair_users table
+	 * @param ContainerInterface $container
+	 * @param driver_interface   $db
+	 * @param string             $flair_table   The name of the flair table
+	 * @param string             $cat_table     The name of the flair_cats table
+	 * @param string             $fav_table     The name of the flair_favs table
+	 * @param string             $group_table   The name of the flair_groups table
+	 * @param string             $notif_table   The name of the flair_notif table
+	 * @param string             $trigger_table The name of the flair_triggers table
+	 * @param string             $user_table    The name of the flair_users table
 	 */
 	public function __construct(ContainerInterface $container, driver_interface $db, $flair_table, $cat_table, $fav_table, $group_table, $notif_table, $trigger_table, $user_table)
 	{

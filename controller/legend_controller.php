@@ -16,6 +16,7 @@ use phpbb\path_helper;
 use phpbb\template\template;
 use stevotvr\flair\operator\category_interface;
 use stevotvr\flair\operator\flair_interface;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Profile Flair legend controller.
@@ -23,27 +24,27 @@ use stevotvr\flair\operator\flair_interface;
 class legend_controller
 {
 	/**
-	 * @var \phpbb\controller\helper
+	 * @var helper
 	 */
 	protected $helper;
 
 	/**
-	 * @var \phpbb\language\language
+	 * @var language
 	 */
 	protected $language;
 
 	/**
-	 * @var \phpbb\template\template
+	 * @var template
 	 */
 	protected $template;
 
 	/**
-	 * @var \stevotvr\flair\operator\category_interface
+	 * @var category_interface
 	 */
 	protected $cat_operator;
 
 	/**
-	 * @var \stevotvr\flair\operator\flair_interface
+	 * @var flair_interface
 	 */
 	protected $flair_operator;
 
@@ -55,12 +56,12 @@ class legend_controller
 	protected $img_path;
 
 	/**
-	 * @param \phpbb\controller\helper                    $helper
-	 * @param \phpbb\language\language                    $language
-	 * @param \phpbb\path_helper                          $path_helper
-	 * @param \phpbb\template\template                    $template
-	 * @param \stevotvr\flair\operator\category_interface $cat_operator
-	 * @param \stevotvr\flair\operator\flair_interface    $flair_operator
+	 * @param helper             $helper
+	 * @param language           $language
+	 * @param path_helper        $path_helper
+	 * @param template           $template
+	 * @param category_interface $cat_operator
+	 * @param flair_interface    $flair_operator
 	 */
 	public function __construct(helper $helper, language $language, path_helper $path_helper, template $template, category_interface $cat_operator, flair_interface $flair_operator)
 	{
@@ -76,7 +77,7 @@ class legend_controller
 	/**
 	 * Handler for route /flair
 	 *
-	 * @return \Symfony\Component\HttpFoundation\Response
+	 * @return Response
 	 */
 	public function handle()
 	{

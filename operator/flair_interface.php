@@ -10,6 +10,8 @@
 
 namespace stevotvr\flair\operator;
 
+use \stevotvr\flair\entity\flair_interface as flair_entity;
+
 /**
  * Profile Flair flair operators interface.
  */
@@ -27,11 +29,11 @@ interface flair_interface
 	/**
 	 * Add a flair item.
 	 *
-	 * @param \stevotvr\flair\entity\flair_interface $flair
+	 * @param flair_entity $flair
 	 *
-	 * @return \stevotvr\flair\entity\flair_interface The added flair entity
+	 * @return flair_entity The added flair entity
 	 */
-	public function add_flair($flair);
+	public function add_flair(flair_entity $flair);
 
 	/**
 	 * Delete a flair item.

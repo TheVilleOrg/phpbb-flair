@@ -19,7 +19,7 @@ use stevotvr\flair\exception\base;
 class image extends operator implements image_interface
 {
 	/**
-	 * @var \phpbb\filesystem\filesystem_interface
+	 * @var filesystem_interface
 	 */
 	protected $filesystem;
 
@@ -40,8 +40,8 @@ class image extends operator implements image_interface
 	/**
 	 * Set up the operator.
 	 *
-	 * @param \phpbb\filesystem\filesystem_interface $filesystem
-	 * @param string                                 $img_path      The path to the custom images
+	 * @param filesystem_interface $filesystem
+	 * @param string               $img_path   The path to the custom images
 	 */
 	public function setup(filesystem_interface $filesystem, $img_path)
 	{

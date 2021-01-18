@@ -27,32 +27,32 @@ use stevotvr\flair\operator\trigger_interface as trigger_operator;
 class acp_flair_controller extends acp_base_controller implements acp_flair_interface
 {
 	/**
-	 * @var \phpbb\db\driver\driver_interface
+	 * @var driver_interface
 	 */
 	protected $db;
 
 	/**
-	 * @var \phpbb\group\helper
+	 * @var helper
 	 */
 	protected $group_helper;
 
 	/**
-	 * @var \stevotvr\flair\operator\category_interface
+	 * @var cat_operator
 	 */
 	protected $cat_operator;
 
 	/**
-	 * @var \stevotvr\flair\operator\flair_interface
+	 * @var flair_operator
 	 */
 	protected $flair_operator;
 
 	/**
-	 * @var \stevotvr\flair\operator\image_interface
+	 * @var image_operator
 	 */
 	protected $image_operator;
 
 	/**
-	 * @var \stevotvr\flair\operator\trigger_interface
+	 * @var trigger_operator
 	 */
 	protected $trigger_operator;
 
@@ -66,12 +66,12 @@ class acp_flair_controller extends acp_base_controller implements acp_flair_inte
 	/**
 	 * Set up the controller.
 	 *
-	 * @param \phpbb\db\driver\driver_interface           $db
-	 * @param \phpbb\group\helper                         $group_helper
-	 * @param \stevotvr\flair\operator\category_interface $cat_operator
-	 * @param \stevotvr\flair\operator\flair_interface    $flair_operator
-	 * @param \stevotvr\flair\operator\image_interface    $image_operator
-	 * @param \stevotvr\flair\operator\trigger_interface  $trigger_operator
+	 * @param driver_interface $db
+	 * @param helper           $group_helper
+	 * @param cat_operator     $cat_operator
+	 * @param flair_operator   $flair_operator
+	 * @param image_operator   $image_operator
+	 * @param trigger_operator $trigger_operator
 	 */
 	public function setup(driver_interface $db, helper $group_helper, cat_operator $cat_operator, flair_operator $flair_operator, image_operator $image_operator, trigger_operator $trigger_operator)
 	{
@@ -86,8 +86,8 @@ class acp_flair_controller extends acp_base_controller implements acp_flair_inte
 	}
 
 	/**
-	 * @param \phpbb\event\dispatcher_interface $dispatcher
-	 * @param array                             $trigger_names Array of default trigger names
+	 * @param dispatcher_interface $dispatcher
+	 * @param array                $trigger_names Array of default trigger names
 	 */
 	public function set_trigger_names(dispatcher_interface $dispatcher, array $trigger_names)
 	{
@@ -142,7 +142,7 @@ class acp_flair_controller extends acp_base_controller implements acp_flair_inte
 	/**
 	 * Process data for the add/edit flair form.
 	 *
-	 * @param \stevotvr\flair\entity\flair_interface $entity The flair item being processed
+	 * @param flair_entity $entity The flair item being processed
 	 */
 	protected function add_edit_flair_data(flair_entity $entity)
 	{
@@ -329,8 +329,8 @@ class acp_flair_controller extends acp_base_controller implements acp_flair_inte
 	/**
 	 * Process parsing options for the flair description field.
 	 *
-	 * @param \stevotvr\flair\entity\flair_interface $entity The flair item being processed
-	 * @param boolean                                $submit The form has been submitted
+	 * @param flair_entity $entity The flair item being processed
+	 * @param boolean      $submit The form has been submitted
 	 */
 	protected function set_parse_options(flair_entity $entity, $submit)
 	{

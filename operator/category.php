@@ -10,6 +10,8 @@
 
 namespace stevotvr\flair\operator;
 
+use \stevotvr\flair\entity\category_interface as cat_entity;
+
 /**
  * Profile Flair flair category operator.
  */
@@ -38,7 +40,7 @@ class category extends operator implements category_interface
 	/**
 	 * @inheritDoc
 	 */
-	public function add_category($category)
+	public function add_category(cat_entity $category)
 	{
 		$category->insert();
 		$cat_id = $category->get_id();

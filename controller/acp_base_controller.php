@@ -21,22 +21,22 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 abstract class acp_base_controller implements acp_base_interface
 {
 	/**
-	 * @var \Symfony\Component\DependencyInjection\ContainerInterface
+	 * @var ContainerInterface
 	 */
 	protected $container;
 
 	/**
-	 * @var \phpbb\language\language
+	 * @var language
 	 */
 	protected $language;
 
 	/**
-	 * @var \phpbb\request\request_interface
+	 * @var request_interface
 	 */
 	protected $request;
 
 	/**
-	 * @var \phpbb\template\template
+	 * @var template
 	 */
 	protected $template;
 
@@ -69,10 +69,10 @@ abstract class acp_base_controller implements acp_base_interface
 	protected $img_path;
 
 	/**
-	 * @param ContainerInterface               $container
-	 * @param \phpbb\language\language         $language
-	 * @param \phpbb\request\request_interface $request
-	 * @param \phpbb\template\template         $template
+	 * @param ContainerInterface $container
+	 * @param language           $language
+	 * @param request_interface  $request
+	 * @param template           $template
 	 */
 	public function __construct(ContainerInterface $container, language $language, request_interface $request, template $template)
 	{

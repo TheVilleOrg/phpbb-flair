@@ -11,6 +11,7 @@
 namespace stevotvr\flair\controller;
 
 use phpbb\files\factory;
+use phpbb\files\upload;
 use phpbb\json_response;
 use stevotvr\flair\exception\base;
 use stevotvr\flair\operator\image_interface as image_operator;
@@ -21,20 +22,20 @@ use stevotvr\flair\operator\image_interface as image_operator;
 class acp_images_controller extends acp_base_controller implements acp_images_interface
 {
 	/**
-	 * @var \phpbb\files\factory
+	 * @var factory
 	 */
 	protected $files_factory;
 
 	/**
-	 * @var \stevotvr\flair\operator\image_interface
+	 * @var image_operator
 	 */
 	protected $image_operator;
 
 	/**
 	 * Set up the controller.
 	 *
-	 * @param \phpbb\files\factory                     $files_factory
-	 * @param \stevotvr\flair\operator\image_interface $image_operator
+	 * @param factory        $files_factory
+	 * @param image_operator $image_operator
 	 */
 	public function setup(factory $files_factory, image_operator $image_operator)
 	{
@@ -157,12 +158,12 @@ class acp_images_controller extends acp_base_controller implements acp_images_in
 	/**
 	 * Handle image uploading.
 	 *
-	 * @param array               &$errors   The array to populate with error strings
-	 * @param \phpbb\files\upload $upload    The upload object
-	 * @param boolean             $overwrite Overwrite any existing images with the same name
-	 * @param boolean             $svg_only  Only allow SVG files
+	 * @param array   &$errors   The array to populate with error strings
+	 * @param upload  $upload    The upload object
+	 * @param boolean $overwrite Overwrite any existing images with the same name
+	 * @param boolean $svg_only  Only allow SVG files
 	 */
-	protected function upload_image(array &$errors, \phpbb\files\upload $upload, $overwrite, $svg_only)
+	protected function upload_image(array &$errors, upload $upload, $overwrite, $svg_only)
 	{
 		$allowed = $svg_only ? array('svg') : array('gif', 'png', 'jpg', 'jpeg', 'svg');
 		$filespec = $upload->set_allowed_extensions($allowed)

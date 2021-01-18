@@ -22,22 +22,22 @@ use stevotvr\flair\operator\user_interface;
 class mcp_user_controller extends acp_base_controller implements mcp_user_interface
 {
 	/**
-	 * @var \phpbb\db\driver\driver_interface
+	 * @var driver_interface
 	 */
 	protected $db;
 
 	/**
-	 * @var \stevotvr\flair\operator\category_interface
+	 * @var category_interface
 	 */
 	protected $cat_operator;
 
 	/**
-	 * @var \stevotvr\flair\operator\flair_interface
+	 * @var flair_interface
 	 */
 	protected $flair_operator;
 
 	/**
-	 * @var \stevotvr\flair\operator\user_interface
+	 * @var user_interface
 	 */
 	protected $user_operator;
 
@@ -49,10 +49,10 @@ class mcp_user_controller extends acp_base_controller implements mcp_user_interf
 	/**
 	 * Set up the controller.
 	 *
-	 * @param \phpbb\db\driver\driver_interface           $db
-	 * @param \stevotvr\flair\operator\category_interface $cat_operator
-	 * @param \stevotvr\flair\operator\flair_interface    $flair_operator
-	 * @param \stevotvr\flair\operator\user_interface     $user_operator
+	 * @param driver_interface   $db
+	 * @param category_interface $cat_operator
+	 * @param flair_interface    $flair_operator
+	 * @param user_interface     $user_operator
 	 */
 	public function setup(driver_interface $db, category_interface $cat_operator, flair_interface $flair_operator, user_interface $user_operator)
 	{

@@ -21,26 +21,26 @@ use stevotvr\flair\operator\user_interface;
 class ucp_flair_controller extends acp_base_controller implements ucp_flair_interface
 {
 	/**
-	 * @var \phpbb\user
+	 * @var user
 	 */
 	protected $user;
 
 	/**
-	 * @var \stevotvr\flair\operator\flair_interface
+	 * @var flair_interface
 	 */
 	protected $flair_operator;
 
 	/**
-	 * @var \stevotvr\flair\operator\user_interface
+	 * @var user_interface
 	 */
 	protected $user_operator;
 
 	/**
 	 * Set up the controller.
 	 *
-	 * @param \phpbb\user                              $user
-	 * @param \stevotvr\flair\operator\flair_interface $flair_operator
-	 * @param \stevotvr\flair\operator\user_interface  $user_operator
+	 * @param user            $user
+	 * @param flair_interface $flair_operator
+	 * @param user_interface  $user_operator
 	 */
 	public function setup(user $user, flair_interface $flair_operator, user_interface $user_operator)
 	{

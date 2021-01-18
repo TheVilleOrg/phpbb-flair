@@ -10,6 +10,8 @@
 
 namespace stevotvr\flair\operator;
 
+use \stevotvr\flair\entity\category_interface as cat_entity;
+
 /**
  * Profile Flair flair category operators interface.
  */
@@ -25,11 +27,11 @@ interface category_interface
 	/**
 	 * Add a flair category.
 	 *
-	 * @param \stevotvr\flair\entity\category_interface $category
+	 * @param cat_entity $category
 	 *
-	 * @return \stevotvr\flair\entity\category_interface The added category entity
+	 * @return cat_entity The added category entity
 	 */
-	public function add_category($category);
+	public function add_category(cat_entity $category);
 
 	/**
 	 * Delete a flair category.

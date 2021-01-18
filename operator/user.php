@@ -18,14 +18,14 @@ use phpbb\config\config;
 class user extends operator implements user_interface
 {
 	/**
-	 * @var \phpbb\config\config
+	 * @var config
 	 */
 	protected $config;
 
 	/**
 	 * Set up the operator.
 	 *
-	 * @param \phpbb\config\config $config
+	 * @param config $config
 	 */
 	public function setup(config $config)
 	{

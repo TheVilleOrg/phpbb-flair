@@ -11,6 +11,7 @@
 namespace stevotvr\flair\operator;
 
 use stevotvr\flair\exception\out_of_bounds;
+use \stevotvr\flair\entity\flair_interface as flair_entity;
 
 /**
  * Profile Flair flair operator.
@@ -42,7 +43,7 @@ class flair extends operator implements flair_interface
 	/**
 	 * @inheritDoc
 	 */
-	public function add_flair($flair)
+	public function add_flair(flair_entity $flair)
 	{
 		$sql = 'SELECT flair_order
 				FROM ' . $this->flair_table . '

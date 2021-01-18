@@ -21,7 +21,7 @@ use stevotvr\flair\exception\unexpected_value;
 class flair extends entity implements flair_interface
 {
 	/**
-	 * @var \phpbb\config\config
+	 * @var config
 	 */
 	protected $config;
 
@@ -61,8 +61,8 @@ class flair extends entity implements flair_interface
 	/**
 	 * Set up the entity.
 	 *
-	 * @param \phpbb\config\config $config
-	 * @param array                $icons
+	 * @param config $config
+	 * @param array  $icons
 	 */
 	public function setup(config $config, array $icons)
 	{

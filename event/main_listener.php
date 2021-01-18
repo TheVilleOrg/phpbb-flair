@@ -29,52 +29,52 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 class main_listener implements EventSubscriberInterface
 {
 	/**
-	 * @var \phpbb\config\config
+	 * @var config
 	 */
 	protected $config;
 
 	/**
-	 * @var \phpbb\db\driver\driver_interface
+	 * @var driver_interface
 	 */
 	protected $db;
 
 	/**
-	 * @var \stevotvr\flair\operator\flair_interface
+	 * @var flair_interface
 	 */
 	protected $flair_operator;
 
 	/**
-	 * @var \phpbb\controller\helper
+	 * @var helper
 	 */
 	protected $helper;
 
 	/**
-	 * @var \phpbb\language\language
+	 * @var language
 	 */
 	protected $language;
 
 	/**
-	 * @var \phpbb\request\request_interface
+	 * @var request_interface
 	 */
 	protected $request;
 
 	/**
-	 * @var \phpbb\template\template
+	 * @var template
 	 */
 	protected $template;
 
 	/**
-	 * @var \stevotvr\flair\operator\trigger_interface
+	 * @var trigger_interface
 	 */
 	protected $trigger_operator;
 
 	/**
-	 * @var \phpbb\user
+	 * @var user
 	 */
 	protected $user;
 
 	/**
-	 * @var \stevotvr\flair\operator\user_interface
+	 * @var user_interface
 	 */
 	protected $user_operator;
 
@@ -86,17 +86,17 @@ class main_listener implements EventSubscriberInterface
 	protected $img_path;
 
 	/**
-	 * @param \phpbb\config\config                       $config
-	 * @param \phpbb\db\driver\driver_interface          $db
-	 * @param \phpbb\controller\helper                   $helper
-	 * @param \phpbb\language\language                   $language
-	 * @param \phpbb\request\request_interface           $request
-	 * @param \phpbb\template\template                   $template
-	 * @param \phpbb\user                                $user
-	 * @param \stevotvr\flair\operator\flair_interface   $flair_operator
-	 * @param \stevotvr\flair\operator\trigger_interface $trigger_operator
-	 * @param \stevotvr\flair\operator\user_interface    $user_operator
-	 * @param string                                     $img_path The path to the custom images
+	 * @param config            $config
+	 * @param driver_interface  $db
+	 * @param helper            $helper
+	 * @param language          $language
+	 * @param request_interface $request
+	 * @param template          $template
+	 * @param user              $user
+	 * @param flair_interface   $flair_operator
+	 * @param trigger_interface $trigger_operator
+	 * @param user_interface    $user_operator
+	 * @param string            $img_path The path to the custom images
 	 */
 	public function __construct(config $config, driver_interface $db, helper $helper, language $language, request_interface $request, template $template, user $user, flair_interface $flair_operator, trigger_interface $trigger_operator, user_interface $user_operator, $img_path)
 	{
@@ -133,7 +133,7 @@ class main_listener implements EventSubscriberInterface
 	/**
 	 * Adds the custom extension permissions.
 	 *
-	 * @param \phpbb\event\data $event The event data
+	 * @param data $event The event data
 	 */
 	public function permissions(data $event)
 	{
@@ -146,7 +146,7 @@ class main_listener implements EventSubscriberInterface
 	/**
 	 * Adds the extension language set on user setup.
 	 *
-	 * @param \phpbb\event\data $event The event data
+	 * @param data $event The event data
 	 */
 	public function user_setup(data $event)
 	{
@@ -161,7 +161,7 @@ class main_listener implements EventSubscriberInterface
 	/**
 	 * Adds the user profile flair template variables to the view profile page.
 	 *
-	 * @param \phpbb\event\data	$event The event data
+	 * @param data $event The event data
 	 */
 	public function memberlist_view_profile(data $event)
 	{
@@ -213,7 +213,7 @@ class main_listener implements EventSubscriberInterface
 	/**
 	 * Dispatch default triggers when a user makes a post.
 	 *
-	 * @param \phpbb\event\data	$event The event data
+	 * @param data $event The event data
 	 */
 	public function submit_post_end(data $event)
 	{
@@ -241,7 +241,7 @@ class main_listener implements EventSubscriberInterface
 	/**
 	 * Loads all user profile flair data into the user cache for a topic.
 	 *
-	 * @param \phpbb\event\data	$event The event data
+	 * @param data $event The event data
 	 */
 	public function viewtopic_modify_post_data(data $event)
 	{
@@ -290,7 +290,7 @@ class main_listener implements EventSubscriberInterface
 	/**
 	 * Assigns user profile flair template block variables for a topic post.
 	 *
-	 * @param \phpbb\event\data	$event The event data
+	 * @param data $event The event data
 	 */
 	public function viewtopic_post_row_after(data $event)
 	{
@@ -331,7 +331,7 @@ class main_listener implements EventSubscriberInterface
 	/**
 	 * Remove references to a group after it is deleted.
 	 *
-	 * @param \phpbb\event\data	$event The event data
+	 * @param data $event The event data
 	 */
 	public function delete_group_after(data $event)
 	{
@@ -341,7 +341,7 @@ class main_listener implements EventSubscriberInterface
 	/**
 	 * Remove references to users after they are deleted.
 	 *
-	 * @param \phpbb\event\data	$event The event data
+	 * @param data $event The event data
 	 */
 	public function delete_user_after(data $event)
 	{

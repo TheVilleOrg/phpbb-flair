@@ -22,20 +22,20 @@ use stevotvr\flair\operator\category_interface as cat_operator;
 class acp_cats_controller extends acp_base_controller implements acp_cats_interface
 {
 	/**
-	 * @var \phpbb\config\config
+	 * @var config
 	 */
 	protected $config;
 
 	/**
-	 * @var \stevotvr\flair\operator\category_interface
+	 * @var cat_operator
 	 */
 	protected $cat_operator;
 
 	/**
 	 * Set up the controller.
 	 *
-	 * @param \phpbb\config\config                        $config
-	 * @param \stevotvr\flair\operator\category_interface $cat_operator
+	 * @param config       $config
+	 * @param cat_operator $cat_operator
 	 */
 	public function setup(config $config, cat_operator $cat_operator)
 	{
@@ -90,7 +90,7 @@ class acp_cats_controller extends acp_base_controller implements acp_cats_interf
 	/**
 	 * Process data for the add/edit category form.
 	 *
-	 * @param \stevotvr\flair\entity\category_interface $entity The category being processed
+	 * @param cat_entity $entity The category being processed
 	 */
 	protected function add_edit_cat_data(cat_entity $entity)
 	{

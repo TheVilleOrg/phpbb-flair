@@ -24,17 +24,17 @@ class main extends base
 	const INTERVAL = 120;
 
 	/**
-	 * @var \phpbb\config\config
+	 * @var config
 	 */
 	protected $config;
 
 	/**
-	 * @var \phpbb\db\driver\driver_interface
+	 * @var driver_interface
 	 */
 	protected $db;
 
 	/**
-	 * @var \phpbb\notification\manager
+	 * @var manager
 	 */
 	protected $notification_manager;
 
@@ -46,10 +46,10 @@ class main extends base
 	protected $notification_table;
 
 	/**
-	 * @param \phpbb\config\config              $config
-	 * @param \phpbb\db\driver\driver_interface $db
-	 * @param \phpbb\notification\manager       $notification_manager
-	 * @param string                            $notification_table The name of the flair_notif table
+	 * @param config           $config
+	 * @param driver_interface $db
+	 * @param manager          $notification_manager
+	 * @param string           $notification_table   The name of the flair_notif table
 	 */
 	public function __construct(config $config, driver_interface $db, manager $notification_manager, $notification_table)
 	{

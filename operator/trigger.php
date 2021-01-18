@@ -20,14 +20,14 @@ use stevotvr\flair\operator\user_interface;
 class trigger extends operator implements trigger_interface
 {
 	/**
-	 * @var \stevotvr\flair\operator\user_interface
+	 * @var user_interface
 	 */
 	protected $user_operator;
 
 	/**
 	 * Set up the operator.
 	 *
-	 * @param \stevotvr\flair\operator\user_interface $user_operator
+	 * @param user_interface $user_operator
 	 */
 	public function setup(user_interface $user_operator)
 	{

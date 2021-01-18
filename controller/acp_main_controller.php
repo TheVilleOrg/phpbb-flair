@@ -20,20 +20,20 @@ use stevotvr\flair\operator\flair_interface as flair_operator;
 class acp_main_controller extends acp_base_controller implements acp_main_interface
 {
 	/**
-	 * @var \stevotvr\flair\operator\category_interface
+	 * @var cat_operator
 	 */
 	protected $cat_operator;
 
 	/**
-	 * @var \stevotvr\flair\operator\flair_interface
+	 * @var flair_operator
 	 */
 	protected $flair_operator;
 
 	/**
 	 * Set up the controller.
 	 *
-	 * @param \stevotvr\flair\operator\category_interface $cat_operator
-	 * @param \stevotvr\flair\operator\flair_interface    $flair_operator
+	 * @param cat_operator   $cat_operator
+	 * @param flair_operator $flair_operator
 	 */
 	public function setup(cat_operator $cat_operator, flair_operator $flair_operator)
 	{
