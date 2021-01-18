@@ -103,6 +103,9 @@ class acp_flair_controller extends acp_base_controller implements acp_flair_inte
 		$this->trigger_names = $trigger_names;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function add_flair()
 	{
 		$entity = $this->container->get('stevotvr.flair.entity.flair');
@@ -115,6 +118,9 @@ class acp_flair_controller extends acp_base_controller implements acp_flair_inte
 		));
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function edit_flair($flair_id)
 	{
 		try
@@ -421,6 +427,9 @@ class acp_flair_controller extends acp_base_controller implements acp_flair_inte
 		}
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function delete_flair($flair_id)
 	{
 		try
@@ -468,6 +477,9 @@ class acp_flair_controller extends acp_base_controller implements acp_flair_inte
 		}
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function move_flair($flair_id, $offset)
 	{
 		$this->flair_operator->move_flair($flair_id, $offset);

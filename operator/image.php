@@ -49,6 +49,9 @@ class image extends operator implements image_interface
 		$this->img_path = $img_path;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function is_writable()
 	{
 		if ($this->filesystem->exists($this->img_path) && $this->filesystem->is_writable($this->img_path))
@@ -68,11 +71,17 @@ class image extends operator implements image_interface
 		return $this->filesystem->is_writable($this->img_path);
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function can_process()
 	{
 		return function_exists('gd_info') || class_exists('Imagick');
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function count_image_items($image)
 	{
 		$sql = 'SELECT COUNT(flair_id) AS count
@@ -86,6 +95,9 @@ class image extends operator implements image_interface
 		return $count;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function get_images()
 	{
 		$images = array();
@@ -114,6 +126,9 @@ class image extends operator implements image_interface
 		return $images;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function get_used_images()
 	{
 		$images = array();
@@ -131,6 +146,9 @@ class image extends operator implements image_interface
 		return array_keys($images);
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function add_image($name, $file, $overwrite)
 	{
 		if ($overwrite)
@@ -169,6 +187,9 @@ class image extends operator implements image_interface
 
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function delete_image($name)
 	{
 		$ext = substr($name, strrpos($name, '.'));

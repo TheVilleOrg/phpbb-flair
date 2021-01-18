@@ -34,6 +34,9 @@ class trigger extends operator implements trigger_interface
 		$this->user_operator = $user_operator;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function get_flair_triggers($flair_id)
 	{
 		return $this->get_trigger_rows('flair_id = ' . (int) $flair_id);
@@ -63,6 +66,9 @@ class trigger extends operator implements trigger_interface
 		return $triggers;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function set_trigger($flair_id, $trigger_name, $trigger_value)
 	{
 		if ($trigger_value < 0 || $trigger_value > 16777215)
@@ -97,6 +103,9 @@ class trigger extends operator implements trigger_interface
 		$this->db->sql_query($sql);
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function unset_trigger($flair_id, $trigger_name)
 	{
 		$sql = 'DELETE FROM ' . $this->trigger_table . '
@@ -105,6 +114,9 @@ class trigger extends operator implements trigger_interface
 		$this->db->sql_query($sql);
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function dispatch($user_id, $trigger_name, $trigger_value)
 	{
 		$flair_ids = array();

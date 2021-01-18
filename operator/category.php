@@ -15,6 +15,9 @@ namespace stevotvr\flair\operator;
  */
 class category extends operator implements category_interface
 {
+	/**
+	 * @inheritDoc
+	 */
 	public function get_categories()
 	{
 		$entities = array();
@@ -32,6 +35,9 @@ class category extends operator implements category_interface
 		return $entities;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function add_category($category)
 	{
 		$category->insert();
@@ -39,6 +45,9 @@ class category extends operator implements category_interface
 		return $category->load($cat_id);
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function delete_category($cat_id)
 	{
 		$this->unlink_flair($cat_id);
@@ -50,6 +59,9 @@ class category extends operator implements category_interface
 		return (bool) $this->db->sql_affectedrows();
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function move_category($cat_id, $offset)
 	{
 		$ids = array();
@@ -78,6 +90,9 @@ class category extends operator implements category_interface
 		}
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function delete_flair($cat_id)
 	{
 		$ids = array();
@@ -120,6 +135,9 @@ class category extends operator implements category_interface
 		$this->db->sql_query($sql);
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function reassign_flair($cat_id, $new_cat_id)
 	{
 		$sql = 'UPDATE ' . $this->flair_table . '

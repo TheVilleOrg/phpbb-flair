@@ -42,6 +42,9 @@ class acp_images_controller extends acp_base_controller implements acp_images_in
 		$this->image_operator = $image_operator;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function list_images()
 	{
 		$used = $this->image_operator->get_used_images();
@@ -84,6 +87,9 @@ class acp_images_controller extends acp_base_controller implements acp_images_in
 		));
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function add_image()
 	{
 		$show_form = true;
@@ -188,6 +194,9 @@ class acp_images_controller extends acp_base_controller implements acp_images_in
 		}
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function delete_image($name)
 	{
 		if ($this->image_operator->count_image_items($name))

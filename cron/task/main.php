@@ -59,6 +59,9 @@ class main extends base
 		$this->notification_table = $notification_table;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function run()
 	{
 		$notifications = array();
@@ -94,6 +97,9 @@ class main extends base
 		$this->config->set('stevotvr_flair_cron_last_run', time());
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function should_run()
 	{
 		if (!$this->config['stevotvr_flair_notify_users'])

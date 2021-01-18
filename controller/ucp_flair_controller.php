@@ -49,6 +49,9 @@ class ucp_flair_controller extends acp_base_controller implements ucp_flair_inte
 		$this->user_operator = $user_operator;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function edit_flair()
 	{
 		$user_id = (int) $this->user->data['user_id'];

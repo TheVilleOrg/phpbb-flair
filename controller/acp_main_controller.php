@@ -41,6 +41,9 @@ class acp_main_controller extends acp_base_controller implements acp_main_interf
 		$this->flair_operator = $flair_operator;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function display_flair()
 	{
 		$cat_id = $this->request->variable('cat_id', 0);

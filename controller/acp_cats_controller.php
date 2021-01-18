@@ -43,6 +43,9 @@ class acp_cats_controller extends acp_base_controller implements acp_cats_interf
 		$this->cat_operator = $cat_operator;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function add_cat()
 	{
 		$entity = $this->container->get('stevotvr.flair.entity.category');
@@ -63,6 +66,9 @@ class acp_cats_controller extends acp_base_controller implements acp_cats_interf
 		));
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function edit_cat($cat_id)
 	{
 		try
@@ -156,6 +162,9 @@ class acp_cats_controller extends acp_base_controller implements acp_cats_interf
 		));
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function delete_cat($cat_id)
 	{
 		$errors = array();
@@ -222,6 +231,9 @@ class acp_cats_controller extends acp_base_controller implements acp_cats_interf
 		}
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function move_cat($cat_id, $offset)
 	{
 		$this->cat_operator->move_category($cat_id, $offset);

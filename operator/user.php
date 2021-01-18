@@ -32,6 +32,9 @@ class user extends operator implements user_interface
 		$this->config = $config;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function add_flair($user_id, $flair_id, $count = 1, $notify = true)
 	{
 		if ($count < 1)
@@ -61,6 +64,9 @@ class user extends operator implements user_interface
 		}
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function remove_flair($user_id, $flair_id, $count = 1)
 	{
 		if ($count < 1)
@@ -84,6 +90,9 @@ class user extends operator implements user_interface
 		}
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function set_flair_count($user_id, $flair_id, $count, $notify = true)
 	{
 		if ($count < 1)
@@ -115,6 +124,9 @@ class user extends operator implements user_interface
 		}
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function set_flair_favorite($user_id, $flair_id, $favorite)
 	{
 		if (!$favorite)
@@ -147,6 +159,9 @@ class user extends operator implements user_interface
 		}
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function get_user_flair(array $user_ids, $filter = '')
 	{
 		$flair = array();
@@ -213,6 +228,9 @@ class user extends operator implements user_interface
 		return $flair;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function delete_users(array $user_ids)
 	{
 		if (empty($user_ids))

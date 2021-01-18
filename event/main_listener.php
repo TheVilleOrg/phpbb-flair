@@ -113,6 +113,9 @@ class main_listener implements EventSubscriberInterface
 		$this->img_path = $img_path;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	static public function getSubscribedEvents()
 	{
 		return array(

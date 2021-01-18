@@ -17,6 +17,9 @@ use stevotvr\flair\exception\out_of_bounds;
  */
 class flair extends operator implements flair_interface
 {
+	/**
+	 * @inheritDoc
+	 */
 	public function get_flair($cat_id = -1)
 	{
 		$entities = array();
@@ -36,6 +39,9 @@ class flair extends operator implements flair_interface
 		return $entities;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function add_flair($flair)
 	{
 		$sql = 'SELECT flair_order
@@ -56,6 +62,9 @@ class flair extends operator implements flair_interface
 		return $flair->load($flair_id);
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function delete_flair($flair_id)
 	{
 		$sql = 'DELETE FROM ' . $this->fav_table . '
@@ -85,6 +94,9 @@ class flair extends operator implements flair_interface
 		return (bool) $this->db->sql_affectedrows();
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function move_flair($flair_id, $offset)
 	{
 		$sql = 'SELECT flair_category
@@ -125,6 +137,9 @@ class flair extends operator implements flair_interface
 		}
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function assign_groups($flair_id, array $group_ids)
 	{
 		$sql = 'DELETE FROM ' . $this->group_table . '
@@ -142,6 +157,9 @@ class flair extends operator implements flair_interface
 		$this->db->sql_multi_insert($this->group_table, $sql_ary);
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function get_assigned_groups($flair_id)
 	{
 		$group_ids = array();
@@ -159,6 +177,9 @@ class flair extends operator implements flair_interface
 		return $group_ids;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function get_group_flair(array $group_ids)
 	{
 		$group_ids = $group_ids;
@@ -228,6 +249,9 @@ class flair extends operator implements flair_interface
 		return $flair;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function delete_group($group_id)
 	{
 		$sql = 'DELETE FROM ' . $this->group_table . '

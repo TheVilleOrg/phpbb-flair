@@ -19,6 +19,9 @@ use stevotvr\flair\exception\unexpected_value;
  */
 class category extends entity implements category_interface
 {
+	/**
+	 * @inheritDoc
+	 */
 	protected $columns = array(
 		'cat_id'				=> 'integer',
 		'cat_name'				=> 'set_name',
@@ -28,13 +31,22 @@ class category extends entity implements category_interface
 		'cat_display_limit'		=> 'integer',
 	);
 
+	/**
+	 * @inheritDoc
+	 */
 	protected $id_column = 'cat_id';
 
+	/**
+	 * @inheritDoc
+	 */
 	public function get_name()
 	{
 		return isset($this->data['cat_name']) ? (string) $this->data['cat_name'] : '';
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function set_name($name)
 	{
 		$name = (string) $name;
@@ -54,11 +66,17 @@ class category extends entity implements category_interface
 		return $this;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function get_order()
 	{
 		return isset($this->data['cat_order']) ? (int) $this->data['cat_order'] : -1;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function set_order($order)
 	{
 		$order = (int) $order;
@@ -73,11 +91,17 @@ class category extends entity implements category_interface
 		return $this;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function show_on_profile()
 	{
 		return isset($this->data['cat_display_profile']) ? (bool) $this->data['cat_display_profile'] : false;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function set_show_on_profile($show_on_profile)
 	{
 		$show_on_profile = (bool) $show_on_profile;
@@ -87,11 +111,17 @@ class category extends entity implements category_interface
 		return $this;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function show_on_posts()
 	{
 		return isset($this->data['cat_display_posts']) ? (bool) $this->data['cat_display_posts'] : false;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function set_show_on_posts($show_on_posts)
 	{
 		$show_on_posts = (bool) $show_on_posts;
@@ -101,11 +131,17 @@ class category extends entity implements category_interface
 		return $this;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function get_display_limit()
 	{
 		return isset($this->data['cat_display_limit']) ? (int) $this->data['cat_display_limit'] : 0;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function set_display_limit($display_limit)
 	{
 		$display_limit = (int) $display_limit;

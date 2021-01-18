@@ -32,6 +32,9 @@ class flair extends entity implements flair_interface
 	 */
 	protected $icons;
 
+	/**
+	 * @inheritDoc
+	 */
 	protected $columns = array(
 		'flair_id'						=> 'integer',
 		'flair_type'					=> 'integer',
@@ -50,6 +53,9 @@ class flair extends entity implements flair_interface
 		'flair_groups_auto'				=> 'boolean',
 	);
 
+	/**
+	 * @inheritDoc
+	 */
 	protected $id_column = 'flair_id';
 
 	/**
@@ -64,11 +70,17 @@ class flair extends entity implements flair_interface
 		$this->icons = $icons;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function get_type()
 	{
 		return isset($this->data['flair_type']) ? (int) $this->data['flair_type'] : 0;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function set_type($type)
 	{
 		$type = (int) $type;
@@ -78,11 +90,17 @@ class flair extends entity implements flair_interface
 		return $this;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function get_category()
 	{
 		return isset($this->data['flair_category']) ? (int) $this->data['flair_category'] : 0;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function set_category($cat_id)
 	{
 		$cat_id = (int) $cat_id;
@@ -97,11 +115,17 @@ class flair extends entity implements flair_interface
 		return $this;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function get_name()
 	{
 		return isset($this->data['flair_name']) ? (string) $this->data['flair_name'] : '';
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function set_name($name)
 	{
 		$name = (string) $name;
@@ -121,6 +145,9 @@ class flair extends entity implements flair_interface
 		return $this;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function get_desc_for_edit()
 	{
 		$content = isset($this->data['flair_desc']) ? $this->data['flair_desc'] : '';
@@ -132,6 +159,9 @@ class flair extends entity implements flair_interface
 		return $content_data['text'];
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function get_desc_for_display()
 	{
 		$content = isset($this->data['flair_desc']) ? $this->data['flair_desc'] : '';
@@ -142,6 +172,9 @@ class flair extends entity implements flair_interface
 		return generate_text_for_display($content, $uid, $bitfield, $options);
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function set_desc($desc)
 	{
 		$this->config['max_post_chars'] = 0;
@@ -156,11 +189,17 @@ class flair extends entity implements flair_interface
 		return $this;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function is_bbcode_enabled()
 	{
 		return ($this->data['flair_desc_bbcode_options'] & OPTION_FLAG_BBCODE);
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function set_bbcode_enabled($enable)
 	{
 		$this->set_desc_option(OPTION_FLAG_BBCODE, $enable);
@@ -168,11 +207,17 @@ class flair extends entity implements flair_interface
 		return $this;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function is_magic_url_enabled()
 	{
 		return ($this->data['flair_desc_bbcode_options'] & OPTION_FLAG_LINKS);
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function set_magic_url_enabled($enable)
 	{
 		$this->set_desc_option(OPTION_FLAG_LINKS, $enable);
@@ -180,11 +225,17 @@ class flair extends entity implements flair_interface
 		return $this;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function is_smilies_enabled()
 	{
 		return ($this->data['flair_desc_bbcode_options'] & OPTION_FLAG_SMILIES);
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function set_smilies_enabled($enable)
 	{
 		$this->set_desc_option(OPTION_FLAG_SMILIES, $enable);
@@ -192,11 +243,17 @@ class flair extends entity implements flair_interface
 		return $this;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function get_order()
 	{
 		return isset($this->data['flair_order']) ? (int) $this->data['flair_order'] : -1;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function set_order($order)
 	{
 		$order = (int) $order;
@@ -211,11 +268,17 @@ class flair extends entity implements flair_interface
 		return $this;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function get_color()
 	{
 		return isset($this->data['flair_color']) ? (string) $this->data['flair_color'] : '';
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function set_color($color)
 	{
 		$color = strtoupper($color);
@@ -230,11 +293,17 @@ class flair extends entity implements flair_interface
 		return $this;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function get_icon()
 	{
 		return isset($this->data['flair_icon']) ? (string) $this->data['flair_icon'] : '';
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function set_icon($icon)
 	{
 		$icon = (string) $icon;
@@ -249,11 +318,17 @@ class flair extends entity implements flair_interface
 		return $this;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function get_icon_color()
 	{
 		return isset($this->data['flair_icon_color']) ? (string) $this->data['flair_icon_color'] : '';
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function set_icon_color($color)
 	{
 		$color = strtoupper($color);
@@ -268,6 +343,9 @@ class flair extends entity implements flair_interface
 		return $this;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function get_icon_width()
 	{
 		if (isset($this->data['flair_icon']))
@@ -284,11 +362,17 @@ class flair extends entity implements flair_interface
 		return 1.0;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function get_font_color()
 	{
 		return isset($this->data['flair_font_color']) ? (string) $this->data['flair_font_color'] : '';
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function set_font_color($color)
 	{
 		$color = strtoupper($color);
@@ -303,6 +387,9 @@ class flair extends entity implements flair_interface
 		return $this;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function get_img($size = 0)
 	{
 		if (empty($this->data['flair_img']))
@@ -322,6 +409,9 @@ class flair extends entity implements flair_interface
 		return substr($image, 0, strrpos($image, '.')) . '-x' . $size . $image_ext;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function set_img($img_name)
 	{
 		$img_name = (string) $img_name;
@@ -336,11 +426,17 @@ class flair extends entity implements flair_interface
 		return $this;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function is_groups_auto()
 	{
 		return isset($this->data['flair_groups_auto']) ? (bool) $this->data['flair_groups_auto'] : true;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function set_groups_auto($enable)
 	{
 		$this->data['flair_groups_auto'] = (bool) $enable;

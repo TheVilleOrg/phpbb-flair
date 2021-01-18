@@ -17,11 +17,17 @@ use phpbb\db\migration\migration;
  */
 class version_1_1_1 extends migration
 {
+	/**
+	 * @inheritDoc
+	 */
 	static public function depends_on()
 	{
 		return array('\stevotvr\flair\migrations\version_1_0_0');
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function update_data()
 	{
 		return array(

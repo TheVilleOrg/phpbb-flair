@@ -62,11 +62,17 @@ class mcp_user_controller extends acp_base_controller implements mcp_user_interf
 		$this->user_operator = $user_operator;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function set_p_master($p_master)
 	{
 		$this->p_master = $p_master;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function find_user()
 	{
 		$this->language->add_lang('acp/users');
@@ -82,6 +88,9 @@ class mcp_user_controller extends acp_base_controller implements mcp_user_interf
 		));
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function edit_user_flair()
 	{
 		$user_id = $this->request->variable('u', 0);
