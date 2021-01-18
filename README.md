@@ -2,7 +2,7 @@
 
 This is a extension for phpBB 3.2 that allows you to add flair to user profiles. These are icons that show up in their profile page and next to each post.
 
-[![Build Status](https://travis-ci.org/stevotvr/phpbb-flair.svg)](https://travis-ci.org/stevotvr/phpbb-flair)
+[![Build Status](https://github.com/stevotvr/phpbb-flair/workflows/Tests/badge.svg?branch=master)](https://github.com/stevotvr/phpbb-flair/actions)
 [![Code Climate](https://codeclimate.com/github/stevotvr/phpbb-flair/badges/gpa.svg)](https://codeclimate.com/github/stevotvr/phpbb-flair)
 
 ## Features
