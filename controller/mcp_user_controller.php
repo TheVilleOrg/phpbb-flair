@@ -248,7 +248,8 @@ class mcp_user_controller extends acp_base_controller implements mcp_user_interf
 		$action = $this->request->variable($change . '_flair', array('' => ''));
 		if (is_array($action))
 		{
-			foreach  ($action as $id => $value){
+			foreach  ($action as $id => $value)
+			{
 			}
 		}
 
