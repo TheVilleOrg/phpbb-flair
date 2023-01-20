@@ -177,7 +177,9 @@ class ucp_flair_controller extends acp_base_controller implements ucp_flair_inte
 		$action = $this->request->variable($change . '_flair', array('' => ''));
 		if (is_array($action))
 		{
-			list($id, ) = each($action);
+			foreach  ($action as $id => $value)
+			{
+			}
 		}
 
 		if (in_array($id, $available_flair))
