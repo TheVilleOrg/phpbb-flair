@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.5 (1/21/23)
+
+* PHP8 compability by [@markussoeth](https://github.com/markussoeth) (Thank you!)
+
 ## 1.2.4 (6/8/20)
 
 * Fixed image uploads failing on Windows servers
